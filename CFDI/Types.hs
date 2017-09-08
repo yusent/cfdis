@@ -1,5 +1,7 @@
 module CFDI.Types where
 
+import Data.Time.LocalTime (LocalTime)
+
 data CFDI =
   CFDI {
     accountNumber :: Maybe String,

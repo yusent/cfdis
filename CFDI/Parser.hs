@@ -1,6 +1,8 @@
 module CFDI.Parser (parseCFDI) where
 
 import Data.Maybe           (fromJust, fromMaybe)
+import Data.Time.LocalTime  (LocalTime)
+import Data.Time.Parse      (strptime)
 import Text.XML.Light.Input (parseXMLDoc)
 import Text.XML.Light.Lexer (XmlSource)
 import Text.XML.Light.Proc  (findAttrBy)
@@ -25,6 +27,9 @@ parseCFDIv3_2 root =
     total = read $ requireAttrValueByName "total" root,
     _type = requireAttrValueByName "tipoDeComprobante" root
   }
+
+parseDateTime :: String -> LocalTime
+parseDateTime = fst . fromJust . strptime "%Y-%m-%dT%H:%M:%S"
 
 requireAttrValueByName :: String -> Element -> String
 requireAttrValueByName attrName = fromJust . findAttrValueByName attrName
