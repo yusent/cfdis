@@ -10,6 +10,7 @@ data CFDI =
     currency          :: Maybe String,
     expeditionPlace   :: String,
     internalID        :: Maybe String,
+    issuer            :: Issuer,
     issuedAt          :: LocalTime,
     paymentConditions :: Maybe String,
     paymentMethod     :: String,
@@ -18,4 +19,10 @@ data CFDI =
     total             :: Float,
     _type             :: String,
     version           :: String
+  } deriving (Show)
+
+data Issuer =
+  Issuer {
+    rfc  :: String,
+    name :: Maybe String
   } deriving (Show)
