@@ -21,11 +21,19 @@ parseCFDIv3_2 :: Element -> CFDI
 parseCFDIv3_2 root =
   CFDI {
     accountNumber = findAttrValueByName "NumCtaPago" root,
+    certificate = requireAttrValueByName "certificado" root,
+    certificateNumber = requireAttrValueByName "noCertificado" root,
     currency = findAttrValueByName "Moneda" root,
+    expeditionPlace = requireAttrValueByName "LugarExpedicion" root,
+    internalID = findAttrValueByName "folio" root,
+    issuedAt = parseDateTime $ requireAttrValueByName "fecha" root,
+    paymentConditions = findAttrValueByName "condicionesDePago" root,
+    paymentMethod = requireAttrValueByName "metodoDePago" root,
     subTotal = read $ requireAttrValueByName "subTotal" root,
     signature = fromMaybe "" $ findAttrValueByName "sello" root,
     total = read $ requireAttrValueByName "total" root,
-    _type = requireAttrValueByName "tipoDeComprobante" root
+    _type = requireAttrValueByName "tipoDeComprobante" root,
+    version = requireAttrValueByName "version" root
   }
 
 parseDateTime :: String -> LocalTime
