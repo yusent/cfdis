@@ -2,6 +2,19 @@ module CFDI.Types where
 
 import Data.Time.LocalTime (LocalTime)
 
+data Address = Address
+  { country        :: String
+  , externalNumber :: Maybe String
+  , internalNumber :: Maybe String
+  , locality       :: Maybe String
+  , municipality   :: Maybe String
+  , reference      :: Maybe String
+  , suburb         :: Maybe String
+  , state          :: Maybe String
+  , street         :: Maybe String
+  , zipCode        :: Maybe String
+  } deriving (Show)
+
 data CFDI = CFDI
   { accountNumber     :: Maybe String
   , certificate       :: String
@@ -21,16 +34,16 @@ data CFDI = CFDI
   } deriving (Show)
 
 data FiscalAddress = FiscalAddress
-  { country        :: String
-  , externalNumber :: Maybe String
-  , internalNumber :: Maybe String
-  , locality       :: Maybe String
-  , municipality   :: String
-  , reference      :: Maybe String
-  , suburb         :: Maybe String
-  , state          :: String
-  , street         :: String
-  , zipCode        :: String
+  { fiscalCountry        :: String
+  , fiscalExternalNumber :: Maybe String
+  , fiscalInternalNumber :: Maybe String
+  , fiscalLocality       :: Maybe String
+  , fiscalMunicipality   :: String
+  , fiscalReference      :: Maybe String
+  , fiscalState          :: String
+  , fiscalStreet         :: String
+  , fiscalSuburb         :: Maybe String
+  , fiscalZipCode        :: String
   } deriving (Show)
 
 data Issuer = Issuer
