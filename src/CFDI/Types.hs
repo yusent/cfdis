@@ -20,10 +20,10 @@ data CFDI = CFDI
   , certificate       :: String
   , certificateNumber :: String
   , currency          :: Maybe String
-  , expeditionPlace   :: String
   , internalID        :: Maybe String
-  , issuer            :: Issuer
   , issuedAt          :: LocalTime
+  , issuedIn          :: String
+  , issuer            :: Issuer
   , paymentConditions :: Maybe String
   , paymentMethod     :: String
   , subTotal          :: Float
@@ -47,7 +47,8 @@ data FiscalAddress = FiscalAddress
   } deriving (Show)
 
 data Issuer = Issuer
-  { fiscalAddress :: Maybe FiscalAddress
-  , rfc           :: String
-  , name          :: Maybe String
+  { fiscalAddress   :: Maybe FiscalAddress
+  , issuedInAddress :: Maybe Address
+  , name            :: Maybe String
+  , rfc             :: String
   } deriving (Show)

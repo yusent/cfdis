@@ -49,9 +49,9 @@ parseCFDIv3_2 root = CFDI
   , certificate       = requireAttrValueByName "certificado" root
   , certificateNumber = requireAttrValueByName "noCertificado" root
   , currency          = findAttrValueByName "Moneda" root
-  , expeditionPlace   = requireAttrValueByName "LugarExpedicion" root
   , internalID        = findAttrValueByName "folio" root
   , issuedAt          = parseDateTime $ requireAttrValueByName "fecha" root
+  , issuedIn          = requireAttrValueByName "LugarExpedicion" root
   , issuer            = parseIssuer $ requireChildByName "Emisor" root
   , paymentConditions = findAttrValueByName "condicionesDePago" root
   , paymentMethod     = requireAttrValueByName "metodoDePago" root
@@ -82,10 +82,12 @@ parseFiscalAddress element = FiscalAddress
 
 parseIssuer :: Element -> Issuer
 parseIssuer element = Issuer
-  { fiscalAddress = parseFiscalAddress
-                <$> findChildByName "DomicilioFiscal" element
-  , name          = findAttrValueByName "nombre" element
-  , rfc           = requireAttrValueByName "rfc" element
+  { fiscalAddress   = parseFiscalAddress
+                  <$> findChildByName "DomicilioFiscal" element
+  , issuedInAddress = parseAddress
+                  <$> findChildByName "ExpedidoEn" element
+  , name            = findAttrValueByName "nombre" element
+  , rfc             = requireAttrValueByName "rfc" element
   }
 
 requireAttrValueByName :: String -> Element -> String
