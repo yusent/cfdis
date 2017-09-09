@@ -88,6 +88,13 @@ parseIssuer element = Issuer
                   <$> findChildByName "ExpedidoEn" element
   , name            = findAttrValueByName "nombre" element
   , rfc             = requireAttrValueByName "rfc" element
+  , regimes         = parseTaxRegime
+                  <$> findChildrenByName "RegimenFiscal" element
+  }
+
+parseTaxRegime :: Element -> TaxRegime
+parseTaxRegime element = TaxRegime
+  { regime = requireAttrValueByName "Regimen" element
   }
 
 requireAttrValueByName :: String -> Element -> String

@@ -50,5 +50,10 @@ data Issuer = Issuer
   { fiscalAddress   :: Maybe FiscalAddress
   , issuedInAddress :: Maybe Address
   , name            :: Maybe String
+  , regimes         :: [TaxRegime]
   , rfc             :: String
+  } deriving (Show)
+
+data TaxRegime = TaxRegime
+  { regime :: String
   } deriving (Show)
