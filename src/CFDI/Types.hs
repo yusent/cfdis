@@ -26,6 +26,7 @@ data CFDI = CFDI
   , issuer            :: Issuer
   , paymentConditions :: Maybe String
   , paymentMethod     :: String
+  , recipient         :: Recipient
   , subTotal          :: Float
   , signature         :: String
   , total             :: Float
@@ -52,6 +53,12 @@ data Issuer = Issuer
   , name            :: Maybe String
   , regimes         :: [TaxRegime]
   , rfc             :: String
+  } deriving (Show)
+
+data Recipient = Recipient
+  { recipientAddress :: Maybe Address
+  , recipientName    :: Maybe String
+  , recipientRfc     :: String
   } deriving (Show)
 
 data TaxRegime = TaxRegime

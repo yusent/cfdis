@@ -55,6 +55,7 @@ parseCFDIv3_2 root = CFDI
   , issuer            = parseIssuer $ requireChildByName "Emisor" root
   , paymentConditions = findAttrValueByName "condicionesDePago" root
   , paymentMethod     = requireAttrValueByName "metodoDePago" root
+  , recipient         = parseRecipient $ requireChildByName "Receptor" root
   , subTotal          = read $ requireAttrValueByName "subTotal" root
   , signature         = fromMaybe "" $ findAttrValueByName "sello" root
   , total             = read $ requireAttrValueByName "total" root
@@ -90,6 +91,13 @@ parseIssuer element = Issuer
   , rfc             = requireAttrValueByName "rfc" element
   , regimes         = parseTaxRegime
                   <$> findChildrenByName "RegimenFiscal" element
+  }
+
+parseRecipient :: Element -> Recipient
+parseRecipient element = Recipient
+  { recipientAddress = parseAddress <$> findChildByName "Domicilio" element
+  , recipientName    = findAttrValueByName "nombre" element
+  , recipientRfc     = requireAttrValueByName "rfc" element
   }
 
 parseTaxRegime :: Element -> TaxRegime
