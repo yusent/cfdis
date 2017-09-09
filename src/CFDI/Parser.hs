@@ -1,7 +1,8 @@
 module CFDI.Parser (parseCFDI) where
 
 import Data.Maybe           (fromJust, fromMaybe)
-import Data.Time.LocalTime  (LocalTime)
+import Data.Time.Calendar   (Day)
+import Data.Time.LocalTime  (LocalTime, localDay)
 import Data.Time.Parse      (strptime)
 import Text.XML.Light.Input (parseXMLDoc)
 import Text.XML.Light.Lexer (XmlSource)
@@ -48,6 +49,8 @@ parseCFDIv3_2 root = CFDI
   { accountNumber     = findAttrValueByName "NumCtaPago" root
   , certificate       = requireAttrValueByName "certificado" root
   , certificateNumber = requireAttrValueByName "noCertificado" root
+  , concepts          = parseConcept
+                    <$> findChildrenByName "Concepto" conceptsNode
   , currency          = findAttrValueByName "Moneda" root
   , internalID        = findAttrValueByName "folio" root
   , issuedAt          = parseDateTime $ requireAttrValueByName "fecha" root
@@ -62,6 +65,40 @@ parseCFDIv3_2 root = CFDI
   , _type             = requireAttrValueByName "tipoDeComprobante" root
   , version           = requireAttrValueByName "version" root
   }
+
+  where
+    conceptsNode = requireChildByName "Conceptos" root
+
+parseConcept :: Element -> Concept
+parseConcept element = Concept
+  { amount          = read $ requireAttrValueByName "importe" element
+  , description     = requireAttrValueByName "descripcion" element
+  , _id             = findAttrValueByName "noIdentificacion" element
+  , importInfo      = parseImportInfo
+                  <$> findChildrenByName "InformacionAduanera" element
+  , parts           = parseConceptPart <$> findChildrenByName "Parte" element
+  , propertyAccount = parsePropertyAccount
+                  <$> findChildByName "CuentaPredial" element
+  , quantity        = read $ requireAttrValueByName "cantidad" element
+  , unit            = requireAttrValueByName "unidad" element
+  , unitAmount      = read $ requireAttrValueByName "valorUnitario" element
+  }
+
+parseConceptPart :: Element -> ConceptPart
+parseConceptPart element = ConceptPart
+  { partAmount      = read <$> findAttrValueByName "importe" element
+  , partDescription = requireAttrValueByName "descripcion" element
+  , partId          = findAttrValueByName "noIdentificacion" element
+  , partImportInfo  = parseImportInfo
+                  <$> findChildrenByName "InformacionAduanera" element
+  , partQuantity    = read $ requireAttrValueByName "cantidad" element
+  , partUnit        = findAttrValueByName "unidad" element
+  , partUnitAmount  = read <$> findAttrValueByName "valorUnitario" element
+  }
+
+parseDate :: String -> Day
+parseDate =
+  localDay . fst . fromJust . strptime "%Y-%m-%d"
 
 parseDateTime :: String -> LocalTime
 parseDateTime =
@@ -81,6 +118,13 @@ parseFiscalAddress element = FiscalAddress
   , fiscalZipCode        = requireAttrValueByName "codigoPostal" element
   }
 
+parseImportInfo :: Element -> ImportInfo
+parseImportInfo element = ImportInfo
+  { custom         = findAttrValueByName "aduana" element
+  , importIssuedAt = parseDate $ requireAttrValueByName "fecha" element
+  , importNumber   = requireAttrValueByName "numero" element
+  }
+
 parseIssuer :: Element -> Issuer
 parseIssuer element = Issuer
   { fiscalAddress   = parseFiscalAddress
@@ -91,6 +135,11 @@ parseIssuer element = Issuer
   , rfc             = requireAttrValueByName "rfc" element
   , regimes         = parseTaxRegime
                   <$> findChildrenByName "RegimenFiscal" element
+  }
+
+parsePropertyAccount :: Element -> PropertyAccount
+parsePropertyAccount element = PropertyAccount
+  { propertyAccountNumber = requireAttrValueByName "numero" element
   }
 
 parseRecipient :: Element -> Recipient

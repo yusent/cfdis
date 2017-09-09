@@ -1,5 +1,6 @@
 module CFDI.Types where
 
+import Data.Time.Calendar  (Day)
 import Data.Time.LocalTime (LocalTime)
 
 data Address = Address
@@ -19,6 +20,7 @@ data CFDI = CFDI
   { accountNumber     :: Maybe String
   , certificate       :: String
   , certificateNumber :: String
+  , concepts          :: [Concept]
   , currency          :: Maybe String
   , internalID        :: Maybe String
   , issuedAt          :: LocalTime
@@ -32,6 +34,34 @@ data CFDI = CFDI
   , total             :: Float
   , _type             :: String
   , version           :: String
+  } deriving (Show)
+
+data Concept = Concept
+  { amount          :: Float
+  , description     :: String
+  , _id             :: Maybe String
+  , importInfo      :: [ImportInfo]
+  , parts           :: [ConceptPart]
+  , propertyAccount :: Maybe PropertyAccount
+  , quantity        :: Float
+  , unit            :: String
+  , unitAmount      :: Float
+  } deriving (Show)
+
+data ConceptPart = ConceptPart
+  { partAmount      :: Maybe Float
+  , partDescription :: String
+  , partId          :: Maybe String
+  , partImportInfo  :: [ImportInfo]
+  , partQuantity    :: Float
+  , partUnit        :: Maybe String
+  , partUnitAmount  :: Maybe Float
+  } deriving (Show)
+
+data ImportInfo = ImportInfo
+  { custom         :: Maybe String
+  , importIssuedAt :: Day
+  , importNumber   :: String
   } deriving (Show)
 
 data FiscalAddress = FiscalAddress
@@ -53,6 +83,10 @@ data Issuer = Issuer
   , name            :: Maybe String
   , regimes         :: [TaxRegime]
   , rfc             :: String
+  } deriving (Show)
+
+data PropertyAccount = PropertyAccount
+  { propertyAccountNumber :: String
   } deriving (Show)
 
 data Recipient = Recipient
