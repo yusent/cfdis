@@ -49,6 +49,8 @@ parseCFDIv3_2 root = CFDI
   { accountNumber     = findAttrValueByName "NumCtaPago" root
   , certificate       = requireAttrValueByName "certificado" root
   , certificateNumber = requireAttrValueByName "noCertificado" root
+  , complement        = fmap parseComplement
+                      $ findChildByName "Complemento" root
   , concepts          = map parseConcept
                       . findChildrenByName "Concepto"
                       $ requireChildByName "Conceptos" root
@@ -66,6 +68,11 @@ parseCFDIv3_2 root = CFDI
   , total             = read $ requireAttrValueByName "total" root
   , _type             = requireAttrValueByName "tipoDeComprobante" root
   , version           = requireAttrValueByName "version" root
+  }
+
+parseComplement :: Element -> Complement
+parseComplement element = Complement
+  { pacStamp = parsePacStamp <$> findChildByName "TimbreFiscalDigital" element
   }
 
 parseConcept :: Element -> Concept
@@ -134,6 +141,17 @@ parseIssuer element = Issuer
   , rfc             = requireAttrValueByName "rfc" element
   , regimes         = map parseTaxRegime
                     $ findChildrenByName "RegimenFiscal" element
+  }
+
+parsePacStamp :: Element -> PacStamp
+parsePacStamp element = PacStamp
+  { cfdSignature         = requireAttrValueByName "selloCFD" element
+  , satCertificateNumber = requireAttrValueByName "noCertificadoSAT" element
+  , satSignature         = requireAttrValueByName "selloSAT" element
+  , stampVersion         = requireAttrValueByName "version" element
+  , stampedAt            = parseDateTime
+                         $ requireAttrValueByName "FechaTimbrado" element
+  , uuid                 = requireAttrValueByName "UUID" element
   }
 
 parsePropertyAccount :: Element -> PropertyAccount

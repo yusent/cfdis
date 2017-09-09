@@ -20,6 +20,7 @@ data CFDI = CFDI
   { accountNumber     :: Maybe String
   , certificate       :: String
   , certificateNumber :: String
+  , complement        :: Maybe Complement
   , concepts          :: [Concept]
   , currency          :: Maybe String
   , internalID        :: Maybe String
@@ -35,6 +36,10 @@ data CFDI = CFDI
   , total             :: Float
   , _type             :: String
   , version           :: String
+  } deriving (Show)
+
+data Complement = Complement
+  { pacStamp :: Maybe PacStamp
   } deriving (Show)
 
 data Concept = Concept
@@ -84,6 +89,15 @@ data Issuer = Issuer
   , name            :: Maybe String
   , regimes         :: [TaxRegime]
   , rfc             :: String
+  } deriving (Show)
+
+data PacStamp = PacStamp
+  { cfdSignature         :: String
+  , satCertificateNumber :: String
+  , satSignature         :: String
+  , stampedAt            :: LocalTime
+  , stampVersion         :: String
+  , uuid                 :: String
   } deriving (Show)
 
 data PropertyAccount = PropertyAccount
