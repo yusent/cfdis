@@ -37,12 +37,31 @@ data CFDI = CFDI
   } deriving (Show)
 
 data Concept = Concept
-  { amount      :: Float
-  , description :: String
-  , _id         :: Maybe String
-  , quantity    :: Float
-  , unit        :: String
-  , unitAmount  :: Float
+  { amount          :: Float
+  , description     :: String
+  , _id             :: Maybe String
+  , importInfo      :: [ImportInfo]
+  , parts           :: [ConceptPart]
+  , propertyAccount :: Maybe PropertyAccount
+  , quantity        :: Float
+  , unit            :: String
+  , unitAmount      :: Float
+  } deriving (Show)
+
+data ConceptPart = ConceptPart
+  { partAmount      :: Maybe Float
+  , partDescription :: String
+  , partId          :: Maybe String
+  , partImportInfo  :: [ImportInfo]
+  , partQuantity    :: Float
+  , partUnit        :: Maybe String
+  , partUnitAmount  :: Maybe Float
+  } deriving (Show)
+
+data ImportInfo = ImportInfo
+  { custom         :: Maybe String
+  , importIssuedAt :: Day
+  , importNumber   :: String
   } deriving (Show)
 
 data FiscalAddress = FiscalAddress
@@ -64,6 +83,10 @@ data Issuer = Issuer
   , name            :: Maybe String
   , regimes         :: [TaxRegime]
   , rfc             :: String
+  } deriving (Show)
+
+data PropertyAccount = PropertyAccount
+  { propertyAccountNumber :: String
   } deriving (Show)
 
 data Recipient = Recipient

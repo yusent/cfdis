@@ -71,12 +71,29 @@ parseCFDIv3_2 root = CFDI
 
 parseConcept :: Element -> Concept
 parseConcept element = Concept
-  { amount      = read $ requireAttrValueByName "importe" element
-  , description = requireAttrValueByName "descripcion" element
-  , _id         = findAttrValueByName "noIdentificacion" element
-  , quantity    = read $ requireAttrValueByName "cantidad" element
-  , unit        = requireAttrValueByName "unidad" element
-  , unitAmount  = read $ requireAttrValueByName "valorUnitario" element
+  { amount          = read $ requireAttrValueByName "importe" element
+  , description     = requireAttrValueByName "descripcion" element
+  , _id             = findAttrValueByName "noIdentificacion" element
+  , importInfo      = parseImportInfo
+                  <$> findChildrenByName "InformacionAduanera" element
+  , parts           = parseConceptPart <$> findChildrenByName "Parte" element
+  , propertyAccount = parsePropertyAccount
+                  <$> findChildByName "CuentaPredial" element
+  , quantity        = read $ requireAttrValueByName "cantidad" element
+  , unit            = requireAttrValueByName "unidad" element
+  , unitAmount      = read $ requireAttrValueByName "valorUnitario" element
+  }
+
+parseConceptPart :: Element -> ConceptPart
+parseConceptPart element = ConceptPart
+  { partAmount      = read <$> findAttrValueByName "importe" element
+  , partDescription = requireAttrValueByName "descripcion" element
+  , partId          = findAttrValueByName "noIdentificacion" element
+  , partImportInfo  = parseImportInfo
+                  <$> findChildrenByName "InformacionAduanera" element
+  , partQuantity    = read $ requireAttrValueByName "cantidad" element
+  , partUnit        = findAttrValueByName "unidad" element
+  , partUnitAmount  = read <$> findAttrValueByName "valorUnitario" element
   }
 
 parseDate :: String -> Day
@@ -101,6 +118,13 @@ parseFiscalAddress element = FiscalAddress
   , fiscalZipCode        = requireAttrValueByName "codigoPostal" element
   }
 
+parseImportInfo :: Element -> ImportInfo
+parseImportInfo element = ImportInfo
+  { custom         = findAttrValueByName "aduana" element
+  , importIssuedAt = parseDate $ requireAttrValueByName "fecha" element
+  , importNumber   = requireAttrValueByName "numero" element
+  }
+
 parseIssuer :: Element -> Issuer
 parseIssuer element = Issuer
   { fiscalAddress   = parseFiscalAddress
@@ -111,6 +135,11 @@ parseIssuer element = Issuer
   , rfc             = requireAttrValueByName "rfc" element
   , regimes         = parseTaxRegime
                   <$> findChildrenByName "RegimenFiscal" element
+  }
+
+parsePropertyAccount :: Element -> PropertyAccount
+parsePropertyAccount element = PropertyAccount
+  { propertyAccountNumber = requireAttrValueByName "numero" element
   }
 
 parseRecipient :: Element -> Recipient
