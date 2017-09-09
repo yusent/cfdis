@@ -19,6 +19,7 @@ data CFDI = CFDI
   { accountNumber     :: Maybe String
   , certificate       :: String
   , certificateNumber :: String
+  , concepts          :: [Concept]
   , currency          :: Maybe String
   , internalID        :: Maybe String
   , issuedAt          :: LocalTime
@@ -32,6 +33,15 @@ data CFDI = CFDI
   , total             :: Float
   , _type             :: String
   , version           :: String
+  } deriving (Show)
+
+data Concept = Concept
+  { amount      :: Float
+  , description :: String
+  , _id         :: Maybe String
+  , quantity    :: Float
+  , unit        :: String
+  , unitAmount  :: Float
   } deriving (Show)
 
 data FiscalAddress = FiscalAddress

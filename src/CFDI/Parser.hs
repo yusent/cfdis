@@ -48,6 +48,8 @@ parseCFDIv3_2 root = CFDI
   { accountNumber     = findAttrValueByName "NumCtaPago" root
   , certificate       = requireAttrValueByName "certificado" root
   , certificateNumber = requireAttrValueByName "noCertificado" root
+  , concepts          = parseConcept
+                    <$> findChildrenByName "Concepto" conceptsNode
   , currency          = findAttrValueByName "Moneda" root
   , internalID        = findAttrValueByName "folio" root
   , issuedAt          = parseDateTime $ requireAttrValueByName "fecha" root
@@ -61,6 +63,19 @@ parseCFDIv3_2 root = CFDI
   , total             = read $ requireAttrValueByName "total" root
   , _type             = requireAttrValueByName "tipoDeComprobante" root
   , version           = requireAttrValueByName "version" root
+  }
+
+  where
+    conceptsNode = requireChildByName "Conceptos" root
+
+parseConcept :: Element -> Concept
+parseConcept element = Concept
+  { amount      = read $ requireAttrValueByName "importe" element
+  , description = requireAttrValueByName "descripcion" element
+  , _id         = findAttrValueByName "noIdentificacion" element
+  , quantity    = read $ requireAttrValueByName "cantidad" element
+  , unit        = requireAttrValueByName "unidad" element
+  , unitAmount  = read $ requireAttrValueByName "valorUnitario" element
   }
 
 parseDateTime :: String -> LocalTime
