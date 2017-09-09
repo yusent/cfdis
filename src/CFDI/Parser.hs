@@ -26,23 +26,22 @@ parseCFDI xmlSource =
   parseCFDIv3_2 <$> parseXMLDoc xmlSource
 
 parseCFDIv3_2 :: Element -> CFDI
-parseCFDIv3_2 root =
-  CFDI {
-    accountNumber = findAttrValueByName "NumCtaPago" root,
-    certificate = requireAttrValueByName "certificado" root,
-    certificateNumber = requireAttrValueByName "noCertificado" root,
-    currency = findAttrValueByName "Moneda" root,
-    expeditionPlace = requireAttrValueByName "LugarExpedicion" root,
-    internalID = findAttrValueByName "folio" root,
-    issuedAt = parseDateTime $ requireAttrValueByName "fecha" root,
-    issuer = parseIssuer issuerElement,
-    paymentConditions = findAttrValueByName "condicionesDePago" root,
-    paymentMethod = requireAttrValueByName "metodoDePago" root,
-    subTotal = read $ requireAttrValueByName "subTotal" root,
-    signature = fromMaybe "" $ findAttrValueByName "sello" root,
-    total = read $ requireAttrValueByName "total" root,
-    _type = requireAttrValueByName "tipoDeComprobante" root,
-    version = requireAttrValueByName "version" root
+parseCFDIv3_2 root = CFDI
+  { accountNumber = findAttrValueByName "NumCtaPago" root
+  , certificate = requireAttrValueByName "certificado" root
+  , certificateNumber = requireAttrValueByName "noCertificado" root
+  , currency = findAttrValueByName "Moneda" root
+  , expeditionPlace = requireAttrValueByName "LugarExpedicion" root
+  , internalID = findAttrValueByName "folio" root
+  , issuedAt = parseDateTime $ requireAttrValueByName "fecha" root
+  , issuer = parseIssuer issuerElement
+  , paymentConditions = findAttrValueByName "condicionesDePago" root
+  , paymentMethod = requireAttrValueByName "metodoDePago" root
+  , subTotal = read $ requireAttrValueByName "subTotal" root
+  , signature = fromMaybe "" $ findAttrValueByName "sello" root
+  , total = read $ requireAttrValueByName "total" root
+  , _type = requireAttrValueByName "tipoDeComprobante" root
+  , version = requireAttrValueByName "version" root
   }
 
   where
@@ -52,26 +51,24 @@ parseDateTime :: String -> LocalTime
 parseDateTime = fst . fromJust . strptime "%Y-%m-%dT%H:%M:%S"
 
 parseFiscalAddress :: Element -> FiscalAddress
-parseFiscalAddress element =
-  FiscalAddress {
-    country = requireAttrValueByName "pais" element,
-    externalNumber = findAttrValueByName "noExterior" element,
-    internalNumber = findAttrValueByName "noInterior" element,
-    locality = findAttrValueByName "localidad" element,
-    municipality = requireAttrValueByName "municipio" element,
-    reference = findAttrValueByName "referencia" element,
-    suburb = findAttrValueByName "colonia" element,
-    state = requireAttrValueByName "estado" element,
-    street = requireAttrValueByName "calle" element,
-    zipCode = requireAttrValueByName "codigoPostal" element
+parseFiscalAddress element = FiscalAddress
+  { country = requireAttrValueByName "pais" element
+  , externalNumber = findAttrValueByName "noExterior" element
+  , internalNumber = findAttrValueByName "noInterior" element
+  , locality = findAttrValueByName "localidad" element
+  , municipality = requireAttrValueByName "municipio" element
+  , reference = findAttrValueByName "referencia" element
+  , suburb = findAttrValueByName "colonia" element
+  , state = requireAttrValueByName "estado" element
+  , street = requireAttrValueByName "calle" element
+  , zipCode = requireAttrValueByName "codigoPostal" element
   }
 
 parseIssuer :: Element -> Issuer
-parseIssuer issuerElement =
-  Issuer {
-    fiscalAddress = parseFiscalAddress <$> findChildByName "DomicilioFiscal" issuerElement,
-    name = findAttrValueByName "nombre" issuerElement,
-    rfc = requireAttrValueByName "rfc" issuerElement
+parseIssuer issuerElement = Issuer
+  { fiscalAddress = parseFiscalAddress <$> findChildByName "DomicilioFiscal" issuerElement
+  , name = findAttrValueByName "nombre" issuerElement
+  , rfc = requireAttrValueByName "rfc" issuerElement
   }
 
 requireAttrValueByName :: String -> Element -> String
