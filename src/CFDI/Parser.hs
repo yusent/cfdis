@@ -5,7 +5,7 @@ import Data.Time.LocalTime  (LocalTime)
 import Data.Time.Parse      (strptime)
 import Text.XML.Light.Input (parseXMLDoc)
 import Text.XML.Light.Lexer (XmlSource)
-import Text.XML.Light.Proc  (filterElementName, findAttrBy)
+import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
 import Text.XML.Light.Types (Element(Element), QName(QName))
 import CFDI.Types
 
@@ -16,6 +16,10 @@ findAttrValueByName attrName =
 findChildByName :: String -> Element -> Maybe Element
 findChildByName childName =
   filterElementName (nameEquals childName)
+
+findChildrenByName :: String -> Element -> [Element]
+findChildrenByName childName =
+  filterElementsName (nameEquals childName)
 
 nameEquals :: String -> QName -> Bool
 nameEquals s (QName name _ _) =
