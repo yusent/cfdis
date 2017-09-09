@@ -48,7 +48,8 @@ parseCFDIv3_2 root = CFDI
     issuerElement = requireChildByName "Emisor" root
 
 parseDateTime :: String -> LocalTime
-parseDateTime = fst . fromJust . strptime "%Y-%m-%dT%H:%M:%S"
+parseDateTime =
+  fst . fromJust . strptime "%Y-%m-%dT%H:%M:%S"
 
 parseFiscalAddress :: Element -> FiscalAddress
 parseFiscalAddress element = FiscalAddress
@@ -65,14 +66,17 @@ parseFiscalAddress element = FiscalAddress
   }
 
 parseIssuer :: Element -> Issuer
-parseIssuer issuerElement = Issuer
-  { fiscalAddress = parseFiscalAddress <$> findChildByName "DomicilioFiscal" issuerElement
-  , name = findAttrValueByName "nombre" issuerElement
-  , rfc = requireAttrValueByName "rfc" issuerElement
+parseIssuer element = Issuer
+  { fiscalAddress = parseFiscalAddress
+                <$> findChildByName "DomicilioFiscal" element
+  , name = findAttrValueByName "nombre" element
+  , rfc = requireAttrValueByName "rfc" element
   }
 
 requireAttrValueByName :: String -> Element -> String
-requireAttrValueByName attrName = fromJust . findAttrValueByName attrName
+requireAttrValueByName attrName =
+  fromJust . findAttrValueByName attrName
 
 requireChildByName :: String -> Element -> Element
-requireChildByName childName = fromJust . findChildByName childName
+requireChildByName childName =
+  fromJust . findChildByName childName
