@@ -27,21 +27,21 @@ parseCFDI xmlSource =
 
 parseCFDIv3_2 :: Element -> CFDI
 parseCFDIv3_2 root = CFDI
-  { accountNumber = findAttrValueByName "NumCtaPago" root
-  , certificate = requireAttrValueByName "certificado" root
+  { accountNumber     = findAttrValueByName "NumCtaPago" root
+  , certificate       = requireAttrValueByName "certificado" root
   , certificateNumber = requireAttrValueByName "noCertificado" root
-  , currency = findAttrValueByName "Moneda" root
-  , expeditionPlace = requireAttrValueByName "LugarExpedicion" root
-  , internalID = findAttrValueByName "folio" root
-  , issuedAt = parseDateTime $ requireAttrValueByName "fecha" root
-  , issuer = parseIssuer $ requireChildByName "Emisor" root
+  , currency          = findAttrValueByName "Moneda" root
+  , expeditionPlace   = requireAttrValueByName "LugarExpedicion" root
+  , internalID        = findAttrValueByName "folio" root
+  , issuedAt          = parseDateTime $ requireAttrValueByName "fecha" root
+  , issuer            = parseIssuer $ requireChildByName "Emisor" root
   , paymentConditions = findAttrValueByName "condicionesDePago" root
-  , paymentMethod = requireAttrValueByName "metodoDePago" root
-  , subTotal = read $ requireAttrValueByName "subTotal" root
-  , signature = fromMaybe "" $ findAttrValueByName "sello" root
-  , total = read $ requireAttrValueByName "total" root
-  , _type = requireAttrValueByName "tipoDeComprobante" root
-  , version = requireAttrValueByName "version" root
+  , paymentMethod     = requireAttrValueByName "metodoDePago" root
+  , subTotal          = read $ requireAttrValueByName "subTotal" root
+  , signature         = fromMaybe "" $ findAttrValueByName "sello" root
+  , total             = read $ requireAttrValueByName "total" root
+  , _type             = requireAttrValueByName "tipoDeComprobante" root
+  , version           = requireAttrValueByName "version" root
   }
 
 parseDateTime :: String -> LocalTime
@@ -50,24 +50,24 @@ parseDateTime =
 
 parseFiscalAddress :: Element -> FiscalAddress
 parseFiscalAddress element = FiscalAddress
-  { country = requireAttrValueByName "pais" element
+  { country        = requireAttrValueByName "pais" element
   , externalNumber = findAttrValueByName "noExterior" element
   , internalNumber = findAttrValueByName "noInterior" element
-  , locality = findAttrValueByName "localidad" element
-  , municipality = requireAttrValueByName "municipio" element
-  , reference = findAttrValueByName "referencia" element
-  , suburb = findAttrValueByName "colonia" element
-  , state = requireAttrValueByName "estado" element
-  , street = requireAttrValueByName "calle" element
-  , zipCode = requireAttrValueByName "codigoPostal" element
+  , locality       = findAttrValueByName "localidad" element
+  , municipality   = requireAttrValueByName "municipio" element
+  , reference      = findAttrValueByName "referencia" element
+  , suburb         = findAttrValueByName "colonia" element
+  , state          = requireAttrValueByName "estado" element
+  , street         = requireAttrValueByName "calle" element
+  , zipCode        = requireAttrValueByName "codigoPostal" element
   }
 
 parseIssuer :: Element -> Issuer
 parseIssuer element = Issuer
   { fiscalAddress = parseFiscalAddress
                 <$> findChildByName "DomicilioFiscal" element
-  , name = findAttrValueByName "nombre" element
-  , rfc = requireAttrValueByName "rfc" element
+  , name          = findAttrValueByName "nombre" element
+  , rfc           = requireAttrValueByName "rfc" element
   }
 
 requireAttrValueByName :: String -> Element -> String
