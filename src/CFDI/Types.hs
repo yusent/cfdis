@@ -56,8 +56,9 @@ data Issuer = Issuer
   } deriving (Show)
 
 data Recipient = Recipient
-  { recipientName :: Maybe String
-  , recipientRfc  :: String
+  { recipientAddress :: Maybe Address
+  , recipientName    :: Maybe String
+  , recipientRfc     :: String
   } deriving (Show)
 
 data TaxRegime = TaxRegime

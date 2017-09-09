@@ -95,8 +95,9 @@ parseIssuer element = Issuer
 
 parseRecipient :: Element -> Recipient
 parseRecipient element = Recipient
-  { recipientName = findAttrValueByName "nombre" element
-  , recipientRfc  = requireAttrValueByName "rfc" element
+  { recipientAddress = parseAddress <$> findChildByName "Domicilio" element
+  , recipientName    = findAttrValueByName "nombre" element
+  , recipientRfc     = requireAttrValueByName "rfc" element
   }
 
 parseTaxRegime :: Element -> TaxRegime
