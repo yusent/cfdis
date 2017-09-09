@@ -49,8 +49,9 @@ parseCFDIv3_2 root = CFDI
   { accountNumber     = findAttrValueByName "NumCtaPago" root
   , certificate       = requireAttrValueByName "certificado" root
   , certificateNumber = requireAttrValueByName "noCertificado" root
-  , concepts          = parseConcept
-                    <$> findChildrenByName "Concepto" conceptsNode
+  , concepts          = map parseConcept
+                      . findChildrenByName "Concepto"
+                      $ requireChildByName "Conceptos" root
   , currency          = findAttrValueByName "Moneda" root
   , internalID        = findAttrValueByName "folio" root
   , issuedAt          = parseDateTime $ requireAttrValueByName "fecha" root
@@ -66,19 +67,16 @@ parseCFDIv3_2 root = CFDI
   , version           = requireAttrValueByName "version" root
   }
 
-  where
-    conceptsNode = requireChildByName "Conceptos" root
-
 parseConcept :: Element -> Concept
 parseConcept element = Concept
   { amount          = read $ requireAttrValueByName "importe" element
   , description     = requireAttrValueByName "descripcion" element
   , _id             = findAttrValueByName "noIdentificacion" element
-  , importInfo      = parseImportInfo
-                  <$> findChildrenByName "InformacionAduanera" element
+  , importInfo      = map parseImportInfo
+                    $ findChildrenByName "InformacionAduanera" element
   , parts           = parseConceptPart <$> findChildrenByName "Parte" element
-  , propertyAccount = parsePropertyAccount
-                  <$> findChildByName "CuentaPredial" element
+  , propertyAccount = fmap parsePropertyAccount
+                    $ findChildByName "CuentaPredial" element
   , quantity        = read $ requireAttrValueByName "cantidad" element
   , unit            = requireAttrValueByName "unidad" element
   , unitAmount      = read $ requireAttrValueByName "valorUnitario" element
@@ -89,8 +87,8 @@ parseConceptPart element = ConceptPart
   { partAmount      = read <$> findAttrValueByName "importe" element
   , partDescription = requireAttrValueByName "descripcion" element
   , partId          = findAttrValueByName "noIdentificacion" element
-  , partImportInfo  = parseImportInfo
-                  <$> findChildrenByName "InformacionAduanera" element
+  , partImportInfo  = map parseImportInfo
+                    $ findChildrenByName "InformacionAduanera" element
   , partQuantity    = read $ requireAttrValueByName "cantidad" element
   , partUnit        = findAttrValueByName "unidad" element
   , partUnitAmount  = read <$> findAttrValueByName "valorUnitario" element
@@ -127,14 +125,14 @@ parseImportInfo element = ImportInfo
 
 parseIssuer :: Element -> Issuer
 parseIssuer element = Issuer
-  { fiscalAddress   = parseFiscalAddress
-                  <$> findChildByName "DomicilioFiscal" element
-  , issuedInAddress = parseAddress
-                  <$> findChildByName "ExpedidoEn" element
+  { fiscalAddress   = fmap parseFiscalAddress
+                    $ findChildByName "DomicilioFiscal" element
+  , issuedInAddress = fmap parseAddress
+                    $ findChildByName "ExpedidoEn" element
   , name            = findAttrValueByName "nombre" element
   , rfc             = requireAttrValueByName "rfc" element
-  , regimes         = parseTaxRegime
-                  <$> findChildrenByName "RegimenFiscal" element
+  , regimes         = map parseTaxRegime
+                    $ findChildrenByName "RegimenFiscal" element
   }
 
 parsePropertyAccount :: Element -> PropertyAccount
