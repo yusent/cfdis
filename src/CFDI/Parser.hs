@@ -34,7 +34,7 @@ parseCFDIv3_2 root = CFDI
   , expeditionPlace = requireAttrValueByName "LugarExpedicion" root
   , internalID = findAttrValueByName "folio" root
   , issuedAt = parseDateTime $ requireAttrValueByName "fecha" root
-  , issuer = parseIssuer issuerElement
+  , issuer = parseIssuer $ requireChildByName "Emisor" root
   , paymentConditions = findAttrValueByName "condicionesDePago" root
   , paymentMethod = requireAttrValueByName "metodoDePago" root
   , subTotal = read $ requireAttrValueByName "subTotal" root
@@ -43,9 +43,6 @@ parseCFDIv3_2 root = CFDI
   , _type = requireAttrValueByName "tipoDeComprobante" root
   , version = requireAttrValueByName "version" root
   }
-
-  where
-    issuerElement = requireChildByName "Emisor" root
 
 parseDateTime :: String -> LocalTime
 parseDateTime =
