@@ -1,5 +1,6 @@
 module CFDI.Types where
 
+import Data.Time.Calendar  (Day)
 import Data.Time.LocalTime (LocalTime)
 
 data Address = Address

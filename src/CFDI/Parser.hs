@@ -1,7 +1,8 @@
 module CFDI.Parser (parseCFDI) where
 
 import Data.Maybe           (fromJust, fromMaybe)
-import Data.Time.LocalTime  (LocalTime)
+import Data.Time.Calendar   (Day)
+import Data.Time.LocalTime  (LocalTime, localDay)
 import Data.Time.Parse      (strptime)
 import Text.XML.Light.Input (parseXMLDoc)
 import Text.XML.Light.Lexer (XmlSource)
@@ -77,6 +78,10 @@ parseConcept element = Concept
   , unit        = requireAttrValueByName "unidad" element
   , unitAmount  = read $ requireAttrValueByName "valorUnitario" element
   }
+
+parseDate :: String -> Day
+parseDate =
+  localDay . fst . fromJust . strptime "%Y-%m-%d"
 
 parseDateTime :: String -> LocalTime
 parseDateTime =
