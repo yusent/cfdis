@@ -31,6 +31,7 @@ data CFDI = CFDI
   , recipient         :: Recipient
   , subTotal          :: Float
   , signature         :: String
+  , taxes             :: Taxes
   , total             :: Float
   , _type             :: String
   , version           :: String
@@ -95,6 +96,30 @@ data Recipient = Recipient
   , recipientRfc     :: String
   } deriving (Show)
 
+data RetainedTax = RetainedTax
+  { retainedTaxAmount :: Float
+  , retainedTax       :: Tax
+  } deriving (Show)
+
+data Tax
+  = IEPS
+  | ISR
+  | IVA
+  deriving (Read, Show)
+
+data Taxes = Taxes
+  { retainedTaxes   :: [RetainedTax]
+  , transferedTaxes :: [TransferedTax]
+  , totalRetained   :: Maybe Float
+  , totalTransfered :: Maybe Float
+  } deriving (Show)
+
 data TaxRegime = TaxRegime
   { regime :: String
+  } deriving (Show)
+
+data TransferedTax = TransferedTax
+  { transferedTaxAmount :: Float
+  , transferedTaxRate   :: Float
+  , transferedTax       :: Tax
   } deriving (Show)

@@ -62,6 +62,7 @@ parseCFDIv3_2 root = CFDI
   , recipient         = parseRecipient $ requireChildByName "Receptor" root
   , subTotal          = read $ requireAttrValueByName "subTotal" root
   , signature         = fromMaybe "" $ findAttrValueByName "sello" root
+  , taxes             = parseTaxes $ requireChildByName "Impuestos" root
   , total             = read $ requireAttrValueByName "total" root
   , _type             = requireAttrValueByName "tipoDeComprobante" root
   , version           = requireAttrValueByName "version" root
@@ -147,9 +148,36 @@ parseRecipient element = Recipient
   , recipientRfc     = requireAttrValueByName "rfc" element
   }
 
+parseRetainedTax :: Element -> RetainedTax
+parseRetainedTax element = RetainedTax
+  { retainedTaxAmount = read $ requireAttrValueByName "importe" element
+  , retainedTax       = read $ requireAttrValueByName "impuesto" element
+  }
+
+parseTaxes :: Element -> Taxes
+parseTaxes element = Taxes
+  { retainedTaxes   = maybe [] (map parseRetainedTax)
+                    . fmap (findChildrenByName "Retencion")
+                    $ findChildByName "Retenciones" element
+  , transferedTaxes = maybe [] (map parseTransferedTax)
+                    . fmap (findChildrenByName "Traslado")
+                    $ findChildByName "Traslados" element
+  , totalRetained   = fmap read
+                    $ findAttrValueByName "totalImpuestosRetenidos" element
+  , totalTransfered = fmap read
+                    $ findAttrValueByName "totalImpuestosTrasladados" element
+  }
+
 parseTaxRegime :: Element -> TaxRegime
 parseTaxRegime element = TaxRegime
   { regime = requireAttrValueByName "Regimen" element
+  }
+
+parseTransferedTax :: Element -> TransferedTax
+parseTransferedTax element = TransferedTax
+  { transferedTaxAmount = read $ requireAttrValueByName "importe" element
+  , transferedTaxRate   = read $ requireAttrValueByName "tasa" element
+  , transferedTax       = read $ requireAttrValueByName "impuesto" element
   }
 
 requireAttrValueByName :: String -> Element -> String
