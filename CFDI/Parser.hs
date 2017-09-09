@@ -51,9 +51,25 @@ parseCFDIv3_2 root =
 parseDateTime :: String -> LocalTime
 parseDateTime = fst . fromJust . strptime "%Y-%m-%dT%H:%M:%S"
 
+parseFiscalAddress :: Element -> FiscalAddress
+parseFiscalAddress element =
+  FiscalAddress {
+    country = requireAttrValueByName "pais" element,
+    externalNumber = findAttrValueByName "noExterior" element,
+    internalNumber = findAttrValueByName "noInterior" element,
+    locality = findAttrValueByName "localidad" element,
+    municipality = requireAttrValueByName "municipio" element,
+    reference = findAttrValueByName "referencia" element,
+    suburb = findAttrValueByName "colonia" element,
+    state = requireAttrValueByName "estado" element,
+    street = requireAttrValueByName "calle" element,
+    zipCode = requireAttrValueByName "codigoPostal" element
+  }
+
 parseIssuer :: Element -> Issuer
 parseIssuer issuerElement =
   Issuer {
+    fiscalAddress = parseFiscalAddress <$> findChildByName "DomicilioFiscal" issuerElement,
     name = findAttrValueByName "nombre" issuerElement,
     rfc = requireAttrValueByName "rfc" issuerElement
   }

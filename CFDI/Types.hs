@@ -23,6 +23,21 @@ data CFDI =
 
 data Issuer =
   Issuer {
-    rfc  :: String,
-    name :: Maybe String
+    fiscalAddress :: Maybe FiscalAddress,
+    rfc           :: String,
+    name          :: Maybe String
+  } deriving (Show)
+
+data FiscalAddress =
+  FiscalAddress {
+    country        :: String,
+    externalNumber :: Maybe String,
+    internalNumber :: Maybe String,
+    locality       :: Maybe String,
+    municipality   :: String,
+    reference      :: Maybe String,
+    suburb         :: Maybe String,
+    state          :: String,
+    street         :: String,
+    zipCode        :: String
   } deriving (Show)
