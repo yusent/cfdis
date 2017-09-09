@@ -20,12 +20,6 @@ data CFDI = CFDI
   , version           :: String
   } deriving (Show)
 
-data Issuer = Issuer
-  { fiscalAddress :: Maybe FiscalAddress
-  , rfc           :: String
-  , name          :: Maybe String
-  } deriving (Show)
-
 data FiscalAddress = FiscalAddress
   { country        :: String
   , externalNumber :: Maybe String
@@ -37,4 +31,10 @@ data FiscalAddress = FiscalAddress
   , state          :: String
   , street         :: String
   , zipCode        :: String
+  } deriving (Show)
+
+data Issuer = Issuer
+  { fiscalAddress :: Maybe FiscalAddress
+  , rfc           :: String
+  , name          :: Maybe String
   } deriving (Show)
