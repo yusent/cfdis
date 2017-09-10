@@ -119,7 +119,7 @@ data Tax
   = IEPS
   | ISR
   | IVA
-  deriving (Read, Show)
+  deriving (Eq, Read, Show)
 
 data Taxes = Taxes
   { retainedTaxes   :: [RetainedTax]
@@ -130,7 +130,7 @@ data Taxes = Taxes
 
 data TaxRegime = TaxRegime
   { regime :: String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data TransferedTax = TransferedTax
   { transferedTaxAmount :: Float

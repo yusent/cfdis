@@ -1,6 +1,6 @@
 module CFDI.ParserSpec where
 
-import Data.Maybe          (fromJust, isJust)
+import Data.Maybe          (fromJust, isJust, isNothing)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Test.Hspec
@@ -19,10 +19,10 @@ invoiceXML =
   \   sello='SOMENOTSORANDOMSIGNATURE'                                         \
   \   certificado='SOMENOTSORANDOMCERTIFICATE' serie='A'                       \
   \   formaDePago='PAGO EN UNA SOLA EXHIBICION' version='3.2'                  \
-  \   fecha='2017-09-07T07:55:28' condicionesDePago='CREDITO 15 DIAS'          \
+  \   fecha='2017-06-12T12:00:00' condicionesDePago='CREDITO 15 DIAS'          \
   \   metodoDePago='03' noCertificado='00001000001212121212'                   \
-  \   LugarExpedicion='MATRIZ' folio='883032'>                                 \
-  \   <cfdi:Emisor rfc='XAXX010101000' nombre='Issuer name'>                   \
+  \   LugarExpedicion='Issued In' folio='144144'>                                 \
+  \   <cfdi:Emisor rfc='XAXX010101000' nombre='Issuer Name'>                   \
   \     <cfdi:DomicilioFiscal colonia='Fiscal Suburb'                          \
   \       calle='Fiscal Street' noExterior='Fiscal External Number'            \
   \       municipio='Fiscal Municipality' estado='Fiscal State'                \
@@ -90,7 +90,8 @@ spec = do
         cfdSignature _pacStamp `shouldBe` "Signature"
         satCertificateNumber _pacStamp `shouldBe` "SAT Certificate Number"
         satSignature _pacStamp `shouldBe` "SAT Signature"
-        stampedAt _pacStamp `shouldBe` LocalTime (ModifiedJulianDay 57349) (TimeOfDay 23 5 0)
+        localDay (stampedAt _pacStamp) `shouldBe` ModifiedJulianDay 57349
+        localTimeOfDay (stampedAt _pacStamp) `shouldBe` TimeOfDay 23 5 0
         stampVersion _pacStamp `shouldBe` "1.0"
         uuid _pacStamp `shouldBe` "12121212-1212-1212-1212-121212121212"
 
@@ -120,3 +121,36 @@ spec = do
         quantity concept1 `shouldBe` 2
         unit concept1 `shouldBe` "Product 2 Unit"
         unitAmount concept1 `shouldBe` 212.12
+
+      it "parses currency" $ do
+        currency invoiceCFDI `shouldBe` Just "MXN"
+
+      it "parses internal ID" $ do
+        internalID invoiceCFDI `shouldBe` Just "144144"
+
+      it "parses issued date" $ do
+        localDay (issuedAt invoiceCFDI) `shouldBe` ModifiedJulianDay 57916
+        localTimeOfDay (issuedAt invoiceCFDI) `shouldBe` TimeOfDay 12 0 0
+
+      it "parses where it was issued in" $ do
+        issuedIn invoiceCFDI `shouldBe` "Issued In"
+
+      it "parses issuer" $ do
+        let _issuer = issuer invoiceCFDI
+        let maybeFiscalAddress = fiscalAddress _issuer
+        maybeFiscalAddress `shouldSatisfy` isJust
+        let _fiscalAddress = fromJust maybeFiscalAddress
+        fiscalCountry _fiscalAddress `shouldBe` "Fiscal Country"
+        fiscalExternalNumber _fiscalAddress `shouldBe` Just "Fiscal External Number"
+        fiscalInternalNumber _fiscalAddress `shouldBe` Nothing
+        fiscalLocality _fiscalAddress `shouldBe` Nothing
+        fiscalMunicipality _fiscalAddress `shouldBe` "Fiscal Municipality"
+        fiscalReference _fiscalAddress `shouldBe` Nothing
+        fiscalState _fiscalAddress `shouldBe` "Fiscal State"
+        fiscalStreet _fiscalAddress `shouldBe` "Fiscal Street"
+        fiscalSuburb _fiscalAddress `shouldBe` Just "Fiscal Suburb"
+        fiscalZipCode _fiscalAddress `shouldBe` "Fiscal Zip Code"
+        issuedInAddress _issuer `shouldSatisfy` isNothing
+        name _issuer `shouldBe` Just "Issuer Name"
+        regimes _issuer `shouldBe` [TaxRegime "Fiscal Regime"]
+        rfc _issuer `shouldBe` "XAXX010101000"
