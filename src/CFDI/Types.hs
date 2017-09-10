@@ -64,12 +64,6 @@ data ConceptPart = ConceptPart
   , partUnitAmount  :: Maybe Float
   } deriving (Show)
 
-data ImportInfo = ImportInfo
-  { custom         :: Maybe String
-  , importIssuedAt :: Day
-  , importNumber   :: String
-  } deriving (Show)
-
 data FiscalAddress = FiscalAddress
   { fiscalCountry        :: String
   , fiscalExternalNumber :: Maybe String
@@ -81,6 +75,12 @@ data FiscalAddress = FiscalAddress
   , fiscalStreet         :: String
   , fiscalSuburb         :: Maybe String
   , fiscalZipCode        :: String
+  } deriving (Show)
+
+data ImportInfo = ImportInfo
+  { custom         :: Maybe String
+  , importIssuedAt :: Day
+  , importNumber   :: String
   } deriving (Show)
 
 data Issuer = Issuer
