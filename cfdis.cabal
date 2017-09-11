@@ -15,7 +15,7 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     CFDI.Parser, CFDI.Types
+  exposed-modules:     CFDI, CFDI.Parser
   build-depends:       base >= 4.7 && < 5
                      , strptime >= 1.0 && < 1.1
                      , time >= 1.6 && < 1.7

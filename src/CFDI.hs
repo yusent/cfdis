@@ -1,4 +1,4 @@
-module CFDI.Types where
+module CFDI where
 
 import Data.Time.Calendar  (Day)
 import Data.Time.LocalTime (LocalTime)

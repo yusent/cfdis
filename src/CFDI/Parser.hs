@@ -1,5 +1,6 @@
 module CFDI.Parser (parseCFDI) where
 
+import CFDI
 import Data.Maybe           (fromJust, fromMaybe)
 import Data.Time.Calendar   (Day)
 import Data.Time.LocalTime  (LocalTime, localDay)
@@ -8,7 +9,6 @@ import Text.XML.Light.Input (parseXMLDoc)
 import Text.XML.Light.Lexer (XmlSource)
 import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
 import Text.XML.Light.Types (Element(Element), QName(QName))
-import CFDI.Types
 
 findAttrValueByName :: String -> Element -> Maybe String
 findAttrValueByName attrName =
