@@ -1,11 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <cfdi:Comprobante total='536.216' NumCtaPago='1212'
-  subTotal='1161.07' tipoDeComprobante='ingreso' Moneda='MXN'
-  sello='SOMENOTSORANDOMSIGNATURE'
-  certificado='SOMENOTSORANDOMCERTIFICATE' serie='A'
+  subTotal='536.192' tipoDeComprobante='ingreso' Moneda='MXN'
+  sello='Signature' certificado='SOMENOTSORANDOMCERTIFICATE' serie='A'
   formaDePago='PAGO EN UNA SOLA EXHIBICION' version='3.2'
-  fecha='2017-06-12T12:00:00' condicionesDePago='CREDITO 15 DIAS'
-  metodoDePago='03' noCertificado='00001000001212121212'
+  fecha='2017-06-12T12:00:00' condicionesDePago='Payment Conditions'
+  metodoDePago='99' noCertificado='00001000001212121212'
   LugarExpedicion='Issued In' folio='144144'>
   <cfdi:Emisor rfc='XAXX010101000' nombre='Issuer Name'>
     <cfdi:DomicilioFiscal colonia='Fiscal Suburb'
@@ -14,7 +13,7 @@
       pais='Fiscal Country' codigoPostal='Fiscal Zip Code'/>
     <cfdi:RegimenFiscal Regimen='Fiscal Regime'/>
   </cfdi:Emisor>
-  <cfdi:Receptor rfc='XEXX010101000' nombre='Receipient Name'>
+  <cfdi:Receptor rfc='XEXX010101000' nombre='Recipient Name'>
     <cfdi:Domicilio calle='Recipient Street'
       municipio='Recipient Municipality' estado='Recipient State'
       pais='Recipient Country' codigoPostal='Recipient Zip Code'/>

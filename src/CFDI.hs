@@ -14,7 +14,7 @@ data Address = Address
   , state          :: Maybe String
   , street         :: Maybe String
   , zipCode        :: Maybe String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data CFDI = CFDI
   { accountNumber     :: Maybe String
@@ -36,11 +36,11 @@ data CFDI = CFDI
   , total             :: Float
   , _type             :: String
   , version           :: String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data Complement = Complement
   { pacStamp :: Maybe PacStamp
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data Concept = Concept
   { amount          :: Float
@@ -52,7 +52,7 @@ data Concept = Concept
   , quantity        :: Float
   , unit            :: String
   , unitAmount      :: Float
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data ConceptPart = ConceptPart
   { partAmount      :: Maybe Float
@@ -62,7 +62,7 @@ data ConceptPart = ConceptPart
   , partQuantity    :: Float
   , partUnit        :: Maybe String
   , partUnitAmount  :: Maybe Float
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data FiscalAddress = FiscalAddress
   { fiscalCountry        :: String
@@ -75,13 +75,13 @@ data FiscalAddress = FiscalAddress
   , fiscalStreet         :: String
   , fiscalSuburb         :: Maybe String
   , fiscalZipCode        :: String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data ImportInfo = ImportInfo
   { custom         :: Maybe String
   , importIssuedAt :: Day
   , importNumber   :: String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data Issuer = Issuer
   { fiscalAddress   :: Maybe FiscalAddress
@@ -89,7 +89,7 @@ data Issuer = Issuer
   , name            :: Maybe String
   , regimes         :: [TaxRegime]
   , rfc             :: String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data PacStamp = PacStamp
   { cfdSignature         :: String
@@ -98,22 +98,22 @@ data PacStamp = PacStamp
   , stampedAt            :: LocalTime
   , stampVersion         :: String
   , uuid                 :: String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data PropertyAccount = PropertyAccount
   { propertyAccountNumber :: String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data Recipient = Recipient
   { recipientAddress :: Maybe Address
   , recipientName    :: Maybe String
   , recipientRfc     :: String
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data RetainedTax = RetainedTax
   { retainedTaxAmount :: Float
   , retainedTax       :: Tax
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data Tax
   = IEPS
@@ -126,7 +126,7 @@ data Taxes = Taxes
   , transferedTaxes :: [TransferedTax]
   , totalRetained   :: Maybe Float
   , totalTransfered :: Maybe Float
-  } deriving (Show)
+  } deriving (Eq, Show)
 
 data TaxRegime = TaxRegime
   { regime :: String
@@ -136,4 +136,4 @@ data TransferedTax = TransferedTax
   { transferedTaxAmount :: Float
   , transferedTaxRate   :: Float
   , transferedTax       :: Tax
-  } deriving (Show)
+  } deriving (Eq, Show)
