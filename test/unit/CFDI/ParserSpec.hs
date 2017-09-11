@@ -60,6 +60,8 @@ spec = do
             }
           ]
         , currency          = Just "MXN"
+        , discount          = Just 24.36
+        , discountReason    = Just "Testing"
         , internalID        = Just "144144"
         , issuedAt          = LocalTime
           { localDay       = ModifiedJulianDay 57916
@@ -95,6 +97,13 @@ spec = do
           , regimes         = [TaxRegime "Fiscal Regime"]
           , rfc             = "XAXX010101000"
           }
+        , originalAmount    = Just 1200
+        , originalIssuedAt  = Just LocalTime
+          { localDay       = ModifiedJulianDay 57765
+          , localTimeOfDay = TimeOfDay 12 12 12
+          }
+        , originalNumber    = Just "3636"
+        , originalSeries    = Just "B"
         , paymentConditions = Just "Payment Conditions"
         , paymentMethod     = "99"
         , recipient         = Recipient
@@ -113,6 +122,7 @@ spec = do
           , recipientName    = Just "Recipient Name"
           , recipientRfc     = "XEXX010101000"
           }
+        , series            = Just "A"
         , subTotal          = 536.192
         , signature         = "Signature"
         , taxes             = Taxes
@@ -135,4 +145,5 @@ spec = do
         , total             = 536.216
         , _type             = "ingreso"
         , version           = "3.2"
+        , wayToPay          = "Way To Pay"
         }

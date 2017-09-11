@@ -23,19 +23,27 @@ data CFDI = CFDI
   , complement        :: Maybe Complement
   , concepts          :: [Concept]
   , currency          :: Maybe String
+  , discount          :: Maybe Float
+  , discountReason    :: Maybe String
   , internalID        :: Maybe String
   , issuedAt          :: LocalTime
   , issuedIn          :: String
   , issuer            :: Issuer
+  , originalAmount    :: Maybe Float
+  , originalIssuedAt  :: Maybe LocalTime
+  , originalNumber    :: Maybe String
+  , originalSeries    :: Maybe String
   , paymentConditions :: Maybe String
   , paymentMethod     :: String
   , recipient         :: Recipient
+  , series            :: Maybe String
   , subTotal          :: Float
   , signature         :: String
   , taxes             :: Taxes
   , total             :: Float
   , _type             :: String
   , version           :: String
+  , wayToPay          :: String
   } deriving (Eq, Show)
 
 data Complement = Complement

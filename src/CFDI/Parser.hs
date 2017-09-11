@@ -55,19 +55,28 @@ parseCFDIv3_2 root = CFDI
                       . findChildrenByName "Concepto"
                       $ requireChildByName "Conceptos" root
   , currency          = findAttrValueByName "Moneda" root
+  , discount          = read <$> findAttrValueByName "descuento" root
+  , discountReason    = findAttrValueByName "motivoDescuento" root
   , internalID        = findAttrValueByName "folio" root
   , issuedAt          = parseDateTime $ requireAttrValueByName "fecha" root
   , issuedIn          = requireAttrValueByName "LugarExpedicion" root
   , issuer            = parseIssuer $ requireChildByName "Emisor" root
+  , originalAmount    = read <$> findAttrValueByName "MontoFolioFiscalOrig" root
+  , originalIssuedAt  = fmap parseDateTime
+                      $ findAttrValueByName "FechaFolioFiscalOrig" root
+  , originalNumber    = findAttrValueByName "FolioFiscalOrig" root
+  , originalSeries    = findAttrValueByName "SerieFolioFiscalOrig" root
   , paymentConditions = findAttrValueByName "condicionesDePago" root
   , paymentMethod     = requireAttrValueByName "metodoDePago" root
   , recipient         = parseRecipient $ requireChildByName "Receptor" root
+  , series            = findAttrValueByName "serie" root
   , subTotal          = read $ requireAttrValueByName "subTotal" root
   , signature         = fromMaybe "" $ findAttrValueByName "sello" root
   , taxes             = parseTaxes $ requireChildByName "Impuestos" root
   , total             = read $ requireAttrValueByName "total" root
   , _type             = requireAttrValueByName "tipoDeComprobante" root
   , version           = requireAttrValueByName "version" root
+  , wayToPay          = requireAttrValueByName "formaDePago" root
   }
 
 parseComplement :: Element -> Complement
