@@ -118,9 +118,9 @@ parseFiscalAddress element = FiscalAddress
   , fiscalLocality       = findAttrValueByName "localidad" element
   , fiscalMunicipality   = requireAttrValueByName "municipio" element
   , fiscalReference      = findAttrValueByName "referencia" element
-  , fiscalSuburb         = findAttrValueByName "colonia" element
   , fiscalState          = requireAttrValueByName "estado" element
   , fiscalStreet         = requireAttrValueByName "calle" element
+  , fiscalSuburb         = findAttrValueByName "colonia" element
   , fiscalZipCode        = requireAttrValueByName "codigoPostal" element
   }
 
@@ -138,9 +138,9 @@ parseIssuer element = Issuer
   , issuedInAddress = fmap parseAddress
                     $ findChildByName "ExpedidoEn" element
   , name            = findAttrValueByName "nombre" element
-  , rfc             = requireAttrValueByName "rfc" element
   , regimes         = map parseTaxRegime
                     $ findChildrenByName "RegimenFiscal" element
+  , rfc             = requireAttrValueByName "rfc" element
   }
 
 parsePacStamp :: Element -> PacStamp
@@ -148,9 +148,9 @@ parsePacStamp element = PacStamp
   { cfdSignature         = requireAttrValueByName "selloCFD" element
   , satCertificateNumber = requireAttrValueByName "noCertificadoSAT" element
   , satSignature         = requireAttrValueByName "selloSAT" element
-  , stampVersion         = requireAttrValueByName "version" element
   , stampedAt            = parseDateTime
                          $ requireAttrValueByName "FechaTimbrado" element
+  , stampVersion         = requireAttrValueByName "version" element
   , uuid                 = requireAttrValueByName "UUID" element
   }
 
