@@ -12,7 +12,7 @@ spec = do
     invoiceCFDI <- parseCFDI <$> runIO (readFile "test/xml/invoice.xml")
 
     it "parses invoices" $ do
-      invoiceCFDI `shouldBe` Just CFDI
+      invoiceCFDI `shouldBe` Right CFDI
         { accountNumber     = Just "1212"
         , certificate       = "SOMENOTSORANDOMCERTIFICATE"
         , certificateNumber = "00001000001212121212"
