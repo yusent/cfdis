@@ -2,7 +2,6 @@ module CFDI.ParserSpec (spec) where
 
 import CFDI
 import CFDI.Parser
-import Data.Maybe          (fromJust, isJust, isNothing)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Test.Hspec
