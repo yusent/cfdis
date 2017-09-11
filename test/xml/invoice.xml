@@ -7,14 +7,22 @@
   metodoDePago='99' noCertificado='00001000001212121212'
   LugarExpedicion='Issued In' folio='144144'>
   <cfdi:Emisor rfc='XAXX010101000' nombre='Issuer Name'>
-    <cfdi:DomicilioFiscal colonia='Fiscal Suburb'
-      calle='Fiscal Street' noExterior='Fiscal External Number'
-      municipio='Fiscal Municipality' estado='Fiscal State'
-      pais='Fiscal Country' codigoPostal='Fiscal Zip Code'/>
+    <cfdi:DomicilioFiscal colonia='Fiscal Suburb' localidad="Fiscal Locality"
+      noInterior="Fiscal Internal Number" calle='Fiscal Street'
+      noExterior='Fiscal External Number' municipio='Fiscal Municipality'
+      estado='Fiscal State' pais='Fiscal Country'
+      codigoPostal='Fiscal Zip Code' referencia="Fiscal Reference"/>
+    <cfdi:ExpedidoEn colonia='Branch Suburb' localidad="Branch Locality"
+      noInterior="Branch Internal Number" calle='Branch Street'
+      noExterior='Branch External Number' municipio='Branch Municipality'
+      estado='Branch State' pais='Branch Country'
+      codigoPostal='Branch Zip Code' referencia="Branch Reference"/>
     <cfdi:RegimenFiscal Regimen='Fiscal Regime'/>
   </cfdi:Emisor>
   <cfdi:Receptor rfc='XEXX010101000' nombre='Recipient Name'>
-    <cfdi:Domicilio calle='Recipient Street'
+    <cfdi:Domicilio calle='Recipient Street' colonia="Recipient Suburb"
+      localidad="Recipient Locality" noExterior='Recipient External Number'
+      noInterior="Recipient Internal Number" referencia="Recipient Reference"
       municipio='Recipient Municipality' estado='Recipient State'
       pais='Recipient Country' codigoPostal='Recipient Zip Code'/>
   </cfdi:Receptor>
