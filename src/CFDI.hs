@@ -23,14 +23,14 @@ data CFDI = CFDI
   , complement        :: Maybe Complement
   , concepts          :: [Concept]
   , currency          :: Maybe String
-  , discount          :: Maybe Float
+  , discount          :: Maybe String
   , discountReason    :: Maybe String
-  , exchangeRate      :: Maybe Float
+  , exchangeRate      :: Maybe String
   , internalID        :: Maybe String
   , issuedAt          :: LocalTime
   , issuedIn          :: String
   , issuer            :: Issuer
-  , originalAmount    :: Maybe Float
+  , originalAmount    :: Maybe String
   , originalIssuedAt  :: Maybe LocalTime
   , originalNumber    :: Maybe String
   , originalSeries    :: Maybe String
@@ -38,10 +38,10 @@ data CFDI = CFDI
   , paymentMethod     :: String
   , recipient         :: Recipient
   , series            :: Maybe String
-  , subTotal          :: Float
+  , subTotal          :: String
   , signature         :: String
   , taxes             :: Taxes
-  , total             :: Float
+  , total             :: String
   , _type             :: String
   , version           :: String
   , wayToPay          :: String
@@ -52,25 +52,25 @@ data Complement = Complement
   } deriving (Eq, Show)
 
 data Concept = Concept
-  { amount          :: Float
+  { amount          :: String
   , description     :: String
   , _id             :: Maybe String
   , importInfo      :: [ImportInfo]
   , parts           :: [ConceptPart]
   , propertyAccount :: Maybe PropertyAccount
-  , quantity        :: Float
+  , quantity        :: String
   , unit            :: String
-  , unitAmount      :: Float
+  , unitAmount      :: String
   } deriving (Eq, Show)
 
 data ConceptPart = ConceptPart
-  { partAmount      :: Maybe Float
+  { partAmount      :: Maybe String
   , partDescription :: String
   , partId          :: Maybe String
   , partImportInfo  :: [ImportInfo]
-  , partQuantity    :: Float
+  , partQuantity    :: String
   , partUnit        :: Maybe String
-  , partUnitAmount  :: Maybe Float
+  , partUnitAmount  :: Maybe String
   } deriving (Eq, Show)
 
 data FiscalAddress = FiscalAddress
@@ -120,7 +120,7 @@ data Recipient = Recipient
   } deriving (Eq, Show)
 
 data RetainedTax = RetainedTax
-  { retainedTaxAmount :: Float
+  { retainedTaxAmount :: String
   , retainedTax       :: Tax
   } deriving (Eq, Show)
 
@@ -133,8 +133,8 @@ data Tax
 data Taxes = Taxes
   { retainedTaxes   :: [RetainedTax]
   , transferedTaxes :: [TransferedTax]
-  , totalRetained   :: Maybe Float
-  , totalTransfered :: Maybe Float
+  , totalRetained   :: Maybe String
+  , totalTransfered :: Maybe String
   } deriving (Eq, Show)
 
 data TaxRegime = TaxRegime
@@ -142,7 +142,7 @@ data TaxRegime = TaxRegime
   } deriving (Eq, Show)
 
 data TransferedTax = TransferedTax
-  { transferedTaxAmount :: Float
-  , transferedTaxRate   :: Float
+  { transferedTaxAmount :: String
+  , transferedTaxRate   :: String
   , transferedTax       :: Tax
   } deriving (Eq, Show)

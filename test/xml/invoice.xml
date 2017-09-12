@@ -5,7 +5,7 @@
   formaDePago='Way To Pay' version='3.2' descuento='24.36' TipoCambio="17.1212"
   fecha='2017-06-12T12:00:00' condicionesDePago='Payment Conditions'
   metodoDePago='99' noCertificado='00001000001212121212' FolioFiscalOrig='3636'
-  FechaFolioFiscalOrig='2017-01-12T12:12:12' MontoFolioFiscalOrig='1200.0'
+  FechaFolioFiscalOrig='2017-01-12T12:12:12' MontoFolioFiscalOrig='1200.00'
   LugarExpedicion='Issued In' folio='144144' motivoDescuento='Testing'
   xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd"
   xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

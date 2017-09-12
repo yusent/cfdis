@@ -30,14 +30,14 @@ parseCFDIv3_2 root = CFDI
     conceptsNode <- requireChildByName "Conceptos" root
     parseChildrenWith parseConcept "Concepto" conceptsNode
   <*> parseAttribute "Moneda" root
-  <*> parseAndReadAttribute "descuento" root
+  <*> parseAttribute "descuento" root
   <*> parseAttribute "motivoDescuento" root
-  <*> parseAndReadAttribute "TipoCambio" root
+  <*> parseAttribute "TipoCambio" root
   <*> parseAttribute "folio" root
   <*> requireAndParseAttrWith parseDateTime "fecha" root
   <*> requireAttrValueByName "LugarExpedicion" root
   <*> requireAndParseChildWith parseIssuer "Emisor" root
-  <*> parseAndReadAttribute "MontoFolioFiscalOrig" root
+  <*> parseAttribute "MontoFolioFiscalOrig" root
   <*> parseAttributeWith parseDateTime "FechaFolioFiscalOrig" root
   <*> parseAttribute "FolioFiscalOrig" root
   <*> parseAttribute "SerieFolioFiscalOrig" root
@@ -45,10 +45,10 @@ parseCFDIv3_2 root = CFDI
   <*> requireAttrValueByName "metodoDePago" root
   <*> requireAndParseChildWith parseRecipient "Receptor" root
   <*> parseAttribute "serie" root
-  <*> requireAndReadAttribute "subTotal" root
+  <*> requireAttrValueByName "subTotal" root
   <*> Right (fromMaybe "" $ findAttrValueByName "sello" root)
   <*> requireAndParseChildWith parseTaxes "Impuestos" root
-  <*> requireAndReadAttribute "total" root
+  <*> requireAttrValueByName "total" root
   <*> requireAttrValueByName "tipoDeComprobante" root
   <*> requireAttrValueByName "version" root
   <*> requireAttrValueByName "formaDePago" root
@@ -74,25 +74,25 @@ parseComplement element = Complement
 
 parseConcept :: Element -> Either Error Concept
 parseConcept element = Concept
-  <$> requireAndReadAttribute "importe" element
+  <$> requireAttrValueByName "importe" element
   <*> requireAttrValueByName "descripcion" element
   <*> parseAttribute "noIdentificacion" element
   <*> parseChildrenWith parseImportInfo "InformacionAduanera" element
   <*> parseChildrenWith parseConceptPart "Parte" element
   <*> parseElementWith parsePropertyAccount "CuentaPredial" element
-  <*> requireAndReadAttribute "cantidad" element
+  <*> requireAttrValueByName "cantidad" element
   <*> requireAttrValueByName "unidad" element
-  <*> requireAndReadAttribute "valorUnitario" element
+  <*> requireAttrValueByName "valorUnitario" element
 
 parseConceptPart :: Element -> Either Error ConceptPart
 parseConceptPart element = ConceptPart
-  <$> parseAndReadAttribute "importe" element
+  <$> parseAttribute "importe" element
   <*> requireAttrValueByName "descripcion" element
   <*> parseAttribute "noIdentificacion" element
   <*> parseChildrenWith parseImportInfo "InformacionAduanera" element
-  <*> requireAndReadAttribute "cantidad" element
+  <*> requireAttrValueByName "cantidad" element
   <*> parseAttribute "unidad" element
-  <*> parseAndReadAttribute "valorUnitario" element
+  <*> parseAttribute "valorUnitario" element
 
 parseFiscalAddress :: Element -> Either Error FiscalAddress
 parseFiscalAddress element = FiscalAddress
@@ -142,15 +142,15 @@ parseRecipient element = Recipient
 
 parseRetainedTax :: Element -> Either Error RetainedTax
 parseRetainedTax element = RetainedTax
-  <$> requireAndReadAttribute "importe" element
+  <$> requireAttrValueByName "importe" element
   <*> requireAndReadAttribute "impuesto" element
 
 parseTaxes :: Element -> Either Error Taxes
 parseTaxes element = Taxes
   <$> sequence rt
   <*> sequence tt
-  <*> parseAndReadAttribute "totalImpuestosRetenidos" element
-  <*> parseAndReadAttribute "totalImpuestosTrasladados" element
+  <*> parseAttribute "totalImpuestosRetenidos" element
+  <*> parseAttribute "totalImpuestosTrasladados" element
   where
     rt = maybe [] (map parseRetainedTax)
        . fmap (findChildrenByName "Retencion")
@@ -165,8 +165,8 @@ parseTaxRegime element = TaxRegime
 
 parseTransferedTax :: Element -> Either Error TransferedTax
 parseTransferedTax element = TransferedTax
-  <$> requireAndReadAttribute "importe" element
-  <*> requireAndReadAttribute "tasa" element
+  <$> requireAttrValueByName "importe" element
+  <*> requireAttrValueByName "tasa" element
   <*> requireAndReadAttribute "impuesto" element
 
 -- Helpers
