@@ -25,6 +25,7 @@ data CFDI = CFDI
   , currency          :: Maybe String
   , discount          :: Maybe Float
   , discountReason    :: Maybe String
+  , exchangeRate      :: Maybe Float
   , internalID        :: Maybe String
   , issuedAt          :: LocalTime
   , issuedIn          :: String

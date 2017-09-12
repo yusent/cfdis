@@ -32,6 +32,7 @@ parseCFDIv3_2 root = CFDI
   <*> parseAttribute "Moneda" root
   <*> parseAndReadAttribute "descuento" root
   <*> parseAttribute "motivoDescuento" root
+  <*> parseAndReadAttribute "TipoCambio" root
   <*> parseAttribute "folio" root
   <*> requireAndParseAttrWith parseDateTime "fecha" root
   <*> requireAttrValueByName "LugarExpedicion" root

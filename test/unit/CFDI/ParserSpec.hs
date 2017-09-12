@@ -62,6 +62,7 @@ spec = do
         , currency          = Just "MXN"
         , discount          = Just 24.36
         , discountReason    = Just "Testing"
+        , exchangeRate      = Just 17.1212
         , internalID        = Just "144144"
         , issuedAt          = LocalTime
           { localDay       = ModifiedJulianDay 57916

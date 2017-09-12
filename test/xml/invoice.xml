@@ -2,7 +2,7 @@
 <cfdi:Comprobante total='536.216' NumCtaPago='1212' SerieFolioFiscalOrig='B'
   subTotal='536.192' tipoDeComprobante='ingreso' Moneda='MXN'
   sello='Signature' certificado='SOMENOTSORANDOMCERTIFICATE' serie='A'
-  formaDePago='Way To Pay' version='3.2' descuento='24.36'
+  formaDePago='Way To Pay' version='3.2' descuento='24.36' TipoCambio="17.1212"
   fecha='2017-06-12T12:00:00' condicionesDePago='Payment Conditions'
   metodoDePago='99' noCertificado='00001000001212121212' FolioFiscalOrig='3636'
   FechaFolioFiscalOrig='2017-01-12T12:12:12' MontoFolioFiscalOrig='1200.0'
