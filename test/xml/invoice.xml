@@ -1,23 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <cfdi:Comprobante total='536.216' NumCtaPago='1212' SerieFolioFiscalOrig='B'
-  subTotal='536.192' tipoDeComprobante='ingreso' Moneda='MXN'
+  subTotal='536.192' tipoDeComprobante='ingreso' Moneda='USD'
   sello='Signature' certificado='SOMENOTSORANDOMCERTIFICATE' serie='A'
   formaDePago='Way To Pay' version='3.2' descuento='24.36' TipoCambio="17.1212"
   fecha='2017-06-12T12:00:00' condicionesDePago='Payment Conditions'
   metodoDePago='99' noCertificado='00001000001212121212' FolioFiscalOrig='3636'
   FechaFolioFiscalOrig='2017-01-12T12:12:12' MontoFolioFiscalOrig='1200.0'
-  LugarExpedicion='Issued In' folio='144144' motivoDescuento='Testing'>
+  LugarExpedicion='Issued In' folio='144144' motivoDescuento='Testing'
+  xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd"
+  xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <cfdi:Emisor rfc='XAXX010101000' nombre='Issuer Name'>
     <cfdi:DomicilioFiscal colonia='Fiscal Suburb' localidad='Fiscal Locality'
       noInterior='Fiscal Internal Number' calle='Fiscal Street'
       noExterior='Fiscal External Number' municipio='Fiscal Municipality'
       estado='Fiscal State' pais='Fiscal Country'
-      codigoPostal='Fiscal Zip Code' referencia='Fiscal Reference'/>
+      codigoPostal='22000' referencia='Fiscal Reference'/>
     <cfdi:ExpedidoEn colonia='Branch Suburb' localidad='Branch Locality'
       noInterior='Branch Internal Number' calle='Branch Street'
       noExterior='Branch External Number' municipio='Branch Municipality'
       estado='Branch State' pais='Branch Country'
-      codigoPostal='Branch Zip Code' referencia='Branch Reference'/>
+      codigoPostal='22114' referencia='Branch Reference'/>
     <cfdi:RegimenFiscal Regimen='Fiscal Regime'/>
   </cfdi:Emisor>
   <cfdi:Receptor rfc='XEXX010101000' nombre='Recipient Name'>
@@ -25,7 +27,7 @@
       localidad='Recipient Locality' noExterior='Recipient External Number'
       noInterior='Recipient Internal Number' referencia='Recipient Reference'
       municipio='Recipient Municipality' estado='Recipient State'
-      pais='Recipient Country' codigoPostal='Recipient Zip Code'/>
+      pais='Recipient Country' codigoPostal='22116'/>
   </cfdi:Receptor>
   <cfdi:Conceptos>
     <cfdi:Concepto noIdentificacion='Product 1 ID' importe='112.00'
@@ -41,17 +43,18 @@
   </cfdi:Conceptos>
   <cfdi:Impuestos totalImpuestosRetenidos='12.144'
     totalImpuestosTrasladados='12.12'>
-    <cfdi:Traslados>
-      <cfdi:Traslado importe='12.12' tasa='16' impuesto='IVA'/>
-    </cfdi:Traslados>
     <cfdi:Retenciones>
       <cfdi:Retencion importe='12.144' impuesto='ISR'/>
     </cfdi:Retenciones>
+    <cfdi:Traslados>
+      <cfdi:Traslado importe='12.12' tasa='16' impuesto='IVA'/>
+    </cfdi:Traslados>
   </cfdi:Impuestos>
   <cfdi:Complemento>
     <tfd:TimbreFiscalDigital UUID='12121212-1212-1212-1212-121212121212'
-      FechaTimbrado='2015-11-23T23:05:00' version='1.0'
-      selloCFD='Signature' noCertificadoSAT='SAT Certificate Number'
-      selloSAT='SAT Signature'/>
+      FechaTimbrado='2015-11-23T23:05:00' selloSAT='SAT Signature'
+      selloCFD='Signature' noCertificadoSAT='00001000002424242424'
+      xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd"
+      version='1.0' xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"/>
   </cfdi:Complemento>
 </cfdi:Comprobante>

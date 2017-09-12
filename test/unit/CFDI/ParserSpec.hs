@@ -19,7 +19,7 @@ spec = do
         , complement        = Just Complement
           { pacStamp = Just PacStamp
             { cfdSignature         = "Signature"
-            , satCertificateNumber = "SAT Certificate Number"
+            , satCertificateNumber = "00001000002424242424"
             , satSignature         = "SAT Signature"
             , stampedAt            = LocalTime
               { localDay       = ModifiedJulianDay 57349
@@ -59,7 +59,7 @@ spec = do
             , unitAmount      = 212.12
             }
           ]
-        , currency          = Just "MXN"
+        , currency          = Just "USD"
         , discount          = Just 24.36
         , discountReason    = Just "Testing"
         , exchangeRate      = Just 17.1212
@@ -80,7 +80,7 @@ spec = do
             , fiscalState          = "Fiscal State"
             , fiscalStreet         = "Fiscal Street"
             , fiscalSuburb         = Just "Fiscal Suburb"
-            , fiscalZipCode        = "Fiscal Zip Code"
+            , fiscalZipCode        = "22000"
             }
           , issuedInAddress = Just Address
             { country        = "Branch Country"
@@ -92,7 +92,7 @@ spec = do
             , state          = Just "Branch State"
             , street         = Just "Branch Street"
             , suburb         = Just "Branch Suburb"
-            , zipCode        = Just "Branch Zip Code"
+            , zipCode        = Just "22114"
             }
           , name            = Just "Issuer Name"
           , regimes         = [TaxRegime "Fiscal Regime"]
@@ -118,7 +118,7 @@ spec = do
             , suburb         = Just "Recipient Suburb"
             , state          = Just "Recipient State"
             , street         = Just "Recipient Street"
-            , zipCode        = Just "Recipient Zip Code"
+            , zipCode        = Just "22116"
             }
           , recipientName    = Just "Recipient Name"
           , recipientRfc     = "XEXX010101000"
