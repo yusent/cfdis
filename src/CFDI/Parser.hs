@@ -3,7 +3,7 @@ module CFDI.Parser (parseCFDI) where
 import CFDI
 import Control.Error.Safe   (justErr)
 import Control.Monad        (forM, sequence)
-import Data.Maybe           (fromJust, fromMaybe)
+import Data.Maybe           (fromMaybe)
 import Data.Time.Calendar   (Day)
 import Data.Time.LocalTime  (LocalTime, localDay)
 import Data.Time.Parse      (strptime)
