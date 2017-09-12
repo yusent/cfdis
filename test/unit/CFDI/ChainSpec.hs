@@ -145,7 +145,21 @@ invoice = CFDI
   }
 
 originalChain' :: String
-originalChain' = "||3.2|2017-06-12T12:00:00|ingreso|Way To Pay|Payment Conditions|536.192|24.36|17.1212|USD|536.216|99|Issued In|1212|3636|B|2017-01-12T12:12:12|1200.00|XAXX010101000|Issuer Name|Fiscal Street|Fiscal External Number|Fiscal Internal Number|Fiscal Suburb|Fiscal Locality|Fiscal Reference|Fiscal Municipality|Fiscal State|Fiscal Country|22000|Branch Street|Branch External Number|Branch Internal Number|Branch Suburb|Branch Locality|Branch Reference|Branch Municipality|Branch State|Branch Country|22114|Fiscal Regime|XEXX010101000|Recipient Name|Recipient Street|Recipient External Number|Recipient Internal Number|Recipient Suburb|Recipient Locality|Recipient Reference|Recipient Municipality|Recipient State|Recipient Country|22116|1.00|Product 1 Unit|Product 1 ID|Product 1 Description|112.00|112.00|Product 1 Import Number|1986-08-22|Product 1 Custom|2.00|Product 2 Unit|Product 2 ID|Product 2 Description|212.12|424.24|ISR|12.144|12.144|IVA|16|12.12|12.12||"
+originalChain' =
+  "||3.2|2017-06-12T12:00:00|ingreso|Way To Pay|Payment Conditions|536.192\
+  \|24.36|17.1212|USD|536.216|99|Issued In|1212|3636|B|2017-01-12T12:12:12\
+  \|1200.00|XAXX010101000|Issuer Name|Fiscal Street|Fiscal External Number\
+  \|Fiscal Internal Number|Fiscal Suburb|Fiscal Locality|Fiscal Reference\
+  \|Fiscal Municipality|Fiscal State|Fiscal Country|22000|Branch Street\
+  \|Branch External Number|Branch Internal Number|Branch Suburb|Branch Locality\
+  \|Branch Reference|Branch Municipality|Branch State|Branch Country|22114\
+  \|Fiscal Regime|XEXX010101000|Recipient Name|Recipient Street\
+  \|Recipient External Number|Recipient Internal Number|Recipient Suburb\
+  \|Recipient Locality|Recipient Reference|Recipient Municipality\
+  \|Recipient State|Recipient Country|22116|1.00|Product 1 Unit|Product 1 ID\
+  \|Product 1 Description|112.00|112.00|Product 1 Import Number|1986-08-22\
+  \|Product 1 Custom|2.00|Product 2 Unit|Product 2 ID|Product 2 Description\
+  \|212.12|424.24|ISR|12.144|12.144|IVA|16|12.12|12.12||"
 
 spec :: Spec
 spec = do
