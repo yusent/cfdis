@@ -14,47 +14,7 @@ import Text.XML.Light.Types (Element(Element), QName(QName))
 
 type Error = String
 
-findAttrValueByName :: String -> Element -> Maybe String
-findAttrValueByName attrName =
-  findAttrBy (nameEquals attrName)
-
-findChildByName :: String -> Element -> Maybe Element
-findChildByName childName =
-  filterElementName (nameEquals childName)
-
-findChildrenByName :: String -> Element -> [Element]
-findChildrenByName childName =
-  filterElementsName (nameEquals childName)
-
-nameEquals :: String -> QName -> Bool
-nameEquals s (QName name _ _) =
-  s == name
-
-parseAddress :: Element -> Either Error Address
-parseAddress element = Address
-  <$> requireAttrValueByName "pais" element
-  <*> parseAttribute "noExterior" element
-  <*> parseAttribute "noInterior" element
-  <*> parseAttribute "localidad" element
-  <*> parseAttribute "municipio" element
-  <*> parseAttribute "referencia" element
-  <*> parseAttribute "colonia" element
-  <*> parseAttribute "estado" element
-  <*> parseAttribute "calle" element
-  <*> parseAttribute "codigoPostal" element
-
-parseAndReadAttribute :: Read r => String -> Element -> Either Error (Maybe r)
-parseAndReadAttribute attrName =
-  Right . fmap read . findAttrValueByName attrName
-
-parseAttribute :: String -> Element -> Either Error (Maybe String)
-parseAttribute attrName =
-  Right . findAttrValueByName attrName
-
-parseAttributeWith
-  :: (String -> Either Error a) -> String -> Element -> Either Error (Maybe a)
-parseAttributeWith func attrName =
-  maybe (Right Nothing) (fmap Just . func) . findAttrValueByName attrName
+-- Main functions
 
 parseCFDI :: XmlSource s => s -> Either Error CFDI
 parseCFDI xmlSource =
@@ -92,10 +52,20 @@ parseCFDIv3_2 root = CFDI
   <*> requireAttrValueByName "version" root
   <*> requireAttrValueByName "formaDePago" root
 
-parseChildrenWith
-  :: (Element -> Either Error a) -> String -> Element -> Either Error [a]
-parseChildrenWith func childName elem =
-  forM (findChildrenByName childName elem) func
+-- Parsers
+
+parseAddress :: Element -> Either Error Address
+parseAddress element = Address
+  <$> requireAttrValueByName "pais" element
+  <*> parseAttribute "noExterior" element
+  <*> parseAttribute "noInterior" element
+  <*> parseAttribute "localidad" element
+  <*> parseAttribute "municipio" element
+  <*> parseAttribute "referencia" element
+  <*> parseAttribute "colonia" element
+  <*> parseAttribute "estado" element
+  <*> parseAttribute "calle" element
+  <*> parseAttribute "codigoPostal" element
 
 parseComplement :: Element -> Either Error Complement
 parseComplement element = Complement
@@ -122,19 +92,6 @@ parseConceptPart element = ConceptPart
   <*> requireAndReadAttribute "cantidad" element
   <*> parseAttribute "unidad" element
   <*> parseAndReadAttribute "valorUnitario" element
-
-parseDate :: String -> Either Error Day
-parseDate =
-  fmap (localDay . fst) . justErr "Incorrect date format" . strptime "%Y-%m-%d"
-
-parseDateTime :: String -> Either Error LocalTime
-parseDateTime =
-  fmap fst . justErr "Incorrect dateTime format" . strptime "%Y-%m-%dT%H:%M:%S"
-
-parseElementWith
-  :: (Element -> Either Error a) -> String -> Element -> Either Error (Maybe a)
-parseElementWith func elemName =
-  maybe (Right Nothing) (fmap Just . func) . findChildByName elemName
 
 parseFiscalAddress :: Element -> Either Error FiscalAddress
 parseFiscalAddress element = FiscalAddress
@@ -210,6 +167,55 @@ parseTransferedTax element = TransferedTax
   <$> requireAndReadAttribute "importe" element
   <*> requireAndReadAttribute "tasa" element
   <*> requireAndReadAttribute "impuesto" element
+
+-- Helpers
+
+findAttrValueByName :: String -> Element -> Maybe String
+findAttrValueByName attrName =
+  findAttrBy (nameEquals attrName)
+
+findChildByName :: String -> Element -> Maybe Element
+findChildByName childName =
+  filterElementName (nameEquals childName)
+
+findChildrenByName :: String -> Element -> [Element]
+findChildrenByName childName =
+  filterElementsName (nameEquals childName)
+
+nameEquals :: String -> QName -> Bool
+nameEquals s (QName name _ _) =
+  s == name
+
+parseAndReadAttribute :: Read r => String -> Element -> Either Error (Maybe r)
+parseAndReadAttribute attrName =
+  Right . fmap read . findAttrValueByName attrName
+
+parseAttribute :: String -> Element -> Either Error (Maybe String)
+parseAttribute attrName =
+  Right . findAttrValueByName attrName
+
+parseAttributeWith
+  :: (String -> Either Error a) -> String -> Element -> Either Error (Maybe a)
+parseAttributeWith func attrName =
+  maybe (Right Nothing) (fmap Just . func) . findAttrValueByName attrName
+
+parseChildrenWith
+  :: (Element -> Either Error a) -> String -> Element -> Either Error [a]
+parseChildrenWith func childName elem =
+  forM (findChildrenByName childName elem) func
+
+parseDate :: String -> Either Error Day
+parseDate =
+  fmap (localDay . fst) . justErr "Incorrect date format" . strptime "%Y-%m-%d"
+
+parseDateTime :: String -> Either Error LocalTime
+parseDateTime =
+  fmap fst . justErr "Incorrect dateTime format" . strptime "%Y-%m-%dT%H:%M:%S"
+
+parseElementWith
+  :: (Element -> Either Error a) -> String -> Element -> Either Error (Maybe a)
+parseElementWith func elemName =
+  maybe (Right Nothing) (fmap Just . func) . findChildByName elemName
 
 requireAndParseAttrWith
   :: (String -> Either Error a) -> String -> Element -> Either Error a
