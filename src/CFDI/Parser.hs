@@ -68,7 +68,7 @@ parseCFDIv3_2 root = CFDI
   <*> parseElementWith parseComplement "Complemento" root
   <*> do
     conceptsNode <- requireChildByName "Conceptos" root
-    forM (findChildrenByName "Concepto" conceptsNode) parseConcept
+    parseChildrenWith parseConcept "Concepto" conceptsNode
   <*> parseAttribute "Moneda" root
   <*> parseAndReadAttribute "descuento" root
   <*> parseAttribute "motivoDescuento" root
@@ -92,6 +92,11 @@ parseCFDIv3_2 root = CFDI
   <*> requireAttrValueByName "version" root
   <*> requireAttrValueByName "formaDePago" root
 
+parseChildrenWith
+  :: (Element -> Either Error a) -> String -> Element -> Either Error [a]
+parseChildrenWith func childName elem =
+  forM (findChildrenByName childName elem) func
+
 parseComplement :: Element -> Either Error Complement
 parseComplement element = Complement
   <$> parseElementWith parsePacStamp "TimbreFiscalDigital" element
@@ -101,8 +106,8 @@ parseConcept element = Concept
   <$> requireAndReadAttribute "importe" element
   <*> requireAttrValueByName "descripcion" element
   <*> parseAttribute "noIdentificacion" element
-  <*> forM (findChildrenByName "InformacionAduanera" element) parseImportInfo
-  <*> forM (findChildrenByName "Parte" element) parseConceptPart
+  <*> parseChildrenWith parseImportInfo "InformacionAduanera" element
+  <*> parseChildrenWith parseConceptPart "Parte" element
   <*> parseElementWith parsePropertyAccount "CuentaPredial" element
   <*> requireAndReadAttribute "cantidad" element
   <*> requireAttrValueByName "unidad" element
@@ -113,7 +118,7 @@ parseConceptPart element = ConceptPart
   <$> parseAndReadAttribute "importe" element
   <*> requireAttrValueByName "descripcion" element
   <*> parseAttribute "noIdentificacion" element
-  <*> forM (findChildrenByName "InformacionAduanera" element) parseImportInfo
+  <*> parseChildrenWith parseImportInfo "InformacionAduanera" element
   <*> requireAndReadAttribute "cantidad" element
   <*> parseAttribute "unidad" element
   <*> parseAndReadAttribute "valorUnitario" element
@@ -155,7 +160,7 @@ parseIssuer element = Issuer
   <$> parseElementWith parseFiscalAddress "DomicilioFiscal" element
   <*> parseElementWith parseAddress "ExpedidoEn" element
   <*> parseAttribute "nombre" element
-  <*> forM (findChildrenByName "RegimenFiscal" element) parseTaxRegime 
+  <*> parseChildrenWith parseTaxRegime "RegimenFiscal" element
   <*> requireAttrValueByName "rfc" element
 
 parsePacStamp :: Element -> Either Error PacStamp
