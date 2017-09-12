@@ -43,15 +43,16 @@ parseAddress element = Address
   <*> parseAttribute "calle" element
   <*> parseAttribute "codigoPostal" element
 
-parseAttribute :: String -> Element -> Either Error (Maybe String)
-parseAttribute attrName =
-  Right . findAttrValueByName attrName
-
 parseAndReadAttribute :: Read r => String -> Element -> Either Error (Maybe r)
 parseAndReadAttribute attrName =
   Right . fmap read . findAttrValueByName attrName
 
-parseAttributeWith :: (String -> Either Error a) -> String -> Element -> Either Error (Maybe a)
+parseAttribute :: String -> Element -> Either Error (Maybe String)
+parseAttribute attrName =
+  Right . findAttrValueByName attrName
+
+parseAttributeWith
+  :: (String -> Either Error a) -> String -> Element -> Either Error (Maybe a)
 parseAttributeWith func attrName =
   maybe (Right Nothing) (fmap Just . func) . findAttrValueByName attrName
 
@@ -66,27 +67,27 @@ parseCFDIv3_2 root = CFDI
   <*> requireAttrValueByName "noCertificado" root
   <*> parseElementWith parseComplement "Complemento" root
   <*> do
-    concepts <- findChildrenByName "Concepto" <$> requireChildByName "Conceptos" root
-    forM concepts parseConcept
+    conceptsNode <- requireChildByName "Conceptos" root
+    forM (findChildrenByName "Concepto" conceptsNode) parseConcept
   <*> parseAttribute "Moneda" root
   <*> parseAndReadAttribute "descuento" root
   <*> parseAttribute "motivoDescuento" root
   <*> parseAttribute "folio" root
-  <*> (requireAttrValueByName "fecha" root >>= parseDateTime)
+  <*> requireAndParseAttrWith parseDateTime "fecha" root
   <*> requireAttrValueByName "LugarExpedicion" root
-  <*> (requireChildByName "Emisor" root >>= parseIssuer)
+  <*> requireAndParseChildWith parseIssuer "Emisor" root
   <*> parseAndReadAttribute "MontoFolioFiscalOrig" root
   <*> parseAttributeWith parseDateTime "FechaFolioFiscalOrig" root
   <*> parseAttribute "FolioFiscalOrig" root
   <*> parseAttribute "SerieFolioFiscalOrig" root
   <*> parseAttribute "condicionesDePago" root
   <*> requireAttrValueByName "metodoDePago" root
-  <*> (requireChildByName "Receptor" root >>= parseRecipient)
+  <*> requireAndParseChildWith parseRecipient "Receptor" root
   <*> parseAttribute "serie" root
-  <*> (read <$> requireAttrValueByName "subTotal" root)
+  <*> requireAndReadAttribute "subTotal" root
   <*> Right (fromMaybe "" $ findAttrValueByName "sello" root)
-  <*> (requireChildByName "Impuestos" root >>= parseTaxes)
-  <*> (read <$> requireAttrValueByName "total" root)
+  <*> requireAndParseChildWith parseTaxes "Impuestos" root
+  <*> requireAndReadAttribute "total" root
   <*> requireAttrValueByName "tipoDeComprobante" root
   <*> requireAttrValueByName "version" root
   <*> requireAttrValueByName "formaDePago" root
@@ -97,15 +98,15 @@ parseComplement element = Complement
 
 parseConcept :: Element -> Either Error Concept
 parseConcept element = Concept
-  <$> (read <$> requireAttrValueByName "importe" element)
+  <$> requireAndReadAttribute "importe" element
   <*> requireAttrValueByName "descripcion" element
   <*> parseAttribute "noIdentificacion" element
   <*> forM (findChildrenByName "InformacionAduanera" element) parseImportInfo
   <*> forM (findChildrenByName "Parte" element) parseConceptPart
   <*> parseElementWith parsePropertyAccount "CuentaPredial" element
-  <*> (read <$> requireAttrValueByName "cantidad" element)
+  <*> requireAndReadAttribute "cantidad" element
   <*> requireAttrValueByName "unidad" element
-  <*> (read <$> requireAttrValueByName "valorUnitario" element)
+  <*> requireAndReadAttribute "valorUnitario" element
 
 parseConceptPart :: Element -> Either Error ConceptPart
 parseConceptPart element = ConceptPart
@@ -113,7 +114,7 @@ parseConceptPart element = ConceptPart
   <*> requireAttrValueByName "descripcion" element
   <*> parseAttribute "noIdentificacion" element
   <*> forM (findChildrenByName "InformacionAduanera" element) parseImportInfo
-  <*> (read <$> requireAttrValueByName "cantidad" element)
+  <*> requireAndReadAttribute "cantidad" element
   <*> parseAttribute "unidad" element
   <*> parseAndReadAttribute "valorUnitario" element
 
@@ -125,7 +126,8 @@ parseDateTime :: String -> Either Error LocalTime
 parseDateTime =
   fmap fst . justErr "Incorrect dateTime format" . strptime "%Y-%m-%dT%H:%M:%S"
 
-parseElementWith :: (Element -> Either Error a) -> String -> Element -> Either Error (Maybe a)
+parseElementWith
+  :: (Element -> Either Error a) -> String -> Element -> Either Error (Maybe a)
 parseElementWith func elemName =
   maybe (Right Nothing) (fmap Just . func) . findChildByName elemName
 
@@ -145,7 +147,7 @@ parseFiscalAddress element = FiscalAddress
 parseImportInfo :: Element -> Either Error ImportInfo
 parseImportInfo element = ImportInfo
   <$> parseAttribute "aduana" element
-  <*> (requireAttrValueByName "fecha" element >>= parseDate)
+  <*> requireAndParseAttrWith parseDate "fecha" element
   <*> requireAttrValueByName "numero" element
 
 parseIssuer :: Element -> Either Error Issuer
@@ -161,7 +163,7 @@ parsePacStamp element = PacStamp
   <$> requireAttrValueByName "selloCFD" element
   <*> requireAttrValueByName "noCertificadoSAT" element
   <*> requireAttrValueByName "selloSAT" element
-  <*> (requireAttrValueByName "FechaTimbrado" element >>= parseDateTime)
+  <*> requireAndParseAttrWith parseDateTime "FechaTimbrado" element
   <*> requireAttrValueByName "version" element
   <*> requireAttrValueByName "UUID" element
 
@@ -177,8 +179,8 @@ parseRecipient element = Recipient
 
 parseRetainedTax :: Element -> Either Error RetainedTax
 parseRetainedTax element = RetainedTax
-  <$> (read <$> requireAttrValueByName "importe" element)
-  <*> (read <$> requireAttrValueByName "impuesto" element)
+  <$> requireAndReadAttribute "importe" element
+  <*> requireAndReadAttribute "impuesto" element
 
 parseTaxes :: Element -> Either Error Taxes
 parseTaxes element = Taxes
@@ -187,8 +189,12 @@ parseTaxes element = Taxes
   <*> parseAndReadAttribute "totalImpuestosRetenidos" element
   <*> parseAndReadAttribute "totalImpuestosTrasladados" element
   where
-    rt = maybe [] (map parseRetainedTax) $ findChildrenByName "Retencion" <$> findChildByName "Retenciones" element
-    tt = maybe [] (map parseTransferedTax) $ findChildrenByName "Traslado" <$> findChildByName "Traslados" element
+    rt = maybe [] (map parseRetainedTax)
+       . fmap (findChildrenByName "Retencion")
+       $ findChildByName "Retenciones" element
+    tt = maybe [] (map parseTransferedTax)
+       . fmap (findChildrenByName "Traslado")
+       $ findChildByName "Traslados" element
 
 parseTaxRegime :: Element -> Either Error TaxRegime
 parseTaxRegime element = TaxRegime
@@ -196,9 +202,23 @@ parseTaxRegime element = TaxRegime
 
 parseTransferedTax :: Element -> Either Error TransferedTax
 parseTransferedTax element = TransferedTax
-  <$> (read <$> requireAttrValueByName "importe" element)
-  <*> (read <$> requireAttrValueByName "tasa" element)
-  <*> (read <$> requireAttrValueByName "impuesto" element)
+  <$> requireAndReadAttribute "importe" element
+  <*> requireAndReadAttribute "tasa" element
+  <*> requireAndReadAttribute "impuesto" element
+
+requireAndParseAttrWith
+  :: (String -> Either Error a) -> String -> Element -> Either Error a
+requireAndParseAttrWith func attrName elem =
+  requireAttrValueByName attrName elem >>= func
+
+requireAndParseChildWith
+  :: (Element -> Either Error a) -> String -> Element -> Either Error a
+requireAndParseChildWith func childName parent =
+  requireChildByName childName parent >>= func
+
+requireAndReadAttribute :: Read r => String -> Element -> Either Error r
+requireAndReadAttribute attrName =
+  fmap read . requireAttrValueByName attrName
 
 requireAttrValueByName :: String -> Element -> Either Error String
 requireAttrValueByName attrName =
