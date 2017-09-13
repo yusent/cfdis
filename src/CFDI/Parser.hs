@@ -214,23 +214,23 @@ parseAttribute attrName =
   Right . findAttrValueByName attrName
 
 parseAttributeWith :: (String -> Maybe a) -> String -> Element -> Parsed (Maybe a)
-parseAttributeWith f attrName elem =
+parseAttributeWith parserFunc attrName elem =
   case findAttrValueByName attrName elem of
     Nothing -> Right Nothing
-    Just x  -> Just <$> justErr (InvalidFormat attrName) (f x)
+    Just x  -> Just <$> justErr (InvalidFormat attrName) (parserFunc x)
 
 parseChildrenWith :: (Element -> Parsed a) -> String -> Element -> Parsed [a]
-parseChildrenWith parserFunction childName parent =
+parseChildrenWith parserFunc childName parent =
   forM children parseOrErr
   where
     children   = findChildrenByName childName parent
-    parseOrErr = wrapError (ParseErrorInChild childName) . parserFunction
+    parseOrErr = wrapError (ParseErrorInChild childName) . parserFunc
 
 parseChildWith :: (Element -> Parsed a) -> String -> Element -> Parsed (Maybe a)
-parseChildWith f childName parent =
+parseChildWith parserFunc childName parent =
   case findChildByName childName parent of
     Nothing -> Right Nothing
-    Just x  -> Just <$> wrapError (ParseErrorInChild childName) (f x)
+    Just x  -> Just <$> wrapError (ParseErrorInChild childName) (parserFunc x)
 
 parseDate :: String -> Maybe Day
 parseDate =
@@ -241,12 +241,14 @@ parseDateTime =
   fmap fst . strptime "%Y-%m-%dT%H:%M:%S"
 
 requireAndParseAttrWith :: (String -> Maybe a) -> String -> Element -> Parsed a
-requireAndParseAttrWith f attrName elem =
-  requireAttrValueByName attrName elem >>= justErr (InvalidFormat attrName) . f
+requireAndParseAttrWith parserFunc attrName elem =
+  requireAttrValueByName attrName elem
+    >>= justErr (InvalidFormat attrName) . parserFunc
 
 requireAndParseChildWith :: (Element -> Parsed a) -> String -> Element -> Parsed a
-requireAndParseChildWith f childName parent =
-  requireChildByName childName parent >>= wrapError (ParseErrorInChild childName) . f
+requireAndParseChildWith parserFunc childName parent =
+  requireChildByName childName parent
+    >>= wrapError (ParseErrorInChild childName) . parserFunc
 
 requireAndReadAttribute :: Read r => String -> Element -> Parsed r
 requireAndReadAttribute attrName =
@@ -261,5 +263,5 @@ requireChildByName childName =
   justErr (ElemNotFound childName) . findChildByName childName
 
 wrapError :: (ParseError -> ParseError) -> Parsed a -> Parsed a
-wrapError f (Left err) = Left $ f err
-wrapError _ x          = x
+wrapError parserFunc (Left err) = Left $ parserFunc err
+wrapError _ x = x
