@@ -1,4 +1,4 @@
-module CFDI.Parser (parseCFDI) where
+module CFDI.Parser (ParseError(..), parseCFDI) where
 
 import CFDI
 import Control.Error.Safe   (justErr)
@@ -14,19 +14,19 @@ import Text.XML.Light.Types (Element(Element), QName(QName))
 
 data ParseError
   = AttrNotFound
-      { attrName :: String
-      }
+    { attrName :: String
+    }
   | ElemNotFound
-      { elemName :: String
-      }
+    { elemName :: String
+    }
   | InvalidFormat
-      { formattedName :: String
-      }
+    { formattedName :: String
+    }
   | MalformedXML
   | ParseErrorInChild
-      { parsedName :: String
-      , childErr   :: ParseError
-      }
+    { parsedName :: String
+    , childErr   :: ParseError
+    }
   deriving (Eq, Show)
 
 type Parsed = Either ParseError
@@ -45,7 +45,8 @@ parseCFDIv3_2 root = CFDI
   <*> parseChildWith parseComplement "Complemento" root
   <*> do
     conceptsNode <- requireChildByName "Conceptos" root
-    parseChildrenWith parseConcept "Concepto" conceptsNode
+    wrapError (ParseErrorInChild "Conceptos")
+      $ parseChildrenWith parseConcept "Concepto" conceptsNode
   <*> parseAttribute "Moneda" root
   <*> parseAttribute "descuento" root
   <*> parseAttribute "motivoDescuento" root

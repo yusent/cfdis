@@ -30,6 +30,7 @@ test-suite unit-tests
   other-modules:    CFDI.ChainSpec, CFDI.ParserSpec
   build-depends:    base
                   , cfdis
+                  , extra
                   , hspec
                   , hspec-discover
                   , time

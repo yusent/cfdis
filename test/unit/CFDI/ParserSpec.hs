@@ -2,6 +2,7 @@ module CFDI.ParserSpec (spec) where
 
 import CFDI
 import CFDI.Parser
+import Data.List.Extra     (replace)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Test.Hspec
@@ -9,10 +10,10 @@ import Test.Hspec
 spec :: Spec
 spec = do
   describe "CFDI.Parser.parseCFDI" $ do
-    invoiceCFDI <- parseCFDI <$> runIO (readFile "test/xml/invoice.xml")
+    xmlSource <- runIO $ readFile "test/xml/invoice.xml"
 
     it "parses invoices" $ do
-      invoiceCFDI `shouldBe` Right CFDI
+      parseCFDI xmlSource `shouldBe` Right CFDI
         { accountNumber     = Just "1212"
         , certificate       = "SOMENOTSORANDOMCERTIFICATE"
         , certificateNumber = "00001000001212121212"
@@ -148,3 +149,40 @@ spec = do
         , version           = "3.2"
         , wayToPay          = "Way To Pay"
         }
+
+    it "throws parse errors" $ do
+      let badSource0 = replace "calle=" "blah=" xmlSource
+
+      parseCFDI badSource0 `shouldBe` Left
+        ( ParseErrorInChild "Emisor"
+          ( ParseErrorInChild "DomicilioFiscal"
+            ( AttrNotFound "calle"
+            )
+          )
+        )
+
+      let badSource1 = replace "cantidad=" "blah=" xmlSource
+
+      parseCFDI badSource1 `shouldBe` Left
+        ( ParseErrorInChild "Conceptos"
+          ( ParseErrorInChild "Concepto"
+            ( AttrNotFound "cantidad"
+            )
+          )
+        )
+
+      let badSource2 = replace "1986-08-22" "blah" xmlSource
+
+      parseCFDI badSource2 `shouldBe` Left
+        ( ParseErrorInChild "Conceptos"
+          ( ParseErrorInChild "Concepto"
+            ( ParseErrorInChild "InformacionAduanera"
+              ( InvalidFormat "fecha"
+              )
+            )
+          )
+        )
+
+      let badSource3 = replace "2017-06-12T12:00:00" "blah" xmlSource
+
+      parseCFDI badSource3 `shouldBe` Left (InvalidFormat "fecha")
