@@ -19,7 +19,7 @@ spec = do
         , complement        = Just Complement
           { pacStamp = Just PacStamp
             { cfdSignature         = "Signature"
-            , satCertificateNumber = "SAT Certificate Number"
+            , satCertificateNumber = "00001000002424242424"
             , satSignature         = "SAT Signature"
             , stampedAt            = LocalTime
               { localDay       = ModifiedJulianDay 57349
@@ -31,7 +31,7 @@ spec = do
           }
         , concepts          =
           [ Concept
-            { amount          = 112
+            { amount          = "112.00"
             , description     = "Product 1 Description"
             , _id             = Just "Product 1 ID"
             , importInfo      =
@@ -43,25 +43,26 @@ spec = do
               ]
             , parts           = []
             , propertyAccount = Nothing
-            , quantity        = 1
+            , quantity        = "1.00"
             , unit            = "Product 1 Unit"
-            , unitAmount      = 112
+            , unitAmount      = "112.00"
             }
           , Concept
-            { amount          = 424.24
+            { amount          = "424.24"
             , description     = "Product 2 Description"
             , _id             = Just "Product 2 ID"
             , importInfo      = []
             , parts           = []
             , propertyAccount = Nothing
-            , quantity        = 2
+            , quantity        = "2.00"
             , unit            = "Product 2 Unit"
-            , unitAmount      = 212.12
+            , unitAmount      = "212.12"
             }
           ]
-        , currency          = Just "MXN"
-        , discount          = Just 24.36
+        , currency          = Just "USD"
+        , discount          = Just "24.36"
         , discountReason    = Just "Testing"
+        , exchangeRate      = Just "17.1212"
         , internalID        = Just "144144"
         , issuedAt          = LocalTime
           { localDay       = ModifiedJulianDay 57916
@@ -79,7 +80,7 @@ spec = do
             , fiscalState          = "Fiscal State"
             , fiscalStreet         = "Fiscal Street"
             , fiscalSuburb         = Just "Fiscal Suburb"
-            , fiscalZipCode        = "Fiscal Zip Code"
+            , fiscalZipCode        = "22000"
             }
           , issuedInAddress = Just Address
             { country        = "Branch Country"
@@ -91,13 +92,13 @@ spec = do
             , state          = Just "Branch State"
             , street         = Just "Branch Street"
             , suburb         = Just "Branch Suburb"
-            , zipCode        = Just "Branch Zip Code"
+            , zipCode        = Just "22114"
             }
           , name            = Just "Issuer Name"
           , regimes         = [TaxRegime "Fiscal Regime"]
           , rfc             = "XAXX010101000"
           }
-        , originalAmount    = Just 1200
+        , originalAmount    = Just "1200.00"
         , originalIssuedAt  = Just LocalTime
           { localDay       = ModifiedJulianDay 57765
           , localTimeOfDay = TimeOfDay 12 12 12
@@ -117,32 +118,32 @@ spec = do
             , suburb         = Just "Recipient Suburb"
             , state          = Just "Recipient State"
             , street         = Just "Recipient Street"
-            , zipCode        = Just "Recipient Zip Code"
+            , zipCode        = Just "22116"
             }
           , recipientName    = Just "Recipient Name"
           , recipientRfc     = "XEXX010101000"
           }
         , series            = Just "A"
-        , subTotal          = 536.192
+        , subTotal          = "536.192"
         , signature         = "Signature"
         , taxes             = Taxes
           { retainedTaxes   =
             [ RetainedTax
-              { retainedTaxAmount = 12.144
+              { retainedTaxAmount = "12.144"
               , retainedTax       = ISR
               }
             ]
           , transferedTaxes =
             [ TransferedTax
-              { transferedTaxAmount = 12.12
-              , transferedTaxRate   = 16
+              { transferedTaxAmount = "12.12"
+              , transferedTaxRate   = "16"
               , transferedTax       = IVA
               }
             ]
-          , totalRetained   = Just 12.144
-          , totalTransfered = Just 12.12
+          , totalRetained   = Just "12.144"
+          , totalTransfered = Just "12.12"
           }
-        , total             = 536.216
+        , total             = "536.216"
         , _type             = "ingreso"
         , version           = "3.2"
         , wayToPay          = "Way To Pay"
