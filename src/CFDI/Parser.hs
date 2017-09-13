@@ -1,4 +1,4 @@
-module CFDI.Parser (parseCFDI) where
+module CFDI.Parser (ParseError(..), parseCFDI) where
 
 import CFDI
 import Control.Error.Safe   (justErr)
@@ -12,23 +12,41 @@ import Text.XML.Light.Lexer (XmlSource)
 import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
 import Text.XML.Light.Types (Element(Element), QName(QName))
 
-type Error = String
+data ParseError
+  = AttrNotFound
+    { attrName :: String
+    }
+  | ElemNotFound
+    { elemName :: String
+    }
+  | InvalidFormat
+    { formattedName :: String
+    }
+  | MalformedXML
+  | ParseErrorInChild
+    { parsedName :: String
+    , childErr   :: ParseError
+    }
+  deriving (Eq, Show)
+
+type Parsed = Either ParseError
 
 -- Main functions
 
-parseCFDI :: XmlSource s => s -> Either Error CFDI
+parseCFDI :: XmlSource s => s -> Parsed CFDI
 parseCFDI xmlSource =
-  justErr "Could not parse XML" (parseXMLDoc xmlSource) >>= parseCFDIv3_2
+  justErr MalformedXML (parseXMLDoc xmlSource) >>= parseCFDIv3_2
 
-parseCFDIv3_2 :: Element -> Either Error CFDI
+parseCFDIv3_2 :: Element -> Parsed CFDI
 parseCFDIv3_2 root = CFDI
   <$> parseAttribute "NumCtaPago" root
   <*> requireAttrValueByName "certificado" root
   <*> requireAttrValueByName "noCertificado" root
-  <*> parseElementWith parseComplement "Complemento" root
+  <*> parseChildWith parseComplement "Complemento" root
   <*> do
     conceptsNode <- requireChildByName "Conceptos" root
-    parseChildrenWith parseConcept "Concepto" conceptsNode
+    wrapError (ParseErrorInChild "Conceptos")
+      $ parseChildrenWith parseConcept "Concepto" conceptsNode
   <*> parseAttribute "Moneda" root
   <*> parseAttribute "descuento" root
   <*> parseAttribute "motivoDescuento" root
@@ -55,7 +73,7 @@ parseCFDIv3_2 root = CFDI
 
 -- Parsers
 
-parseAddress :: Element -> Either Error Address
+parseAddress :: Element -> Parsed Address
 parseAddress element = Address
   <$> requireAttrValueByName "pais" element
   <*> parseAttribute "noExterior" element
@@ -68,23 +86,23 @@ parseAddress element = Address
   <*> parseAttribute "calle" element
   <*> parseAttribute "codigoPostal" element
 
-parseComplement :: Element -> Either Error Complement
+parseComplement :: Element -> Parsed Complement
 parseComplement element = Complement
-  <$> parseElementWith parsePacStamp "TimbreFiscalDigital" element
+  <$> parseChildWith parsePacStamp "TimbreFiscalDigital" element
 
-parseConcept :: Element -> Either Error Concept
+parseConcept :: Element -> Parsed Concept
 parseConcept element = Concept
   <$> requireAttrValueByName "importe" element
   <*> requireAttrValueByName "descripcion" element
   <*> parseAttribute "noIdentificacion" element
   <*> parseChildrenWith parseImportInfo "InformacionAduanera" element
   <*> parseChildrenWith parseConceptPart "Parte" element
-  <*> parseElementWith parsePropertyAccount "CuentaPredial" element
+  <*> parseChildWith parsePropertyAccount "CuentaPredial" element
   <*> requireAttrValueByName "cantidad" element
   <*> requireAttrValueByName "unidad" element
   <*> requireAttrValueByName "valorUnitario" element
 
-parseConceptPart :: Element -> Either Error ConceptPart
+parseConceptPart :: Element -> Parsed ConceptPart
 parseConceptPart element = ConceptPart
   <$> parseAttribute "importe" element
   <*> requireAttrValueByName "descripcion" element
@@ -94,7 +112,7 @@ parseConceptPart element = ConceptPart
   <*> parseAttribute "unidad" element
   <*> parseAttribute "valorUnitario" element
 
-parseFiscalAddress :: Element -> Either Error FiscalAddress
+parseFiscalAddress :: Element -> Parsed FiscalAddress
 parseFiscalAddress element = FiscalAddress
   <$> requireAttrValueByName "pais" element
   <*> parseAttribute "noExterior" element
@@ -107,21 +125,21 @@ parseFiscalAddress element = FiscalAddress
   <*> parseAttribute "colonia" element
   <*> requireAttrValueByName "codigoPostal" element
 
-parseImportInfo :: Element -> Either Error ImportInfo
+parseImportInfo :: Element -> Parsed ImportInfo
 parseImportInfo element = ImportInfo
   <$> parseAttribute "aduana" element
   <*> requireAndParseAttrWith parseDate "fecha" element
   <*> requireAttrValueByName "numero" element
 
-parseIssuer :: Element -> Either Error Issuer
+parseIssuer :: Element -> Parsed Issuer
 parseIssuer element = Issuer
-  <$> parseElementWith parseFiscalAddress "DomicilioFiscal" element
-  <*> parseElementWith parseAddress "ExpedidoEn" element
+  <$> parseChildWith parseFiscalAddress "DomicilioFiscal" element
+  <*> parseChildWith parseAddress "ExpedidoEn" element
   <*> parseAttribute "nombre" element
   <*> parseChildrenWith parseTaxRegime "RegimenFiscal" element
   <*> requireAttrValueByName "rfc" element
 
-parsePacStamp :: Element -> Either Error PacStamp
+parsePacStamp :: Element -> Parsed PacStamp
 parsePacStamp element = PacStamp
   <$> requireAttrValueByName "selloCFD" element
   <*> requireAttrValueByName "noCertificadoSAT" element
@@ -130,22 +148,22 @@ parsePacStamp element = PacStamp
   <*> requireAttrValueByName "version" element
   <*> requireAttrValueByName "UUID" element
 
-parsePropertyAccount :: Element -> Either Error PropertyAccount
+parsePropertyAccount :: Element -> Parsed PropertyAccount
 parsePropertyAccount element = PropertyAccount
   <$> requireAttrValueByName "numero" element
 
-parseRecipient :: Element -> Either Error Recipient
+parseRecipient :: Element -> Parsed Recipient
 parseRecipient element = Recipient
-  <$> parseElementWith parseAddress "Domicilio" element
+  <$> parseChildWith parseAddress "Domicilio" element
   <*> parseAttribute "nombre" element
   <*> requireAttrValueByName "rfc" element
 
-parseRetainedTax :: Element -> Either Error RetainedTax
+parseRetainedTax :: Element -> Parsed RetainedTax
 parseRetainedTax element = RetainedTax
   <$> requireAttrValueByName "importe" element
   <*> requireAndReadAttribute "impuesto" element
 
-parseTaxes :: Element -> Either Error Taxes
+parseTaxes :: Element -> Parsed Taxes
 parseTaxes element = Taxes
   <$> sequence rt
   <*> sequence tt
@@ -159,11 +177,11 @@ parseTaxes element = Taxes
        . fmap (findChildrenByName "Traslado")
        $ findChildByName "Traslados" element
 
-parseTaxRegime :: Element -> Either Error TaxRegime
+parseTaxRegime :: Element -> Parsed TaxRegime
 parseTaxRegime element = TaxRegime
   <$> requireAttrValueByName "Regimen" element
 
-parseTransferedTax :: Element -> Either Error TransferedTax
+parseTransferedTax :: Element -> Parsed TransferedTax
 parseTransferedTax element = TransferedTax
   <$> requireAttrValueByName "importe" element
   <*> requireAttrValueByName "tasa" element
@@ -187,55 +205,63 @@ nameEquals :: String -> QName -> Bool
 nameEquals s (QName name _ _) =
   s == name
 
-parseAndReadAttribute :: Read r => String -> Element -> Either Error (Maybe r)
+parseAndReadAttribute :: Read r => String -> Element -> Parsed (Maybe r)
 parseAndReadAttribute attrName =
   Right . fmap read . findAttrValueByName attrName
 
-parseAttribute :: String -> Element -> Either Error (Maybe String)
+parseAttribute :: String -> Element -> Parsed (Maybe String)
 parseAttribute attrName =
   Right . findAttrValueByName attrName
 
-parseAttributeWith
-  :: (String -> Either Error a) -> String -> Element -> Either Error (Maybe a)
-parseAttributeWith func attrName =
-  maybe (Right Nothing) (fmap Just . func) . findAttrValueByName attrName
+parseAttributeWith :: (String -> Maybe a) -> String -> Element -> Parsed (Maybe a)
+parseAttributeWith parserFunc attrName elem =
+  case findAttrValueByName attrName elem of
+    Nothing -> Right Nothing
+    Just x  -> Just <$> justErr (InvalidFormat attrName) (parserFunc x)
 
-parseChildrenWith
-  :: (Element -> Either Error a) -> String -> Element -> Either Error [a]
-parseChildrenWith func childName elem =
-  forM (findChildrenByName childName elem) func
+parseChildrenWith :: (Element -> Parsed a) -> String -> Element -> Parsed [a]
+parseChildrenWith parserFunc childName parent =
+  forM children parseOrErr
+  where
+    children   = findChildrenByName childName parent
+    parseOrErr = wrapError (ParseErrorInChild childName) . parserFunc
 
-parseDate :: String -> Either Error Day
+parseChildWith :: (Element -> Parsed a) -> String -> Element -> Parsed (Maybe a)
+parseChildWith parserFunc childName parent =
+  case findChildByName childName parent of
+    Nothing -> Right Nothing
+    Just x  -> Just <$> wrapError (ParseErrorInChild childName) (parserFunc x)
+
+parseDate :: String -> Maybe Day
 parseDate =
-  fmap (localDay . fst) . justErr "Incorrect date format" . strptime "%Y-%m-%d"
+  fmap (localDay . fst) . strptime "%Y-%m-%d"
 
-parseDateTime :: String -> Either Error LocalTime
+parseDateTime :: String -> Maybe LocalTime
 parseDateTime =
-  fmap fst . justErr "Incorrect dateTime format" . strptime "%Y-%m-%dT%H:%M:%S"
+  fmap fst . strptime "%Y-%m-%dT%H:%M:%S"
 
-parseElementWith
-  :: (Element -> Either Error a) -> String -> Element -> Either Error (Maybe a)
-parseElementWith func elemName =
-  maybe (Right Nothing) (fmap Just . func) . findChildByName elemName
+requireAndParseAttrWith :: (String -> Maybe a) -> String -> Element -> Parsed a
+requireAndParseAttrWith parserFunc attrName elem =
+  requireAttrValueByName attrName elem
+    >>= justErr (InvalidFormat attrName) . parserFunc
 
-requireAndParseAttrWith
-  :: (String -> Either Error a) -> String -> Element -> Either Error a
-requireAndParseAttrWith func attrName elem =
-  requireAttrValueByName attrName elem >>= func
+requireAndParseChildWith :: (Element -> Parsed a) -> String -> Element -> Parsed a
+requireAndParseChildWith parserFunc childName parent =
+  requireChildByName childName parent
+    >>= wrapError (ParseErrorInChild childName) . parserFunc
 
-requireAndParseChildWith
-  :: (Element -> Either Error a) -> String -> Element -> Either Error a
-requireAndParseChildWith func childName parent =
-  requireChildByName childName parent >>= func
-
-requireAndReadAttribute :: Read r => String -> Element -> Either Error r
+requireAndReadAttribute :: Read r => String -> Element -> Parsed r
 requireAndReadAttribute attrName =
   fmap read . requireAttrValueByName attrName
 
-requireAttrValueByName :: String -> Element -> Either Error String
+requireAttrValueByName :: String -> Element -> Parsed String
 requireAttrValueByName attrName =
-  justErr (attrName ++ " attribute not found") . findAttrValueByName attrName
+  justErr (AttrNotFound attrName) . findAttrValueByName attrName
 
-requireChildByName :: String -> Element -> Either Error Element
+requireChildByName :: String -> Element -> Parsed Element
 requireChildByName childName =
-  justErr (childName ++ " element not found") . findChildByName childName
+  justErr (ElemNotFound childName) . findChildByName childName
+
+wrapError :: (ParseError -> ParseError) -> Parsed a -> Parsed a
+wrapError parserFunc (Left err) = Left $ parserFunc err
+wrapError _ x = x
