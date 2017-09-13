@@ -21,96 +21,96 @@ class Chainable a where
 
   -- Chain connectors
   (<~>) :: Chainable b => (a -> b) -> (a, String) -> (a, String)
-  f <~> (x, s) = (x, s ++ s')
+  f <~> (x, s) = (x, s' ++ s)
     where
       s'  = if length s'' > 0 then '|' : s'' else ""
       s'' = chain $ f x
 
   (<~~>) :: Chainable b => (a -> [b]) -> (a, String) -> (a, String)
-  f <~~> (x, s) = (x, s ++ s')
+  f <~~> (x, s) = (x, s' ++ s)
     where
       s' = concat . map (('|' :) . chain) $ f x
 
 instance Chainable Address where
-  chain x = zipCode
-        <@> country
-        <~> state
-        <~> municipality
-        <~> reference
-        <~> locality
-        <~> suburb
+  chain x = street
+        <@> externalNumber
         <~> internalNumber
-        <~> externalNumber
-        <~> street
+        <~> suburb
+        <~> locality
+        <~> reference
+        <~> municipality
+        <~> state
+        <~> country
+        <~> zipCode
         <~> (x, "")
 
 instance Chainable CFDI where
-  chain x = taxes
-        <@> concepts
-       <~~> recipient
-        <~> issuer
-        <~> originalAmount
-        <~> originalIssuedAt
-        <~> originalSeries
-        <~> originalNumber
-        <~> accountNumber
-        <~> issuedIn
-        <~> paymentMethod
-        <~> total
-        <~> currency
-        <~> exchangeRate
-        <~> discount
-        <~> subTotal
-        <~> paymentConditions
-        <~> wayToPay
+  chain x = version
+        <@> issuedAt
         <~> _type
-        <~> issuedAt
-        <~> version
-        <~> (x, "|")
+        <~> wayToPay
+        <~> paymentConditions
+        <~> subTotal
+        <~> discount
+        <~> exchangeRate
+        <~> currency
+        <~> total
+        <~> paymentMethod
+        <~> issuedIn
+        <~> accountNumber
+        <~> originalNumber
+        <~> originalSeries
+        <~> originalIssuedAt
+        <~> originalAmount
+        <~> issuer
+        <~> recipient
+        <~> concepts
+       <~~> taxes
+        <~> (x, "")
 
 instance Chainable Concept where
-  chain x = propertyAccount
-        <@> importInfo
-       <~~> amount
-        <~> unitAmount
-        <~> description
+  chain x = quantity
+        <@> unit
         <~> _id
-        <~> unit
-        <~> quantity
+        <~> description
+        <~> unitAmount
+        <~> amount
+        <~> importInfo
+       <~~> propertyAccount
         <~> (x, "")
 
 instance Chainable Day where
   chain = showGregorian
 
 instance Chainable FiscalAddress where
-  chain x = fiscalZipCode
-        <@> fiscalCountry
-        <~> fiscalState
-        <~> fiscalMunicipality
-        <~> fiscalReference
-        <~> fiscalLocality
-        <~> fiscalSuburb
+  chain x = fiscalStreet
+        <@> fiscalExternalNumber
         <~> fiscalInternalNumber
-        <~> fiscalExternalNumber
-        <~> fiscalStreet
+        <~> fiscalSuburb
+        <~> fiscalLocality
+        <~> fiscalReference
+        <~> fiscalMunicipality
+        <~> fiscalState
+        <~> fiscalCountry
+        <~> fiscalZipCode
         <~> (x, "")
 
 instance Chainable Float where
   chain = show
 
 instance Chainable ImportInfo where
-  chain x = custom
+  chain x = importNumber
         <@> importIssuedAt
-        <~> importNumber
+        <~> custom
         <~> (x, "")
 
 instance Chainable Issuer where
-  chain x = regimes
-       <@@> issuedInAddress
+  chain x = rfc
+        <@> name
         <~> fiscalAddress
-        <~> name
-        <~> rfc
-        <~> (x, "")
+        <~> issuedInAddress
+        <~> regimes
+       <~~> (x, "")
 
 instance Chainable LocalTime where
   chain = formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
@@ -122,14 +122,14 @@ instance Chainable PropertyAccount where
   chain = propertyAccountNumber
 
 instance Chainable Recipient where
-  chain x = recipientAddress
+  chain x = recipientRfc
         <@> recipientName
-        <~> recipientRfc
+        <~> recipientAddress
         <~> (x, "")
 
 instance Chainable RetainedTax where
-  chain x = retainedTaxAmount
-        <@> retainedTax
+  chain x = retainedTax
+        <@> retainedTaxAmount
         <~> (x, "")
 
 instance Chainable String where
@@ -139,20 +139,20 @@ instance Chainable Tax where
   chain = show
 
 instance Chainable Taxes where
-  chain x = totalTransfered
-        <@> transferedTaxes
-       <~~> totalRetained
-        <~> retainedTaxes
-       <~~> (x, "")
+  chain x = retainedTaxes
+       <@@> totalRetained
+        <~> transferedTaxes
+       <~~> totalTransfered
+        <~> (x, "")
 
 instance Chainable TaxRegime where
   chain = regime
 
 instance Chainable TransferedTax where
-  chain x = transferedTaxAmount
+  chain x = transferedTax
         <@> transferedTaxRate
-        <~> transferedTax
+        <~> transferedTaxAmount
         <~> (x, "")
 
 originalChain :: CFDI -> String
-originalChain = ('|' :) . (++ "||") . chain
+originalChain cfdi = "||" ++ chain cfdi ++ "||"
