@@ -1,6 +1,9 @@
 module CFDI.CSD where
 
-import Data.ByteString           (ByteString, empty)
+import CFDI
+import CFDI.Chain                (originalChain)
+import Codec.Binary.UTF8.String  (decode)
+import Data.ByteString           (ByteString, empty, unpack)
 import Data.ByteString.Base64    (encode)
 import System.Exit               (ExitCode(..))
 import System.Process.ByteString (readProcessWithExitCode)
@@ -16,6 +19,13 @@ csdKeyToPem keyPath keyPass = do
   case exitCode of
     ExitSuccess   -> return $ Right stdout
     ExitFailure _ -> return $ Left stderr
+
+signCFDIWith :: FilePath -> CFDI -> IO (Either String CFDI)
+signCFDIWith csdPemPath cfdi = do
+  eitherErrOrSignature <- signWithCSD csdPemPath $ originalChain cfdi
+  return $ case eitherErrOrSignature of
+    Right sig -> Right $ cfdi { signature = decode $ unpack sig }
+    Left  err -> Left . decode $ unpack err
 
 signWithCSD :: FilePath -> String -> IO (Either ByteString ByteString)
 signWithCSD csdPemPath str = do
