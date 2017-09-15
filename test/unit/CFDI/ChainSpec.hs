@@ -1,7 +1,10 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module CFDI.ChainSpec (spec) where
 
 import CFDI
 import CFDI.Chain
+import Data.Text           (Text)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Test.Hspec
@@ -144,7 +147,7 @@ invoice = CFDI
   , wayToPay          = "Way To Pay"
   }
 
-originalChain' :: String
+originalChain' :: Text
 originalChain' =
   "||3.2|2017-06-12T12:00:00|ingreso|Way To Pay|Payment Conditions|536.192\
   \|24.36|17.1212|USD|536.216|99|Issued In|1212|3636|B|2017-01-12T12:12:12\

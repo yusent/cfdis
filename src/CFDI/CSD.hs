@@ -2,35 +2,36 @@ module CFDI.CSD where
 
 import CFDI
 import CFDI.Chain                (originalChain)
-import Codec.Binary.UTF8.String  (decode)
-import Data.ByteString           (ByteString, empty, unpack)
+import Data.ByteString           (empty)
 import Data.ByteString.Base64    (encode)
+import Data.Text                 (Text)
+import Data.Text.Encoding        (decodeUtf8, encodeUtf8)
 import System.Exit               (ExitCode(..))
 import System.Process.ByteString (readProcessWithExitCode)
 
--- TODO: Rewrite these methods using module OpenSSL. At the time of writting
+-- TODO: Rewrite these methods using OpenSSL module. At the time of writting
 -- this I couldn't figure out how to use it.
 
-csdKeyToPem :: FilePath -> String -> IO (Either ByteString ByteString)
+csdKeyToPem :: FilePath -> String -> IO (Either Text Text)
 csdKeyToPem keyPath keyPass = do
   let pass = "pass:" ++ keyPass
   let args = ["pkcs8", "-inform", "DER", "-in", keyPath, "-passin", pass]
   (exitCode, stdout, stderr) <- readProcessWithExitCode "openssl" args empty
-  case exitCode of
-    ExitSuccess   -> return $ Right stdout
-    ExitFailure _ -> return $ Left stderr
+  return $ case exitCode of
+    ExitSuccess   -> Right $ decodeUtf8 stdout
+    ExitFailure _ -> Left  $ decodeUtf8 stderr
 
-signCFDIWith :: FilePath -> CFDI -> IO (Either String CFDI)
+signCFDIWith :: FilePath -> CFDI -> IO (Either Text CFDI)
 signCFDIWith csdPemPath cfdi = do
   eitherErrOrSignature <- signWithCSD csdPemPath $ originalChain cfdi
   return $ case eitherErrOrSignature of
-    Right sig -> Right $ cfdi { signature = decode $ unpack sig }
-    Left  err -> Left . decode $ unpack err
+    Right sig -> Right $ cfdi { signature = sig }
+    Left  err -> Left err
 
-signWithCSD :: FilePath -> String -> IO (Either ByteString ByteString)
-signWithCSD csdPemPath str = do
+signWithCSD :: FilePath -> Text -> IO (Either Text Text)
+signWithCSD csdPemPath txt = do
   let args = ["dgst", "-sha1", "-sign", csdPemPath]
-  (exitCode, stdout, stderr) <- readProcessWithExitCode "openssl" args empty
-  case exitCode of
-    ExitSuccess   -> return . Right $ encode stdout
-    ExitFailure _ -> return $ Left stderr
+  (exitCode, stdout, stderr) <- readProcessWithExitCode "openssl" args $ encodeUtf8 txt
+  return $ case exitCode of
+    ExitSuccess   -> Right . decodeUtf8 $ encode stdout
+    ExitFailure _ -> Left $ decodeUtf8 stderr

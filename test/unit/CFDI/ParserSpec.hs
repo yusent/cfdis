@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module CFDI.ParserSpec (spec) where
 
 import CFDI

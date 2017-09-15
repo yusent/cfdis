@@ -18,12 +18,13 @@ library
   exposed-modules:     CFDI, CFDI.Chain, CFDI.CSD, CFDI.Parser
   build-depends:       base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1
+                     , basic-prelude >= 0.6 && < 0.7
                      , bytestring >= 0.10 && < 0.11
                      , errors >= 2.2 && < 2.3
                      , process-extras >= 0.7 && < 0.8
                      , strptime >= 1.0 && < 1.1
+                     , text >= 1.2 && < 1.3
                      , time >= 1.6 && < 1.7
-                     , utf8-string >= 1.0 && < 1.1
                      , xml >= 1.3 && < 1.4
   default-language:    Haskell2010
 
@@ -31,12 +32,13 @@ test-suite unit-tests
   type:             exitcode-stdio-1.0
   main-is:          Spec.hs
   hs-source-dirs:   test/unit
-  other-modules:    CFDI.ChainSpec, CFDI.ParserSpec
+  other-modules:    CFDI.ChainSpec, CFDI.CSDSpec, CFDI.ParserSpec
   build-depends:    base
                   , cfdis
                   , extra
                   , hspec
                   , hspec-discover
+                  , text
                   , time
   default-language: Haskell2010
 
