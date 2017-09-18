@@ -1,16 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.ChainSpec (spec) where
+module CFDI.CSDSpec (spec) where
 
 import CFDI
-import CFDI.Chain
+import CFDI.CSD
+import Data.Either         (isRight)
+import Prelude      hiding (readFile)
 import Data.Text           (Text)
+import Data.Text.IO        (readFile)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Test.Hspec
 
-invoice :: CFDI
-invoice = CFDI
+cfdi :: CFDI
+cfdi = CFDI
   { accountNumber     = Just "1212"
   , certificate       = "SOMENOTSORANDOMCERTIFICATE"
   , certificateNumber = "00001000001212121212"
@@ -147,25 +150,42 @@ invoice = CFDI
   , wayToPay          = "Way To Pay"
   }
 
-originalChain' :: Text
-originalChain' =
-  "||3.2|2017-06-12T12:00:00|ingreso|Way To Pay|Payment Conditions|536.192\
-  \|24.36|17.1212|USD|536.216|99|Issued In|1212|3636|B|2017-01-12T12:12:12\
-  \|1200.00|XAXX010101000|Issuer Name|Fiscal Street|Fiscal External Number\
-  \|Fiscal Internal Number|Fiscal Suburb|Fiscal Locality|Fiscal Reference\
-  \|Fiscal Municipality|Fiscal State|Fiscal Country|22000|Branch Street\
-  \|Branch External Number|Branch Internal Number|Branch Suburb|Branch Locality\
-  \|Branch Reference|Branch Municipality|Branch State|Branch Country|22114\
-  \|Fiscal Regime|XEXX010101000|Recipient Name|Recipient Street\
-  \|Recipient External Number|Recipient Internal Number|Recipient Suburb\
-  \|Recipient Locality|Recipient Reference|Recipient Municipality\
-  \|Recipient State|Recipient Country|22116|1.00|Product 1 Unit|Product 1 ID\
-  \|Product 1 Description|112.00|112.00|Product 1 Import Number|1986-08-22\
-  \|Product 1 Custom|2.00|Product 2 Unit|Product 2 ID|Product 2 Description\
-  \|212.12|424.24|ISR|12.144|12.144|IVA|16|12.12|12.12||"
-
 spec :: Spec
 spec = do
-  describe "CFDI.Chain.originalChain" $ do
-    it "calculates an original chain" $ do
-      originalChain invoice `shouldBe` originalChain'
+  describe "CFDI.CSD.csdKeyToPem" $ do
+    it "transforms CSD key from DER to PEM format" $ do
+      eitherErrOrPem <-
+        csdKeyToPem "test/csd/CSD01_AAA010101AAA.key" "12345678a"
+      eitherErrOrPem `shouldSatisfy` isRight
+      let Right pem = eitherErrOrPem
+      testPEM <- readFile "test/csd/CSD01_AAA010101AAA.pem"
+      pem `shouldBe` testPEM
+
+  describe "CFDI.CSD.signWithCSD" $ do
+    it "Signs some text with a CSD PEM" $ do
+      eitherErrOrText <- signWithCSD "test/csd/CSD01_AAA010101AAA.pem" "TEST"
+      eitherErrOrText `shouldSatisfy` isRight
+      let Right text = eitherErrOrText
+      text `shouldBe` testSignedText
+
+  describe "CFDI.CSD.signCFDIWith" $ do
+    it "Signs a CFDI with a CSD PEM" $ do
+      eitherErrOrCFDI <- signCFDIWith "test/csd/CSD01_AAA010101AAA.pem" cfdi
+      let Right signedCFDI = eitherErrOrCFDI
+      signature signedCFDI `shouldBe` testCFDISignature
+
+testCFDISignature :: Text
+testCFDISignature =
+  "SreR9muwTWUELA5YH78zICbtsmRBusbseyrQz0rNNy53KsE6lq3hwTSwOb3n3ySzx6hHYQ5VZGeC\
+  \H20Fe+O8s2ThZayiwr457L7aElEy5SK8qYLuxqa9mRl3Y6IOc8CWNR19WNVfSYWjy3RP9ekTEI+j\
+  \1Pg+qTqgMz/UaZbd1EOZstL6laeoCgPbZ5UxXoML+DtcZFcWABQqTbIoAh0fGC//l5h7X+umYh+B\
+  \0/euVp+GzBX5gTU6ak9uBkmROT6laK6bHrDIGxeILHdHOMd3YX6VmnhgKJCvAKEtuogtJIN61AAM\
+  \JPa/NpYmMYjtmWMeCNpYGQ5UE4ckOFNte7R3lA=="
+
+testSignedText :: Text
+testSignedText =
+  "kopDKx5K63tyd/ZEQVWR9AJs9wi7qfK6veN3IYCRjeXHusfyMDKQizvUmQhsuuj3QkY/NvU3PpqP\
+  \apJSNsbHQJxsTNTtsvxaCZxjV0HkuUp39ppHYeKM36Ed76UtN/0hMqOqYL29CIS8QOD+NCSjSDxm\
+  \lk5CcJNgW9sQC/Kfe/w1E//tx9nWYenBVAI8gPfH3eA/wFm2glZAR0RHmWKQizq+HlugV7HeZnLk\
+  \xnlMewgp8Ayr7D4D0skrbhwhPkkFwXoEHmux5/oUAHCX2LlTh0eLt9fCWjFJ2yOxY+S7bt9apIyA\
+  \AO0nvzz1n7b042174OUICjtibQsoVkQLK8zjPw=="

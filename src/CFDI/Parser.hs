@@ -1,12 +1,17 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module CFDI.Parser (ParseError(..), parseCFDI) where
 
+import BasicPrelude         (read)
 import CFDI
 import Control.Error.Safe   (justErr)
 import Control.Monad        (forM, sequence)
 import Data.Maybe           (fromMaybe)
+import Data.Text            (Text, pack, unpack)
 import Data.Time.Calendar   (Day)
 import Data.Time.LocalTime  (LocalTime, localDay)
 import Data.Time.Parse      (strptime)
+import Prelude       hiding (read)
 import Text.XML.Light.Input (parseXMLDoc)
 import Text.XML.Light.Lexer (XmlSource)
 import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
@@ -189,9 +194,9 @@ parseTransferedTax element = TransferedTax
 
 -- Helpers
 
-findAttrValueByName :: String -> Element -> Maybe String
+findAttrValueByName :: String -> Element -> Maybe Text
 findAttrValueByName attrName =
-  findAttrBy (nameEquals attrName)
+  fmap pack . findAttrBy (nameEquals attrName)
 
 findChildByName :: String -> Element -> Maybe Element
 findChildByName childName =
@@ -209,7 +214,7 @@ parseAndReadAttribute :: Read r => String -> Element -> Parsed (Maybe r)
 parseAndReadAttribute attrName =
   Right . fmap read . findAttrValueByName attrName
 
-parseAttribute :: String -> Element -> Parsed (Maybe String)
+parseAttribute :: String -> Element -> Parsed (Maybe Text)
 parseAttribute attrName =
   Right . findAttrValueByName attrName
 
@@ -217,7 +222,7 @@ parseAttributeWith :: (String -> Maybe a) -> String -> Element -> Parsed (Maybe 
 parseAttributeWith parserFunc attrName elem =
   case findAttrValueByName attrName elem of
     Nothing -> Right Nothing
-    Just x  -> Just <$> justErr (InvalidFormat attrName) (parserFunc x)
+    Just x  -> Just <$> justErr (InvalidFormat attrName) (parserFunc $ unpack x)
 
 parseChildrenWith :: (Element -> Parsed a) -> String -> Element -> Parsed [a]
 parseChildrenWith parserFunc childName parent =
@@ -243,7 +248,7 @@ parseDateTime =
 requireAndParseAttrWith :: (String -> Maybe a) -> String -> Element -> Parsed a
 requireAndParseAttrWith parserFunc attrName elem =
   requireAttrValueByName attrName elem
-    >>= justErr (InvalidFormat attrName) . parserFunc
+    >>= justErr (InvalidFormat attrName) . parserFunc . unpack
 
 requireAndParseChildWith :: (Element -> Parsed a) -> String -> Element -> Parsed a
 requireAndParseChildWith parserFunc childName parent =
@@ -254,7 +259,7 @@ requireAndReadAttribute :: Read r => String -> Element -> Parsed r
 requireAndReadAttribute attrName =
   fmap read . requireAttrValueByName attrName
 
-requireAttrValueByName :: String -> Element -> Parsed String
+requireAttrValueByName :: String -> Element -> Parsed Text
 requireAttrValueByName attrName =
   justErr (AttrNotFound attrName) . findAttrValueByName attrName
 

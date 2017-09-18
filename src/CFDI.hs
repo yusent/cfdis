@@ -1,50 +1,51 @@
 module CFDI where
 
+import Data.Text           (Text)
 import Data.Time.Calendar  (Day)
 import Data.Time.LocalTime (LocalTime)
 
 data Address = Address
-  { country        :: String
-  , externalNumber :: Maybe String
-  , internalNumber :: Maybe String
-  , locality       :: Maybe String
-  , municipality   :: Maybe String
-  , reference      :: Maybe String
-  , suburb         :: Maybe String
-  , state          :: Maybe String
-  , street         :: Maybe String
-  , zipCode        :: Maybe String
+  { country        :: Text
+  , externalNumber :: Maybe Text
+  , internalNumber :: Maybe Text
+  , locality       :: Maybe Text
+  , municipality   :: Maybe Text
+  , reference      :: Maybe Text
+  , suburb         :: Maybe Text
+  , state          :: Maybe Text
+  , street         :: Maybe Text
+  , zipCode        :: Maybe Text
   } deriving (Eq, Show)
 
 data CFDI = CFDI
-  { accountNumber     :: Maybe String
-  , certificate       :: String
-  , certificateNumber :: String
+  { accountNumber     :: Maybe Text
+  , certificate       :: Text
+  , certificateNumber :: Text
   , complement        :: Maybe Complement
   , concepts          :: [Concept]
-  , currency          :: Maybe String
-  , discount          :: Maybe String
-  , discountReason    :: Maybe String
-  , exchangeRate      :: Maybe String
-  , internalID        :: Maybe String
+  , currency          :: Maybe Text
+  , discount          :: Maybe Text
+  , discountReason    :: Maybe Text
+  , exchangeRate      :: Maybe Text
+  , internalID        :: Maybe Text
   , issuedAt          :: LocalTime
-  , issuedIn          :: String
+  , issuedIn          :: Text
   , issuer            :: Issuer
-  , originalAmount    :: Maybe String
+  , originalAmount    :: Maybe Text
   , originalIssuedAt  :: Maybe LocalTime
-  , originalNumber    :: Maybe String
-  , originalSeries    :: Maybe String
-  , paymentConditions :: Maybe String
-  , paymentMethod     :: String
+  , originalNumber    :: Maybe Text
+  , originalSeries    :: Maybe Text
+  , paymentConditions :: Maybe Text
+  , paymentMethod     :: Text
   , recipient         :: Recipient
-  , series            :: Maybe String
-  , subTotal          :: String
-  , signature         :: String
+  , series            :: Maybe Text
+  , subTotal          :: Text
+  , signature         :: Text
   , taxes             :: Taxes
-  , total             :: String
-  , _type             :: String
-  , version           :: String
-  , wayToPay          :: String
+  , total             :: Text
+  , _type             :: Text
+  , version           :: Text
+  , wayToPay          :: Text
   } deriving (Eq, Show)
 
 data Complement = Complement
@@ -52,75 +53,75 @@ data Complement = Complement
   } deriving (Eq, Show)
 
 data Concept = Concept
-  { amount          :: String
-  , description     :: String
-  , _id             :: Maybe String
+  { amount          :: Text
+  , description     :: Text
+  , _id             :: Maybe Text
   , importInfo      :: [ImportInfo]
   , parts           :: [ConceptPart]
   , propertyAccount :: Maybe PropertyAccount
-  , quantity        :: String
-  , unit            :: String
-  , unitAmount      :: String
+  , quantity        :: Text
+  , unit            :: Text
+  , unitAmount      :: Text
   } deriving (Eq, Show)
 
 data ConceptPart = ConceptPart
-  { partAmount      :: Maybe String
-  , partDescription :: String
-  , partId          :: Maybe String
+  { partAmount      :: Maybe Text
+  , partDescription :: Text
+  , partId          :: Maybe Text
   , partImportInfo  :: [ImportInfo]
-  , partQuantity    :: String
-  , partUnit        :: Maybe String
-  , partUnitAmount  :: Maybe String
+  , partQuantity    :: Text
+  , partUnit        :: Maybe Text
+  , partUnitAmount  :: Maybe Text
   } deriving (Eq, Show)
 
 data FiscalAddress = FiscalAddress
-  { fiscalCountry        :: String
-  , fiscalExternalNumber :: Maybe String
-  , fiscalInternalNumber :: Maybe String
-  , fiscalLocality       :: Maybe String
-  , fiscalMunicipality   :: String
-  , fiscalReference      :: Maybe String
-  , fiscalState          :: String
-  , fiscalStreet         :: String
-  , fiscalSuburb         :: Maybe String
-  , fiscalZipCode        :: String
+  { fiscalCountry        :: Text
+  , fiscalExternalNumber :: Maybe Text
+  , fiscalInternalNumber :: Maybe Text
+  , fiscalLocality       :: Maybe Text
+  , fiscalMunicipality   :: Text
+  , fiscalReference      :: Maybe Text
+  , fiscalState          :: Text
+  , fiscalStreet         :: Text
+  , fiscalSuburb         :: Maybe Text
+  , fiscalZipCode        :: Text
   } deriving (Eq, Show)
 
 data ImportInfo = ImportInfo
-  { custom         :: Maybe String
+  { custom         :: Maybe Text
   , importIssuedAt :: Day
-  , importNumber   :: String
+  , importNumber   :: Text
   } deriving (Eq, Show)
 
 data Issuer = Issuer
   { fiscalAddress   :: Maybe FiscalAddress
   , issuedInAddress :: Maybe Address
-  , name            :: Maybe String
+  , name            :: Maybe Text
   , regimes         :: [TaxRegime]
-  , rfc             :: String
+  , rfc             :: Text
   } deriving (Eq, Show)
 
 data PacStamp = PacStamp
-  { cfdSignature         :: String
-  , satCertificateNumber :: String
-  , satSignature         :: String
+  { cfdSignature         :: Text
+  , satCertificateNumber :: Text
+  , satSignature         :: Text
   , stampedAt            :: LocalTime
-  , stampVersion         :: String
-  , uuid                 :: String
+  , stampVersion         :: Text
+  , uuid                 :: Text
   } deriving (Eq, Show)
 
 data PropertyAccount = PropertyAccount
-  { propertyAccountNumber :: String
+  { propertyAccountNumber :: Text
   } deriving (Eq, Show)
 
 data Recipient = Recipient
   { recipientAddress :: Maybe Address
-  , recipientName    :: Maybe String
-  , recipientRfc     :: String
+  , recipientName    :: Maybe Text
+  , recipientRfc     :: Text
   } deriving (Eq, Show)
 
 data RetainedTax = RetainedTax
-  { retainedTaxAmount :: String
+  { retainedTaxAmount :: Text
   , retainedTax       :: Tax
   } deriving (Eq, Show)
 
@@ -133,16 +134,16 @@ data Tax
 data Taxes = Taxes
   { retainedTaxes   :: [RetainedTax]
   , transferedTaxes :: [TransferedTax]
-  , totalRetained   :: Maybe String
-  , totalTransfered :: Maybe String
+  , totalRetained   :: Maybe Text
+  , totalTransfered :: Maybe Text
   } deriving (Eq, Show)
 
 data TaxRegime = TaxRegime
-  { regime :: String
+  { regime :: Text
   } deriving (Eq, Show)
 
 data TransferedTax = TransferedTax
-  { transferedTaxAmount :: String
-  , transferedTaxRate   :: String
+  { transferedTaxAmount :: Text
+  , transferedTaxRate   :: Text
   , transferedTax       :: Tax
   } deriving (Eq, Show)
