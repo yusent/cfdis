@@ -161,6 +161,13 @@ spec = do
       testPEM <- readFile "test/csd/CSD01_AAA010101AAA.pem"
       pem `shouldBe` testPEM
 
+  describe "CFDI.CSD.signWithCSD" $ do
+    it "Signs some text with a CSD PEM" $ do
+      eitherErrOrText <- signWithCSD "test/csd/CSD01_AAA010101AAA.pem" "TEST"
+      eitherErrOrText `shouldSatisfy` isRight
+      let Right text = eitherErrOrText
+      text `shouldBe` testSignedText
+
   describe "CFDI.CSD.signCFDIWith" $ do
     it "Signs a CFDI with a CSD PEM" $ do
       eitherErrOrCFDI <- signCFDIWith "test/csd/CSD01_AAA010101AAA.pem" cfdi
@@ -174,3 +181,11 @@ testCFDISignature =
   \1Pg+qTqgMz/UaZbd1EOZstL6laeoCgPbZ5UxXoML+DtcZFcWABQqTbIoAh0fGC//l5h7X+umYh+B\
   \0/euVp+GzBX5gTU6ak9uBkmROT6laK6bHrDIGxeILHdHOMd3YX6VmnhgKJCvAKEtuogtJIN61AAM\
   \JPa/NpYmMYjtmWMeCNpYGQ5UE4ckOFNte7R3lA=="
+
+testSignedText :: Text
+testSignedText =
+  "kopDKx5K63tyd/ZEQVWR9AJs9wi7qfK6veN3IYCRjeXHusfyMDKQizvUmQhsuuj3QkY/NvU3PpqP\
+  \apJSNsbHQJxsTNTtsvxaCZxjV0HkuUp39ppHYeKM36Ed76UtN/0hMqOqYL29CIS8QOD+NCSjSDxm\
+  \lk5CcJNgW9sQC/Kfe/w1E//tx9nWYenBVAI8gPfH3eA/wFm2glZAR0RHmWKQizq+HlugV7HeZnLk\
+  \xnlMewgp8Ayr7D4D0skrbhwhPkkFwXoEHmux5/oUAHCX2LlTh0eLt9fCWjFJ2yOxY+S7bt9apIyA\
+  \AO0nvzz1n7b042174OUICjtibQsoVkQLK8zjPw=="
