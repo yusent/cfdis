@@ -15,7 +15,12 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     CFDI, CFDI.Chain, CFDI.CSD, CFDI.Parser
+  exposed-modules:     CFDI
+                     , CFDI.CSD
+                     , CFDI.PAC
+                     , CFDI.Parser
+                     , CFDI.Types
+  other-modules:       CFDI.Chain
   build-depends:       base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1
                      , basic-prelude >= 0.6 && < 0.7
@@ -32,7 +37,9 @@ test-suite unit-tests
   type:             exitcode-stdio-1.0
   main-is:          Spec.hs
   hs-source-dirs:   test/unit
-  other-modules:    CFDI.ChainSpec, CFDI.CSDSpec, CFDI.ParserSpec
+  other-modules:    CFDI.CSDSpec
+                  , CFDI.ParserSpec
+                  , CFDISpec
   build-depends:    base
                   , cfdis
                   , extra

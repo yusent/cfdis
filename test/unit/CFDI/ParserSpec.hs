@@ -2,8 +2,8 @@
 
 module CFDI.ParserSpec (spec) where
 
-import CFDI
 import CFDI.Parser
+import CFDI.Types
 import Data.List.Extra     (replace)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))

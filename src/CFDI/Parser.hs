@@ -3,7 +3,7 @@
 module CFDI.Parser (ParseError(..), parseCFDI) where
 
 import BasicPrelude         (read)
-import CFDI
+import CFDI.Types
 import Control.Error.Safe   (justErr)
 import Control.Monad        (forM, sequence)
 import Data.Maybe           (fromMaybe)

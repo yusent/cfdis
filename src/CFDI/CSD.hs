@@ -1,7 +1,5 @@
 module CFDI.CSD where
 
-import CFDI
-import CFDI.Chain                (originalChain)
 import Data.ByteString           (empty)
 import Data.ByteString.Base64    (encode)
 import Data.Text                 (Text)
@@ -21,17 +19,11 @@ csdKeyToPem keyPath keyPass = do
     ExitSuccess   -> Right $ decodeUtf8 stdout
     ExitFailure _ -> Left  $ decodeUtf8 stderr
 
-signCFDIWith :: FilePath -> CFDI -> IO (Either Text CFDI)
-signCFDIWith csdPemPath cfdi = do
-  eitherErrOrSignature <- signWithCSD csdPemPath $ originalChain cfdi
-  return $ case eitherErrOrSignature of
-    Right sig -> Right $ cfdi { signature = sig }
-    Left  err -> Left err
-
 signWithCSD :: FilePath -> Text -> IO (Either Text Text)
 signWithCSD csdPemPath txt = do
   let args = ["dgst", "-sha1", "-sign", csdPemPath]
-  (exitCode, stdout, stderr) <- readProcessWithExitCode "openssl" args $ encodeUtf8 txt
+  (exitCode, stdout, stderr) <-
+    readProcessWithExitCode "openssl" args $ encodeUtf8 txt
   return $ case exitCode of
     ExitSuccess   -> Right . decodeUtf8 $ encode stdout
     ExitFailure _ -> Left $ decodeUtf8 stderr

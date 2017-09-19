@@ -1,16 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.ChainSpec (spec) where
+module CFDISpec (spec) where
 
 import CFDI
-import CFDI.Chain
+import CFDI.Types
+import Data.Either         (isRight)
 import Data.Text           (Text)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Test.Hspec
 
-invoice :: CFDI
-invoice = CFDI
+cfdi :: CFDI
+cfdi = CFDI
   { accountNumber     = Just "1212"
   , certificate       = "SOMENOTSORANDOMCERTIFICATE"
   , certificateNumber = "00001000001212121212"
@@ -166,6 +167,21 @@ originalChain' =
 
 spec :: Spec
 spec = do
-  describe "CFDI.Chain.originalChain" $ do
+  describe "CFDI.originalChain" $ do
     it "calculates an original chain" $ do
-      originalChain invoice `shouldBe` originalChain'
+      originalChain cfdi `shouldBe` originalChain'
+
+  describe "CFDI.signCFDIWith" $ do
+    it "Signs a CFDI with a CSD PEM" $ do
+      eitherErrOrCFDI <- signCFDIWith "test/csd/CSD01_AAA010101AAA.pem" cfdi
+      eitherErrOrCFDI `shouldSatisfy` isRight
+      let Right signedCFDI = eitherErrOrCFDI
+      signature signedCFDI `shouldBe` testCFDISignature
+
+testCFDISignature :: Text
+testCFDISignature =
+  "SreR9muwTWUELA5YH78zICbtsmRBusbseyrQz0rNNy53KsE6lq3hwTSwOb3n3ySzx6hHYQ5VZGeC\
+  \H20Fe+O8s2ThZayiwr457L7aElEy5SK8qYLuxqa9mRl3Y6IOc8CWNR19WNVfSYWjy3RP9ekTEI+j\
+  \1Pg+qTqgMz/UaZbd1EOZstL6laeoCgPbZ5UxXoML+DtcZFcWABQqTbIoAh0fGC//l5h7X+umYh+B\
+  \0/euVp+GzBX5gTU6ak9uBkmROT6laK6bHrDIGxeILHdHOMd3YX6VmnhgKJCvAKEtuogtJIN61AAM\
+  \JPa/NpYmMYjtmWMeCNpYGQ5UE4ckOFNte7R3lA=="
