@@ -50,7 +50,7 @@ parseCFDIv3_2 root = CFDI
   <*> parseChildWith parseComplement "Complemento" root
   <*> do
     conceptsNode <- requireChildByName "Conceptos" root
-    wrapError (ParseErrorInChild "Conceptos")
+    wrapError "Conceptos"
       $ parseChildrenWith parseConcept "Concepto" conceptsNode
   <*> parseAttribute "Moneda" root
   <*> parseAttribute "descuento" root
@@ -229,13 +229,13 @@ parseChildrenWith parserFunc childName parent =
   forM children parseOrErr
   where
     children   = findChildrenByName childName parent
-    parseOrErr = wrapError (ParseErrorInChild childName) . parserFunc
+    parseOrErr = wrapError childName . parserFunc
 
 parseChildWith :: (Element -> Parsed a) -> String -> Element -> Parsed (Maybe a)
 parseChildWith parserFunc childName parent =
   case findChildByName childName parent of
     Nothing -> Right Nothing
-    Just x  -> Just <$> wrapError (ParseErrorInChild childName) (parserFunc x)
+    Just x  -> Just <$> wrapError childName (parserFunc x)
 
 parseDate :: String -> Maybe Day
 parseDate =
@@ -253,7 +253,7 @@ requireAndParseAttrWith parserFunc attrName elem =
 requireAndParseChildWith :: (Element -> Parsed a) -> String -> Element -> Parsed a
 requireAndParseChildWith parserFunc childName parent =
   requireChildByName childName parent
-    >>= wrapError (ParseErrorInChild childName) . parserFunc
+    >>= wrapError childName . parserFunc
 
 requireAndReadAttribute :: Read r => String -> Element -> Parsed r
 requireAndReadAttribute attrName =
@@ -267,6 +267,6 @@ requireChildByName :: String -> Element -> Parsed Element
 requireChildByName childName =
   justErr (ElemNotFound childName) . findChildByName childName
 
-wrapError :: (ParseError -> ParseError) -> Parsed a -> Parsed a
-wrapError parserFunc (Left err) = Left $ parserFunc err
+wrapError :: String -> Parsed a -> Parsed a
+wrapError childName (Left err) = Left $ ParseErrorInChild childName err
 wrapError _ x = x
