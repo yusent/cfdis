@@ -37,14 +37,14 @@ instance Renderable Address where
   attributes r =
     [ attr "pais" $ country r
     ] ++ catMaybes
-    [ attr "noExterior" <$> externalNumber r
-    , attr "noInterior" <$> internalNumber r
-    , attr "localidad" <$> locality r
-    , attr "referencia" <$> reference r
-    , attr "colonia" <$> suburb r
-    , attr "municipio" <$> municipality r
-    , attr "estado" <$> state r
-    , attr "calle" <$> street r
+    [ attr "noExterior"   <$> externalNumber r
+    , attr "noInterior"   <$> internalNumber r
+    , attr "localidad"    <$> locality r
+    , attr "referencia"   <$> reference r
+    , attr "colonia"      <$> suburb r
+    , attr "municipio"    <$> municipality r
+    , attr "estado"       <$> state r
+    , attr "calle"        <$> street r
     , attr "codigoPostal" <$> zipCode r
     ]
 
@@ -53,32 +53,32 @@ instance Renderable Address where
 
 instance Renderable CFDI where
   attributes r =
-    [ attr "certificado" $ certificate r
-    , attr "noCertificado" $ certificateNumber r
+    [ attr "certificado"       $ certificate r
+    , attr "noCertificado"     $ certificateNumber r
+    , attr "LugarExpedicion"   $ issuedIn r
+    , attr "metodoDePago"      $ paymentMethod r
+    , attr "subTotal"          $ subTotal r
+    , attr "sello"             $ signature r
+    , attr "total"             $ total r
+    , attr "tipoDeComprobante" $ _type r
+    , attr "version"           $ version r
+    , attr "formaDePago"       $ wayToPay r
     , attr "fecha" . pack
       . formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S" $ issuedAt r
-    , attr "LugarExpedicion" $ issuedIn r
-    , attr "metodoDePago" $ paymentMethod r
-    , attr "subTotal" $ subTotal r
-    , attr "sello" $ signature r
-    , attr "total" $ total r
-    , attr "tipoDeComprobante" $ _type r
-    , attr "version" $ version r
-    , attr "formaDePago" $ wayToPay r
     ] ++ catMaybes
-    [ attr "NumCtaPago" <$> accountNumber r
-    , attr "Moneda" <$> currency r
-    , attr "descuento" <$> discount r
-    , attr "motivoDescuento" <$> discountReason r
-    , attr "TipoCambio" <$> exchangeRate r
-    , attr "folio" <$> internalID r
+    [ attr "NumCtaPago"           <$> accountNumber r
+    , attr "Moneda"               <$> currency r
+    , attr "descuento"            <$> discount r
+    , attr "motivoDescuento"      <$> discountReason r
+    , attr "TipoCambio"           <$> exchangeRate r
+    , attr "folio"                <$> internalID r
     , attr "MontoFolioFiscalOrig" <$> originalAmount r
+    , attr "FolioFiscalOrig"      <$> originalNumber r
+    , attr "SerieFolioFiscalOrig" <$> originalSeries r
+    , attr "condicionesDePago"    <$> paymentConditions r
+    , attr "serie"                <$> series r
     , attr "FechaFolioFiscalOrig" . pack
       . formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S" <$> originalIssuedAt r
-    , attr "FolioFiscalOrig" <$> originalNumber r
-    , attr "SerieFolioFiscalOrig" <$> originalSeries r
-    , attr "condicionesDePago" <$> paymentConditions r
-    , attr "serie" <$> series r
     ]
 
   children r =
@@ -102,10 +102,10 @@ instance Renderable Complement where
 
 instance Renderable Concept where
   attributes r =
-    [ attr "importe" $ amount r
-    , attr "descripcion" $ description r
-    , attr "cantidad" $ quantity r
-    , attr "unidad" $ unit r
+    [ attr "importe"       $ amount r
+    , attr "descripcion"   $ description r
+    , attr "cantidad"      $ quantity r
+    , attr "unidad"        $ unit r
     , attr "valorUnitario" $ unitAmount r
     ] ++ catMaybes
     [ attr "noIdentificacion" <$> _id r
@@ -123,12 +123,12 @@ instance Renderable Concept where
 instance Renderable ConceptPart where
   attributes r =
     [ attr "descripcion" $ partDescription r
-    , attr "cantidad" $ partQuantity r
+    , attr "cantidad"    $ partQuantity r
     ] ++ catMaybes
-    [ attr "importe" <$> partAmount r
+    [ attr "importe"          <$> partAmount r
     , attr "noIdentificacion" <$> partId r
-    , attr "unidad" <$> partUnit r
-    , attr "valorUnitario" <$> partUnitAmount r
+    , attr "unidad"           <$> partUnit r
+    , attr "valorUnitario"    <$> partUnitAmount r
     ]
 
   children r =
@@ -139,17 +139,17 @@ instance Renderable ConceptPart where
 
 instance Renderable FiscalAddress where
   attributes r =
-    [ attr "pais" $ fiscalCountry r
-    , attr "municipio" $ fiscalMunicipality r
-    , attr "estado" $ fiscalState r
-    , attr "calle" $ fiscalStreet r
+    [ attr "pais"         $ fiscalCountry r
+    , attr "municipio"    $ fiscalMunicipality r
+    , attr "estado"       $ fiscalState r
+    , attr "calle"        $ fiscalStreet r
     , attr "codigoPostal" $ fiscalZipCode r
     ] ++ catMaybes
     [ attr "noExterior" <$> fiscalExternalNumber r
     , attr "noInterior" <$> fiscalInternalNumber r
-    , attr "localidad" <$> fiscalLocality r
+    , attr "localidad"  <$> fiscalLocality r
     , attr "referencia" <$> fiscalReference r
-    , attr "colonia" <$> fiscalSuburb r
+    , attr "colonia"    <$> fiscalSuburb r
     ]
 
   nodeName r = "DomicilioFiscal"
@@ -186,13 +186,13 @@ instance Renderable Issuer where
 
 instance Renderable PacStamp where
   attributes r =
-    [ attr "selloCFD" $ cfdSignature r
+    [ attr "selloCFD"         $ cfdSignature r
     , attr "noCertificadoSAT" $ satCertificateNumber r
-    , attr "selloSAT" $ satSignature r
+    , attr "selloSAT"         $ satSignature r
+    , attr "version"          $ stampVersion r
+    , attr "UUID"             $ uuid r
     , attr "FechaTimbrado" . pack
       . formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S" $ stampedAt r
-    , attr "version" $ stampVersion r
-    , attr "UUID" $ uuid r
     ]
 
   nodeName r =
@@ -234,7 +234,7 @@ instance Renderable RetainedTax where
 instance Renderable Taxes where
   attributes r =
     catMaybes
-      [ attr "totalImpuestosRetenidos" <$> totalRetained r
+      [ attr "totalImpuestosRetenidos"   <$> totalRetained r
       , attr "totalImpuestosTrasladados" <$> totalTransfered r
       ]
 
