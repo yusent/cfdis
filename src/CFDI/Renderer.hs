@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module CFDI.Renderer (render) where
 
 import CFDI.Types
@@ -52,7 +54,12 @@ instance Renderable Address where
 
 instance Renderable CFDI where
   attributes r =
-    [ attr "certificado"       $ certificate r
+    [ attrWithPrefix "xsi" "schemaLocation"
+        "http://www.sat.gob.mx/cfd/3 \
+        \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd"
+    , attrWithPrefix "xmlns" "cfdi" "http://www.sat.gob.mx/cfd/3"
+    , attrWithPrefix "xmlns" "xsi" "http://www.w3.org/2001/XMLSchema-instance"
+    , attr "certificado"       $ certificate r
     , attr "noCertificado"     $ certificateNumber r
     , attr "LugarExpedicion"   $ issuedIn r
     , attr "metodoDePago"      $ paymentMethod r
@@ -185,7 +192,11 @@ instance Renderable Issuer where
 
 instance Renderable PacStamp where
   attributes r =
-    [ attr "selloCFD"         $ cfdSignature r
+    [ attrWithPrefix "xsi" "schemaLocation"
+        "http://www.sat.gob.mx/TimbreFiscalDigital \
+        \http://www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd"
+    , attrWithPrefix "xmlns" "tfd" "http://www.sat.gob.mx/TimbreFiscalDigital"
+    , attr "selloCFD"         $ cfdSignature r
     , attr "noCertificadoSAT" $ satCertificateNumber r
     , attr "selloSAT"         $ satSignature r
     , attr "version"          $ stampVersion r
@@ -264,7 +275,12 @@ instance Renderable TransferedTax where
     "Traslado"
 
 attr :: String -> Text -> Attr
-attr attrName = Attr (QName attrName Nothing Nothing) . unpack
+attr attrName =
+  Attr (QName attrName Nothing Nothing) . unpack
+
+attrWithPrefix :: String -> String -> Text -> Attr
+attrWithPrefix prefix attrName =
+  Attr (QName attrName Nothing (Just prefix)) . unpack
 
 elem :: String -> String -> [Attr] -> [Element] -> Element
 elem prefix elemName attrs elems = Element

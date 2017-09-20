@@ -7,7 +7,7 @@ import CFDI.Parser
 import CFDI.Types
 import Data.Either         (isRight)
 import Data.List.Extra     (replace)
-import Data.Text           (Text)
+import Data.Text           (Text, isInfixOf)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Test.Hspec
@@ -224,8 +224,37 @@ spec = do
       signature signedCFDI `shouldBe` testCFDISignature
 
   describe "CFDI.toXML" $ do
+    let xml = toXML cfdi
+
     it "renders a complete representation of a CFDI as XML" $ do
-      parse (toXML cfdi) `shouldBe` Right cfdi
+      parse xml `shouldBe` Right cfdi
+
+    it "renders xsi namespace declaration" $ do
+      let xsiNamespaceDeclaration =
+            "xsi:schemaLocation=\"http://www.sat.gob.mx/cfd/3 \
+            \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd\""
+
+      xsiNamespaceDeclaration `shouldSatisfy` (`isInfixOf` xml)
+
+    it "renders cfdi schema location" $ do
+      let cfdiSchemaLocation =
+            "xsi:schemaLocation=\"http://www.sat.gob.mx/cfd/3 \
+            \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd\""
+          cfdiNamespaceDeclaration =
+            "xmlns:cfdi=\"http://www.sat.gob.mx/cfd/3\""
+
+      cfdiSchemaLocation `shouldSatisfy` (`isInfixOf` xml)
+      cfdiNamespaceDeclaration `shouldSatisfy` (`isInfixOf` xml)
+
+    it "renders tfd schema location" $ do
+      let tfdSchemaLocation =
+            "xsi:schemaLocation=\"http://www.sat.gob.mx/TimbreFiscalDigital \
+            \http://www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd\""
+          tfdNamespaceDeclaration =
+            "xmlns:tfd=\"http://www.sat.gob.mx/TimbreFiscalDigital\""
+
+      tfdSchemaLocation `shouldSatisfy` (`isInfixOf` xml)
+      tfdNamespaceDeclaration `shouldSatisfy` (`isInfixOf` xml)
 
 testCFDISignature :: Text
 testCFDISignature =
