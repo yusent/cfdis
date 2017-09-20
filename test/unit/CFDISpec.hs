@@ -223,6 +223,10 @@ spec = do
       let Right signedCFDI = eitherErrOrCFDI
       signature signedCFDI `shouldBe` testCFDISignature
 
+  describe "CFDI.toXML" $ do
+    it "renders a complete representation of a CFDI as XML" $ do
+      parse (toXML cfdi) `shouldBe` Right cfdi
+
 testCFDISignature :: Text
 testCFDISignature =
   "SreR9muwTWUELA5YH78zICbtsmRBusbseyrQz0rNNy53KsE6lq3hwTSwOb3n3ySzx6hHYQ5VZGeC\
