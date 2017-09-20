@@ -21,7 +21,7 @@ spec = do
       pem `shouldBe` testPEM
 
   describe "CFDI.CSD.signWithCSD" $ do
-    it "Signs some text with a CSD PEM" $ do
+    it "signs some text with a CSD PEM" $ do
       eitherErrOrText <- signWithCSD "test/csd/CSD01_AAA010101AAA.pem" "TEST"
       eitherErrOrText `shouldSatisfy` isRight
       let Right text = eitherErrOrText

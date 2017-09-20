@@ -172,7 +172,7 @@ spec = do
       originalChain cfdi `shouldBe` originalChain'
 
   describe "CFDI.signCFDIWith" $ do
-    it "Signs a CFDI with a CSD PEM" $ do
+    it "signs a CFDI with a CSD PEM" $ do
       eitherErrOrCFDI <- signCFDIWith "test/csd/CSD01_AAA010101AAA.pem" cfdi
       eitherErrOrCFDI `shouldSatisfy` isRight
       let Right signedCFDI = eitherErrOrCFDI

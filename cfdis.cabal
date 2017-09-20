@@ -18,9 +18,9 @@ library
   exposed-modules:     CFDI
                      , CFDI.CSD
                      , CFDI.Parser
-                     , CFDI.Renderer
                      , CFDI.Types
   other-modules:       CFDI.Chain
+                     , CFDI.Renderer
   build-depends:       base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1
                      , basic-prelude >= 0.6 && < 0.7
@@ -39,7 +39,6 @@ test-suite unit-tests
   hs-source-dirs:   test/unit
   other-modules:    CFDI.CSDSpec
                   , CFDI.ParserSpec
-                  , CFDI.RendererSpec
                   , CFDISpec
   build-depends:    base
                   , cfdis
