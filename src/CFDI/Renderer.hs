@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.Renderer (toXML) where
 
 import CFDI.Types

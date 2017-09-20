@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.RendererSpec (spec) where
 
 import CFDI.Parser
