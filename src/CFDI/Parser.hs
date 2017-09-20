@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Parser (ParseError(..), parseCFDI) where
+module CFDI.Parser (ParseError(..), Parsed, parseCFDI) where
 
 import BasicPrelude         (read)
 import CFDI.Types
@@ -12,8 +12,6 @@ import Data.Time.Calendar   (Day)
 import Data.Time.LocalTime  (LocalTime, localDay)
 import Data.Time.Parse      (strptime)
 import Prelude       hiding (read)
-import Text.XML.Light.Input (parseXMLDoc)
-import Text.XML.Light.Lexer (XmlSource)
 import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
 import Text.XML.Light.Types (Element(Element), QName(QName))
 
@@ -36,14 +34,23 @@ data ParseError
 
 type Parsed = Either ParseError
 
--- Main functions
+-- Parsers
 
-parseCFDI :: XmlSource s => s -> Parsed CFDI
-parseCFDI xmlSource =
-  justErr MalformedXML (parseXMLDoc xmlSource) >>= parseCFDIv3_2
+parseAddress :: Element -> Parsed Address
+parseAddress element = Address
+  <$> requireAttrValueByName "pais" element
+  <*> parseAttribute "noExterior" element
+  <*> parseAttribute "noInterior" element
+  <*> parseAttribute "localidad" element
+  <*> parseAttribute "municipio" element
+  <*> parseAttribute "referencia" element
+  <*> parseAttribute "colonia" element
+  <*> parseAttribute "estado" element
+  <*> parseAttribute "calle" element
+  <*> parseAttribute "codigoPostal" element
 
-parseCFDIv3_2 :: Element -> Parsed CFDI
-parseCFDIv3_2 root = CFDI
+parseCFDI :: Element -> Parsed CFDI
+parseCFDI root = CFDI
   <$> parseAttribute "NumCtaPago" root
   <*> requireAttrValueByName "certificado" root
   <*> requireAttrValueByName "noCertificado" root
@@ -75,21 +82,6 @@ parseCFDIv3_2 root = CFDI
   <*> requireAttrValueByName "tipoDeComprobante" root
   <*> requireAttrValueByName "version" root
   <*> requireAttrValueByName "formaDePago" root
-
--- Parsers
-
-parseAddress :: Element -> Parsed Address
-parseAddress element = Address
-  <$> requireAttrValueByName "pais" element
-  <*> parseAttribute "noExterior" element
-  <*> parseAttribute "noInterior" element
-  <*> parseAttribute "localidad" element
-  <*> parseAttribute "municipio" element
-  <*> parseAttribute "referencia" element
-  <*> parseAttribute "colonia" element
-  <*> parseAttribute "estado" element
-  <*> parseAttribute "calle" element
-  <*> parseAttribute "codigoPostal" element
 
 parseComplement :: Element -> Parsed Complement
 parseComplement element = Complement

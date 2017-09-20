@@ -3,8 +3,10 @@
 module CFDISpec (spec) where
 
 import CFDI
+import CFDI.Parser
 import CFDI.Types
 import Data.Either         (isRight)
+import Data.List.Extra     (replace)
 import Data.Text           (Text)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
@@ -170,6 +172,49 @@ spec = do
   describe "CFDI.originalChain" $ do
     it "calculates an original chain" $ do
       originalChain cfdi `shouldBe` originalChain'
+
+  describe "CFDI.parse" $ do
+    xmlSource <- runIO $ readFile "test/xml/invoice.xml"
+
+    it "parses invoices" $ do
+      parse xmlSource `shouldBe` Right cfdi
+
+    it "throws parse errors" $ do
+      let badSource0 = replace "calle=" "blah=" xmlSource
+
+      parse badSource0 `shouldBe` Left
+        ( ParseErrorInChild "Emisor"
+          ( ParseErrorInChild "DomicilioFiscal"
+            ( AttrNotFound "calle"
+            )
+          )
+        )
+
+      let badSource1 = replace "cantidad=" "blah=" xmlSource
+
+      parse badSource1 `shouldBe` Left
+        ( ParseErrorInChild "Conceptos"
+          ( ParseErrorInChild "Concepto"
+            ( AttrNotFound "cantidad"
+            )
+          )
+        )
+
+      let badSource2 = replace "1986-08-22" "blah" xmlSource
+
+      parse badSource2 `shouldBe` Left
+        ( ParseErrorInChild "Conceptos"
+          ( ParseErrorInChild "Concepto"
+            ( ParseErrorInChild "InformacionAduanera"
+              ( InvalidFormat "fecha"
+              )
+            )
+          )
+        )
+
+      let badSource3 = replace "2017-06-12T12:00:00" "blah" xmlSource
+
+      parse badSource3 `shouldBe` Left (InvalidFormat "fecha")
 
   describe "CFDI.signCFDIWith" $ do
     it "signs a CFDI with a CSD PEM" $ do
