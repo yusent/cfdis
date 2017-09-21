@@ -19,11 +19,10 @@ parse :: XmlSource s => s -> Parsed CFDI
 parse xmlSource = justErr MalformedXML (parseXMLDoc xmlSource) >>= parseCFDI
 
 signCFDIWith :: FilePath -> CFDI -> IO (Either Text CFDI)
-signCFDIWith csdPemPath cfdi = do
-  eitherErrOrSignature <- signWithCSD csdPemPath $ originalChain cfdi
-  return $ case eitherErrOrSignature of
-    Right sig -> Right $ cfdi { signature = sig }
-    Left  err -> Left err
+signCFDIWith csdPemPath cfdi =
+  fmap (fmap addSignatureToCFDI) . signWithCSD csdPemPath $ originalChain cfdi
+  where
+    addSignatureToCFDI sig = cfdi { signature = sig }
 
 toXML :: CFDI -> Text
 toXML = pack . ppTopElement . render
