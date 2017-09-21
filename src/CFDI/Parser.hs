@@ -10,7 +10,7 @@ import Data.Maybe           (fromMaybe)
 import Data.Text            (Text, pack, unpack)
 import Data.Time.Calendar   (Day)
 import Data.Time.LocalTime  (LocalTime, localDay)
-import Data.Time.Parse      (strptime)
+import Data.Time.Format     (defaultTimeLocale, parseTimeM)
 import Prelude       hiding (read)
 import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
 import Text.XML.Light.Types (Element(Element), QName(QName))
@@ -231,11 +231,15 @@ parseChildWith parserFunc childName parent =
 
 parseDate :: String -> Maybe Day
 parseDate =
-  fmap (localDay . fst) . strptime "%Y-%m-%d"
+  fmap localDay . parseTime "%Y-%m-%d"
 
 parseDateTime :: String -> Maybe LocalTime
 parseDateTime =
-  fmap fst . strptime "%Y-%m-%dT%H:%M:%S"
+  parseTime "%Y-%m-%dT%H:%M:%S"
+
+parseTime :: String -> String -> Maybe LocalTime
+parseTime format =
+  parseTimeM True defaultTimeLocale format
 
 requireAndParseAttrWith :: (String -> Maybe a) -> String -> Element -> Parsed a
 requireAndParseAttrWith parserFunc attrName elem =
