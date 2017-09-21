@@ -17,6 +17,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     CFDI
                      , CFDI.CSD
+                     , CFDI.PAC
                      , CFDI.Parser
                      , CFDI.Types
   other-modules:       CFDI.Chain
