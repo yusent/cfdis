@@ -249,9 +249,21 @@ instance Renderable Taxes where
       ]
 
   children r =
-    [ elem (nodePrefix r) "Retenciones" [] $ render <$> retainedTaxes r
-    , elem (nodePrefix r) "Traslados" [] $ render <$> transferedTaxes r
-    ]
+    catMaybes
+      [ retNode
+      , traNode
+      ]
+    where
+      retNode =
+        if length rt > 0
+           then Just (elem (nodePrefix r) "Retenciones" [] rt)
+           else Nothing
+      traNode =
+        if length tt > 0
+           then Just (elem (nodePrefix r) "Traslados" [] tt)
+           else Nothing
+      rt = render <$> retainedTaxes r
+      tt = render <$> transferedTaxes r
 
   nodeName r =
     "Impuestos"
