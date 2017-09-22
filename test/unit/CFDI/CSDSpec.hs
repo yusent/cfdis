@@ -17,10 +17,8 @@ spec = do
     it "transforms CSD key from DER to PEM format" $ do
       eitherErrOrPem <-
         csdKeyToPem "test/csd/CSD01_AAA010101AAA.key" "12345678a"
-      eitherErrOrPem `shouldSatisfy` isRight
-      let Right pem = eitherErrOrPem
       testPEM <- readFile "test/csd/CSD01_AAA010101AAA.pem"
-      pem `shouldBe` testPEM
+      eitherErrOrPem `shouldBe` Right testPEM
 
   describe "CFDI.CSD.getCsdCerData" $ do
     eitherErrOrCsdCerData <-
@@ -36,9 +34,7 @@ spec = do
   describe "CFDI.CSD.signWithCSD" $ do
     it "signs some text with a CSD PEM" $ do
       eitherErrOrText <- signWithCSD "test/csd/CSD01_AAA010101AAA.pem" "TEST"
-      eitherErrOrText `shouldSatisfy` isRight
-      let Right text = eitherErrOrText
-      text `shouldBe` testSignedText
+      eitherErrOrText `shouldBe` Right testSignedText
 
 testCerText :: Text
 testCerText =
