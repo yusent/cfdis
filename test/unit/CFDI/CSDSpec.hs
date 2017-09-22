@@ -27,19 +27,11 @@ spec = do
       runIO $ getCsdCerData "test/csd/CSD01_AAA010101AAA.cer"
 
     it "gets CSD certificate data" $ do
-      eitherErrOrCsdCerData `shouldSatisfy` isRight
-
-    let Right data_ = eitherErrOrCsdCerData
-
-    it "gets CSD certificate number" $ do
-      cerNumber data_ `shouldBe` "30001000000300023708"
-
-    it "gets CSD certificate expiration date" $ do
-      cerExpiresAt data_ `shouldBe`
-        LocalTime (ModifiedJulianDay 59352) (TimeOfDay 3 54 56)
-
-    it "gets CSD certificate text" $ do
-      cerToText data_ `shouldBe` testCerText
+      eitherErrOrCsdCerData `shouldBe` Right CsdCerData
+        { cerExpiresAt = LocalTime (ModifiedJulianDay 59352) (TimeOfDay 3 54 56)
+        , cerNumber    = "30001000000300023708"
+        , cerToText    = testCerText
+        }
 
   describe "CFDI.CSD.signWithCSD" $ do
     it "signs some text with a CSD PEM" $ do
