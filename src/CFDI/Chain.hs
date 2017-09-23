@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Chain where
+module CFDI.Chain (originalChain) where
 
 import CFDI.Types
 import Data.Text           (Text, append, cons, length, pack, tail)
@@ -155,3 +155,6 @@ instance Chainable TransferedTax where
         <@> transferedTaxRate
         <~> transferedTaxAmount
         <~> (x, "")
+
+originalChain :: CFDI -> Text
+originalChain cfdi = "||" `append` chain cfdi `append` "||"

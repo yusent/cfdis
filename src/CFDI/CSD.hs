@@ -4,9 +4,12 @@ module CFDI.CSD
   ( CsdCerData(..)
   , getCsdCerData
   , csdKeyToPem
+  , signCFDIWith
   , signWithCSD
   ) where
 
+import CFDI.Chain                (originalChain)
+import CFDI.Types                (CFDI, signature)
 import Control.Exception         (ErrorCall, catch, evaluate)
 import Data.ByteString           (ByteString)
 import Data.ByteString.Base64    (encode)
@@ -44,6 +47,12 @@ csdKeyToPem keyPath keyPass =
   runOpenSSL ("pkcs8 -inform DER -in " ++ keyPath ++ " -passin " ++ pass) empty
   where
     pass = "pass:" ++ keyPass
+
+signCFDIWith :: FilePath -> CFDI -> IO (Either Text CFDI)
+signCFDIWith csdPemPath cfdi =
+  fmap (fmap addSignatureToCFDI) . signWithCSD csdPemPath $ originalChain cfdi
+  where
+    addSignatureToCFDI sig = cfdi { signature = sig }
 
 signWithCSD :: FilePath -> Text -> IO (Either Text Text)
 signWithCSD csdPemPath =

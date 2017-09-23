@@ -1,6 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Parser (ParseError(..), Parsed, parseCFDI) where
+module CFDI.Parser
+  ( ParseError(..)
+  , Parsed
+  , parse
+  ) where
 
 import BasicPrelude         (read)
 import CFDI.Types
@@ -12,6 +16,8 @@ import Data.Time.Calendar   (Day)
 import Data.Time.LocalTime  (LocalTime)
 import Data.Time.Format     (defaultTimeLocale, parseTimeM)
 import Prelude       hiding (read)
+import Text.XML.Light       (parseXMLDoc)
+import Text.XML.Light.Lexer (XmlSource)
 import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
 import Text.XML.Light.Types (Element(Element), QName(QName))
 
@@ -33,6 +39,9 @@ data ParseError
   deriving (Eq, Show)
 
 type Parsed = Either ParseError
+
+parse :: XmlSource s => s -> Parsed CFDI
+parse xmlSource = justErr MalformedXML (parseXMLDoc xmlSource) >>= parseCFDI
 
 -- Parsers
 
