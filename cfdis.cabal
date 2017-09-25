@@ -19,7 +19,6 @@ library
                      , CFDI.Chain
                      , CFDI.CSD
                      , CFDI.PAC
-                     , CFDI.PAC.ITimbre
                      , CFDI.Parser
                      , CFDI.Renderer
                      , CFDI.Types

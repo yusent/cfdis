@@ -15,6 +15,3 @@ import CFDI.PAC
 import CFDI.Parser
 import CFDI.Renderer
 import CFDI.Types
-
-
-
