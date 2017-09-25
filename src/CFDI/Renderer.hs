@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Renderer (render) where
+module CFDI.Renderer (toXML) where
 
 import CFDI.Types
 import Data.Maybe          (catMaybes, maybeToList)
@@ -13,6 +13,7 @@ import Text.XML.Light
   , Content(Elem)
   , Element(..)
   , QName(..)
+  , ppTopElement
   )
 
 class Renderable r where
@@ -249,9 +250,10 @@ instance Renderable Taxes where
       ]
 
   children r =
-    [ elem (nodePrefix r) "Retenciones" [] $ render <$> retainedTaxes r
-    , elem (nodePrefix r) "Traslados" [] $ render <$> transferedTaxes r
-    ]
+    filter ((> 0) . length . elContent)
+      [ elem (nodePrefix r) "Retenciones" [] $ render <$> retainedTaxes r
+      , elem (nodePrefix r) "Traslados" [] $ render <$> transferedTaxes r
+      ]
 
   nodeName r =
     "Impuestos"
@@ -288,3 +290,6 @@ elem prefix elemName attrs elems = Element
   attrs
   (Elem <$> elems)
   Nothing
+
+toXML :: CFDI -> Text
+toXML = pack . ppTopElement . render

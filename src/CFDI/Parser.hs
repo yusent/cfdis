@@ -1,6 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Parser (ParseError(..), Parsed, parseCFDI) where
+module CFDI.Parser
+  ( ParseError(..)
+  , Parsed
+  , parse
+  ) where
 
 import BasicPrelude         (read)
 import CFDI.Types
@@ -9,9 +13,11 @@ import Control.Monad        (forM, sequence)
 import Data.Maybe           (fromMaybe)
 import Data.Text            (Text, pack, unpack)
 import Data.Time.Calendar   (Day)
-import Data.Time.LocalTime  (LocalTime, localDay)
-import Data.Time.Parse      (strptime)
+import Data.Time.LocalTime  (LocalTime)
+import Data.Time.Format     (defaultTimeLocale, parseTimeM)
 import Prelude       hiding (read)
+import Text.XML.Light       (parseXMLDoc)
+import Text.XML.Light.Lexer (XmlSource)
 import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
 import Text.XML.Light.Types (Element(Element), QName(QName))
 
@@ -33,6 +39,9 @@ data ParseError
   deriving (Eq, Show)
 
 type Parsed = Either ParseError
+
+parse :: XmlSource s => s -> Parsed CFDI
+parse xmlSource = justErr MalformedXML (parseXMLDoc xmlSource) >>= parseCFDI
 
 -- Parsers
 
@@ -231,11 +240,11 @@ parseChildWith parserFunc childName parent =
 
 parseDate :: String -> Maybe Day
 parseDate =
-  fmap (localDay . fst) . strptime "%Y-%m-%d"
+  parseTimeM True defaultTimeLocale "%Y-%m-%d"
 
 parseDateTime :: String -> Maybe LocalTime
 parseDateTime =
-  fmap fst . strptime "%Y-%m-%dT%H:%M:%S"
+  parseTimeM True defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
 
 requireAndParseAttrWith :: (String -> Maybe a) -> String -> Element -> Parsed a
 requireAndParseAttrWith parserFunc attrName elem =
