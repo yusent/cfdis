@@ -16,13 +16,13 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     CFDI
+                     , CFDI.Chain
                      , CFDI.CSD
                      , CFDI.PAC
                      , CFDI.PAC.ITimbre
                      , CFDI.Parser
-                     , CFDI.Types
-  other-modules:       CFDI.Chain
                      , CFDI.Renderer
+                     , CFDI.Types
   build-depends:       aeson >= 1.1 && < 1.2
                      , base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1
