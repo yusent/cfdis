@@ -114,7 +114,7 @@ handleITimbreResponse response
 
                   Just ps -> Right ps
 
-  | otherwise = Left $ PacHTTPError responseStatusCode $ pack $ show responseBody
+  | otherwise = Left . PacHTTPError responseStatusCode . pack $ show responseBody
   where
     responseStatusCode = getResponseStatusCode response
     responseBody = getResponseBody response
