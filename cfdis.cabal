@@ -19,15 +19,19 @@ library
                      , CFDI.Chain
                      , CFDI.CSD
                      , CFDI.PAC
+                     , CFDI.PAC.ITimbre
                      , CFDI.Parser
                      , CFDI.Renderer
                      , CFDI.Types
-  build-depends:       base >= 4.7 && < 5
+  build-depends:       aeson >= 1.1 && < 1.2
+                     , base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1
                      , basic-prelude >= 0.6 && < 0.7
                      , bytestring >= 0.10 && < 0.11
                      , errors >= 2.2 && < 2.3
                      , ghc >= 8.0 && < 8.1
+                     , http-conduit >= 2.2 && < 2.3
+                     , http-types >= 0.9 && < 0.10
                      , process-extras >= 0.7 && < 0.8
                      , text >= 1.2 && < 1.3
                      , time >= 1.6 && < 1.7
@@ -39,6 +43,7 @@ test-suite unit-tests
   main-is:          Spec.hs
   hs-source-dirs:   test/unit
   other-modules:    CFDI.CSDSpec
+                  , CFDI.PAC.ITimbreSpec
                   , CFDISpec
   build-depends:    base
                   , cfdis
@@ -49,6 +54,7 @@ test-suite unit-tests
                   , temporary
                   , text
                   , time
+                  , yaml
   default-language: Haskell2010
 
 source-repository head

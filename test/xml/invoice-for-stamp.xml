@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante fecha="2017-09-20T07:34:44" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd" metodoDePago="99" noCertificado="00001000000403544254" serie="A" Moneda="USD" LugarExpedicion="MATRIZ" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" version="3.2" TipoCambio="17.7610" tipoDeComprobante="ingreso" folio="885443" formaDePago="PAGO EN UNA SOLA EXHIBICION" certificado="" condicionesDePago="CREDITO 30 DIAS" subTotal="80.94" total="93.89" NumCtaPago="0000">
+<cfdi:Emisor rfc="LEVM590117199" nombre="EMISOR DE PRUEBA">
+<cfdi:DomicilioFiscal estado="BAJA CALIFORNIA" pais="MEXICO" noExterior="10" municipio="TIJUANA" calle="CALLE A" colonia="FRACC. SANTA ELENA" codigoPostal="22600"/>
+<cfdi:RegimenFiscal Regimen="REGIMEN GENERAL DE LEY PERSONAS MORALES"/>
+</cfdi:Emisor>
+<cfdi:Receptor rfc="XAXX010101000" nombre="RECEPTOR DE PRUEBA">
+<cfdi:Domicilio estado="BC" pais="MEXICO" municipio="TIJUANA" calle="AV. VIA RAPIDA ORIENTE #5030 COL. RIO TIJUANA 3ERA. ETAPA" codigoPostal="22226"/>
+</cfdi:Receptor>
+<cfdi:Conceptos>
+<cfdi:Concepto importe="44.88" unidad="PIEZA" valorUnitario="44.88" noIdentificacion="40-0106-00D1" descripcion="PINZA P/MOLDE THERMOWELD B-106" cantidad="1.00"> <cfdi:InformacionAduanera fecha="2017-03-08" aduana="TIJUANA" numero="35117001882"/></cfdi:Concepto>
+<cfdi:Concepto importe="8.04" unidad="PIEZA" valorUnitario="4.02" noIdentificacion="38-0309-00D1" descripcion="CHISPERO THERMOWELD" cantidad="2.00"> <cfdi:InformacionAduanera fecha="2016-08-02" aduana="TIJUANA" numero="35116004819"/></cfdi:Concepto>
+<cfdi:Concepto importe="28.02" unidad="PIEZA" valorUnitario="4.67" noIdentificacion="12-20-40D1" descripcion="TUBO PVC GRIS C-40 2 X 10&apos;" cantidad="6.00"/>
+</cfdi:Conceptos>
+<cfdi:Impuestos totalImpuestosTrasladados="12.95">
+<cfdi:Traslados>
+<cfdi:Traslado importe="12.95" tasa="16" impuesto="IVA"/>
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Comprobante>
