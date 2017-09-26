@@ -40,7 +40,7 @@ spec = do
     then do
       describe "CFDI.PAC.ITimbre.ITimbre instance of PAC" $ do
         it "implements getPacStamp function" $ do
-          Just (ITimbreCreds user_ pass_ rfc_ crt pem) <-
+          Just (ITimbreCreds usr pass_ rfc_ crt pem) <-
             decodeFile credsFilePath
 
           xmlSource <- readFile "test/xml/invoice-for-stamp.xml"
@@ -51,7 +51,7 @@ spec = do
               cfdi = baseCfdi { certificate = crt, issuedAt = time }
               time = now { localDay = addDays (-1) (localDay now) }
           Right signedCfdi <- signCFDIWith pemFilePath cfdi
-          eitherErrOrStamp <- stamp signedCfdi $ ITimbre user_ pass_ rfc_
+          eitherErrOrStamp <- stamp signedCfdi $ ITimbre usr pass_ rfc_ Testing
           eitherErrOrStamp `shouldSatisfy` isRight
           removeFile pemFilePath
     else

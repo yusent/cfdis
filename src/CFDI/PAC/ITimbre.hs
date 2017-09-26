@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.PAC.ITimbre (ITimbre(..)) where
+module CFDI.PAC.ITimbre (ITimbre(..), ITimbreEnv(..)) where
 
 import CFDI.PAC
 import CFDI.Parser               (parse)
@@ -49,7 +49,13 @@ data ITimbre = ITimbre
   { user :: Text
   , pass :: Text
   , rfc  :: Text
+  , env  :: ITimbreEnv
   }
+
+data ITimbreEnv
+  = Production
+  | Testing
+  deriving (Eq, Show)
 
 data ITimbreResponse = ITimbreResponse
   { irRetCode :: Text
@@ -73,8 +79,11 @@ instance PAC ITimbre where
   getPacStamp cfdi p = do
     fmap handleITimbreResponse (httpJSON request) `catch` handleHttpException
     where
+      req
+        | env p == Production = "POST https://portalws.itimbre.com/itimbre.php"
+        | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
       request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)]
-              $ "POST https://portalws.itimbre.com/itimbreprueba.php"
+              $ req
       requestBody = object
         [ "id"     .= take 12 (signature cfdi)
         , "method" .= ("cfd2cfdi" :: Text)
