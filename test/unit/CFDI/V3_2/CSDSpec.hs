@@ -1,8 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.CSDSpec (spec) where
+module CFDI.V3_2.CSDSpec
+  ( spec
+  ) where
 
-import CFDI.CSD
+import CFDI.V3_2.CSD
 import Prelude      hiding (readFile)
 import Data.Text           (Text, unpack)
 import Data.Text.IO        (readFile)
@@ -14,13 +16,13 @@ import Test.Hspec
 
 spec :: Spec
 spec = do
-  describe "CFDI.CSD.csdKeyToPem" $ do
+  describe "CFDI.V3_2.CSD.csdKeyToPem" $ do
     it "transforms CSD key from DER to PEM format" $ do
       eitherErrOrPem <-
         csdKeyToPem "test/csd/CSD01_AAA010101AAA.key" "12345678a"
       eitherErrOrPem `shouldBe` Right testPEM
 
-  describe "CFDI.CSD.getCsdCerData" $ do
+  describe "CFDI.V3_2.CSD.getCsdCerData" $ do
     it "gets CSD certificate data" $ do
       eitherErrOrCsdCerData <- getCsdCerData "test/csd/CSD01_AAA010101AAA.cer"
       eitherErrOrCsdCerData `shouldBe` Right CsdCerData
@@ -29,7 +31,7 @@ spec = do
         , cerToText    = testCerText
         }
 
-  describe "CFDI.CSD.signWithCSD" $ do
+  describe "CFDI.V3_2.CSD.signWithCSD" $ do
     it "signs some text with a CSD PEM" $ do
       pemFilePath <- writeSystemTempFile "csd.pem" (unpack testPEM)
       eitherErrOrText <- signWithCSD pemFilePath "TEST"

@@ -1,8 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Renderer (toXML) where
+module CFDI.V3_2.Renderer
+  ( toXML
+  ) where
 
-import CFDI.Types
+import CFDI.V3_2.Types
 import Data.Maybe          (catMaybes, maybeToList)
 import Data.Text           (Text, pack, unpack)
 import Data.Time.Calendar  (showGregorian)

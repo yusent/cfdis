@@ -1,4 +1,4 @@
-module CFDI.Types where
+module CFDI.V3_2.Types where
 
 import Data.Text           (Text)
 import Data.Time.Calendar  (Day)

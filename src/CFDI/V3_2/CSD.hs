@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.CSD
+module CFDI.V3_2.CSD
   ( CsdCerData(..)
   , getCsdCerData
   , csdKeyToPem
@@ -8,8 +8,8 @@ module CFDI.CSD
   , signWithCSD
   ) where
 
-import CFDI.Chain                (originalChain)
-import CFDI.Types                (CFDI, signature)
+import CFDI.V3_2.Chain           (originalChain)
+import CFDI.V3_2.Types           (CFDI, signature)
 import Control.Exception         (ErrorCall, catch, evaluate)
 import Data.ByteString           (ByteString)
 import Data.ByteString.Base64    (encode)

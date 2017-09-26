@@ -1,10 +1,10 @@
-module CFDI.PAC where
+module CFDI.V3_2.PAC where
 
-import CFDI.Parser   (ParseError)
-import CFDI.Renderer (toXML)
-import CFDI.Types    (CFDI, Complement(..), PacStamp, complement, pacStamp)
-import Data.Maybe    (fromMaybe)
-import Data.Text     (Text)
+import CFDI.V3_2.Parser   (ParseError)
+import CFDI.V3_2.Renderer (toXML)
+import CFDI.V3_2.Types    (CFDI, Complement(..), PacStamp, complement, pacStamp)
+import Data.Maybe         (fromMaybe)
+import Data.Text          (Text)
 
 class PAC p where
   getPacStamp :: CFDI -> p -> IO (Either StampError PacStamp)

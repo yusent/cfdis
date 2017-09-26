@@ -1,8 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Chain (originalChain) where
+module CFDI.V3_2.Chain
+  ( originalChain
+  ) where
 
-import CFDI.Types
+import CFDI.V3_2.Types
 import Data.Text           (Text, append, cons, length, pack, tail)
 import Data.Time.Calendar  (Day, showGregorian)
 import Data.Time.Format    (defaultTimeLocale, formatTime)

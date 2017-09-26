@@ -1,11 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.PAC.ITimbre (ITimbre(..), ITimbreEnv(..)) where
+module CFDI.V3_2.PAC.ITimbre
+  ( ITimbre(..)
+  , ITimbreEnv(..)
+  ) where
 
-import CFDI.PAC
-import CFDI.Parser               (parse)
-import CFDI.Renderer             (toXML)
-import CFDI.Types
+import CFDI.V3_2.PAC
+import CFDI.V3_2.Parser          (parse)
+import CFDI.V3_2.Renderer        (toXML)
+import CFDI.V3_2.Types
   ( CFDI
   , PacStamp
   , complement
