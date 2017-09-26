@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.V3_2
   ( module CFDI.V3_2.Chain
   , module CFDI.V3_2.CSD
