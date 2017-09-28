@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Parser
+module CFDI.V3_2.Parser
   ( ParseError(..)
   , Parsed
   , parse
   ) where
 
 import BasicPrelude         (read)
-import CFDI.Types
+import CFDI.V3_2.Types
 import Control.Error.Safe   (justErr)
 import Control.Monad        (forM, sequence)
 import Data.Maybe           (fromMaybe)

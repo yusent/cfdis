@@ -1,6 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.CSDSpec (spec) where
+module CFDI.CSDSpec
+  ( spec
+  ) where
 
 import CFDI.CSD
 import Prelude      hiding (readFile)

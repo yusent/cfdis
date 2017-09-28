@@ -1,37 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.Chain (originalChain) where
+module CFDI.V3_2.Chain
+  ( originalChain
+  ) where
 
-import CFDI.Types
-import Data.Text           (Text, append, cons, length, pack, tail)
-import Data.Time.Calendar  (Day, showGregorian)
-import Data.Time.Format    (defaultTimeLocale, formatTime)
-import Data.Time.LocalTime (LocalTime)
-import Prelude      hiding (length, tail)
-
-class Chainable a where
-  chain :: a -> Text
-
-  infixr 9 <@>, <@@>, <~>, <~~>
-
-  -- Chain starters
-  (<@>) :: Chainable b => (a -> b) -> (a, Text) -> Text
-  (<@>) f = tail . snd . (f <~>)
-
-  (<@@>) :: Chainable b => (a -> [b]) -> (a, Text) -> Text
-  (<@@>) f = tail . snd . (f <~~>)
-
-  -- Chain connectors
-  (<~>) :: Chainable b => (a -> b) -> (a, Text) -> (a, Text)
-  f <~> (x, s) = (x, s' `append` s)
-    where
-      s'  = if length s'' > 0 then cons '|' s'' else ""
-      s'' = chain $ f x
-
-  (<~~>) :: Chainable b => (a -> [b]) -> (a, Text) -> (a, Text)
-  f <~~> (x, s) = (x, s' `append` s)
-    where
-      s' = foldl append "" . map ((cons '|') . chain) $ f x
+import CFDI.Chainable
+import CFDI.V3_2.Types
+import Data.Text       (Text, append, pack)
 
 instance Chainable Address where
   chain x = street
@@ -81,9 +56,6 @@ instance Chainable Concept where
        <~~> propertyAccount
         <~> (x, "")
 
-instance Chainable Day where
-  chain = pack . showGregorian
-
 instance Chainable FiscalAddress where
   chain x = fiscalStreet
         <@> fiscalExternalNumber
@@ -96,9 +68,6 @@ instance Chainable FiscalAddress where
         <~> fiscalCountry
         <~> fiscalZipCode
         <~> (x, "")
-
-instance Chainable Float where
-  chain = pack . show
 
 instance Chainable ImportInfo where
   chain x = importNumber
@@ -114,12 +83,6 @@ instance Chainable Issuer where
         <~> regimes
        <~~> (x, "")
 
-instance Chainable LocalTime where
-  chain = pack . formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
-
-instance Chainable a => Chainable (Maybe a) where
-  chain = maybe "" chain
-
 instance Chainable PropertyAccount where
   chain = propertyAccountNumber
 
@@ -133,9 +96,6 @@ instance Chainable RetainedTax where
   chain x = retainedTax
         <@> retainedTaxAmount
         <~> (x, "")
-
-instance Chainable Text where
-  chain = id
 
 instance Chainable Tax where
   chain = pack . show

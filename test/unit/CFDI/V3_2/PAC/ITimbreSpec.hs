@@ -1,15 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.PAC.ITimbreSpec (spec) where
+module CFDI.V3_2.PAC.ITimbreSpec
+  ( spec
+  ) where
 
-import CFDI                (certificate, issuedAt, parse, signCFDIWith, stamp)
-import CFDI.PAC.ITimbre
-import Data.Either         (isRight)
-import Data.Text           (Text)
-import Data.Time.LocalTime (localDay)
-import Data.Time.Calendar  (addDays)
-import Data.Time.Clock     (getCurrentTime)
-import Data.Time.Format    (defaultTimeLocale, formatTime, parseTimeM)
+import CFDI.V3_2             (certificate, issuedAt, parse, signCFDIWith, stamp)
+import CFDI.V3_2.PAC.ITimbre
+import Data.Either           (isRight)
+import Data.Text             (Text)
+import Data.Time.LocalTime   (localDay)
+import Data.Time.Calendar    (addDays)
+import Data.Time.Clock       (getCurrentTime)
+import Data.Time.Format      (defaultTimeLocale, formatTime, parseTimeM)
 import Data.Yaml
   ( FromJSON
   , Value(Object)
@@ -38,7 +40,7 @@ spec = do
 
   if credsFileExist
     then do
-      describe "CFDI.PAC.ITimbre.ITimbre instance of PAC" $ do
+      describe "CFDI.V3_2.PAC.ITimbre.ITimbre instance of PAC" $ do
         it "implements getPacStamp function" $ do
           Just (ITimbreCreds usr pass_ rfc_ crt pem) <-
             decodeFile credsFilePath

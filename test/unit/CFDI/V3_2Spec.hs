@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDISpec (spec) where
+module CFDI.V3_2Spec (spec) where
 
-import CFDI
-import CFDI.Parser
-import CFDI.Types
+import CFDI.V3_2
+import CFDI.V3_2.Parser
+import CFDI.V3_2.Types
 import Data.List.Extra     (replace)
 import Data.Text           (Text, isInfixOf)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
@@ -170,11 +170,11 @@ originalChain' =
 
 spec :: Spec
 spec = do
-  describe "CFDI.originalChain" $ do
+  describe "CFDI.V3_2.originalChain" $ do
     it "calculates an original chain" $ do
       originalChain cfdi `shouldBe` originalChain'
 
-  describe "CFDI.parse" $ do
+  describe "CFDI.V3_2.parse" $ do
     xmlSource <- runIO $ readFile "test/xml/invoice.xml"
 
     it "parses invoices" $ do
@@ -217,14 +217,14 @@ spec = do
 
       parse badSource3 `shouldBe` Left (InvalidFormat "fecha")
 
-  describe "CFDI.signCFDIWith" $ do
+  describe "CFDI.V3_2.signCFDIWith" $ do
     it "signs a CFDI with a CSD PEM" $ do
       pemFilePath <- writeSystemTempFile "csd.pem" testPEM
       eitherErrOrCFDI <- signCFDIWith pemFilePath cfdi
       signature <$> eitherErrOrCFDI `shouldBe` Right testCFDISignature
       removeFile pemFilePath
 
-  describe "CFDI.toXML" $ do
+  describe "CFDI.V3_2.toXML" $ do
     let xml = toXML cfdi
 
     it "renders a complete representation of a CFDI as XML" $ do
