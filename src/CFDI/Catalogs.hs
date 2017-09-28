@@ -218,6 +218,18 @@ instance Catalog Currency where
 
   toCode = pack . show
 
+data PaymentMethod
+  = OneTimePayment
+  | PartialPayment
+
+instance Catalog PaymentMethod where
+  fromCode "PUE" = Just OneTimePayment
+  fromCode "PPD" = Just PartialPayment
+  fromCode _     = Nothing
+
+  toCode OneTimePayment = "PUE"
+  toCode PartialPayment = "PPD"
+
 data WayToPay
   = Cash
   | NominalCheck
