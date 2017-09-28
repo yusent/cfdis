@@ -10,6 +10,28 @@ class Catalog c where
 
   toCode :: c -> Text
 
+data CfdiType
+  = Income
+  | Outcome
+  | Transfer
+  | Paysheet
+  | Payment
+  deriving (Eq, Show)
+
+instance Catalog CfdiType where
+  fromCode "I" = Just Income
+  fromCode "E" = Just Outcome
+  fromCode "T" = Just Transfer
+  fromCode "N" = Just Paysheet
+  fromCode "P" = Just Payment
+  fromCode _   = Nothing
+
+  toCode Income   = "I"
+  toCode Outcome  = "E"
+  toCode Transfer = "T"
+  toCode Paysheet = "N"
+  toCode Payment  = "P"
+
 data Currency
   = AED
   | AFN
@@ -265,25 +287,3 @@ instance Catalog WayToPay where
   toCode ServiceCard                    = "29"
   toCode AdvancesApplication            = "30"
   toCode ToBeDefined                    = "99"
-
-data CfdiType
-  = Income
-  | Outcome
-  | Transfer
-  | Paysheet
-  | Payment
-  deriving (Eq, Show)
-
-instance Catalog CfdiType where
-  fromCode "I" = Just Income
-  fromCode "E" = Just Outcome
-  fromCode "T" = Just Transfer
-  fromCode "N" = Just Paysheet
-  fromCode "P" = Just Payment
-  fromCode _   = Nothing
-
-  toCode Income   = "I"
-  toCode Outcome  = "E"
-  toCode Transfer = "T"
-  toCode Paysheet = "N"
-  toCode Payment  = "P"
