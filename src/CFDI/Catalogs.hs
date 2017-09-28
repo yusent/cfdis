@@ -221,28 +221,6 @@ data WayToPay
   deriving (Eq, Show)
 
 instance Catalog WayToPay where
-  toCode Cash                           = "01"
-  toCode NominalCheck                   = "02"
-  toCode ElectronicTransfer             = "03"
-  toCode CreditCard                     = "04"
-  toCode ElectronicPurse                = "05"
-  toCode ElectronicCash                 = "06"
-  toCode PantryCoupons                  = "08"
-  toCode PaymentIn                      = "12"
-  toCode Subrogation                    = "13"
-  toCode Consignment                    = "14"
-  toCode Condonation                    = "15"
-  toCode Compensation                   = "17"
-  toCode Novation                       = "23"
-  toCode Confusion                      = "24"
-  toCode DebtReferral                   = "25"
-  toCode PrescriptionOrExpiration       = "26"
-  toCode ToTheSatisfactionOfTheCreditor = "27"
-  toCode DebitCard                      = "28"
-  toCode ServiceCard                    = "29"
-  toCode AdvancesApplication            = "30"
-  toCode ToBeDefined                    = "99"
-
   fromCode "01" = Just Cash
   fromCode "02" = Just NominalCheck
   fromCode "03" = Just ElectronicTransfer
@@ -265,3 +243,47 @@ instance Catalog WayToPay where
   fromCode "30" = Just AdvancesApplication
   fromCode "99" = Just ToBeDefined
   fromCode _    = Nothing
+
+  toCode Cash                           = "01"
+  toCode NominalCheck                   = "02"
+  toCode ElectronicTransfer             = "03"
+  toCode CreditCard                     = "04"
+  toCode ElectronicPurse                = "05"
+  toCode ElectronicCash                 = "06"
+  toCode PantryCoupons                  = "08"
+  toCode PaymentIn                      = "12"
+  toCode Subrogation                    = "13"
+  toCode Consignment                    = "14"
+  toCode Condonation                    = "15"
+  toCode Compensation                   = "17"
+  toCode Novation                       = "23"
+  toCode Confusion                      = "24"
+  toCode DebtReferral                   = "25"
+  toCode PrescriptionOrExpiration       = "26"
+  toCode ToTheSatisfactionOfTheCreditor = "27"
+  toCode DebitCard                      = "28"
+  toCode ServiceCard                    = "29"
+  toCode AdvancesApplication            = "30"
+  toCode ToBeDefined                    = "99"
+
+data CfdiType
+  = Income
+  | Outcome
+  | Transfer
+  | Paysheet
+  | Payment
+  deriving (Eq, Show)
+
+instance Catalog CfdiType where
+  fromCode "I" = Just Income
+  fromCode "E" = Just Outcome
+  fromCode "T" = Just Transfer
+  fromCode "N" = Just Paysheet
+  fromCode "P" = Just Payment
+  fromCode _   = Nothing
+
+  toCode Income   = "I"
+  toCode Outcome  = "E"
+  toCode Transfer = "T"
+  toCode Paysheet = "N"
+  toCode Payment  = "P"
