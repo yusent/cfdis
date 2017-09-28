@@ -15,7 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     CFDI.CSD
+  exposed-modules:     CFDI.Catalogs
+                     , CFDI.CSD
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
                      , CFDI.V3_2.PAC
