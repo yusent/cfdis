@@ -1,5 +1,13 @@
 module CFDI.Catalogs where
 
+import Data.Text (Text, pack, unpack)
+import Text.Read (readMaybe)
+
+class Catalog c where
+  fromCode :: Text -> Maybe c
+
+  toCode :: c -> Text
+
 data Currency
   = AED
   | AFN
@@ -180,3 +188,8 @@ data Currency
   | ZMW
   | ZWL
   deriving (Eq, Read, Show)
+
+instance Catalog Currency where
+  fromCode = readMaybe . unpack
+
+  toCode = pack . show
