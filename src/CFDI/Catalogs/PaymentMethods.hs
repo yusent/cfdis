@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.Catalogs.PaymentMethods where
 
 import CFDI.Catalog

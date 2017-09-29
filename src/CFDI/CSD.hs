@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.CSD
   ( CsdCerData(..)
   , getCsdCerData

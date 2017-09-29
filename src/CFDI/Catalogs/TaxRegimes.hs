@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.Catalogs.TaxRegimes where
 
 import CFDI.Catalog

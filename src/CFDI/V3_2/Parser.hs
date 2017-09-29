@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.V3_2.Parser
   ( ParseError(..)
   , Parsed

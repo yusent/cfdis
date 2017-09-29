@@ -15,6 +15,7 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
+  default-extensions:  OverloadedStrings
   exposed-modules:     CFDI.Catalog
                      , CFDI.Catalogs
                      , CFDI.CSD

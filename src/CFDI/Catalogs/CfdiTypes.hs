@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.Catalogs.CfdiTypes where
 
 import CFDI.Catalog

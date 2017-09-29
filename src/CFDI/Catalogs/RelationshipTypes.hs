@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.Catalogs.RelationshipTypes where
 
 import CFDI.Catalog
