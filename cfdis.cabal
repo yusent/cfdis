@@ -15,7 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     CFDI.Catalogs
+  exposed-modules:     CFDI.Catalog
+                     , CFDI.Catalogs
                      , CFDI.CSD
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
@@ -24,7 +25,17 @@ library
                      , CFDI.V3_2.Parser
                      , CFDI.V3_2.Renderer
                      , CFDI.V3_2.Types
-  other-modules:       CFDI.Chainable
+  other-modules:       CFDI.Catalogs.CfdiTypes
+                     , CFDI.Catalogs.Countries
+                     , CFDI.Catalogs.Currencies
+                     , CFDI.Catalogs.PaymentMethods
+                     , CFDI.Catalogs.ProductOrServices
+                     , CFDI.Catalogs.RelationshipTypes
+                     , CFDI.Catalogs.TaxRegimes
+                     , CFDI.Catalogs.Uses
+                     , CFDI.Catalogs.WaysToPay
+                     , CFDI.Catalogs.ZipCodes
+                     , CFDI.Chainable
   build-depends:       aeson >= 1.1 && < 1.2
                      , base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1
