@@ -6,6 +6,7 @@ module CFDI.Catalogs
   , module CFDI.Catalogs.PaymentMethods
   , module CFDI.Catalogs.ProductOrServices
   , module CFDI.Catalogs.RelationshipTypes
+  , module CFDI.Catalogs.Taxes
   , module CFDI.Catalogs.TaxRegimes
   , module CFDI.Catalogs.Uses
   , module CFDI.Catalogs.WaysToPay
@@ -19,6 +20,7 @@ import CFDI.Catalogs.MeasurementUnits
 import CFDI.Catalogs.PaymentMethods
 import CFDI.Catalogs.ProductOrServices
 import CFDI.Catalogs.RelationshipTypes
+import CFDI.Catalogs.Taxes
 import CFDI.Catalogs.TaxRegimes
 import CFDI.Catalogs.Uses
 import CFDI.Catalogs.WaysToPay

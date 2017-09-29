@@ -33,6 +33,7 @@ library
                      , CFDI.Catalogs.PaymentMethods
                      , CFDI.Catalogs.ProductOrServices
                      , CFDI.Catalogs.RelationshipTypes
+                     , CFDI.Catalogs.Taxes
                      , CFDI.Catalogs.TaxRegimes
                      , CFDI.Catalogs.Uses
                      , CFDI.Catalogs.WaysToPay
