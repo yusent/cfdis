@@ -44,6 +44,7 @@ library
                      , base64-bytestring >= 1.0 && < 1.1
                      , basic-prelude >= 0.6 && < 0.7
                      , bytestring >= 0.10 && < 0.11
+                     , containers >= 0.5 && < 0.6
                      , errors >= 2.2 && < 2.3
                      , ghc >= 8.0 && < 8.1
                      , http-conduit >= 2.2 && < 2.3
