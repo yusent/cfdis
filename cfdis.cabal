@@ -30,6 +30,7 @@ library
                      , CFDI.Catalogs.Countries
                      , CFDI.Catalogs.Currencies
                      , CFDI.Catalogs.FactorTypes
+                     , CFDI.Catalogs.Localities
                      , CFDI.Catalogs.MeasurementUnits
                      , CFDI.Catalogs.PaymentMethods
                      , CFDI.Catalogs.ProductOrServices
