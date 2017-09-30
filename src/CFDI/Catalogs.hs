@@ -5,6 +5,7 @@ module CFDI.Catalogs
   , module CFDI.Catalogs.FactorTypes
   , module CFDI.Catalogs.Localities
   , module CFDI.Catalogs.MeasurementUnits
+  , module CFDI.Catalogs.Municipalities
   , module CFDI.Catalogs.PaymentMethods
   , module CFDI.Catalogs.ProductOrServices
   , module CFDI.Catalogs.RelationshipTypes
@@ -23,6 +24,7 @@ import CFDI.Catalogs.Currencies
 import CFDI.Catalogs.FactorTypes
 import CFDI.Catalogs.Localities
 import CFDI.Catalogs.MeasurementUnits
+import CFDI.Catalogs.Municipalities
 import CFDI.Catalogs.PaymentMethods
 import CFDI.Catalogs.ProductOrServices
 import CFDI.Catalogs.RelationshipTypes
