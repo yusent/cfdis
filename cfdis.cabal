@@ -35,6 +35,7 @@ library
                      , CFDI.Catalogs.ProductOrServices
                      , CFDI.Catalogs.RelationshipTypes
                      , CFDI.Catalogs.States
+                     , CFDI.Catalogs.Suburbs
                      , CFDI.Catalogs.Taxes
                      , CFDI.Catalogs.TaxRegimes
                      , CFDI.Catalogs.Uses

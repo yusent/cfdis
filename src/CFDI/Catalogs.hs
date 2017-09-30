@@ -8,6 +8,7 @@ module CFDI.Catalogs
   , module CFDI.Catalogs.ProductOrServices
   , module CFDI.Catalogs.RelationshipTypes
   , module CFDI.Catalogs.States
+  , module CFDI.Catalogs.Suburbs
   , module CFDI.Catalogs.Taxes
   , module CFDI.Catalogs.TaxRegimes
   , module CFDI.Catalogs.Uses
@@ -24,6 +25,7 @@ import CFDI.Catalogs.PaymentMethods
 import CFDI.Catalogs.ProductOrServices
 import CFDI.Catalogs.RelationshipTypes
 import CFDI.Catalogs.States
+import CFDI.Catalogs.Suburbs
 import CFDI.Catalogs.Taxes
 import CFDI.Catalogs.TaxRegimes
 import CFDI.Catalogs.Uses
