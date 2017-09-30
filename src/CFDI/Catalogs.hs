@@ -2,6 +2,7 @@ module CFDI.Catalogs
   ( module CFDI.Catalogs.CfdiTypes
   , module CFDI.Catalogs.Countries
   , module CFDI.Catalogs.Currencies
+  , module CFDI.Catalogs.FactorTypes
   , module CFDI.Catalogs.MeasurementUnits
   , module CFDI.Catalogs.PaymentMethods
   , module CFDI.Catalogs.ProductOrServices
@@ -16,6 +17,7 @@ module CFDI.Catalogs
 import CFDI.Catalogs.CfdiTypes
 import CFDI.Catalogs.Countries
 import CFDI.Catalogs.Currencies
+import CFDI.Catalogs.FactorTypes
 import CFDI.Catalogs.MeasurementUnits
 import CFDI.Catalogs.PaymentMethods
 import CFDI.Catalogs.ProductOrServices

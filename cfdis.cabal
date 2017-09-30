@@ -29,6 +29,7 @@ library
   other-modules:       CFDI.Catalogs.CfdiTypes
                      , CFDI.Catalogs.Countries
                      , CFDI.Catalogs.Currencies
+                     , CFDI.Catalogs.FactorTypes
                      , CFDI.Catalogs.MeasurementUnits
                      , CFDI.Catalogs.PaymentMethods
                      , CFDI.Catalogs.ProductOrServices
