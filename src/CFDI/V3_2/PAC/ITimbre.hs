@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.V3_2.PAC.ITimbre
   ( ITimbre(..)
   , ITimbreEnv(..)
@@ -9,8 +7,7 @@ import CFDI.V3_2.PAC
 import CFDI.V3_2.Parser          (parse)
 import CFDI.V3_2.Renderer        (toXML)
 import CFDI.V3_2.Types
-  ( CFDI
-  , PacStamp
+  ( PacStamp
   , complement
   , pacStamp
   , signature
@@ -20,7 +17,7 @@ import Control.Exception         (catch, throw)
 import Data.Aeson
   ( FromJSON
   , Result(Success, Error)
-  , Value(Object)
+  , Value
   , (.=)
   , (.:)
   , (.:?)
@@ -28,6 +25,7 @@ import Data.Aeson
   , fromJSON
   , object
   , parseJSON
+  , withObject
   )
 import Data.ByteString.Lazy      (toStrict)
 import Data.Text                 (Text, pack, take)
@@ -38,10 +36,9 @@ import Network.HTTP.Conduit
   , responseStatus
   )
 import Network.HTTP.Simple
-  ( Response(..)
+  ( Response
   , httpJSON
   , getResponseBody
-  , getResponseHeader
   , getResponseStatusCode
   , setRequestBodyURLEncoded
   )
@@ -67,7 +64,7 @@ data ITimbreResponse = ITimbreResponse
   deriving (Show)
 
 instance FromJSON ITimbreResponse where
-  parseJSON (Object v) = do
+  parseJSON = withObject "ITimbreResponse" $ \v -> do
     retCode    <- (v .: "result") >>= (.: "retcode")
     maybeError <- (v .: "result") >>= (.:? "error")
 

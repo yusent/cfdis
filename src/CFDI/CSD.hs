@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.CSD
   ( CsdCerData(..)
   , getCsdCerData
@@ -10,7 +8,6 @@ module CFDI.CSD
 import Control.Exception         (ErrorCall, catch, evaluate)
 import Data.ByteString           (ByteString)
 import Data.ByteString.Base64    (encode)
-import Data.Maybe                (fromJust)
 import Data.Text                 (Text, concat, empty, pack, split, unpack)
 import Data.Text.Encoding        (decodeUtf8, encodeUtf8)
 import Data.Time.LocalTime       (LocalTime)
@@ -62,8 +59,8 @@ getSerial pem =
   where
     parseSerial = fmap (pack . odds . unpack . head . tail . split (== '='))
     odds [] = []
-    odds [x] = []
-    odds (e1 : e2 : xs) = e2 : odds xs
+    odds [_] = []
+    odds (_ : e2 : xs) = e2 : odds xs
 
 getEndDate :: Text -> IO (Either Text LocalTime)
 getEndDate pem = catch
@@ -71,7 +68,7 @@ getEndDate pem = catch
   handleErr
   where
     handleErr :: ErrorCall -> IO (Either Text LocalTime)
-    handleErr e = return $ Left "Formato de fecha de expiración inválido"
+    handleErr _ = return $ Left "Formato de fecha de expiración inválido"
     parseEndDate = (>>= parseTimeM True defaultTimeLocale format . unpack)
     format = "notAfter=%b %d %H:%M:%S %Y %Z"
 

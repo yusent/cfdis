@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module CFDI.V3_2.Renderer
   ( toXML
   ) where
@@ -20,18 +18,18 @@ import Text.XML.Light
 
 class Renderable r where
   attributes :: r -> [Attr]
-  attributes r =
-    []
+  attributes =
+    const []
 
   children :: r -> [Element]
-  children r =
-    []
+  children =
+    const []
 
   nodeName :: r -> String
 
   nodePrefix :: r -> String
-  nodePrefix r =
-    "cfdi"
+  nodePrefix =
+    const "cfdi"
 
   render :: r -> Element
   render r =
@@ -52,8 +50,8 @@ instance Renderable Address where
     , attr "codigoPostal" <$> zipCode r
     ]
 
-  nodeName r =
-    "Domicilio"
+  nodeName =
+    const "Domicilio"
 
 instance Renderable CFDI where
   attributes r =
@@ -99,15 +97,15 @@ instance Renderable CFDI where
     [ render <$> complement r
     ]
 
-  nodeName r =
-    "Comprobante"
+  nodeName =
+    const "Comprobante"
 
 instance Renderable Complement where
   children r =
     maybeToList $ render <$> pacStamp r
 
-  nodeName r =
-    "Complemento"
+  nodeName =
+    const "Complemento"
 
 instance Renderable Concept where
   attributes r =
@@ -126,8 +124,8 @@ instance Renderable Concept where
     , render <$> parts r
     ]
 
-  nodeName r =
-    "Concepto"
+  nodeName =
+    const "Concepto"
 
 instance Renderable ConceptPart where
   attributes r =
@@ -143,8 +141,8 @@ instance Renderable ConceptPart where
   children r =
     render <$> partImportInfo r
 
-  nodeName r =
-    "Parte"
+  nodeName =
+    const "Parte"
 
 instance Renderable FiscalAddress where
   attributes r =
@@ -161,7 +159,8 @@ instance Renderable FiscalAddress where
     , attr "colonia"    <$> fiscalSuburb r
     ]
 
-  nodeName r = "DomicilioFiscal"
+  nodeName =
+    const "DomicilioFiscal"
 
 instance Renderable ImportInfo where
   attributes r =
@@ -171,7 +170,8 @@ instance Renderable ImportInfo where
     [ attr "aduana" <$> custom r
     ]
 
-  nodeName r = "InformacionAduanera"
+  nodeName =
+    const "InformacionAduanera"
 
 instance Renderable Issuer where
   attributes r =
@@ -190,8 +190,8 @@ instance Renderable Issuer where
       addrElem = changeAddrName . render <$> issuedInAddress r
       changeAddrName a = a { elName = QName "ExpedidoEn" Nothing $ Just "cfdi" }
 
-  nodeName r =
-    "Emisor"
+  nodeName =
+    const "Emisor"
 
 instance Renderable PacStamp where
   attributes r =
@@ -208,19 +208,19 @@ instance Renderable PacStamp where
       . formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S" $ stampedAt r
     ]
 
-  nodeName r =
-    "TimbreFiscalDigital"
+  nodeName =
+    const "TimbreFiscalDigital"
 
-  nodePrefix r =
-    "tfd"
+  nodePrefix =
+    const "tfd"
 
 instance Renderable PropertyAccount where
   attributes r =
     [ attr "numero" $ propertyAccountNumber r
     ]
 
-  nodeName r =
-    "CuentaPredial"
+  nodeName =
+    const "CuentaPredial"
 
 instance Renderable Recipient where
   attributes r =
@@ -232,8 +232,8 @@ instance Renderable Recipient where
   children r =
     maybeToList $ render <$> recipientAddress r
 
-  nodeName r =
-    "Receptor"
+  nodeName =
+    const "Receptor"
 
 instance Renderable RetainedTax where
   attributes r =
@@ -241,8 +241,8 @@ instance Renderable RetainedTax where
     , attr "impuesto" . pack . show $ retainedTax r
     ]
 
-  nodeName r =
-    "Retencion"
+  nodeName =
+    const "Retencion"
 
 instance Renderable Taxes where
   attributes r =
@@ -257,16 +257,16 @@ instance Renderable Taxes where
       , elem (nodePrefix r) "Traslados" [] $ render <$> transferedTaxes r
       ]
 
-  nodeName r =
-    "Impuestos"
+  nodeName =
+    const "Impuestos"
 
 instance Renderable TaxRegime where
   attributes r =
     [ attr "Regimen" $ regime r
     ]
 
-  nodeName r =
-    "RegimenFiscal"
+  nodeName =
+    const "RegimenFiscal"
 
 instance Renderable TransferedTax where
   attributes r =
@@ -275,8 +275,8 @@ instance Renderable TransferedTax where
     , attr "tasa" $ transferedTaxRate r
     ]
 
-  nodeName r =
-    "Traslado"
+  nodeName =
+    const "Traslado"
 
 attr :: String -> Text -> Attr
 attr attrName =

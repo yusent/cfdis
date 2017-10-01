@@ -15,7 +15,10 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     CFDI.CSD
+  default-extensions:  OverloadedStrings
+  exposed-modules:     CFDI.Catalog
+                     , CFDI.Catalogs
+                     , CFDI.CSD
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
                      , CFDI.V3_2.PAC
@@ -23,12 +26,32 @@ library
                      , CFDI.V3_2.Parser
                      , CFDI.V3_2.Renderer
                      , CFDI.V3_2.Types
-  other-modules:       CFDI.Chainable
+  other-modules:       CFDI.Catalogs.CfdiTypes
+                     , CFDI.Catalogs.Countries
+                     , CFDI.Catalogs.Currencies
+                     , CFDI.Catalogs.Customs
+                     , CFDI.Catalogs.CustomPatents
+                     , CFDI.Catalogs.FactorTypes
+                     , CFDI.Catalogs.Localities
+                     , CFDI.Catalogs.MeasurementUnits
+                     , CFDI.Catalogs.Municipalities
+                     , CFDI.Catalogs.PaymentMethods
+                     , CFDI.Catalogs.ProductOrServices
+                     , CFDI.Catalogs.RelationshipTypes
+                     , CFDI.Catalogs.States
+                     , CFDI.Catalogs.Suburbs
+                     , CFDI.Catalogs.Taxes
+                     , CFDI.Catalogs.TaxRegimes
+                     , CFDI.Catalogs.Uses
+                     , CFDI.Catalogs.WaysToPay
+                     , CFDI.Catalogs.ZipCodes
+                     , CFDI.Chainable
   build-depends:       aeson >= 1.1 && < 1.2
                      , base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1
                      , basic-prelude >= 0.6 && < 0.7
                      , bytestring >= 0.10 && < 0.11
+                     , containers >= 0.5 && < 0.6
                      , errors >= 2.2 && < 2.3
                      , ghc >= 8.0 && < 8.1
                      , http-conduit >= 2.2 && < 2.3
