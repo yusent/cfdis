@@ -1,14 +1,15 @@
-module CFDI.Types.ZipCodes where
+module CFDI.Types.ZipCode where
 
-import CFDI.Types.Catalog
-import Data.Text    (pack, unpack)
-import Text.Read    (readMaybe)
+import CFDI.Types.Type
+import Control.Error.Safe (justErr)
+import Text.Read          (readMaybe)
 
 data ZipCode = ZipCode Int deriving (Eq, Show)
 
-instance Catalog ZipCode where
-  fromCode c = readMaybe (unpack c) >>= isValid >>= return . ZipCode
+instance Type ZipCode where
+  parse c = justErr NotInCatalog maybeZipCode
     where
+      maybeZipCode = readMaybe c >>= isValid >>= return . ZipCode
       isValid x
         | x > 0     && x <  1000 = Nothing
         | x > 16999 && x < 20000 = Nothing
@@ -25,6 +26,6 @@ instance Catalog ZipCode where
         | x > 95049 && x < 95670 = Nothing
         | otherwise = Just x
 
-  toCode (ZipCode x) = pack $ replicate (5 - length xStr) '0' ++ xStr
+  render (ZipCode x) = replicate (5 - length xStr) '0' ++ xStr
     where
       xStr = show x

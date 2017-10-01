@@ -1,8 +1,8 @@
-module CFDI.Types.Countries where
+module CFDI.Types.Country where
 
-import CFDI.Types.Catalog
-import Data.Text    (pack, unpack)
-import Text.Read    (readMaybe)
+import CFDI.Types.Type
+import Control.Error.Safe (justErr)
+import Text.Read          (readMaybe)
 
 data Country
   = CTY_ABW
@@ -257,7 +257,7 @@ data Country
   | CTY_ZZZ
   deriving (Eq, Read, Show)
 
-instance Catalog Country where
-  fromCode = readMaybe . ("CTY_" ++) . unpack
+instance Type Country where
+  parse = justErr NotInCatalog . readMaybe . ("CTY_" ++)
 
-  toCode = pack . drop 4 . show
+  render = drop 4 . show

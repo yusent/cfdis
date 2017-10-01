@@ -1,8 +1,8 @@
-module CFDI.Types.States where
+module CFDI.Types.State where
 
-import CFDI.Types.Catalog
-import Data.Text    (pack, unpack)
-import Text.Read    (readMaybe)
+import CFDI.Types.Type
+import Control.Error.Safe (justErr)
+import Text.Read          (readMaybe)
 
 data State
   = ST_AGU
@@ -102,7 +102,7 @@ data State
   | ST_UN
   deriving (Eq, Read, Show)
 
-instance Catalog State where
-  fromCode = readMaybe . ("ST_" ++) . unpack
+instance Type State where
+  parse = justErr NotInCatalog . readMaybe . ("ST_" ++)
 
-  toCode = pack . drop 3 . show
+  render = drop 3 . show

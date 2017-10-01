@@ -1,15 +1,17 @@
-module CFDI.Types.ProductOrServices where
+module CFDI.Types.ProductOrService where
 
-import CFDI.Types.Catalog
-import Data.Set     (fromList, member, unions)
-import Data.Text    (pack, unpack)
-import Text.Read    (readMaybe)
+import CFDI.Types.Type
+import Control.Error.Safe (justErr)
+import Data.Set           (fromList, member, unions)
+import Text.Read          (readMaybe)
 
 data ProductOrService = ProductOrService Int deriving (Eq, Show)
 
-instance Catalog ProductOrService where
-  fromCode c = readMaybe (unpack c) >>= isValid >>= return . ProductOrService
+instance Type ProductOrService where
+  parse c = justErr NotInCatalog maybeProductPorService
     where
+      maybeProductPorService =
+        readMaybe c >>= isValid >>= return . ProductOrService
       isValid x
         | x `member` validCodes = Just x
         | otherwise = Nothing
@@ -4592,5 +4594,5 @@ instance Catalog ProductOrService where
           , [95141900..95141904]
           ]
 
-  toCode (ProductOrService 1010101) = "01010101"
-  toCode (ProductOrService x) = pack $ show x
+  render (ProductOrService 1010101) = "01010101"
+  render (ProductOrService x) = show x

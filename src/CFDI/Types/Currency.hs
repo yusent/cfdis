@@ -1,8 +1,8 @@
-module CFDI.Types.Currencies where
+module CFDI.Types.Currency where
 
-import CFDI.Types.Catalog
-import Data.Text    (pack, unpack)
-import Text.Read    (readMaybe)
+import CFDI.Types.Type
+import Control.Error.Safe (justErr)
+import Text.Read          (readMaybe)
 
 data Currency
   = CUR_AED
@@ -185,7 +185,7 @@ data Currency
   | CUR_ZWL
   deriving (Eq, Read, Show)
 
-instance Catalog Currency where
-  fromCode = readMaybe . ("CUR_" ++) . unpack
+instance Type Currency where
+  parse = justErr NotInCatalog . readMaybe . ("CUR_" ++)
 
-  toCode = pack . drop 4 . show
+  render = drop 4 . show

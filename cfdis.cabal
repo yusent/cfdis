@@ -18,7 +18,6 @@ library
   default-extensions:  OverloadedStrings
   exposed-modules:     CFDI.CSD
                      , CFDI.Types
-                     , CFDI.Types.Catalog
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
                      , CFDI.V3_2.PAC
@@ -27,25 +26,26 @@ library
                      , CFDI.V3_2.Renderer
                      , CFDI.V3_2.Types
   other-modules:       CFDI.Chainable
-                     , CFDI.Types.CfdiTypes
-                     , CFDI.Types.Countries
-                     , CFDI.Types.Currencies
-                     , CFDI.Types.Customs
-                     , CFDI.Types.CustomPatents
-                     , CFDI.Types.FactorTypes
-                     , CFDI.Types.Localities
-                     , CFDI.Types.MeasurementUnits
-                     , CFDI.Types.Municipalities
-                     , CFDI.Types.PaymentMethods
-                     , CFDI.Types.ProductOrServices
-                     , CFDI.Types.RelationshipTypes
-                     , CFDI.Types.States
-                     , CFDI.Types.Suburbs
-                     , CFDI.Types.Taxes
-                     , CFDI.Types.TaxRegimes
-                     , CFDI.Types.Uses
-                     , CFDI.Types.WaysToPay
-                     , CFDI.Types.ZipCodes
+                     , CFDI.Types.CfdiType
+                     , CFDI.Types.Country
+                     , CFDI.Types.Currency
+                     , CFDI.Types.Custom
+                     , CFDI.Types.CustomPatent
+                     , CFDI.Types.FactorType
+                     , CFDI.Types.Locality
+                     , CFDI.Types.MeasurementUnit
+                     , CFDI.Types.Municipality
+                     , CFDI.Types.PaymentMethod
+                     , CFDI.Types.ProductOrService
+                     , CFDI.Types.RelationshipType
+                     , CFDI.Types.State
+                     , CFDI.Types.Suburb
+                     , CFDI.Types.Tax
+                     , CFDI.Types.TaxRegime
+                     , CFDI.Types.Type
+                     , CFDI.Types.Use
+                     , CFDI.Types.WayToPay
+                     , CFDI.Types.ZipCode
   build-depends:       aeson >= 1.1 && < 1.2
                      , base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1

@@ -1,15 +1,16 @@
-module CFDI.Types.Customs where
+module CFDI.Types.Custom where
 
-import CFDI.Types.Catalog
-import Data.Set     (fromList, member)
-import Data.Text    (pack, unpack)
-import Text.Read    (readMaybe)
+import CFDI.Types.Type
+import Control.Error.Safe (justErr)
+import Data.Set           (fromList, member)
+import Text.Read          (readMaybe)
 
 data Custom = Custom Int deriving (Eq, Show)
 
-instance Catalog Custom where
-  fromCode c = readMaybe (unpack c) >>= isValid >>= return . Custom
+instance Type Custom where
+  parse c = justErr NotInCatalog maybeCustom
     where
+      maybeCustom = readMaybe c >>= isValid >>= return . Custom
       isValid x
         | x `member` validCodes = Just x
         | otherwise = Nothing
@@ -19,6 +20,6 @@ instance Catalog Custom where
         , 51, 52, 53, 64, 65, 67, 73, 75, 80, 81, 82, 83, 84
         ]
 
-  toCode (Custom x) = pack $ replicate (2 - length xStr) '0' ++ xStr
+  render (Custom x) = replicate (2 - length xStr) '0' ++ xStr
     where
       xStr = show x

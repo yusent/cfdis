@@ -1,8 +1,8 @@
-module CFDI.Types.MeasurementUnits where
+module CFDI.Types.MeasurementUnit where
 
-import CFDI.Types.Catalog
-import Data.Text    (pack, unpack)
-import Text.Read    (readMaybe)
+import CFDI.Types.Type
+import Control.Error.Safe (justErr)
+import Text.Read          (readMaybe)
 
 data MeasurementUnit
   = MU_05
@@ -2422,7 +2422,7 @@ data MeasurementUnit
   | MU_ZZ
   deriving (Eq, Read, Show)
 
-instance Catalog MeasurementUnit where
-  fromCode = readMaybe . ("MU_" ++) . unpack
+instance Type MeasurementUnit where
+  parse = justErr NotInCatalog . readMaybe . ("MU_" ++)
 
-  toCode = pack . drop 3 . show
+  render = drop 3 . show

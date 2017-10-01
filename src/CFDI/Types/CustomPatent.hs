@@ -1,15 +1,16 @@
-module CFDI.Types.CustomPatents where
+module CFDI.Types.CustomPatent where
 
-import CFDI.Types.Catalog
-import Data.Set     (fromList, member)
-import Data.Text    (pack, unpack)
-import Text.Read    (readMaybe)
+import CFDI.Types.Type
+import Control.Error.Safe (justErr)
+import Data.Set           (fromList, member)
+import Text.Read          (readMaybe)
 
 data CustomPatent = CustomPatent Int deriving (Eq, Show)
 
-instance Catalog CustomPatent where
-  fromCode c = readMaybe (unpack c) >>= isValid >>= return . CustomPatent
+instance Type CustomPatent where
+  parse c = justErr NotInCatalog maybeCustomPatent
     where
+      maybeCustomPatent = readMaybe c >>= isValid >>= return . CustomPatent
       isValid x
         | x `member` validCodes = Just x
         | otherwise = Nothing
@@ -289,4 +290,4 @@ instance Catalog CustomPatent where
         , 9052, 9053, 9054, 9999
         ]
 
-  toCode (CustomPatent x) = pack $ show x
+  render (CustomPatent x) = show x
