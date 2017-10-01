@@ -3,6 +3,7 @@ module CFDI.Catalogs
   , module CFDI.Catalogs.Countries
   , module CFDI.Catalogs.Currencies
   , module CFDI.Catalogs.Customs
+  , module CFDI.Catalogs.CustomPatents
   , module CFDI.Catalogs.FactorTypes
   , module CFDI.Catalogs.Localities
   , module CFDI.Catalogs.MeasurementUnits
@@ -23,6 +24,7 @@ import CFDI.Catalogs.CfdiTypes
 import CFDI.Catalogs.Countries
 import CFDI.Catalogs.Currencies
 import CFDI.Catalogs.Customs
+import CFDI.Catalogs.CustomPatents
 import CFDI.Catalogs.FactorTypes
 import CFDI.Catalogs.Localities
 import CFDI.Catalogs.MeasurementUnits

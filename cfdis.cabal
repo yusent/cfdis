@@ -30,6 +30,7 @@ library
                      , CFDI.Catalogs.Countries
                      , CFDI.Catalogs.Currencies
                      , CFDI.Catalogs.Customs
+                     , CFDI.Catalogs.CustomPatents
                      , CFDI.Catalogs.FactorTypes
                      , CFDI.Catalogs.Localities
                      , CFDI.Catalogs.MeasurementUnits
