@@ -1,6 +1,6 @@
-module CFDI.Catalogs.Customs where
+module CFDI.Types.Customs where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 import Data.Set     (fromList, member)
 import Data.Text    (pack, unpack)
 import Text.Read    (readMaybe)

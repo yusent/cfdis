@@ -1,6 +1,6 @@
-module CFDI.Catalogs.CfdiTypes where
+module CFDI.Types.CfdiTypes where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 
 data CfdiType
   = Income

@@ -1,6 +1,6 @@
-module CFDI.Catalogs.RelationshipTypes where
+module CFDI.Types.RelationshipTypes where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 
 data RelationshipType
   = CreditNote

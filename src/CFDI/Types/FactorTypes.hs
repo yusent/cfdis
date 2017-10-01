@@ -1,6 +1,6 @@
-module CFDI.Catalogs.FactorTypes where
+module CFDI.Types.FactorTypes where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 
 data FactorType
   = Rate

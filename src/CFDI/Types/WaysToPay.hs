@@ -1,6 +1,6 @@
-module CFDI.Catalogs.WaysToPay where
+module CFDI.Types.WaysToPay where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 
 data WayToPay
   = Cash

@@ -1,6 +1,6 @@
-module CFDI.Catalogs.States where
+module CFDI.Types.States where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 import Data.Text    (pack, unpack)
 import Text.Read    (readMaybe)
 

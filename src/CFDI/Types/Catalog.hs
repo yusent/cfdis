@@ -1,4 +1,4 @@
-module CFDI.Catalog where
+module CFDI.Types.Catalog where
 
 import Data.Text (Text)
 

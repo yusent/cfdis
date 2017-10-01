@@ -1,6 +1,6 @@
-module CFDI.Catalogs.ProductOrServices where
+module CFDI.Types.ProductOrServices where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 import Data.Set     (fromList, member, unions)
 import Data.Text    (pack, unpack)
 import Text.Read    (readMaybe)

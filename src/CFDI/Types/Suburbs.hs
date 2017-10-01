@@ -1,6 +1,6 @@
-module CFDI.Catalogs.Suburbs where
+module CFDI.Types.Suburbs where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 import Data.Text    (pack, unpack)
 import Text.Read    (readMaybe)
 

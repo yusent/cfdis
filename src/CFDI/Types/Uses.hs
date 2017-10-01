@@ -1,6 +1,6 @@
-module CFDI.Catalogs.Uses where
+module CFDI.Types.Uses where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 
 data Use
   = GoodsAcquisition_

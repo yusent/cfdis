@@ -1,6 +1,6 @@
-module CFDI.Catalogs.Localities where
+module CFDI.Types.Localities where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 import Data.Text    (pack, unpack)
 import Text.Read    (readMaybe)
 

@@ -1,6 +1,6 @@
-module CFDI.Catalogs.CustomPatents where
+module CFDI.Types.CustomPatents where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 import Data.Set     (fromList, member)
 import Data.Text    (pack, unpack)
 import Text.Read    (readMaybe)

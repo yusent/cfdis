@@ -1,6 +1,6 @@
-module CFDI.Catalogs.Taxes where
+module CFDI.Types.Taxes where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 
 data Tax
   = ISR

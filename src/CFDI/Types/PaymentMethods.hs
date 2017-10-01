@@ -1,6 +1,6 @@
-module CFDI.Catalogs.PaymentMethods where
+module CFDI.Types.PaymentMethods where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 
 data PaymentMethod
   = OneTimePayment

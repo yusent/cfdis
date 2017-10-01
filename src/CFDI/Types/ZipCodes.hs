@@ -1,6 +1,6 @@
-module CFDI.Catalogs.ZipCodes where
+module CFDI.Types.ZipCodes where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 import Data.Text    (pack, unpack)
 import Text.Read    (readMaybe)
 

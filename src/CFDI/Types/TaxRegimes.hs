@@ -1,6 +1,6 @@
-module CFDI.Catalogs.TaxRegimes where
+module CFDI.Types.TaxRegimes where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 
 data TaxRegime
   = GeneralForPeople

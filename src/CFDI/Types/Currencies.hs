@@ -1,6 +1,6 @@
-module CFDI.Catalogs.Currencies where
+module CFDI.Types.Currencies where
 
-import CFDI.Catalog
+import CFDI.Types.Catalog
 import Data.Text    (pack, unpack)
 import Text.Read    (readMaybe)
 
