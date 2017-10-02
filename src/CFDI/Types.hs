@@ -1,5 +1,6 @@
 module CFDI.Types
-  ( module CFDI.Types.CfdiType
+  ( module CFDI.Types.Amount
+  , module CFDI.Types.CfdiType
   , module CFDI.Types.Country
   , module CFDI.Types.Currency
   , module CFDI.Types.Custom
@@ -23,6 +24,7 @@ module CFDI.Types
   , module CFDI.Types.ZipCode
   ) where
 
+import CFDI.Types.Amount
 import CFDI.Types.CfdiType
 import CFDI.Types.Country
 import CFDI.Types.Currency
