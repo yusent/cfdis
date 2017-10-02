@@ -11,6 +11,7 @@ module CFDI.Types
   , module CFDI.Types.Locality
   , module CFDI.Types.MeasurementUnit
   , module CFDI.Types.Municipality
+  , module CFDI.Types.PaymentConditions
   , module CFDI.Types.PaymentMethod
   , module CFDI.Types.ProductOrService
   , module CFDI.Types.RelationshipType
@@ -37,6 +38,7 @@ import CFDI.Types.Folio
 import CFDI.Types.Locality
 import CFDI.Types.MeasurementUnit
 import CFDI.Types.Municipality
+import CFDI.Types.PaymentConditions
 import CFDI.Types.PaymentMethod
 import CFDI.Types.ProductOrService
 import CFDI.Types.RelationshipType
