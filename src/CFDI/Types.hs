@@ -3,6 +3,7 @@ module CFDI.Types
   , module CFDI.Types.CertificateNumber
   , module CFDI.Types.CFDI
   , module CFDI.Types.CfdiType
+  , module CFDI.Types.Confirmation
   , module CFDI.Types.Country
   , module CFDI.Types.Currency
   , module CFDI.Types.Custom
@@ -32,6 +33,7 @@ import CFDI.Types.Amount
 import CFDI.Types.CertificateNumber
 import CFDI.Types.CFDI
 import CFDI.Types.CfdiType
+import CFDI.Types.Confirmation
 import CFDI.Types.Country
 import CFDI.Types.Currency
 import CFDI.Types.Custom

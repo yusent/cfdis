@@ -30,6 +30,7 @@ library
                      , CFDI.Types.CertificateNumber
                      , CFDI.Types.CFDI
                      , CFDI.Types.CfdiType
+                     , CFDI.Types.Confirmation
                      , CFDI.Types.Country
                      , CFDI.Types.Currency
                      , CFDI.Types.Custom
