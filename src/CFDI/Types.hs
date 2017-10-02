@@ -1,5 +1,6 @@
 module CFDI.Types
   ( module CFDI.Types.Amount
+  , module CFDI.Types.CertificateNumber
   , module CFDI.Types.CfdiType
   , module CFDI.Types.Country
   , module CFDI.Types.Currency
@@ -25,6 +26,7 @@ module CFDI.Types
   ) where
 
 import CFDI.Types.Amount
+import CFDI.Types.CertificateNumber
 import CFDI.Types.CfdiType
 import CFDI.Types.Country
 import CFDI.Types.Currency
