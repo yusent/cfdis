@@ -7,8 +7,10 @@ import CFDI.Types.Confirmation
 import CFDI.Types.Currency
 import CFDI.Types.ExchangeRate
 import CFDI.Types.Folio
+import CFDI.Types.Issuer
 import CFDI.Types.PaymentConditions
 import CFDI.Types.PaymentMethod
+import CFDI.Types.RelatedCfdis
 import CFDI.Types.Series
 import CFDI.Types.Version
 import CFDI.Types.WayToPay
@@ -28,16 +30,17 @@ data CFDI = CFDI
   , folio         :: Maybe Folio
   , issuedAt      :: LocalTime
   , issuedIn      :: ZipCode
+  , issuer        :: Issuer
   , paymentConds  :: Maybe PaymentConditions
   , paymentMethod :: Maybe PaymentMethod
+  , relatedCfdis  :: Maybe RelatedCfdis
   , series        :: Maybe Series
   , signature     :: Maybe Text
   , subTotal      :: Amount
   , total         :: Amount
   , version       :: Version
   , wayToPay      :: Maybe WayToPay
-  }
-  deriving (Eq, Show)
+  } deriving (Eq, Show)
 
 instance XmlNode CFDI where
   parseNode n = CFDI
@@ -51,8 +54,10 @@ instance XmlNode CFDI where
     <*> parseAttribute "Folio" n
     <*> requireAttribute "Fecha" n
     <*> requireAttribute "LugarExpedicion" n
+    <*> requireChild "Emisor" n
     <*> parseAttribute "CondicionesDePago" n
     <*> parseAttribute "MetodoPago" n
+    <*> parseChild "CfdiRelacionados" n
     <*> parseAttribute "Serie" n
     <*> parseAttribute "Sello" n
     <*> requireAttribute "SubTotal" n

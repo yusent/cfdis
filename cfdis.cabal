@@ -38,13 +38,18 @@ library
                      , CFDI.Types.ExchangeRate
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
+                     , CFDI.Types.Issuer
                      , CFDI.Types.Locality
                      , CFDI.Types.MeasurementUnit
                      , CFDI.Types.Municipality
+                     , CFDI.Types.Name
                      , CFDI.Types.PaymentConditions
                      , CFDI.Types.PaymentMethod
                      , CFDI.Types.ProductOrService
+                     , CFDI.Types.RelatedCfdi
+                     , CFDI.Types.RelatedCfdis
                      , CFDI.Types.RelationshipType
+                     , CFDI.Types.RFC
                      , CFDI.Types.Series
                      , CFDI.Types.State
                      , CFDI.Types.Suburb
@@ -52,6 +57,7 @@ library
                      , CFDI.Types.TaxRegime
                      , CFDI.Types.Type
                      , CFDI.Types.Use
+                     , CFDI.Types.UUID
                      , CFDI.Types.Version
                      , CFDI.Types.WayToPay
                      , CFDI.Types.ZipCode

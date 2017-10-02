@@ -11,19 +11,25 @@ module CFDI.Types
   , module CFDI.Types.ExchangeRate
   , module CFDI.Types.FactorType
   , module CFDI.Types.Folio
+  , module CFDI.Types.Issuer
   , module CFDI.Types.Locality
   , module CFDI.Types.MeasurementUnit
   , module CFDI.Types.Municipality
+  , module CFDI.Types.Name
   , module CFDI.Types.PaymentConditions
   , module CFDI.Types.PaymentMethod
   , module CFDI.Types.ProductOrService
+  , module CFDI.Types.RelatedCfdi
+  , module CFDI.Types.RelatedCfdis
   , module CFDI.Types.RelationshipType
+  , module CFDI.Types.RFC
   , module CFDI.Types.Series
   , module CFDI.Types.State
   , module CFDI.Types.Suburb
   , module CFDI.Types.Tax
   , module CFDI.Types.TaxRegime
   , module CFDI.Types.Use
+  , module CFDI.Types.UUID
   , module CFDI.Types.Version
   , module CFDI.Types.WayToPay
   , module CFDI.Types.ZipCode
@@ -41,19 +47,25 @@ import CFDI.Types.CustomPatent
 import CFDI.Types.ExchangeRate
 import CFDI.Types.FactorType
 import CFDI.Types.Folio
+import CFDI.Types.Issuer
 import CFDI.Types.Locality
 import CFDI.Types.MeasurementUnit
 import CFDI.Types.Municipality
+import CFDI.Types.Name
 import CFDI.Types.PaymentConditions
 import CFDI.Types.PaymentMethod
 import CFDI.Types.ProductOrService
+import CFDI.Types.RelatedCfdi
+import CFDI.Types.RelatedCfdis
 import CFDI.Types.RelationshipType
+import CFDI.Types.RFC
 import CFDI.Types.Series
 import CFDI.Types.State
 import CFDI.Types.Suburb
 import CFDI.Types.Tax
 import CFDI.Types.TaxRegime
 import CFDI.Types.Use
+import CFDI.Types.UUID
 import CFDI.Types.Version
 import CFDI.Types.WayToPay
 import CFDI.Types.ZipCode
