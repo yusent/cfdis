@@ -28,6 +28,7 @@ library
   other-modules:       CFDI.Chainable
                      , CFDI.Types.Amount
                      , CFDI.Types.CertificateNumber
+                     , CFDI.Types.CFDI
                      , CFDI.Types.CfdiType
                      , CFDI.Types.Country
                      , CFDI.Types.Currency
