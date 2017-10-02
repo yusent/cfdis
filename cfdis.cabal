@@ -34,6 +34,7 @@ library
                      , CFDI.Types.Currency
                      , CFDI.Types.Custom
                      , CFDI.Types.CustomPatent
+                     , CFDI.Types.ExchangeRate
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
                      , CFDI.Types.Locality

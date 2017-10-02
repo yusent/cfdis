@@ -7,6 +7,7 @@ module CFDI.Types
   , module CFDI.Types.Currency
   , module CFDI.Types.Custom
   , module CFDI.Types.CustomPatent
+  , module CFDI.Types.ExchangeRate
   , module CFDI.Types.FactorType
   , module CFDI.Types.Folio
   , module CFDI.Types.Locality
@@ -35,6 +36,7 @@ import CFDI.Types.Country
 import CFDI.Types.Currency
 import CFDI.Types.Custom
 import CFDI.Types.CustomPatent
+import CFDI.Types.ExchangeRate
 import CFDI.Types.FactorType
 import CFDI.Types.Folio
 import CFDI.Types.Locality
