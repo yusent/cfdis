@@ -103,6 +103,6 @@ data State
   deriving (Eq, Read, Show)
 
 instance Type State where
-  parse = justErr NotInCatalog . readMaybe . ("ST_" ++)
+  parseExpr = justErr NotInCatalog . readMaybe . ("ST_" ++)
 
   render = drop 3 . show

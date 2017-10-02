@@ -8,7 +8,7 @@ import Text.Read          (readMaybe)
 data CustomPatent = CustomPatent Int deriving (Eq, Show)
 
 instance Type CustomPatent where
-  parse c = justErr NotInCatalog maybeCustomPatent
+  parseExpr c = justErr NotInCatalog maybeCustomPatent
     where
       maybeCustomPatent = readMaybe c >>= isValid >>= return . CustomPatent
       isValid x

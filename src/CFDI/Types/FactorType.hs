@@ -9,10 +9,10 @@ data FactorType
   deriving (Eq, Read, Show)
 
 instance Type FactorType where
-  parse "Tasa"   = Right Rate
-  parse "Cuota"  = Right Fee
-  parse "Exento" = Right Exempt
-  parse _        = Left NotInCatalog
+  parseExpr "Tasa"   = Right Rate
+  parseExpr "Cuota"  = Right Fee
+  parseExpr "Exento" = Right Exempt
+  parseExpr _        = Left NotInCatalog
 
   render Rate   = "Tasa"
   render Fee    = "Cuote"

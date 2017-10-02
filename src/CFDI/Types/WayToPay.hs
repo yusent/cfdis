@@ -27,28 +27,28 @@ data WayToPay
   deriving (Eq, Show)
 
 instance Type WayToPay where
-  parse "01" = Right Cash
-  parse "02" = Right NominalCheck
-  parse "03" = Right ElectronicTransfer
-  parse "04" = Right CreditCard
-  parse "05" = Right ElectronicPurse
-  parse "06" = Right ElectronicCash
-  parse "08" = Right PantryCoupons
-  parse "12" = Right PaymentIn
-  parse "13" = Right Subrogation
-  parse "14" = Right Consignment
-  parse "15" = Right Condonation
-  parse "17" = Right Compensation
-  parse "23" = Right Novation
-  parse "24" = Right Confusion
-  parse "25" = Right DebtReferral
-  parse "26" = Right PrescriptionOrExpiration
-  parse "27" = Right ToTheSatisfactionOfTheCreditor
-  parse "28" = Right DebitCard
-  parse "29" = Right ServiceCard
-  parse "30" = Right AdvancesApplication
-  parse "99" = Right ToBeDefined
-  parse _    = Left NotInCatalog
+  parseExpr "01" = Right Cash
+  parseExpr "02" = Right NominalCheck
+  parseExpr "03" = Right ElectronicTransfer
+  parseExpr "04" = Right CreditCard
+  parseExpr "05" = Right ElectronicPurse
+  parseExpr "06" = Right ElectronicCash
+  parseExpr "08" = Right PantryCoupons
+  parseExpr "12" = Right PaymentIn
+  parseExpr "13" = Right Subrogation
+  parseExpr "14" = Right Consignment
+  parseExpr "15" = Right Condonation
+  parseExpr "17" = Right Compensation
+  parseExpr "23" = Right Novation
+  parseExpr "24" = Right Confusion
+  parseExpr "25" = Right DebtReferral
+  parseExpr "26" = Right PrescriptionOrExpiration
+  parseExpr "27" = Right ToTheSatisfactionOfTheCreditor
+  parseExpr "28" = Right DebitCard
+  parseExpr "29" = Right ServiceCard
+  parseExpr "30" = Right AdvancesApplication
+  parseExpr "99" = Right ToBeDefined
+  parseExpr _    = Left NotInCatalog
 
   render Cash                           = "01"
   render NominalCheck                   = "02"

@@ -7,7 +7,7 @@ import Text.Read          (readMaybe)
 data Municipality = Municipality Int deriving (Eq, Read, Show)
 
 instance Type Municipality where
-  parse c = justErr NotInCatalog maybeMunicipality
+  parseExpr c = justErr NotInCatalog maybeMunicipality
     where
       maybeMunicipality = readMaybe c >>= isValid >>= return . Municipality
       isValid x

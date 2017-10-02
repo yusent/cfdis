@@ -258,6 +258,6 @@ data Country
   deriving (Eq, Read, Show)
 
 instance Type Country where
-  parse = justErr NotInCatalog . readMaybe . ("CTY_" ++)
+  parseExpr = justErr NotInCatalog . readMaybe . ("CTY_" ++)
 
   render = drop 4 . show

@@ -7,7 +7,7 @@ import Text.Read          (readMaybe)
 data ZipCode = ZipCode Int deriving (Eq, Show)
 
 instance Type ZipCode where
-  parse c = justErr NotInCatalog maybeZipCode
+  parseExpr c = justErr NotInCatalog maybeZipCode
     where
       maybeZipCode = readMaybe c >>= isValid >>= return . ZipCode
       isValid x

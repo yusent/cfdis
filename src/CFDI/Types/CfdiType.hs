@@ -11,12 +11,12 @@ data CfdiType
   deriving (Eq, Show)
 
 instance Type CfdiType where
-  parse "I" = Right Income
-  parse "E" = Right Outcome
-  parse "T" = Right Transfer
-  parse "N" = Right Paysheet
-  parse "P" = Right Payment
-  parse _   = Left NotInCatalog
+  parseExpr "I" = Right Income
+  parseExpr "E" = Right Outcome
+  parseExpr "T" = Right Transfer
+  parseExpr "N" = Right Paysheet
+  parseExpr "P" = Right Payment
+  parseExpr _   = Left NotInCatalog
 
   render Income   = "I"
   render Outcome  = "E"

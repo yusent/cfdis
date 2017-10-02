@@ -7,7 +7,7 @@ import Text.Read          (readMaybe)
 data Locality = Locality Int deriving (Eq, Read, Show)
 
 instance Type Locality where
-  parse c = justErr NotInCatalog maybeLocality
+  parseExpr c = justErr NotInCatalog maybeLocality
     where
       maybeLocality = readMaybe c >>= isValid >>= return . Locality
       isValid x

@@ -8,7 +8,7 @@ import Text.Read          (readMaybe)
 data ProductOrService = ProductOrService Int deriving (Eq, Show)
 
 instance Type ProductOrService where
-  parse c = justErr NotInCatalog maybeProductPorService
+  parseExpr c = justErr NotInCatalog maybeProductPorService
     where
       maybeProductPorService =
         readMaybe c >>= isValid >>= return . ProductOrService

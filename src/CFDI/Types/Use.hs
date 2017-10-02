@@ -28,29 +28,29 @@ data Use
   deriving (Eq, Show)
 
 instance Type Use where
-  parse "G01" = Right GoodsAcquisition_
-  parse "G02" = Right ReturnsDiscountsOrBonuses
-  parse "G03" = Right GeneralExpenses
-  parse "I01" = Right Constructions
-  parse "I02" = Right Furniture
-  parse "I03" = Right TransportEquipment
-  parse "I04" = Right ComputerEquipment
-  parse "I05" = Right Tooling
-  parse "I06" = Right PhoneComunications
-  parse "I07" = Right SatelliteComunications
-  parse "I08" = Right OtherMachinery
-  parse "D01" = Right MedicalFees
-  parse "D02" = Right MedicalExpenses
-  parse "D03" = Right FuneralExpenses
-  parse "D04" = Right Donations
-  parse "D05" = Right PaidInterests
-  parse "D06" = Right VoluntaryContributions
-  parse "D07" = Right InsurancePremiums
-  parse "D08" = Right SchoolTransportation
-  parse "D09" = Right DepositsInSavingsAccounts
-  parse "D10" = Right TuitionFees
-  parse "P01" = Right ToBeDefined_
-  parse _     = Left NotInCatalog
+  parseExpr "G01" = Right GoodsAcquisition_
+  parseExpr "G02" = Right ReturnsDiscountsOrBonuses
+  parseExpr "G03" = Right GeneralExpenses
+  parseExpr "I01" = Right Constructions
+  parseExpr "I02" = Right Furniture
+  parseExpr "I03" = Right TransportEquipment
+  parseExpr "I04" = Right ComputerEquipment
+  parseExpr "I05" = Right Tooling
+  parseExpr "I06" = Right PhoneComunications
+  parseExpr "I07" = Right SatelliteComunications
+  parseExpr "I08" = Right OtherMachinery
+  parseExpr "D01" = Right MedicalFees
+  parseExpr "D02" = Right MedicalExpenses
+  parseExpr "D03" = Right FuneralExpenses
+  parseExpr "D04" = Right Donations
+  parseExpr "D05" = Right PaidInterests
+  parseExpr "D06" = Right VoluntaryContributions
+  parseExpr "D07" = Right InsurancePremiums
+  parseExpr "D08" = Right SchoolTransportation
+  parseExpr "D09" = Right DepositsInSavingsAccounts
+  parseExpr "D10" = Right TuitionFees
+  parseExpr "P01" = Right ToBeDefined_
+  parseExpr _     = Left NotInCatalog
 
   render GoodsAcquisition_         = "G01"
   render ReturnsDiscountsOrBonuses = "G02"

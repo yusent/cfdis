@@ -6,12 +6,10 @@ import Data.Text       (Text, pack, unpack)
 data Folio = Folio Text deriving (Eq, Show)
 
 instance Type Folio where
-  parse str
-    | invalidLength || wrongFormat   = Left $ DoesNotMatchExpr "[^|]{1,40}"
-    | otherwise = Right . Folio $ pack str
+  parseExpr str
+    | l > 0 && l < 41 = Right . Folio $ pack str
+    | otherwise = Left $ DoesNotMatchExpr "[^|]{1,40}"
     where
-      invalidLength = l < 1 || l > 40
       l = length str
-      wrongFormat = any (== '|') str
 
   render (Folio f) = unpack f

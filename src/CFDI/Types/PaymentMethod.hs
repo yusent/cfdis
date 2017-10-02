@@ -8,9 +8,9 @@ data PaymentMethod
   deriving (Eq, Show)
 
 instance Type PaymentMethod where
-  parse "PUE" = Right OneTimePayment
-  parse "PPD" = Right PartialPayment
-  parse _     = Left NotInCatalog
+  parseExpr "PUE" = Right OneTimePayment
+  parseExpr "PPD" = Right PartialPayment
+  parseExpr _     = Left NotInCatalog
 
   render OneTimePayment = "PUE"
   render PartialPayment = "PPD"

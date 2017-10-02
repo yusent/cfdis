@@ -7,7 +7,7 @@ import Text.Read          (readMaybe)
 data Suburb = Suburb Int deriving (Eq, Read, Show)
 
 instance Type Suburb where
-  parse c = justErr NotInCatalog maybeSuburb
+  parseExpr c = justErr NotInCatalog maybeSuburb
     where
       maybeSuburb = readMaybe c >>= isValid >>= return . Suburb
       isValid x

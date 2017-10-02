@@ -6,12 +6,10 @@ import Data.Text       (Text, pack, unpack)
 data Series = Series Text deriving (Eq, Show)
 
 instance Type Series where
-  parse str
-    | invalidLength || wrongFormat   = Left $ DoesNotMatchExpr "[^|]{1,25}"
-    | otherwise = Right . Series $ pack str
+  parseExpr str
+    | l > 0 && l < 26 = Right . Series $ pack str
+    | otherwise = Left $ DoesNotMatchExpr "[^|]{1,25}"
     where
-      invalidLength = l < 1 || l > 25
       l = length str
-      wrongFormat = any (== '|') str
 
   render (Series s) = unpack s

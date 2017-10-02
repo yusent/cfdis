@@ -186,6 +186,6 @@ data Currency
   deriving (Eq, Read, Show)
 
 instance Type Currency where
-  parse = justErr NotInCatalog . readMaybe . ("CUR_" ++)
+  parseExpr = justErr NotInCatalog . readMaybe . ("CUR_" ++)
 
   render = drop 4 . show

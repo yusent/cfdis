@@ -27,28 +27,28 @@ data TaxRegime
   deriving (Eq, Show)
 
 instance Type TaxRegime where
-  parse "600" = Right GeneralForPeople
-  parse "602" = Right NonProfitCompany
-  parse "605" = Right WagesAndSalaries
-  parse "606" = Right Leasing
-  parse "607" = Right GoodsAcquisition
-  parse "608" = Right OtherIncomes
-  parse "609" = Right Consolidation
-  parse "610" = Right ForeignResidents
-  parse "611" = Right DividendIncomes
-  parse "612" = Right PeopleWithBusinessActivities
-  parse "614" = Right InterestsIncomes
-  parse "615" = Right RevenueForPrizes
-  parse "616" = Right NoTaxObligations
-  parse "620" = Right CooperativeSocieties
-  parse "621" = Right FiscalIncorporation
-  parse "622" = Right AgriculturalActivities
-  parse "623" = Right OptionalForSocialGroups
-  parse "624" = Right Coordinated
-  parse "628" = Right Hydrocarbons
-  parse "629" = Right MultinationalCompanies
-  parse "630" = Right SharesAlienation
-  parse _     = Left NotInCatalog
+  parseExpr "600" = Right GeneralForPeople
+  parseExpr "602" = Right NonProfitCompany
+  parseExpr "605" = Right WagesAndSalaries
+  parseExpr "606" = Right Leasing
+  parseExpr "607" = Right GoodsAcquisition
+  parseExpr "608" = Right OtherIncomes
+  parseExpr "609" = Right Consolidation
+  parseExpr "610" = Right ForeignResidents
+  parseExpr "611" = Right DividendIncomes
+  parseExpr "612" = Right PeopleWithBusinessActivities
+  parseExpr "614" = Right InterestsIncomes
+  parseExpr "615" = Right RevenueForPrizes
+  parseExpr "616" = Right NoTaxObligations
+  parseExpr "620" = Right CooperativeSocieties
+  parseExpr "621" = Right FiscalIncorporation
+  parseExpr "622" = Right AgriculturalActivities
+  parseExpr "623" = Right OptionalForSocialGroups
+  parseExpr "624" = Right Coordinated
+  parseExpr "628" = Right Hydrocarbons
+  parseExpr "629" = Right MultinationalCompanies
+  parseExpr "630" = Right SharesAlienation
+  parseExpr _     = Left NotInCatalog
 
   render GeneralForPeople             = "600"
   render NonProfitCompany             = "602"

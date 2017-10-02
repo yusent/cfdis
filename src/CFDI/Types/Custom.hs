@@ -8,7 +8,7 @@ import Text.Read          (readMaybe)
 data Custom = Custom Int deriving (Eq, Show)
 
 instance Type Custom where
-  parse c = justErr NotInCatalog maybeCustom
+  parseExpr c = justErr NotInCatalog maybeCustom
     where
       maybeCustom = readMaybe c >>= isValid >>= return . Custom
       isValid x

@@ -2423,6 +2423,6 @@ data MeasurementUnit
   deriving (Eq, Read, Show)
 
 instance Type MeasurementUnit where
-  parse = justErr NotInCatalog . readMaybe . ("MU_" ++)
+  parseExpr = justErr NotInCatalog . readMaybe . ("MU_" ++)
 
   render = drop 3 . show
