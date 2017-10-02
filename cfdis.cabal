@@ -55,6 +55,7 @@ library
                      , CFDI.Types.Version
                      , CFDI.Types.WayToPay
                      , CFDI.Types.ZipCode
+                     , CFDI.XmlNode
   build-depends:       aeson >= 1.1 && < 1.2
                      , base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1

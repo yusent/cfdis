@@ -13,6 +13,7 @@ import CFDI.Types.Series
 import CFDI.Types.Version
 import CFDI.Types.WayToPay
 import CFDI.Types.ZipCode
+import CFDI.XmlNode
 import Data.Text                    (Text)
 import Data.Time.LocalTime          (LocalTime)
 
@@ -37,3 +38,24 @@ data CFDI = CFDI
   , wayToPay      :: Maybe WayToPay
   }
   deriving (Eq, Show)
+
+instance XmlNode CFDI where
+  parseNode n = CFDI
+    <$> parseAttribute "NoCertificado" n
+    <*> parseAttribute "Certificado" n
+    <*> requireAttribute "TipoDeComprobante" n
+    <*> parseAttribute "Confirmacion" n
+    <*> requireAttribute "Moneda" n
+    <*> parseAttribute "Descuento" n
+    <*> parseAttribute "TipoCambio" n
+    <*> parseAttribute "Folio" n
+    <*> requireAttribute "Fecha" n
+    <*> requireAttribute "LugarExpedicion" n
+    <*> parseAttribute "CondicionesDePago" n
+    <*> parseAttribute "MetodoPago" n
+    <*> parseAttribute "Serie" n
+    <*> parseAttribute "Sello" n
+    <*> requireAttribute "SubTotal" n
+    <*> requireAttribute "Total" n
+    <*> requireAttribute "Version" n
+    <*> parseAttribute "FormaPago" n
