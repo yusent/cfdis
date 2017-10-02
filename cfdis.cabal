@@ -32,18 +32,21 @@ library
                      , CFDI.Types.Custom
                      , CFDI.Types.CustomPatent
                      , CFDI.Types.FactorType
+                     , CFDI.Types.Folio
                      , CFDI.Types.Locality
                      , CFDI.Types.MeasurementUnit
                      , CFDI.Types.Municipality
                      , CFDI.Types.PaymentMethod
                      , CFDI.Types.ProductOrService
                      , CFDI.Types.RelationshipType
+                     , CFDI.Types.Series
                      , CFDI.Types.State
                      , CFDI.Types.Suburb
                      , CFDI.Types.Tax
                      , CFDI.Types.TaxRegime
                      , CFDI.Types.Type
                      , CFDI.Types.Use
+                     , CFDI.Types.Version
                      , CFDI.Types.WayToPay
                      , CFDI.Types.ZipCode
   build-depends:       aeson >= 1.1 && < 1.2
