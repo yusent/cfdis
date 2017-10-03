@@ -16,10 +16,12 @@ module CFDI.Types
   , module CFDI.Types.Country
   , module CFDI.Types.Currency
   , module CFDI.Types.Custom
+  , module CFDI.Types.CustomInfo
   , module CFDI.Types.CustomPatent
   , module CFDI.Types.ExchangeRate
   , module CFDI.Types.FactorType
   , module CFDI.Types.Folio
+  , module CFDI.Types.ImportNumber
   , module CFDI.Types.Issuer
   , module CFDI.Types.Locality
   , module CFDI.Types.MeasurementUnit
@@ -77,10 +79,12 @@ import CFDI.Types.Confirmation
 import CFDI.Types.Country
 import CFDI.Types.Currency
 import CFDI.Types.Custom
+import CFDI.Types.CustomInfo
 import CFDI.Types.CustomPatent
 import CFDI.Types.ExchangeRate
 import CFDI.Types.FactorType
 import CFDI.Types.Folio
+import CFDI.Types.ImportNumber
 import CFDI.Types.Issuer
 import CFDI.Types.Locality
 import CFDI.Types.MeasurementUnit

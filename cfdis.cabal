@@ -44,10 +44,12 @@ library
                      , CFDI.Types.Country
                      , CFDI.Types.Currency
                      , CFDI.Types.Custom
+                     , CFDI.Types.CustomInfo
                      , CFDI.Types.CustomPatent
                      , CFDI.Types.ExchangeRate
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
+                     , CFDI.Types.ImportNumber
                      , CFDI.Types.Issuer
                      , CFDI.Types.Locality
                      , CFDI.Types.MeasurementUnit

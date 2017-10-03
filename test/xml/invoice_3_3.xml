@@ -14,6 +14,7 @@
           <cfdi:Retencion Base="0.000001" Impuesto="001" Importe="0" TipoFactor="Tasa" TasaOCuota="0.100000" />
         </cfdi:Retenciones>
       </cfdi:Impuestos>
+      <cfdi:InformacionAduanera NumeroPedimento="12  12  1212  1212121" />
     </cfdi:Concepto>
   </cfdi:Conceptos>
   <cfdi:Impuestos TotalImpuestosRetenidos="0" TotalImpuestosTrasladados="174.48">
