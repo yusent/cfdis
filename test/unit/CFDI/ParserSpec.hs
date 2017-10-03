@@ -44,7 +44,7 @@ cfdi = CFDI
   Income
   (Just (Complement
          (Just (PacStamp 
-                 Nothing
+                 (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))
                  (CompanyRfc "SAT970701NN3")
                  (CertificateNumber "00001000000403258748")
                  "VxwwW+2KLIFNppKkfSUMdMTxP/hOzxcLjG1TGSjMrYEZ3goBp18d/LO37jfE7\
@@ -68,19 +68,19 @@ cfdi = CFDI
     [ Concept
         (Amount "1090.52")
         (ProductDescription "COMIDA MEXICANA")
-        Nothing
+        (Just (Amount "0"))
         MU_ACT
-        Nothing
+        (Just (ProductId "PROD12"))
         (ProductOrService 91111700)
         (Quantity "1")
         (Just (ProductUnit "N/A"))
         (Amount "1090.52")
     ])
-  Nothing
+  (Just (Confirmation "AbcD5"))
   CUR_MXN
-  Nothing
-  Nothing
-  Nothing
+  (Just (Amount "0"))
+  (Just (ExchangeRate "12.121212"))
+  (Just (Folio "12"))
   (LocalTime
     (ModifiedJulianDay 57953)
     (TimeOfDay 14 27 3))
@@ -89,16 +89,18 @@ cfdi = CFDI
     (Just (Name "EMISOR DE PRUEBA"))
     (RFC "XAXX010101000")
     (PeopleWithBusinessActivities))
-  Nothing
+  (Just (PaymentConditions "CONDICIONES DE PAGO DE PRUEBA"))
   (Just OneTimePayment)
   (Recipient
     (Just GeneralExpenses)
     (Just (Name "RECEPTOR DE PRUEBA"))
     (RFC "XEXX010101000")
-    Nothing
-    Nothing)
-  Nothing
-  Nothing
+    (Just (TaxId "1234567890"))
+    (Just CTY_MEX))
+  (Just (RelatedCfdis
+          [RelatedCfdi (UUID "12121212-1212-1212-1212-121212121212")]
+          Substitution))
+  (Just (Series "ABC"))
   (Just "AXvgW3lSloJK7iSUJsHiBmLAcdCnQZi0yA8XwODvucH6kgdJTTHr256z9XBjIRFGQ+eUlm\
         \Ss4USAS3rz2+DMfLS27EkEeReEFF/Mhcf0bM7U91Gm9p7OvAFs9WPbFzhxP+gvnzr4KdJ9\
         \O4CAsfyVNtlTJ+Z+cquDZw5Yun25xfOqObFtv/m7g2+c9dWbBAgf2vEGUemy1hg9i8nEBC\
@@ -106,9 +108,16 @@ cfdi = CFDI
         \+UdbyefKNpvYpejcrBUSPY6Q8uQFvf+rm6jtTrsIc2LNlhiV5fL9mb8MGMWiKw==")
   (Amount "1090.52")
   (Just (Taxes 
-          Nothing
-          Nothing
-          Nothing
+          (Just (RetainedTaxes
+                  [ RetainedTax
+                      (Amount "0")
+                      (TaxBase "0.000001")
+                      Rate
+                      (TaxRate "0.100000")
+                      ISR
+                  ]))
+          (Just (Amount "174.48"))
+          (Just (Amount "0"))
           (Just (TransferedTaxes
                   [ TransferedTax 
                       (Amount "174.48")

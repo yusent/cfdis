@@ -41,6 +41,7 @@ module CFDI.Types
   , module CFDI.Types.State
   , module CFDI.Types.Suburb
   , module CFDI.Types.Tax
+  , module CFDI.Types.TaxBase
   , module CFDI.Types.Taxes
   , module CFDI.Types.TaxId
   , module CFDI.Types.TaxRate
@@ -96,6 +97,7 @@ import CFDI.Types.Series
 import CFDI.Types.State
 import CFDI.Types.Suburb
 import CFDI.Types.Tax
+import CFDI.Types.TaxBase
 import CFDI.Types.Taxes
 import CFDI.Types.TaxId
 import CFDI.Types.TaxRate

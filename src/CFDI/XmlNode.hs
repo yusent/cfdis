@@ -2,7 +2,7 @@ module CFDI.XmlNode where
 
 import CFDI.Types.Type      (ParseError, Type, parse)
 import Control.Error.Safe   (justErr)
-import Text.XML.Light.Proc  (filterElementName, filterElementsName, findAttrBy)
+import Text.XML.Light.Proc  (filterChildName, filterChildrenName, findAttrBy)
 import Text.XML.Light.Types (Element, QName(QName))
 
 data XmlParseError
@@ -23,10 +23,10 @@ findAttrValueByName :: String -> Element -> Maybe String
 findAttrValueByName attrName = findAttrBy (nameEquals attrName)
 
 findChildByName :: String -> Element -> Maybe Element
-findChildByName childName = filterElementName (nameEquals childName)
+findChildByName childName = filterChildName (nameEquals childName)
 
 findChildrenByName :: String -> Element -> [Element]
-findChildrenByName childName = filterElementsName (nameEquals childName)
+findChildrenByName childName = filterChildrenName (nameEquals childName)
 
 nameEquals :: String -> QName -> Bool
 nameEquals s (QName name _ _) = s == name
