@@ -3,6 +3,7 @@ module CFDI.Types.CFDI where
 import CFDI.Types.Amount
 import CFDI.Types.CertificateNumber
 import CFDI.Types.CfdiType
+import CFDI.Types.Concepts
 import CFDI.Types.Confirmation
 import CFDI.Types.Currency
 import CFDI.Types.ExchangeRate
@@ -10,6 +11,7 @@ import CFDI.Types.Folio
 import CFDI.Types.Issuer
 import CFDI.Types.PaymentConditions
 import CFDI.Types.PaymentMethod
+import CFDI.Types.Recipient
 import CFDI.Types.RelatedCfdis
 import CFDI.Types.Series
 import CFDI.Types.Version
@@ -23,6 +25,7 @@ data CFDI = CFDI
   { certNum       :: Maybe CertificateNumber
   , certText      :: Maybe Text
   , cfdiType      :: CfdiType
+  , concepts      :: Concepts
   , confirmation  :: Maybe Confirmation
   , currency      :: Currency
   , discount      :: Maybe Amount
@@ -33,6 +36,7 @@ data CFDI = CFDI
   , issuer        :: Issuer
   , paymentConds  :: Maybe PaymentConditions
   , paymentMethod :: Maybe PaymentMethod
+  , recipient     :: Recipient
   , relatedCfdis  :: Maybe RelatedCfdis
   , series        :: Maybe Series
   , signature     :: Maybe Text
@@ -47,6 +51,7 @@ instance XmlNode CFDI where
     <$> parseAttribute "NoCertificado" n
     <*> parseAttribute "Certificado" n
     <*> requireAttribute "TipoDeComprobante" n
+    <*> requireChild "Conceptos" n
     <*> parseAttribute "Confirmacion" n
     <*> requireAttribute "Moneda" n
     <*> parseAttribute "Descuento" n
@@ -57,6 +62,7 @@ instance XmlNode CFDI where
     <*> requireChild "Emisor" n
     <*> parseAttribute "CondicionesDePago" n
     <*> parseAttribute "MetodoPago" n
+    <*> requireChild "Receptor" n
     <*> parseChild "CfdiRelacionados" n
     <*> parseAttribute "Serie" n
     <*> parseAttribute "Sello" n

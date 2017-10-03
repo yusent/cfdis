@@ -30,6 +30,8 @@ library
                      , CFDI.Types.CertificateNumber
                      , CFDI.Types.CFDI
                      , CFDI.Types.CfdiType
+                     , CFDI.Types.Concept
+                     , CFDI.Types.Concepts
                      , CFDI.Types.Confirmation
                      , CFDI.Types.Country
                      , CFDI.Types.Currency
@@ -45,7 +47,12 @@ library
                      , CFDI.Types.Name
                      , CFDI.Types.PaymentConditions
                      , CFDI.Types.PaymentMethod
+                     , CFDI.Types.ProductDescription
+                     , CFDI.Types.ProductId
                      , CFDI.Types.ProductOrService
+                     , CFDI.Types.ProductUnit
+                     , CFDI.Types.Quantity
+                     , CFDI.Types.Recipient
                      , CFDI.Types.RelatedCfdi
                      , CFDI.Types.RelatedCfdis
                      , CFDI.Types.RelationshipType
@@ -54,6 +61,7 @@ library
                      , CFDI.Types.State
                      , CFDI.Types.Suburb
                      , CFDI.Types.Tax
+                     , CFDI.Types.TaxId
                      , CFDI.Types.TaxRegime
                      , CFDI.Types.Type
                      , CFDI.Types.Use

@@ -7,7 +7,7 @@ import CFDI.XmlNode
 
 data Issuer = Issuer
   { issName :: Maybe Name
-  , rfc     :: RFC
+  , issRfc  :: RFC
   , taxReg  :: TaxRegime
   } deriving (Eq, Show)
 
