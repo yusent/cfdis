@@ -17,6 +17,7 @@ library
   hs-source-dirs:      src
   default-extensions:  OverloadedStrings
   exposed-modules:     CFDI.CSD
+                     , CFDI.Parser
                      , CFDI.Types
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
