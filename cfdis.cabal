@@ -16,9 +16,9 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   default-extensions:  OverloadedStrings
-  exposed-modules:     CFDI.Catalog
-                     , CFDI.Catalogs
-                     , CFDI.CSD
+  exposed-modules:     CFDI.CSD
+                     , CFDI.Parser
+                     , CFDI.Types
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
                      , CFDI.V3_2.PAC
@@ -26,26 +26,70 @@ library
                      , CFDI.V3_2.Parser
                      , CFDI.V3_2.Renderer
                      , CFDI.V3_2.Types
-  other-modules:       CFDI.Catalogs.CfdiTypes
-                     , CFDI.Catalogs.Countries
-                     , CFDI.Catalogs.Currencies
-                     , CFDI.Catalogs.Customs
-                     , CFDI.Catalogs.CustomPatents
-                     , CFDI.Catalogs.FactorTypes
-                     , CFDI.Catalogs.Localities
-                     , CFDI.Catalogs.MeasurementUnits
-                     , CFDI.Catalogs.Municipalities
-                     , CFDI.Catalogs.PaymentMethods
-                     , CFDI.Catalogs.ProductOrServices
-                     , CFDI.Catalogs.RelationshipTypes
-                     , CFDI.Catalogs.States
-                     , CFDI.Catalogs.Suburbs
-                     , CFDI.Catalogs.Taxes
-                     , CFDI.Catalogs.TaxRegimes
-                     , CFDI.Catalogs.Uses
-                     , CFDI.Catalogs.WaysToPay
-                     , CFDI.Catalogs.ZipCodes
-                     , CFDI.Chainable
+  other-modules:       CFDI.Chainable
+                     , CFDI.Types.Amount
+                     , CFDI.Types.CertificateNumber
+                     , CFDI.Types.CFDI
+                     , CFDI.Types.CfdiType
+                     , CFDI.Types.CompanyRfc
+                     , CFDI.Types.Complement
+                     , CFDI.Types.Concept
+                     , CFDI.Types.Concepts
+                     , CFDI.Types.ConceptRetainedTax
+                     , CFDI.Types.ConceptRetainedTaxes
+                     , CFDI.Types.ConceptTaxes
+                     , CFDI.Types.ConceptTransferedTax
+                     , CFDI.Types.ConceptTransferedTaxes
+                     , CFDI.Types.Confirmation
+                     , CFDI.Types.Country
+                     , CFDI.Types.Currency
+                     , CFDI.Types.Custom
+                     , CFDI.Types.CustomInfo
+                     , CFDI.Types.CustomPatent
+                     , CFDI.Types.ExchangeRate
+                     , CFDI.Types.FactorType
+                     , CFDI.Types.Folio
+                     , CFDI.Types.ImportNumber
+                     , CFDI.Types.Issuer
+                     , CFDI.Types.Locality
+                     , CFDI.Types.MeasurementUnit
+                     , CFDI.Types.Municipality
+                     , CFDI.Types.Name
+                     , CFDI.Types.PacStamp
+                     , CFDI.Types.PacStampVersion
+                     , CFDI.Types.PaymentConditions
+                     , CFDI.Types.PaymentMethod
+                     , CFDI.Types.ProductDescription
+                     , CFDI.Types.ProductId
+                     , CFDI.Types.ProductOrService
+                     , CFDI.Types.ProductUnit
+                     , CFDI.Types.Quantity
+                     , CFDI.Types.Recipient
+                     , CFDI.Types.RelatedCfdi
+                     , CFDI.Types.RelatedCfdis
+                     , CFDI.Types.RelationshipType
+                     , CFDI.Types.RetainedTax
+                     , CFDI.Types.RetainedTaxes
+                     , CFDI.Types.RFC
+                     , CFDI.Types.SatLegend
+                     , CFDI.Types.Series
+                     , CFDI.Types.State
+                     , CFDI.Types.Suburb
+                     , CFDI.Types.Tax
+                     , CFDI.Types.TaxBase
+                     , CFDI.Types.Taxes
+                     , CFDI.Types.TaxId
+                     , CFDI.Types.TaxRate
+                     , CFDI.Types.TaxRegime
+                     , CFDI.Types.TransferedTax
+                     , CFDI.Types.TransferedTaxes
+                     , CFDI.Types.Type
+                     , CFDI.Types.Use
+                     , CFDI.Types.UUID
+                     , CFDI.Types.Version
+                     , CFDI.Types.WayToPay
+                     , CFDI.Types.ZipCode
+                     , CFDI.XmlNode
   build-depends:       aeson >= 1.1 && < 1.2
                      , base >= 4.7 && < 5
                      , base64-bytestring >= 1.0 && < 1.1
@@ -57,29 +101,33 @@ library
                      , http-conduit >= 2.2 && < 2.3
                      , http-types >= 0.9 && < 0.10
                      , process-extras >= 0.7 && < 0.8
+                     , regex-compat >= 0.95 && < 0.96
+                     , regex-posix >= 0.95 && < 0.96
                      , text >= 1.2 && < 1.3
                      , time >= 1.6 && < 1.7
                      , xml >= 1.3 && < 1.4
   default-language:    Haskell2010
 
 test-suite unit-tests
-  type:             exitcode-stdio-1.0
-  main-is:          Spec.hs
-  hs-source-dirs:   test/unit
-  other-modules:    CFDI.CSDSpec
-                  , CFDI.V3_2.PAC.ITimbreSpec
-                  , CFDI.V3_2Spec
-  build-depends:    base
-                  , cfdis
-                  , directory
-                  , extra
-                  , hspec
-                  , hspec-discover
-                  , temporary
-                  , text
-                  , time
-                  , yaml
-  default-language: Haskell2010
+  type:               exitcode-stdio-1.0
+  main-is:            Spec.hs
+  hs-source-dirs:     test/unit
+  default-extensions: OverloadedStrings
+  other-modules:      CFDI.CSDSpec
+                    , CFDI.ParserSpec
+                    , CFDI.V3_2.PAC.ITimbreSpec
+                    , CFDI.V3_2Spec
+  build-depends:      base
+                    , cfdis
+                    , directory
+                    , extra
+                    , hspec
+                    , hspec-discover
+                    , temporary
+                    , text
+                    , time
+                    , yaml
+  default-language:   Haskell2010
 
 source-repository head
   type:     git
