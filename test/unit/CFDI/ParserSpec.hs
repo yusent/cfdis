@@ -73,6 +73,23 @@ cfdi = CFDI
         (Just (ProductId "PROD12"))
         (ProductOrService 91111700)
         (Quantity "1")
+        (Just (ConceptTaxes
+                (Just (ConceptRetainedTaxes
+                        [ ConceptRetainedTax
+                            (Amount "0")
+                            (TaxBase "0.000001")
+                            Rate
+                            (TaxRate "0.100000")
+                            ISR
+                        ]))
+                (Just (ConceptTransferedTaxes
+                        [ ConceptTransferedTax
+                            (Amount "174.48")
+                            (TaxBase "1090.52")
+                            Rate
+                            (TaxRate "0.160000")
+                            IVA
+                        ]))))
         (Just (ProductUnit "N/A"))
         (Amount "1090.52")
     ])
@@ -111,9 +128,6 @@ cfdi = CFDI
           (Just (RetainedTaxes
                   [ RetainedTax
                       (Amount "0")
-                      (TaxBase "0.000001")
-                      Rate
-                      (TaxRate "0.100000")
                       ISR
                   ]))
           (Just (Amount "174.48"))

@@ -6,7 +6,12 @@ module CFDI.Types
   , module CFDI.Types.CompanyRfc
   , module CFDI.Types.Complement
   , module CFDI.Types.Concept
+  , module CFDI.Types.ConceptRetainedTax
+  , module CFDI.Types.ConceptRetainedTaxes
   , module CFDI.Types.Concepts
+  , module CFDI.Types.ConceptTaxes
+  , module CFDI.Types.ConceptTransferedTax
+  , module CFDI.Types.ConceptTransferedTaxes
   , module CFDI.Types.Confirmation
   , module CFDI.Types.Country
   , module CFDI.Types.Currency
@@ -62,7 +67,12 @@ import CFDI.Types.CfdiType
 import CFDI.Types.CompanyRfc
 import CFDI.Types.Complement
 import CFDI.Types.Concept
+import CFDI.Types.ConceptRetainedTax
+import CFDI.Types.ConceptRetainedTaxes
 import CFDI.Types.Concepts
+import CFDI.Types.ConceptTaxes
+import CFDI.Types.ConceptTransferedTax
+import CFDI.Types.ConceptTransferedTaxes
 import CFDI.Types.Confirmation
 import CFDI.Types.Country
 import CFDI.Types.Currency

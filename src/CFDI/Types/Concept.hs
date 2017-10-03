@@ -1,6 +1,7 @@
 module CFDI.Types.Concept where
 
 import CFDI.Types.Amount
+import CFDI.Types.ConceptTaxes
 import CFDI.Types.MeasurementUnit
 import CFDI.Types.ProductDescription
 import CFDI.Types.ProductId
@@ -17,6 +18,7 @@ data Concept = Concept
   , conProdId    :: Maybe ProductId
   , conProdServ  :: ProductOrService
   , conQuantity  :: Quantity
+  , conTaxes     :: Maybe ConceptTaxes
   , conUnit      :: Maybe ProductUnit
   , conUnitPrice :: Amount
   } deriving (Eq, Show)
@@ -30,5 +32,6 @@ instance XmlNode Concept where
     <*> parseAttribute "NoIdentificacion" n
     <*> requireAttribute "ClaveProdServ" n
     <*> requireAttribute "Cantidad" n
+    <*> parseChild "Impuestos" n
     <*> parseAttribute "Unidad" n
     <*> requireAttribute "ValorUnitario" n

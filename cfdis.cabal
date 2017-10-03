@@ -35,6 +35,11 @@ library
                      , CFDI.Types.Complement
                      , CFDI.Types.Concept
                      , CFDI.Types.Concepts
+                     , CFDI.Types.ConceptRetainedTax
+                     , CFDI.Types.ConceptRetainedTaxes
+                     , CFDI.Types.ConceptTaxes
+                     , CFDI.Types.ConceptTransferedTax
+                     , CFDI.Types.ConceptTransferedTaxes
                      , CFDI.Types.Confirmation
                      , CFDI.Types.Country
                      , CFDI.Types.Currency
