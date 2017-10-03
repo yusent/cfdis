@@ -24,6 +24,7 @@ instance Type ZipCode where
         | x > 91310 && x < 91315 = Nothing
         | x > 93769 && x < 93780 = Nothing
         | x > 95049 && x < 95670 = Nothing
+        | x > 99999              = Nothing
         | otherwise = Just x
 
   render (ZipCode x) = replicate (5 - length xStr) '0' ++ xStr
