@@ -29,13 +29,19 @@ module CFDI.Types
   , module CFDI.Types.RelatedCfdi
   , module CFDI.Types.RelatedCfdis
   , module CFDI.Types.RelationshipType
+  , module CFDI.Types.RetainedTax
+  , module CFDI.Types.RetainedTaxes
   , module CFDI.Types.RFC
   , module CFDI.Types.Series
   , module CFDI.Types.State
   , module CFDI.Types.Suburb
   , module CFDI.Types.Tax
+  , module CFDI.Types.Taxes
   , module CFDI.Types.TaxId
+  , module CFDI.Types.TaxRate
   , module CFDI.Types.TaxRegime
+  , module CFDI.Types.TransferedTax
+  , module CFDI.Types.TransferedTaxes
   , module CFDI.Types.Use
   , module CFDI.Types.UUID
   , module CFDI.Types.Version
@@ -73,13 +79,19 @@ import CFDI.Types.Recipient
 import CFDI.Types.RelatedCfdi
 import CFDI.Types.RelatedCfdis
 import CFDI.Types.RelationshipType
+import CFDI.Types.RetainedTax
+import CFDI.Types.RetainedTaxes
 import CFDI.Types.RFC
 import CFDI.Types.Series
 import CFDI.Types.State
 import CFDI.Types.Suburb
 import CFDI.Types.Tax
+import CFDI.Types.Taxes
 import CFDI.Types.TaxId
+import CFDI.Types.TaxRate
 import CFDI.Types.TaxRegime
+import CFDI.Types.TransferedTax
+import CFDI.Types.TransferedTaxes
 import CFDI.Types.Use
 import CFDI.Types.UUID
 import CFDI.Types.Version

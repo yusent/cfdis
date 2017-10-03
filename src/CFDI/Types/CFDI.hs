@@ -14,6 +14,7 @@ import CFDI.Types.PaymentMethod
 import CFDI.Types.Recipient
 import CFDI.Types.RelatedCfdis
 import CFDI.Types.Series
+import CFDI.Types.Taxes
 import CFDI.Types.Version
 import CFDI.Types.WayToPay
 import CFDI.Types.ZipCode
@@ -41,6 +42,7 @@ data CFDI = CFDI
   , series        :: Maybe Series
   , signature     :: Maybe Text
   , subTotal      :: Amount
+  , taxes         :: Maybe Taxes
   , total         :: Amount
   , version       :: Version
   , wayToPay      :: Maybe WayToPay
@@ -67,6 +69,7 @@ instance XmlNode CFDI where
     <*> parseAttribute "Serie" n
     <*> parseAttribute "Sello" n
     <*> requireAttribute "SubTotal" n
+    <*> parseChild "Impuestos" n
     <*> requireAttribute "Total" n
     <*> requireAttribute "Version" n
     <*> parseAttribute "FormaPago" n

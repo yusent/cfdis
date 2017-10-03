@@ -56,13 +56,19 @@ library
                      , CFDI.Types.RelatedCfdi
                      , CFDI.Types.RelatedCfdis
                      , CFDI.Types.RelationshipType
+                     , CFDI.Types.RetainedTax
+                     , CFDI.Types.RetainedTaxes
                      , CFDI.Types.RFC
                      , CFDI.Types.Series
                      , CFDI.Types.State
                      , CFDI.Types.Suburb
                      , CFDI.Types.Tax
+                     , CFDI.Types.Taxes
                      , CFDI.Types.TaxId
+                     , CFDI.Types.TaxRate
                      , CFDI.Types.TaxRegime
+                     , CFDI.Types.TransferedTax
+                     , CFDI.Types.TransferedTaxes
                      , CFDI.Types.Type
                      , CFDI.Types.Use
                      , CFDI.Types.UUID
