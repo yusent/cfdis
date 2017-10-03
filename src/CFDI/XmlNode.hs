@@ -47,11 +47,15 @@ parseChild childName parent =
     Nothing -> Right Nothing
     Just n  ->
       case parseNode n of
-        Left err -> Left err
-        Right pn -> Right $ Just pn
+        Left  err -> Left  $ ParseErrorInChild childName err
+        Right pn  -> Right $ Just pn
 
 parseChildren :: XmlNode n => String -> Element -> Either XmlParseError [n]
-parseChildren childName = mapM parseNode . findChildrenByName childName
+parseChildren childName = mapM parseNode' . findChildrenByName childName
+  where
+    parseNode' n = case parseNode n of
+      Left  err -> Left  $ ParseErrorInChild childName err
+      Right mpn -> Right mpn
 
 requireAttribute :: Type t => String -> Element -> Either XmlParseError t
 requireAttribute attrName el = do
