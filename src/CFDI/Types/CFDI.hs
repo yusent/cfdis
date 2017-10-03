@@ -3,6 +3,7 @@ module CFDI.Types.CFDI where
 import CFDI.Types.Amount
 import CFDI.Types.CertificateNumber
 import CFDI.Types.CfdiType
+import CFDI.Types.Complement
 import CFDI.Types.Concepts
 import CFDI.Types.Confirmation
 import CFDI.Types.Currency
@@ -26,6 +27,7 @@ data CFDI = CFDI
   { certNum       :: Maybe CertificateNumber
   , certText      :: Maybe Text
   , cfdiType      :: CfdiType
+  , complement    :: Maybe Complement
   , concepts      :: Concepts
   , confirmation  :: Maybe Confirmation
   , currency      :: Currency
@@ -53,6 +55,7 @@ instance XmlNode CFDI where
     <$> parseAttribute "NoCertificado" n
     <*> parseAttribute "Certificado" n
     <*> requireAttribute "TipoDeComprobante" n
+    <*> parseChild "Complemento" n
     <*> requireChild "Conceptos" n
     <*> parseAttribute "Confirmacion" n
     <*> requireAttribute "Moneda" n

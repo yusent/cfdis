@@ -30,6 +30,8 @@ library
                      , CFDI.Types.CertificateNumber
                      , CFDI.Types.CFDI
                      , CFDI.Types.CfdiType
+                     , CFDI.Types.CompanyRfc
+                     , CFDI.Types.Complement
                      , CFDI.Types.Concept
                      , CFDI.Types.Concepts
                      , CFDI.Types.Confirmation
@@ -45,6 +47,8 @@ library
                      , CFDI.Types.MeasurementUnit
                      , CFDI.Types.Municipality
                      , CFDI.Types.Name
+                     , CFDI.Types.PacStamp
+                     , CFDI.Types.PacStampVersion
                      , CFDI.Types.PaymentConditions
                      , CFDI.Types.PaymentMethod
                      , CFDI.Types.ProductDescription
@@ -59,6 +63,7 @@ library
                      , CFDI.Types.RetainedTax
                      , CFDI.Types.RetainedTaxes
                      , CFDI.Types.RFC
+                     , CFDI.Types.SatLegend
                      , CFDI.Types.Series
                      , CFDI.Types.State
                      , CFDI.Types.Suburb

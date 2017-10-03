@@ -3,6 +3,8 @@ module CFDI.Types
   , module CFDI.Types.CertificateNumber
   , module CFDI.Types.CFDI
   , module CFDI.Types.CfdiType
+  , module CFDI.Types.CompanyRfc
+  , module CFDI.Types.Complement
   , module CFDI.Types.Concept
   , module CFDI.Types.Concepts
   , module CFDI.Types.Confirmation
@@ -18,6 +20,8 @@ module CFDI.Types
   , module CFDI.Types.MeasurementUnit
   , module CFDI.Types.Municipality
   , module CFDI.Types.Name
+  , module CFDI.Types.PacStamp
+  , module CFDI.Types.PacStampVersion
   , module CFDI.Types.PaymentConditions
   , module CFDI.Types.PaymentMethod
   , module CFDI.Types.ProductDescription
@@ -32,6 +36,7 @@ module CFDI.Types
   , module CFDI.Types.RetainedTax
   , module CFDI.Types.RetainedTaxes
   , module CFDI.Types.RFC
+  , module CFDI.Types.SatLegend
   , module CFDI.Types.Series
   , module CFDI.Types.State
   , module CFDI.Types.Suburb
@@ -53,6 +58,8 @@ import CFDI.Types.Amount
 import CFDI.Types.CertificateNumber
 import CFDI.Types.CFDI
 import CFDI.Types.CfdiType
+import CFDI.Types.CompanyRfc
+import CFDI.Types.Complement
 import CFDI.Types.Concept
 import CFDI.Types.Concepts
 import CFDI.Types.Confirmation
@@ -68,6 +75,8 @@ import CFDI.Types.Locality
 import CFDI.Types.MeasurementUnit
 import CFDI.Types.Municipality
 import CFDI.Types.Name
+import CFDI.Types.PacStamp
+import CFDI.Types.PacStampVersion
 import CFDI.Types.PaymentConditions
 import CFDI.Types.PaymentMethod
 import CFDI.Types.ProductDescription
@@ -82,6 +91,7 @@ import CFDI.Types.RelationshipType
 import CFDI.Types.RetainedTax
 import CFDI.Types.RetainedTaxes
 import CFDI.Types.RFC
+import CFDI.Types.SatLegend
 import CFDI.Types.Series
 import CFDI.Types.State
 import CFDI.Types.Suburb
