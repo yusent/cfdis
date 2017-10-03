@@ -13,7 +13,7 @@ import CFDI.XmlNode
 
 data Concept = Concept
   { conAmount     :: Amount
-  , conCustomInfo :: Maybe CustomInfo
+  , conCustomInfo :: [CustomInfo]
   , conDesc       :: ProductDescription
   , conDiscount   :: Maybe Amount
   , conMeasUnit   :: MeasurementUnit
@@ -28,7 +28,7 @@ data Concept = Concept
 instance XmlNode Concept where
   parseNode n = Concept
     <$> requireAttribute "Importe" n
-    <*> parseChild "InformacionAduanera" n
+    <*> parseChildren "InformacionAduanera" n
     <*> requireAttribute "Descripcion" n
     <*> parseAttribute "Descuento" n
     <*> requireAttribute "ClaveUnidad" n

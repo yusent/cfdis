@@ -67,7 +67,7 @@ cfdi = CFDI
   (Concepts
     [ Concept
         (Amount "1090.52")
-        (Just (CustomInfo (ImportNumber "12  12  1212  1212121")))
+        [CustomInfo (ImportNumber "12  12  1212  1212121")]
         (ProductDescription "COMIDA MEXICANA")
         (Just (Amount "0"))
         MU_ACT
