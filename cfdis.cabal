@@ -16,8 +16,8 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   default-extensions:  OverloadedStrings
-  exposed-modules:     CFDI.CSD
-                     , CFDI.Parser
+  exposed-modules:     CFDI
+                     , CFDI.CSD
                      , CFDI.Types
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
@@ -113,8 +113,8 @@ test-suite unit-tests
   main-is:            Spec.hs
   hs-source-dirs:     test/unit
   default-extensions: OverloadedStrings
-  other-modules:      CFDI.CSDSpec
-                    , CFDI.ParserSpec
+  other-modules:      CFDISpec
+                    , CFDI.CSDSpec
                     , CFDI.V3_2.PAC.ITimbreSpec
                     , CFDI.V3_2Spec
   build-depends:      base

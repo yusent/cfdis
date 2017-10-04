@@ -1,6 +1,6 @@
-module CFDI.ParserSpec (spec) where
+module CFDISpec (spec) where
 
-import CFDI.Parser
+import CFDI
 import CFDI.Types
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
