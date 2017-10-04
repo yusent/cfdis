@@ -7,6 +7,10 @@ data ConceptRetainedTaxes =
   ConceptRetainedTaxes [ConceptRetainedTax] deriving (Eq, Show)
 
 instance XmlNode ConceptRetainedTaxes where
+  children (ConceptRetainedTaxes ts) = renderNode <$> ts
+
+  nodeName = const "Retenciones"
+
   parseNode n = do
     retTaxes <- parseChildren "Retencion" n
     case retTaxes of

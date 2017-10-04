@@ -10,8 +10,14 @@ data RelatedCfdis = RelatedCfdis
   } deriving (Eq, Show)
 
 instance XmlNode RelatedCfdis where
+  children n = renderNode <$> related n
+
+  nodeName = const "CfdiRelacionados"
+
   parseNode n = do
     relCfdis <- parseChildren "CfdiRelacionado" n
     case relCfdis of
       [] -> Left $ ExpectedAtLeastOne "CfdiRelacionado"
       _  -> RelatedCfdis relCfdis <$> requireAttribute "TipoRelacion" n
+
+  requiredAttributes n = [attr "TipoRelacion" $ relationshipType n]

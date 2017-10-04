@@ -16,9 +16,19 @@ data ConceptTransferedTax = ConceptTransferedTax
   } deriving (Eq, Show)
 
 instance XmlNode ConceptTransferedTax where
+  nodeName = const "Traslado"
+
   parseNode n = ConceptTransferedTax
     <$> requireAttribute "Importe" n
     <*> requireAttribute "Base" n
     <*> requireAttribute "TipoFactor" n
     <*> requireAttribute "TasaOCuota" n
     <*> requireAttribute "Impuesto" n
+
+  requiredAttributes n =
+    [ attr "Importe"    $ conTransAmount n
+    , attr "Base"       $ conTransBase n
+    , attr "TipoFactor" $ conTransFactorType n
+    , attr "TasaOCuota" $ conTransRate n
+    , attr "Impuesto"   $ conTransTax n
+    ]

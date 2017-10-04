@@ -21,6 +21,12 @@ data PacStamp = PacStamp
   } deriving (Eq, Show)
 
 instance XmlNode PacStamp where
+  nodeName = const "TimbreFiscalDigital"
+
+  nodePrefix = const "tfd"
+
+  optionalAttributes n = [attr "Leyenda" <$> psLegend n]
+
   parseNode n = PacStamp
     <$> parseAttribute "Leyenda" n
     <*> requireAttribute "RfcProvCertif" n
@@ -30,3 +36,18 @@ instance XmlNode PacStamp where
     <*> requireAttribute "FechaTimbrado" n
     <*> requireAttribute "UUID" n
     <*> requireAttribute "Version" n
+
+  requiredAttributes n =
+    [ attrWithPrefix "xsi" "schemaLocation"
+        ("http://www.sat.gob.mx/TimbreFiscalDigital http://\
+         \www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd" :: Text)
+    , attrWithPrefix "xmlns" "tfd"
+        ("http://www.sat.gob.mx/TimbreFiscalDigital" :: Text)
+    , attr "RfcProvCertif"    $ psPacRfc n
+    , attr "NoCertificadoSAT" $ psSatCerNum n
+    , attr "SelloSAT"         $ psSatSig n
+    , attr "SelloCFD"         $ psSignature n
+    , attr "FechaTimbrado"    $ psStampedAt n
+    , attr "UUID"             $ psUuid n
+    , attr "Version"          $ psVersion n
+    ]

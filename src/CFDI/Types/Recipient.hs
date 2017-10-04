@@ -16,9 +16,20 @@ data Recipient = Recipient
   } deriving (Eq, Show)
 
 instance XmlNode Recipient where
+  nodeName = const "Receptor"
+
+  optionalAttributes n =
+    [ attr "UsoCFDI"          <$> recCfdiUse n
+    , attr "Nombre"           <$> recName n
+    , attr "ResidenciaFiscal" <$> taxResidence n
+    , attr "NumRegIdTrib"     <$> recTaxId n
+    ]
+
   parseNode n = Recipient
     <$> parseAttribute "UsoCFDI" n
     <*> parseAttribute "Nombre" n
     <*> requireAttribute "Rfc" n
     <*> parseAttribute "NumRegIdTrib" n
     <*> parseAttribute "ResidenciaFiscal" n
+
+  requiredAttributes n = [attr "Rfc" $ recRfc n]

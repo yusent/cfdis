@@ -1,9 +1,15 @@
 module CFDI.XmlNode where
 
-import CFDI.Types.Type      (ParseError, Type, parse)
+import CFDI.Types.Type      (ParseError, Type, parse, render)
 import Control.Error.Safe   (justErr)
+import Data.Maybe           (catMaybes)
 import Text.XML.Light.Proc  (filterChildName, filterChildrenName, findAttrBy)
-import Text.XML.Light.Types (Element, QName(QName))
+import Text.XML.Light
+  ( Attr(..)
+  , Content(Elem)
+  , Element(..)
+  , QName(..)
+  )
 
 data XmlParseError
   = AttrNotFound String
@@ -15,9 +21,37 @@ data XmlParseError
   deriving (Eq, Show)
 
 class XmlNode n where
+  children :: n -> [Element]
+  children = const []
+
+  nodeName :: n -> String
+
+  nodePrefix :: n -> String
+  nodePrefix = const "cfdi"
+
+  optionalAttributes :: n -> [Maybe Attr]
+  optionalAttributes = const []
+
   parseNode :: Element -> Either XmlParseError n
 
+  renderNode :: n -> Element
+  renderNode n = mkElem
+    (nodePrefix n)
+    (nodeName n)
+    (requiredAttributes n ++ catMaybes (optionalAttributes n))
+    (children n)
+
+  requiredAttributes :: n -> [Attr]
+  requiredAttributes = const []
+
 -- Helpers
+
+attr :: Type t => String -> t -> Attr
+attr attrName = Attr (QName attrName Nothing Nothing) . render
+
+attrWithPrefix :: Type t => String -> String -> t -> Attr
+attrWithPrefix prefix attrName =
+  Attr (QName attrName Nothing (Just prefix)) . render
 
 findAttrValueByName :: String -> Element -> Maybe String
 findAttrValueByName attrName = findAttrBy (nameEquals attrName)
@@ -27,6 +61,13 @@ findChildByName childName = filterChildName (nameEquals childName)
 
 findChildrenByName :: String -> Element -> [Element]
 findChildrenByName childName = filterChildrenName (nameEquals childName)
+
+mkElem :: String -> String -> [Attr] -> [Element] -> Element
+mkElem prefix elemName attrs elems = Element
+  (QName elemName Nothing $ Just prefix)
+  attrs
+  (Elem <$> elems)
+  Nothing
 
 nameEquals :: String -> QName -> Bool
 nameEquals s (QName name _ _) = s == name

@@ -10,6 +10,13 @@ data RetainedTax = RetainedTax
   } deriving (Eq, Show)
 
 instance XmlNode RetainedTax where
+  nodeName = const "Retencion"
+
   parseNode n = RetainedTax
     <$> requireAttribute "Importe" n
     <*> requireAttribute "Impuesto" n
+
+  requiredAttributes n =
+    [ attr "Importe"  $ retAmount n
+    , attr "Impuesto" $ retTax n
+    ]
