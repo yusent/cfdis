@@ -147,14 +147,18 @@ cfdi = CFDI
 
 spec :: Spec
 spec = do
-  describe "CFDI.Parser.parseCfdiXml" $ do
+  describe "CFDI.parseCfdiFile" $ do
+    eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
+
+    it "parses invoices from an xml file path" $ do
+      eitherErrOrCfdi `shouldBe` Right cfdi
+
+  describe "CFDI.parseCfdiXml" $ do
     xmlSource <- runIO $ readFile "test/xml/invoice_3_3.xml"
 
     it "parses invoices from an xml source" $ do
       parseCfdiXml xmlSource `shouldBe` Right cfdi
 
-  describe "CFDI.Parser.parseCfdiFile" $ do
-    eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
-
-    it "parses invoices from an xml file path" $ do
-      eitherErrOrCfdi `shouldBe` Right cfdi
+  describe "CFDI.toXML" $ do
+    it "returns an XML representation of a CFDI" $ do
+      parseCfdiXml (toXML cfdi) `shouldBe` Right cfdi
