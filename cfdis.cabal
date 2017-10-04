@@ -126,6 +126,7 @@ test-suite unit-tests
                     , temporary
                     , text
                     , time
+                    , xml
                     , yaml
   default-language:   Haskell2010
 
