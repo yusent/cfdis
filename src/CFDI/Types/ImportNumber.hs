@@ -10,6 +10,7 @@ import Text.Regex.Posix (matchTest)
 newtype ImportNumber = ImportNumber Text deriving (Eq, Show)
 
 instance Chainable ImportNumber where
+  -- Collapse double spaces
   chain (ImportNumber n) = unwords $ words n
 
 instance Type ImportNumber where
