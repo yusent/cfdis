@@ -5,6 +5,7 @@ import CFDI.Types
 import Data.Maybe          (fromJust, isJust)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
+import Extra               (replace)
 import Test.Hspec
 import Text.XML.Light
   ( Element(..)
@@ -165,6 +166,33 @@ spec = do
 
     it "parses invoices from an xml source" $ do
       parseCfdiXml xmlSource `shouldBe` Right cfdi
+
+    it "returns meaningful errors" $ do
+      parseCfdiXml ("" :: String) `shouldBe` Left MalformedXML
+
+      parseCfdiXml (replace "3.3" "_" xmlSource) `shouldBe`
+        Left (AttrParseError "Version" InvalidValue)
+
+      parseCfdiXml (replace "14:27:03" "" xmlSource) `shouldBe`
+        Left (AttrParseError "Fecha"
+               (DoesNotMatchExpr "(20[1-9][0-9])-(0[1-9]|1[0-2])-(0[1-9]|[12][0\
+                                 \-9]|3[01])T(([01][0-9]|2[0-3]):[0-5][0-9]:[0-\
+                                 \5][0-9])"))
+
+      parseCfdiXml (replace "MXN" "_" xmlSource) `shouldBe`
+        Left (AttrParseError "Moneda" NotInCatalog)
+
+      parseCfdiXml (replace "Emisor" "_" xmlSource) `shouldBe`
+        Left (ElemNotFound "Emisor")
+
+      parseCfdiXml (replace "Concepto " "_ " xmlSource) `shouldBe`
+        Left (ParseErrorInChild "Conceptos"
+               (ExpectedAtLeastOne "Concepto"))
+
+      parseCfdiXml (replace "UUID" "_" xmlSource) `shouldBe`
+        Left (ParseErrorInChild "Complemento"
+               (ParseErrorInChild "TimbreFiscalDigital"
+                 (AttrNotFound "UUID")))
 
   describe "CFDI.toXML" $ do
     it "returns a parsable XML" $ do
