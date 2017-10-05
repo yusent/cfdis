@@ -14,17 +14,17 @@ data Taxes = Taxes
   } deriving (Eq, Show)
 
 instance XmlNode Taxes where
+  attributes n = catMaybes
+    [ attr "TotalImpuestosRetenidos"   <$> totalRetained n
+    , attr "TotalImpuestosTrasladados" <$> totalTransfered n
+    ]
+
   children n = catMaybes
     [ renderNode <$> retainedTaxes n
     , renderNode <$> transferedTaxes n
     ]
 
   nodeName = const "Impuestos"
-
-  optionalAttributes n =
-    [ attr "TotalImpuestosRetenidos"   <$> totalRetained n
-    , attr "TotalImpuestosTrasladados" <$> totalTransfered n
-    ]
 
   parseNode n = Taxes
     <$> parseChild "Retenciones" n

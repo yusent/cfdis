@@ -4,6 +4,7 @@ import CFDI.Types.Name
 import CFDI.Types.RFC
 import CFDI.Types.TaxRegime
 import CFDI.XmlNode
+import Data.Maybe           (catMaybes)
 
 data Issuer = Issuer
   { issName :: Maybe Name
@@ -12,16 +13,16 @@ data Issuer = Issuer
   } deriving (Eq, Show)
 
 instance XmlNode Issuer where
-  nodeName = const "Emisor"
+  attributes n =
+    [ attr "Rfc"           $ issRfc n
+    , attr "RegimenFiscal" $ taxReg n
+    ] ++ catMaybes
+    [ attr "Nombre" <$> issName n
+    ]
 
-  optionalAttributes n = [attr "Nombre" <$> issName n]
+  nodeName = const "Emisor"
 
   parseNode n = Issuer
     <$> parseAttribute "Nombre" n
     <*> requireAttribute "Rfc" n
     <*> requireAttribute "RegimenFiscal" n
-
-  requiredAttributes n =
-    [ attr "Rfc"           $ issRfc n
-    , attr "RegimenFiscal" $ taxReg n
-    ]

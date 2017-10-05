@@ -16,6 +16,14 @@ data ConceptRetainedTax = ConceptRetainedTax
   } deriving (Eq, Show)
 
 instance XmlNode ConceptRetainedTax where
+  attributes n =
+    [ attr "Importe"    $ conRetAmount n
+    , attr "Base"       $ conRetBase n
+    , attr "TipoFactor" $ conRetFactorType n
+    , attr "TasaOCuota" $ conRetRate n
+    , attr "Impuesto"   $ conRetTax n
+    ]
+
   nodeName = const "Retencion"
 
   parseNode n = ConceptRetainedTax
@@ -24,11 +32,3 @@ instance XmlNode ConceptRetainedTax where
     <*> requireAttribute "TipoFactor" n
     <*> requireAttribute "TasaOCuota" n
     <*> requireAttribute "Impuesto" n
-
-  requiredAttributes n =
-    [ attr "Importe"    $ conRetAmount n
-    , attr "Base"       $ conRetBase n
-    , attr "TipoFactor" $ conRetFactorType n
-    , attr "TasaOCuota" $ conRetRate n
-    , attr "Impuesto"   $ conRetTax n
-    ]

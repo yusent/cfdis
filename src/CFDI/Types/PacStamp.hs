@@ -6,6 +6,7 @@ import CFDI.Types.PacStampVersion
 import CFDI.Types.SatLegend
 import CFDI.Types.UUID
 import CFDI.XmlNode
+import Data.Maybe                 (catMaybes)
 import Data.Text                  (Text)
 import Data.Time.LocalTime        (LocalTime)
 
@@ -21,23 +22,7 @@ data PacStamp = PacStamp
   } deriving (Eq, Show)
 
 instance XmlNode PacStamp where
-  nodeName = const "TimbreFiscalDigital"
-
-  nodePrefix = const "tfd"
-
-  optionalAttributes n = [attr "Leyenda" <$> psLegend n]
-
-  parseNode n = PacStamp
-    <$> parseAttribute "Leyenda" n
-    <*> requireAttribute "RfcProvCertif" n
-    <*> requireAttribute "NoCertificadoSAT" n
-    <*> requireAttribute "SelloSAT" n
-    <*> requireAttribute "SelloCFD" n
-    <*> requireAttribute "FechaTimbrado" n
-    <*> requireAttribute "UUID" n
-    <*> requireAttribute "Version" n
-
-  requiredAttributes n =
+  attributes n =
     [ attrWithPrefix "xsi" "schemaLocation"
         ("http://www.sat.gob.mx/TimbreFiscalDigital http://\
          \www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd" :: Text)
@@ -50,4 +35,20 @@ instance XmlNode PacStamp where
     , attr "FechaTimbrado"    $ psStampedAt n
     , attr "UUID"             $ psUuid n
     , attr "Version"          $ psVersion n
+    ] ++ catMaybes
+    [ attr "Leyenda" <$> psLegend n
     ]
+
+  nodeName = const "TimbreFiscalDigital"
+
+  nodePrefix = const "tfd"
+
+  parseNode n = PacStamp
+    <$> parseAttribute "Leyenda" n
+    <*> requireAttribute "RfcProvCertif" n
+    <*> requireAttribute "NoCertificadoSAT" n
+    <*> requireAttribute "SelloSAT" n
+    <*> requireAttribute "SelloCFD" n
+    <*> requireAttribute "FechaTimbrado" n
+    <*> requireAttribute "UUID" n
+    <*> requireAttribute "Version" n

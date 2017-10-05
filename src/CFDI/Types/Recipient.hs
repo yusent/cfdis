@@ -6,6 +6,7 @@ import CFDI.Types.RFC
 import CFDI.Types.TaxId
 import CFDI.Types.Use
 import CFDI.XmlNode
+import Data.Maybe         (catMaybes)
 
 data Recipient = Recipient
   { recCfdiUse   :: Maybe Use
@@ -16,14 +17,16 @@ data Recipient = Recipient
   } deriving (Eq, Show)
 
 instance XmlNode Recipient where
-  nodeName = const "Receptor"
-
-  optionalAttributes n =
+  attributes n =
+    [ attr "Rfc" $ recRfc n
+    ] ++ catMaybes
     [ attr "UsoCFDI"          <$> recCfdiUse n
     , attr "Nombre"           <$> recName n
     , attr "ResidenciaFiscal" <$> taxResidence n
     , attr "NumRegIdTrib"     <$> recTaxId n
     ]
+
+  nodeName = const "Receptor"
 
   parseNode n = Recipient
     <$> parseAttribute "UsoCFDI" n
@@ -31,5 +34,3 @@ instance XmlNode Recipient where
     <*> requireAttribute "Rfc" n
     <*> parseAttribute "NumRegIdTrib" n
     <*> parseAttribute "ResidenciaFiscal" n
-
-  requiredAttributes n = [attr "Rfc" $ recRfc n]
