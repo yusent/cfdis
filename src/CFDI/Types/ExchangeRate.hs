@@ -1,11 +1,15 @@
 module CFDI.Types.ExchangeRate where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype ExchangeRate = ExchangeRate Text deriving (Eq, Show)
+
+instance Chainable ExchangeRate where
+  chain (ExchangeRate r) = r
 
 instance Type ExchangeRate where
   parseExpr str

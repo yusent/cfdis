@@ -1,7 +1,9 @@
 module CFDI.Types.Currency where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Control.Error.Safe (justErr)
+import Data.Text          (pack)
 import Text.Read          (readMaybe)
 
 data Currency
@@ -184,6 +186,9 @@ data Currency
   | CUR_ZMW
   | CUR_ZWL
   deriving (Eq, Read, Show)
+
+instance Chainable Currency where
+  chain = pack . render
 
 instance Type Currency where
   parseExpr = justErr NotInCatalog . readMaybe . ("CUR_" ++)

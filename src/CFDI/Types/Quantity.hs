@@ -1,11 +1,15 @@
 module CFDI.Types.Quantity where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype Quantity = Quantity Text deriving (Eq, Show)
+
+instance Chainable Quantity where
+  chain (Quantity q) = q
 
 instance Type Quantity where
   parseExpr str

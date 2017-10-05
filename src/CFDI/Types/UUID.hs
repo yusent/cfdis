@@ -1,11 +1,15 @@
 module CFDI.Types.UUID where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype UUID = UUID Text deriving (Eq, Show)
+
+instance Chainable UUID where
+  chain (UUID u) = u
 
 instance Type UUID where
   parseExpr str

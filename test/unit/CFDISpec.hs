@@ -166,6 +166,17 @@ spec = do
       certNum  cfdi' `shouldBe` Just (CertificateNumber "30001000000300023708")
       certText cfdi' `shouldBe` Just "CERTTEXT"
 
+  describe "CFDI.originalChain" $ do
+    it "calculates the CFDI original chain" $ do
+      originalChain cfdi `shouldBe`
+        "||3.3|ABC|12|2017-07-19T14:27:03|01|00001000001212121212|CONDICIONES D\
+        \E PAGO DE PRUEBA|1090.52|0|MXN|12.121212|1265.00|I|PUE|22115|AbcD5|04|\
+        \12121212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA|61\
+        \2|XEXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD12|\
+        \1|ACT|N/A|COMIDA MEXICANA|1090.52|1090.52|0|1090.52|002|Tasa|0.160000|\
+        \174.48|0.000001|001|Tasa|0.100000|0|12 12 1212 1212121|001|0|0|002|Tas\
+        \a|0.160000|174.48|174.48||"
+
   describe "CFDI.parseCfdiFile" $ do
     eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
 

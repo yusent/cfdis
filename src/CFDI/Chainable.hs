@@ -38,6 +38,9 @@ instance Chainable Day where
 instance Chainable Float where
   chain = pack . show
 
+instance Chainable Int where
+  chain = pack . show
+
 instance Chainable LocalTime where
   chain = pack . formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
 

@@ -1,5 +1,6 @@
 module CFDI.Types.ConceptTaxes where
 
+import CFDI.Chainable
 import CFDI.Types.ConceptRetainedTaxes
 import CFDI.Types.ConceptTransferedTaxes
 import CFDI.XmlNode
@@ -9,6 +10,11 @@ data ConceptTaxes = ConceptTaxes
   { conceptRetainedTaxes   :: Maybe ConceptRetainedTaxes
   , conceptTransferedTaxes :: Maybe ConceptTransferedTaxes
   } deriving (Eq, Show)
+
+instance Chainable ConceptTaxes where
+  chain c = conceptTransferedTaxes
+        <@> conceptRetainedTaxes
+        <~> (c, "")
 
 instance XmlNode ConceptTaxes where
   children n = catMaybes

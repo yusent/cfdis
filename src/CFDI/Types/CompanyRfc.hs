@@ -1,11 +1,15 @@
 module CFDI.Types.CompanyRfc where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype CompanyRfc = CompanyRfc Text deriving (Eq, Show)
+
+instance Chainable CompanyRfc where
+  chain (CompanyRfc r) = r
 
 instance Type CompanyRfc where
   parseExpr str

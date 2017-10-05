@@ -1,5 +1,6 @@
 module CFDI.Types.Concept where
 
+import CFDI.Chainable
 import CFDI.Types.Amount
 import CFDI.Types.ConceptTaxes
 import CFDI.Types.CustomInfo
@@ -25,6 +26,20 @@ data Concept = Concept
   , conUnit       :: Maybe ProductUnit
   , conUnitPrice  :: Amount
   } deriving (Eq, Show)
+
+instance Chainable Concept where
+  chain c = conProdServ
+        <@> conProdId
+        <~> conQuantity
+        <~> conMeasUnit
+        <~> conUnit
+        <~> conDesc
+        <~> conUnitPrice
+        <~> conAmount
+        <~> conDiscount
+        <~> conTaxes
+        <~> conCustomInfo
+       <~~> (c, "")
 
 instance XmlNode Concept where
   attributes n =

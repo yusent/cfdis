@@ -1,12 +1,17 @@
 module CFDI.Types.Tax where
 
+import CFDI.Chainable
 import CFDI.Types.Type
+import Data.Text       (pack)
 
 data Tax
   = ISR
   | IVA
   | IEPS
   deriving (Eq, Read, Show)
+
+instance Chainable Tax where
+  chain = pack . render
 
 instance Type Tax where
   parseExpr "001" = Right ISR

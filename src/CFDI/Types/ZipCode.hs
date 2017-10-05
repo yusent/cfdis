@@ -1,10 +1,14 @@
 module CFDI.Types.ZipCode where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Control.Error.Safe (justErr)
 import Text.Read          (readMaybe)
 
 newtype ZipCode = ZipCode Int deriving (Eq, Show)
+
+instance Chainable ZipCode where
+  chain (ZipCode c) = chain c
 
 instance Type ZipCode where
   parseExpr c = justErr NotInCatalog maybeZipCode
