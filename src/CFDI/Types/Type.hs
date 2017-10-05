@@ -6,8 +6,8 @@ import Data.Time.LocalTime (LocalTime)
 import Data.Time.Format    (defaultTimeLocale, formatTime, parseTimeM)
 
 data ParseError
-  = InvalidValue
-  | DoesNotMatchExpr Text
+  = InvalidValue String
+  | DoesNotMatchExpr String
   | NotInCatalog
   deriving (Eq, Show)
 

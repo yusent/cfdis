@@ -182,7 +182,7 @@ spec = do
       parseCfdiXml ("" :: String) `shouldBe` Left MalformedXML
 
       parseCfdiXml (replace "3.3" "_" xmlSource) `shouldBe`
-        Left (AttrParseError "Version" InvalidValue)
+        Left (AttrParseError "Version" $ InvalidValue "_")
 
       parseCfdiXml (replace "14:27:03" "" xmlSource) `shouldBe`
         Left (AttrParseError "Fecha"
@@ -204,6 +204,37 @@ spec = do
         Left (ParseErrorInChild "Complemento"
                (ParseErrorInChild "TimbreFiscalDigital"
                  (AttrNotFound "UUID")))
+
+  describe "CFDI.ppXmlParseError" $ do
+    it "generates a pretty message from a XmlParseError" $ do
+      ppXmlParseError (AttrNotFound "ATTR") `shouldBe`
+        "No se encontró el atributo \"ATTR\"."
+
+      ppXmlParseError (AttrParseError "ATTR" $ InvalidValue "VAL") `shouldBe`
+        "No se pudo interpretar el atributo \"ATTR\":\
+        \ \"VAL\" no es un valor válido para este atributo."
+
+      ppXmlParseError (AttrParseError "ATTR" $ DoesNotMatchExpr "X") `shouldBe`
+        "No se pudo interpretar el atributo \"ATTR\":\
+        \ no cumple con la expresión \"X\"."
+
+      ppXmlParseError (AttrParseError "ATTR" NotInCatalog) `shouldBe`
+        "No se pudo interpretar el atributo \"ATTR\":\
+        \ no se encuentra en el catálogo de valores permitidos publicado por el\
+        \ SAT."
+
+      ppXmlParseError (ElemNotFound "ELEM") `shouldBe`
+        "No se encontró el elemento \"ELEM\"."
+
+      ppXmlParseError (ExpectedAtLeastOne "ELEM") `shouldBe`
+        "Se necesita al menos un \"ELEM\"."
+
+      ppXmlParseError MalformedXML `shouldBe`
+        "XML malformado o inválido."
+
+      ppXmlParseError (ParseErrorInChild "ELEM" $ AttrNotFound "A") `shouldBe`
+        "Se encontró un error en el elemento \"ELEM\":\
+        \ No se encontró el atributo \"A\"."
 
   describe "CFDI.toXML" $ do
     it "returns a parsable XML" $ do
