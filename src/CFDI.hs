@@ -44,7 +44,6 @@ ppXmlParseError indentationStr = concat
   . foldl addIndentation ([], "")
   . errMsgLines
   where
-    addIndentation :: ([String], String) -> String -> ([String], String)
     addIndentation (ls, s) l = (ls ++ [s ++ l], s ++ indentationStr)
     errMsgLines (AttrNotFound a) =
       ["No se encontró el atributo \"" ++ a ++ "\"."]
