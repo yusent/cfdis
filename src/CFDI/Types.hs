@@ -55,6 +55,7 @@ module CFDI.Types
   , module CFDI.Types.TaxRegime
   , module CFDI.Types.TransferedTax
   , module CFDI.Types.TransferedTaxes
+  , module CFDI.Types.Type
   , module CFDI.Types.Use
   , module CFDI.Types.UUID
   , module CFDI.Types.Version
@@ -118,6 +119,7 @@ import CFDI.Types.TaxRate
 import CFDI.Types.TaxRegime
 import CFDI.Types.TransferedTax
 import CFDI.Types.TransferedTaxes
+import CFDI.Types.Type
 import CFDI.Types.Use
 import CFDI.Types.UUID
 import CFDI.Types.Version

@@ -155,6 +155,17 @@ cfdi = CFDI
 
 spec :: Spec
 spec = do
+  describe "CFDI.addCsdCerData" $ do
+    it "adds CSD certificate data to CFDI" $ do
+      let csdCerData = CsdCerData
+            { cerExpiresAt = LocalTime (ModifiedJulianDay 0) (TimeOfDay 0 0 0)
+            , cerNumber    = "30001000000300023708"
+            , cerToText    = "CERTTEXT"
+            }
+          cfdi' = addCsdCerData csdCerData cfdi
+      certNum  cfdi' `shouldBe` Just (CertificateNumber "30001000000300023708")
+      certText cfdi' `shouldBe` Just "CERTTEXT"
+
   describe "CFDI.parseCfdiFile" $ do
     eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
 
