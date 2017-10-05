@@ -207,34 +207,34 @@ spec = do
 
   describe "CFDI.ppXmlParseError" $ do
     it "generates a pretty message from a XmlParseError" $ do
-      ppXmlParseError (AttrNotFound "ATTR") `shouldBe`
+      ppXmlParseError "" (AttrNotFound "ATTR") `shouldBe`
         "No se encontró el atributo \"ATTR\"."
 
-      ppXmlParseError (AttrParseError "ATTR" $ InvalidValue "VAL") `shouldBe`
-        "No se pudo interpretar el atributo \"ATTR\":\
-        \ \"VAL\" no es un valor válido para este atributo."
+      ppXmlParseError "-" (AttrParseError "ATTR" $ InvalidValue "VAL") `shouldBe`
+        "No se pudo interpretar el atributo \"ATTR\":\n\
+        \-\"VAL\" no es un valor válido para este atributo."
 
-      ppXmlParseError (AttrParseError "ATTR" $ DoesNotMatchExpr "X") `shouldBe`
-        "No se pudo interpretar el atributo \"ATTR\":\
-        \ no cumple con la expresión \"X\"."
+      ppXmlParseError "-" (AttrParseError "A" $ DoesNotMatchExpr "X") `shouldBe`
+        "No se pudo interpretar el atributo \"A\":\n\
+        \-No cumple con la expresión \"X\"."
 
-      ppXmlParseError (AttrParseError "ATTR" NotInCatalog) `shouldBe`
-        "No se pudo interpretar el atributo \"ATTR\":\
-        \ no se encuentra en el catálogo de valores permitidos publicado por el\
+      ppXmlParseError "-" (AttrParseError "ATTR" NotInCatalog) `shouldBe`
+        "No se pudo interpretar el atributo \"ATTR\":\n\
+        \-No se encuentra en el catálogo de valores permitidos publicado por el\
         \ SAT."
 
-      ppXmlParseError (ElemNotFound "ELEM") `shouldBe`
+      ppXmlParseError "" (ElemNotFound "ELEM") `shouldBe`
         "No se encontró el elemento \"ELEM\"."
 
-      ppXmlParseError (ExpectedAtLeastOne "ELEM") `shouldBe`
+      ppXmlParseError "" (ExpectedAtLeastOne "ELEM") `shouldBe`
         "Se necesita al menos un \"ELEM\"."
 
-      ppXmlParseError MalformedXML `shouldBe`
+      ppXmlParseError "" MalformedXML `shouldBe`
         "XML malformado o inválido."
 
-      ppXmlParseError (ParseErrorInChild "ELEM" $ AttrNotFound "A") `shouldBe`
-        "Se encontró un error en el elemento \"ELEM\":\
-        \ No se encontró el atributo \"A\"."
+      ppXmlParseError "-" (ParseErrorInChild "E" $ AttrNotFound "A") `shouldBe`
+        "Se encontró un error en el elemento \"E\":\n-\
+        \No se encontró el atributo \"A\"."
 
   describe "CFDI.toXML" $ do
     it "returns a parsable XML" $ do

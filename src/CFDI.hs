@@ -14,6 +14,7 @@ import CFDI.Types
 import CFDI.XmlNode         (parseNode, renderNode)
 import CFDI.XmlNode as XN   (XmlParseError(..))
 import Control.Error.Safe   (justErr)
+import Data.List            (intersperse)
 import Text.XML.Light       (parseXMLDoc, ppTopElement)
 import Text.XML.Light.Lexer (XmlSource)
 
@@ -32,23 +33,31 @@ ppParseError :: ParseError -> String
 ppParseError (InvalidValue v) =
   '"' : v ++ "\" no es un valor válido para este atributo."
 ppParseError (DoesNotMatchExpr e) =
-  "no cumple con la expresión \"" ++ e ++ "\"."
+  "No cumple con la expresión \"" ++ e ++ "\"."
 ppParseError NotInCatalog =
-  "no se encuentra en el catálogo de valores permitidos publicado por el SAT."
+  "No se encuentra en el catálogo de valores permitidos publicado por el SAT."
 
-ppXmlParseError :: XmlParseError -> String
-ppXmlParseError (AttrNotFound a) =
-  "No se encontró el atributo \"" ++ a ++ "\"."
-ppXmlParseError (AttrParseError a pe) =
-  "No se pudo interpretar el atributo \"" ++ a ++ "\": " ++ ppParseError pe
-ppXmlParseError (ElemNotFound e) =
-  "No se encontró el elemento \"" ++ e ++ "\"."
-ppXmlParseError (ExpectedAtLeastOne e) =
-  "Se necesita al menos un \"" ++ e ++ "\"."
-ppXmlParseError MalformedXML =
-  "XML malformado o inválido."
-ppXmlParseError (ParseErrorInChild e xpe) =
-  "Se encontró un error en el elemento \"" ++ e ++ "\": " ++ ppXmlParseError xpe
+ppXmlParseError :: String -> XmlParseError -> String
+ppXmlParseError indentationStr = concat
+  . intersperse "\n"
+  . fst
+  . foldl addIndentation ([], "")
+  . errMsgLines
+  where
+    addIndentation :: ([String], String) -> String -> ([String], String)
+    addIndentation (ls, s) l = (ls ++ [s ++ l], s ++ indentationStr)
+    errMsgLines (AttrNotFound a) =
+      ["No se encontró el atributo \"" ++ a ++ "\"."]
+    errMsgLines (AttrParseError a pe) =
+      ["No se pudo interpretar el atributo \"" ++ a ++ "\":", ppParseError pe]
+    errMsgLines (ElemNotFound e) =
+      ["No se encontró el elemento \"" ++ e ++ "\"."]
+    errMsgLines (ExpectedAtLeastOne e) =
+      ["Se necesita al menos un \"" ++ e ++ "\"."]
+    errMsgLines MalformedXML =
+      ["XML malformado o inválido."]
+    errMsgLines (ParseErrorInChild e xpe) =
+      ("Se encontró un error en el elemento \"" ++ e ++ "\":") : errMsgLines xpe
 
 toXML :: CFDI -> String
 toXML = ppTopElement . renderNode
