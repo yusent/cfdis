@@ -5,7 +5,7 @@ import Control.Error.Safe (justErr)
 import Data.Set           (fromList, member)
 import Text.Read          (readMaybe)
 
-data CustomPatent = CustomPatent Int deriving (Eq, Show)
+newtype CustomPatent = CustomPatent Int deriving (Eq, Show)
 
 instance Type CustomPatent where
   parseExpr c = justErr NotInCatalog maybeCustomPatent

@@ -3,7 +3,7 @@ module CFDI.Types.Concepts where
 import CFDI.Types.Concept
 import CFDI.XmlNode
 
-data Concepts = Concepts [Concept] deriving (Eq, Show)
+newtype Concepts = Concepts [Concept] deriving (Eq, Show)
 
 instance XmlNode Concepts where
   children (Concepts cs) = renderNode <$> cs

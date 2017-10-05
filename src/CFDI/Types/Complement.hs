@@ -4,7 +4,7 @@ import CFDI.Types.PacStamp
 import CFDI.XmlNode
 import Data.Maybe          (catMaybes)
 
-data Complement = Complement
+newtype Complement = Complement
   { pacStamp :: Maybe PacStamp
   } deriving (Eq, Show)
 

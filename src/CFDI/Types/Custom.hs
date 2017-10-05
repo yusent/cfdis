@@ -5,7 +5,7 @@ import Control.Error.Safe (justErr)
 import Data.Set           (fromList, member)
 import Text.Read          (readMaybe)
 
-data Custom = Custom Int deriving (Eq, Show)
+newtype Custom = Custom Int deriving (Eq, Show)
 
 instance Type Custom where
   parseExpr c = justErr NotInCatalog maybeCustom

@@ -4,7 +4,7 @@ import CFDI.Types.Type
 import Control.Error.Safe (justErr)
 import Text.Read          (readMaybe)
 
-data Municipality = Municipality Int deriving (Eq, Read, Show)
+newtype Municipality = Municipality Int deriving (Eq, Read, Show)
 
 instance Type Municipality where
   parseExpr c = justErr NotInCatalog maybeMunicipality

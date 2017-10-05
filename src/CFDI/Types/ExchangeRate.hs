@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data ExchangeRate = ExchangeRate Text deriving (Eq, Show)
+newtype ExchangeRate = ExchangeRate Text deriving (Eq, Show)
 
 instance Type ExchangeRate where
   parseExpr str

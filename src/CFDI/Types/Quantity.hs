@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data Quantity = Quantity Text deriving (Eq, Show)
+newtype Quantity = Quantity Text deriving (Eq, Show)
 
 instance Type Quantity where
   parseExpr str

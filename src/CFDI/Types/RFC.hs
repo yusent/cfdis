@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data RFC = RFC Text deriving (Eq, Show)
+newtype RFC = RFC Text deriving (Eq, Show)
 
 instance Type RFC where
   parseExpr str

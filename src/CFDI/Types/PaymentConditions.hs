@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data PaymentConditions = PaymentConditions Text deriving (Eq, Show)
+newtype PaymentConditions = PaymentConditions Text deriving (Eq, Show)
 
 instance Type PaymentConditions where
   parseExpr str

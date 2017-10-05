@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data Folio = Folio Text deriving (Eq, Show)
+newtype Folio = Folio Text deriving (Eq, Show)
 
 instance Type Folio where
   parseExpr str

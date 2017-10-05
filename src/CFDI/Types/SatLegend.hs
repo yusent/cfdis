@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data SatLegend = SatLegend Text deriving (Eq, Show)
+newtype SatLegend = SatLegend Text deriving (Eq, Show)
 
 instance Type SatLegend where
   parseExpr str

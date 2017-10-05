@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data CertificateNumber = CertificateNumber Text deriving (Eq, Show)
+newtype CertificateNumber = CertificateNumber Text deriving (Eq, Show)
 
 instance Type CertificateNumber where
   parseExpr str

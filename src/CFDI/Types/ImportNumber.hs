@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data ImportNumber = ImportNumber Text deriving (Eq, Show)
+newtype ImportNumber = ImportNumber Text deriving (Eq, Show)
 
 instance Type ImportNumber where
   -- Skip sanitization so we can have double spaces

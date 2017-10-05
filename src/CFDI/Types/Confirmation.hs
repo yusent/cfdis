@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data Confirmation = Confirmation Text deriving (Eq, Show)
+newtype Confirmation = Confirmation Text deriving (Eq, Show)
 
 instance Type Confirmation where
   parseExpr str

@@ -5,7 +5,7 @@ import Control.Error.Safe (justErr)
 import Data.Set           (fromList, member, unions)
 import Text.Read          (readMaybe)
 
-data ProductOrService = ProductOrService Int deriving (Eq, Show)
+newtype ProductOrService = ProductOrService Int deriving (Eq, Show)
 
 instance Type ProductOrService where
   parseExpr c = justErr NotInCatalog maybeProductPorService

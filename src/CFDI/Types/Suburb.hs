@@ -4,7 +4,7 @@ import CFDI.Types.Type
 import Control.Error.Safe (justErr)
 import Text.Read          (readMaybe)
 
-data Suburb = Suburb Int deriving (Eq, Read, Show)
+newtype Suburb = Suburb Int deriving (Eq, Read, Show)
 
 instance Type Suburb where
   parseExpr c = justErr NotInCatalog maybeSuburb

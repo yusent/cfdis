@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data CompanyRfc = CompanyRfc Text deriving (Eq, Show)
+newtype CompanyRfc = CompanyRfc Text deriving (Eq, Show)
 
 instance Type CompanyRfc where
   parseExpr str

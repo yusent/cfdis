@@ -3,7 +3,7 @@ module CFDI.Types.ConceptTransferedTaxes where
 import CFDI.Types.ConceptTransferedTax
 import CFDI.XmlNode
 
-data ConceptTransferedTaxes =
+newtype ConceptTransferedTaxes =
   ConceptTransferedTaxes [ConceptTransferedTax] deriving (Eq, Show)
 
 instance XmlNode ConceptTransferedTaxes where

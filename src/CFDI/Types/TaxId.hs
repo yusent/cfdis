@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data TaxId = TaxId Text deriving (Eq, Show)
+newtype TaxId = TaxId Text deriving (Eq, Show)
 
 instance Type TaxId where
   parseExpr str

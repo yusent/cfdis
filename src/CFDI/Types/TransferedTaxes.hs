@@ -3,7 +3,7 @@ module CFDI.Types.TransferedTaxes where
 import CFDI.Types.TransferedTax
 import CFDI.XmlNode
 
-data TransferedTaxes = TransferedTaxes [TransferedTax] deriving (Eq, Show)
+newtype TransferedTaxes = TransferedTaxes [TransferedTax] deriving (Eq, Show)
 
 instance XmlNode TransferedTaxes where
   children (TransferedTaxes ts) = renderNode <$> ts

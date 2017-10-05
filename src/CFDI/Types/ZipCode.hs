@@ -4,7 +4,7 @@ import CFDI.Types.Type
 import Control.Error.Safe (justErr)
 import Text.Read          (readMaybe)
 
-data ZipCode = ZipCode Int deriving (Eq, Show)
+newtype ZipCode = ZipCode Int deriving (Eq, Show)
 
 instance Type ZipCode where
   parseExpr c = justErr NotInCatalog maybeZipCode

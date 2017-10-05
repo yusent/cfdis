@@ -5,7 +5,7 @@ import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
-data ProductId = ProductId Text deriving (Eq, Show)
+newtype ProductId = ProductId Text deriving (Eq, Show)
 
 instance Type ProductId where
   parseExpr str
