@@ -1,10 +1,17 @@
-module CFDI.ParserSpec (spec) where
+module CFDISpec (spec) where
 
-import CFDI.Parser
+import CFDI
 import CFDI.Types
+import Data.Maybe          (fromJust, isJust)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Test.Hspec
+import Text.XML.Light
+  ( Element(..)
+  , QName(..)
+  , onlyElems
+  , parseXMLDoc
+  )
 
 cfdi :: CFDI
 cfdi = CFDI
@@ -147,14 +154,50 @@ cfdi = CFDI
 
 spec :: Spec
 spec = do
-  describe "CFDI.Parser.parseCfdiXml" $ do
+  describe "CFDI.parseCfdiFile" $ do
+    eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
+
+    it "parses invoices from an xml file path" $ do
+      eitherErrOrCfdi `shouldBe` Right cfdi
+
+  describe "CFDI.parseCfdiXml" $ do
     xmlSource <- runIO $ readFile "test/xml/invoice_3_3.xml"
 
     it "parses invoices from an xml source" $ do
       parseCfdiXml xmlSource `shouldBe` Right cfdi
 
-  describe "CFDI.Parser.parseCfdiFile" $ do
-    eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
+  describe "CFDI.toXML" $ do
+    it "returns a parsable XML" $ do
+      parseCfdiXml (toXML cfdi) `shouldBe` Right cfdi
 
-    it "parses invoices from an xml file path" $ do
-      eitherErrOrCfdi `shouldBe` Right cfdi
+    it "returns an XML with its elements in the right order" $ do
+      let maybeXML = parseXMLDoc $ toXML cfdi
+      maybeXML `shouldSatisfy` isJust
+
+      let xml = fromJust maybeXML
+      elName xml `shouldBe`
+        QName "Comprobante" (Just "http://www.sat.gob.mx/cfd/3") (Just "cfdi")
+
+      let cfdiElems = onlyElems $ elContent xml
+          elemNames = map (qName . elName) cfdiElems
+      elemNames `shouldBe`
+        [ "CfdiRelacionados"
+        , "Emisor"
+        , "Receptor"
+        , "Conceptos"
+        , "Impuestos"
+        , "Complemento"
+        ]
+
+      let conElems = onlyElems . elContent . head . onlyElems . elContent
+                   $ cfdiElems !! 3
+          conElemNames = map (qName . elName) conElems
+      conElemNames `shouldBe` ["Impuestos", "InformacionAduanera"]
+
+      let conTaxElemNames = map (qName . elName) . onlyElems . elContent
+                          $ head conElems
+      conTaxElemNames `shouldBe` ["Traslados", "Retenciones"]
+
+      let taxElemNames = map (qName . elName) . onlyElems . elContent
+                       $ cfdiElems !! 4
+      taxElemNames `shouldBe` ["Retenciones", "Traslados"]

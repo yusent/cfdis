@@ -10,6 +10,7 @@ import CFDI.Types.ProductOrService
 import CFDI.Types.ProductUnit
 import CFDI.Types.Quantity
 import CFDI.XmlNode
+import Data.Maybe                    (catMaybes)
 
 data Concept = Concept
   { conAmount     :: Amount
@@ -26,6 +27,24 @@ data Concept = Concept
   } deriving (Eq, Show)
 
 instance XmlNode Concept where
+  attributes n =
+    [ attr "Importe"       $ conAmount n
+    , attr "Descripcion"   $ conDesc n
+    , attr "ClaveUnidad"   $ conMeasUnit n
+    , attr "ClaveProdServ" $ conProdServ n
+    , attr "Cantidad"      $ conQuantity n
+    , attr "ValorUnitario" $ conUnitPrice n
+    ] ++ catMaybes
+    [ attr "Descuento"        <$> conDiscount n
+    , attr "NoIdentificacion" <$> conProdId n
+    , attr "Unidad"           <$> conUnit n
+    ]
+
+  children n = catMaybes [renderNode <$> conTaxes n]
+            ++ map renderNode (conCustomInfo n)
+
+  nodeName = const "Concepto"
+
   parseNode n = Concept
     <$> requireAttribute "Importe" n
     <*> parseChildren "InformacionAduanera" n

@@ -20,6 +20,7 @@ import CFDI.Types.Version
 import CFDI.Types.WayToPay
 import CFDI.Types.ZipCode
 import CFDI.XmlNode
+import Data.Maybe                   (catMaybes)
 import Data.Text                    (Text)
 import Data.Time.LocalTime          (LocalTime)
 
@@ -51,6 +52,45 @@ data CFDI = CFDI
   } deriving (Eq, Show)
 
 instance XmlNode CFDI where
+  attributes n =
+    [ attrWithPrefix "xsi" "schemaLocation"
+        ("http://www.sat.gob.mx/cfd/3 \
+         \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd" :: Text)
+    , attrWithPrefix "xmlns" "cfdi"
+        ("http://www.sat.gob.mx/cfd/3" :: Text)
+    , attrWithPrefix "xmlns" "xsi"
+        ("http://www.w3.org/2001/XMLSchema-instance" :: Text)
+    , attr "TipoDeComprobante" $ cfdiType n
+    , attr "Moneda"            $ currency n
+    , attr "Fecha"             $ issuedAt n
+    , attr "LugarExpedicion"   $ issuedIn n
+    , attr "SubTotal"          $ subTotal n
+    , attr "Total"             $ total n
+    , attr "Version"           $ version n
+    ] ++ catMaybes
+    [ attr "NoCertificado"     <$> certNum n
+    , attr "Certificado"       <$> certText n
+    , attr "Confirmacion"      <$> confirmation n
+    , attr "Descuento"         <$> discount n
+    , attr "TipoCambio"        <$> exchangeRate n
+    , attr "Folio"             <$> folio n
+    , attr "CondicionesDePago" <$> paymentConds n
+    , attr "MetodoPago"        <$> paymentMethod n
+    , attr "Serie"             <$> series n
+    , attr "Sello"             <$> signature n
+    , attr "FormaPago"         <$> wayToPay n
+    ]
+
+  children r = catMaybes
+    [ renderNode <$> relatedCfdis r
+    , Just . renderNode $ issuer r
+    , Just . renderNode $ recipient r
+    , Just . renderNode $ concepts r
+    , renderNode <$> taxes r
+    ] ++ map renderNode (complement r)
+
+  nodeName = const "Comprobante"
+
   parseNode n = CFDI
     <$> parseAttribute "NoCertificado" n
     <*> parseAttribute "Certificado" n
