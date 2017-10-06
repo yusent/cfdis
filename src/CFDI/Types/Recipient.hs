@@ -1,5 +1,6 @@
 module CFDI.Types.Recipient where
 
+import CFDI.Chainable
 import CFDI.Types.Country
 import CFDI.Types.Name
 import CFDI.Types.RFC
@@ -15,6 +16,14 @@ data Recipient = Recipient
   , recTaxId     :: Maybe TaxId
   , taxResidence :: Maybe Country
   } deriving (Eq, Show)
+
+instance Chainable Recipient where
+  chain c = recRfc
+        <@> recName
+        <~> taxResidence
+        <~> recTaxId
+        <~> recCfdiUse
+        <~> (c, "")
 
 instance XmlNode Recipient where
   attributes n =

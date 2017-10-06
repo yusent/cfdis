@@ -1,6 +1,8 @@
 module CFDI.Types.RelationshipType where
 
+import CFDI.Chainable
 import CFDI.Types.Type
+import Data.Text       (pack)
 
 data RelationshipType
   = CreditNote
@@ -11,6 +13,9 @@ data RelationshipType
   | PrevTransferedInvoice
   | AdvanceApplication
   deriving (Eq, Show)
+
+instance Chainable RelationshipType where
+  chain = pack . render
 
 instance Type RelationshipType where
   parseExpr "01" = Right CreditNote

@@ -1,5 +1,6 @@
 module CFDI.Types.CFDI where
 
+import CFDI.Chainable
 import CFDI.Types.Amount
 import CFDI.Types.CertificateNumber
 import CFDI.Types.CfdiType
@@ -50,6 +51,30 @@ data CFDI = CFDI
   , version       :: Version
   , wayToPay      :: Maybe WayToPay
   } deriving (Eq, Show)
+
+instance Chainable CFDI where
+  chain c = version
+        <@> series
+        <~> folio
+        <~> issuedAt
+        <~> wayToPay
+        <~> certNum
+        <~> paymentConds
+        <~> subTotal
+        <~> discount
+        <~> currency
+        <~> exchangeRate
+        <~> total
+        <~> cfdiType
+        <~> paymentMethod
+        <~> issuedIn
+        <~> confirmation
+        <~> relatedCfdis
+        <~> issuer
+        <~> recipient
+        <~> concepts
+        <~> taxes
+        <~> (c, "")
 
 instance XmlNode CFDI where
   attributes n =

@@ -1,6 +1,8 @@
 module CFDI.Types.Use where
 
+import CFDI.Chainable
 import CFDI.Types.Type
+import Data.Text       (pack)
 
 data Use
   = GoodsAcquisition_
@@ -26,6 +28,9 @@ data Use
   | TuitionFees
   | ToBeDefined_
   deriving (Eq, Show)
+
+instance Chainable Use where
+  chain = pack . render
 
 instance Type Use where
   parseExpr "G01" = Right GoodsAcquisition_

@@ -18,7 +18,6 @@ library
   default-extensions:  OverloadedStrings
   exposed-modules:     CFDI
                      , CFDI.CSD
-                     , CFDI.Types
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
                      , CFDI.V3_2.PAC
@@ -27,6 +26,7 @@ library
                      , CFDI.V3_2.Renderer
                      , CFDI.V3_2.Types
   other-modules:       CFDI.Chainable
+                     , CFDI.Types
                      , CFDI.Types.Amount
                      , CFDI.Types.CertificateNumber
                      , CFDI.Types.CFDI

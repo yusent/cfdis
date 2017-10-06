@@ -1,11 +1,15 @@
 module CFDI.Types.ProductId where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype ProductId = ProductId Text deriving (Eq, Show)
+
+instance Chainable ProductId where
+  chain (ProductId i) = i
 
 instance Type ProductId where
   parseExpr str

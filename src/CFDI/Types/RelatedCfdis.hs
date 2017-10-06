@@ -1,5 +1,6 @@
 module CFDI.Types.RelatedCfdis where
 
+import CFDI.Chainable
 import CFDI.Types.RelatedCfdi
 import CFDI.Types.RelationshipType
 import CFDI.XmlNode
@@ -8,6 +9,11 @@ data RelatedCfdis = RelatedCfdis
   { related          :: [RelatedCfdi]
   , relationshipType :: RelationshipType
   } deriving (Eq, Show)
+
+instance Chainable RelatedCfdis where
+  chain c = relationshipType
+        <@> related
+       <~~> (c, "")
 
 instance XmlNode RelatedCfdis where
   attributes n = [attr "TipoRelacion" $ relationshipType n]

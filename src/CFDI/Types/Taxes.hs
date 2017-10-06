@@ -1,5 +1,6 @@
 module CFDI.Types.Taxes where
 
+import CFDI.Chainable
 import CFDI.Types.Amount
 import CFDI.Types.RetainedTaxes
 import CFDI.Types.TransferedTaxes
@@ -12,6 +13,13 @@ data Taxes = Taxes
   , totalRetained   :: Maybe Amount
   , transferedTaxes :: Maybe TransferedTaxes
   } deriving (Eq, Show)
+
+instance Chainable Taxes where
+  chain c = retainedTaxes
+        <@> totalRetained
+        <~> transferedTaxes
+        <~> totalTransfered
+        <~> (c, "")
 
 instance XmlNode Taxes where
   attributes n = catMaybes

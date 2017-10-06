@@ -1,6 +1,8 @@
 module CFDI.Types.WayToPay where
 
+import CFDI.Chainable
 import CFDI.Types.Type
+import Data.Text       (pack)
 
 data WayToPay
   = Cash
@@ -25,6 +27,9 @@ data WayToPay
   | AdvancesApplication
   | ToBeDefined
   deriving (Eq, Show)
+
+instance Chainable WayToPay where
+  chain = pack . render
 
 instance Type WayToPay where
   parseExpr "01" = Right Cash

@@ -1,5 +1,6 @@
 module CFDI.Types.ConceptTransferedTax where
 
+import CFDI.Chainable
 import CFDI.Types.Amount
 import CFDI.Types.FactorType
 import CFDI.Types.Tax
@@ -14,6 +15,14 @@ data ConceptTransferedTax = ConceptTransferedTax
   , conTransRate       :: TaxRate
   , conTransTax        :: Tax
   } deriving (Eq, Show)
+
+instance Chainable ConceptTransferedTax where
+  chain c = conTransBase
+        <@> conTransTax
+        <~> conTransFactorType
+        <~> conTransRate
+        <~> conTransAmount
+        <~> (c, "")
 
 instance XmlNode ConceptTransferedTax where
   attributes n =

@@ -1,6 +1,8 @@
 module CFDI.Types.CfdiType where
 
+import CFDI.Chainable
 import CFDI.Types.Type
+import Data.Text       (pack)
 
 data CfdiType
   = Income
@@ -9,6 +11,9 @@ data CfdiType
   | Paysheet
   | Payment
   deriving (Eq, Show)
+
+instance Chainable CfdiType where
+  chain = pack . render
 
 instance Type CfdiType where
   parseExpr "I" = Right Income

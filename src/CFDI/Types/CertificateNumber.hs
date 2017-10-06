@@ -1,11 +1,15 @@
 module CFDI.Types.CertificateNumber where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype CertificateNumber = CertificateNumber Text deriving (Eq, Show)
+
+instance Chainable CertificateNumber where
+  chain (CertificateNumber n) = n
 
 instance Type CertificateNumber where
   parseExpr str

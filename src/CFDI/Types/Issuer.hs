@@ -1,5 +1,6 @@
 module CFDI.Types.Issuer where
 
+import CFDI.Chainable
 import CFDI.Types.Name
 import CFDI.Types.RFC
 import CFDI.Types.TaxRegime
@@ -11,6 +12,12 @@ data Issuer = Issuer
   , issRfc  :: RFC
   , taxReg  :: TaxRegime
   } deriving (Eq, Show)
+
+instance Chainable Issuer where
+  chain c = issRfc
+        <@> issName
+        <~> taxReg
+        <~> (c, "")
 
 instance XmlNode Issuer where
   attributes n =

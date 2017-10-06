@@ -1,6 +1,8 @@
 module CFDI.Types.TaxRegime where
 
+import CFDI.Chainable
 import CFDI.Types.Type
+import Data.Text       (pack)
 
 data TaxRegime
   = GeneralForPeople
@@ -25,6 +27,9 @@ data TaxRegime
   | MultinationalCompanies
   | SharesAlienation
   deriving (Eq, Show)
+
+instance Chainable TaxRegime where
+  chain = pack . render
 
 instance Type TaxRegime where
   parseExpr "600" = Right GeneralForPeople

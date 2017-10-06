@@ -1,11 +1,15 @@
 module CFDI.Types.TaxId where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype TaxId = TaxId Text deriving (Eq, Show)
+
+instance Chainable TaxId where
+  chain (TaxId i) = i
 
 instance Type TaxId where
   parseExpr str

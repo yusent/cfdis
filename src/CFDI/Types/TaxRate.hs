@@ -1,11 +1,15 @@
 module CFDI.Types.TaxRate where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Data.Text        (Text, pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype TaxRate = TaxRate Text deriving (Eq, Show)
+
+instance Chainable TaxRate where
+  chain (TaxRate r) = r
 
 instance Type TaxRate where
   parseExpr str

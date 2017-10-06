@@ -1,11 +1,15 @@
 module CFDI.Types.ProductOrService where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Control.Error.Safe (justErr)
 import Data.Set           (fromList, member, unions)
 import Text.Read          (readMaybe)
 
 newtype ProductOrService = ProductOrService Int deriving (Eq, Show)
+
+instance Chainable ProductOrService where
+  chain (ProductOrService c) = chain c
 
 instance Type ProductOrService where
   parseExpr c = justErr NotInCatalog maybeProductPorService

@@ -1,7 +1,9 @@
 module CFDI.Types.Country where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Control.Error.Safe (justErr)
+import Data.Text          (pack)
 import Text.Read          (readMaybe)
 
 data Country
@@ -256,6 +258,9 @@ data Country
   | CTY_ZWE
   | CTY_ZZZ
   deriving (Eq, Read, Show)
+
+instance Chainable Country where
+  chain = pack . render
 
 instance Type Country where
   parseExpr = justErr NotInCatalog . readMaybe . ("CTY_" ++)

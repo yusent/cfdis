@@ -1,18 +1,15 @@
 module CFDISpec (spec) where
 
 import CFDI
-import CFDI.Types
+import Data.Either         (isRight)
 import Data.Maybe          (fromJust, isJust)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..))
 import Extra               (replace)
+import System.Directory    (removeFile)
+import System.IO.Temp      (writeSystemTempFile)
 import Test.Hspec
-import Text.XML.Light
-  ( Element(..)
-  , QName(..)
-  , onlyElems
-  , parseXMLDoc
-  )
+import Text.XML.Light      (Element(..), QName(..), onlyElems, parseXMLDoc)
 
 cfdi :: CFDI
 cfdi = CFDI
@@ -166,6 +163,17 @@ spec = do
       certNum  cfdi' `shouldBe` Just (CertificateNumber "30001000000300023708")
       certText cfdi' `shouldBe` Just "CERTTEXT"
 
+  describe "CFDI.originalChain" $ do
+    it "calculates the CFDI original chain" $ do
+      originalChain cfdi `shouldBe`
+        "||3.3|ABC|12|2017-07-19T14:27:03|01|00001000001212121212|CONDICIONES D\
+        \E PAGO DE PRUEBA|1090.52|0|MXN|12.121212|1265.00|I|PUE|22115|AbcD5|04|\
+        \12121212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA|61\
+        \2|XEXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD12|\
+        \1|ACT|N/A|COMIDA MEXICANA|1090.52|1090.52|0|1090.52|002|Tasa|0.160000|\
+        \174.48|0.000001|001|Tasa|0.100000|0|12 12 1212 1212121|001|0|0|002|Tas\
+        \a|0.160000|174.48|174.48||"
+
   describe "CFDI.parseCfdiFile" $ do
     eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
 
@@ -236,6 +244,20 @@ spec = do
         "Se encontró un error en el elemento \"E\":\n-\
         \No se encontró el atributo \"A\"."
 
+  describe "CFDI.signWith" $ do
+    it "signs a CFDI with CSD supplied" $ do
+      pemFilePath <- writeSystemTempFile "csd.pem" testPEM
+      eitherErrOrCfdi <- signWith pemFilePath cfdi
+      eitherErrOrCfdi `shouldSatisfy` isRight
+      let Right cfdi' = eitherErrOrCfdi
+      signature cfdi' `shouldBe` Just
+        "NHoOPTUCQZEOAT1dXvLJR9ULvaPoVwXAD9/Pzrf9EblP/IrpCCGwZB8erSWg0z4zoKtMPq\
+        \jb+u89Wpzu4vAILyhYXOj9+8GIOJTWMVVtm5KwUUE2pAB/tTMCHsqyWjgSj2fCHPaR1IX0\
+        \sTnvZGhMkIcgVEH+ucSY7LZgxDtUyHvJbCnqeYOBn1arV7aEkt9bIZVOLXMd0jJreKK5uf\
+        \aVkej1VjF33gh/DSNJxd7iH+eU7Y56d5W2/DWCxTXskCvFDO00LL2zNugjfFBjG24q0chy\
+        \4m7kMYxY1IgkJF0g1K8E6BbF9PON/U0fQt3btY/c62mZaJyzmVlOBm6WvkLYxg=="
+      removeFile pemFilePath
+
   describe "CFDI.toXML" $ do
     it "returns a parsable XML" $ do
       parseCfdiXml (toXML cfdi) `shouldBe` Right cfdi
@@ -271,3 +293,34 @@ spec = do
       let taxElemNames = map (qName . elName) . onlyElems . elContent
                        $ cfdiElems !! 4
       taxElemNames `shouldBe` ["Retenciones", "Traslados"]
+
+testPEM :: String
+testPEM =
+  "-----BEGIN PRIVATE KEY-----\n\
+  \MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCXVHLByBCIMIr7\n\
+  \wGp7Rp2FSDt/u8k3Q9bZCqKWy/rSko0RaNRKz3RicT94MU+TvgAiA0Fzfh0vbjFg\n\
+  \2J2lEWpUiBfQjhQnYfzh9j5/lJpDeHLpa9g2pys7VSDvInVzOnPWh5+YTqO4Q8Vz\n\
+  \At7jrhldxUuDm5MU1fvTbLzgFdpTHtu0h60gdA4bi7q1G2cF5vv6+Hbc929ri4AX\n\
+  \Pg4sveTxvjCLu6DSjPPWgTRnI0ycPvZPlsyYj3d2aUICHnWAQ/vEFsZWAoMYZ7Wt\n\
+  \5PcpYFymFwmJNJNKmrrwSdY0kVX+QY4yFGzrLWkKefZ5IB4eOXPYJ8CUVetfDVtH\n\
+  \zHg87ikdAgMBAAECggEALS8Z1KJXzVIxLVoWcRh0kAcxPMJlIgsvaz6xrTTaf2Ui\n\
+  \mcAjIvMuXPZTbR/MEuD4SS+Pq1xMeoz8UV5cM50vkm3QLoU9n0SyrQVJQ+6q4Npl\n\
+  \9SwuMqNXVS/l1YEEcJNTYwq7rE5OtAYIPn7s7i5dhJIUKgeZsu7xcf9VpdLgjVCD\n\
+  \qGgJw/EfhagR7iPF+PKoeyRyBZI9xuHmtElHVgn2/Qv/16UJv0YpAqRgVq7YQzZC\n\
+  \c7yo0Y2+3dqHabRg+MnIKkN4pBFBzYxsjwM7YUDk/8zFlF5kwCS74ep0JWWSYAJ1\n\
+  \3DYDtCYSyWk1DvxX9Srv/S2htZM6MnhboafjLch4QQKBgQDRGGLpYdqGt6/cXKQe\n\
+  \JGWFrG33AMiYKrd4NOw7LK7kzrQESeaeAXSwr2eOnNV3tDMyslkjpC05m3Lbefsh\n\
+  \Ul6Qj/Qj9PEIpv7e4X4r++O/FsA9X6iQFicMEDzRYYjm4AfFggYrhzmjXh2rNACL\n\
+  \KRX5i9wIRGQuoAG7KuZyYWSBuwKBgQC5Rsv75S6FNUpKe8RC2nw13Vaf9uua2W1+\n\
+  \spg2pWfKqw88vvFATQOj9A9aFJ+wqrvwRziua5xtbch9gHK7M9Nnl565Tk8muueO\n\
+  \OUBaFeHYXsDaYZfTFILOZU4/b6//r6QK2cO892VXyUydbRXavCpRX8s2EoxtwfFG\n\
+  \mgbStX+HBwKBgQCICHKJXXU7QhPyrH7FcW5vKgAcu3DFtrzIQr4RvX9HMsdhJucX\n\
+  \kuDk9ijMWnJyv1Szvd5KVsxpdx2hdlmQkzMcn9r47alGtMaKIG/ik6zWrCmDhFF4\n\
+  \9ECRE5tNqUPU2JmVwILdHMu94kQxFtLntmIqiPgslLoMr2KQ71cfwQcPcwKBgQCk\n\
+  \iNKtqCFf+qs26iKonA6iZyV+eXFR2rT6RvAV114NBUxKzebBC6On/h2ECbymz3iH\n\
+  \MTiM7NPF+jCKA3/f725WGLfEKF7yLhlknEMhvT0LQVpSlUiXEyf20tBiVXUew4QS\n\
+  \fsDtF2bQRtvbEfzOezu5eDCmnGJJNmpmIHLevH+8EQKBgF9Ff09RISQJHbABka8f\n\
+  \wj8sdBKWG3TUQ2SwQ9U3L/Y/unuyaRUF+J3wFRYBMQGu0jzLG5TFfAVZAc3VJCBj\n\
+  \xG6K8WnJS6OM9ycV0qBa2WnkC7M7uAt4K9IEIqlOljY/R2tBN7qHZwE7nCLS88rv\n\
+  \L5YWIiKp71SlXyoGLfM0h7bl\n\
+  \-----END PRIVATE KEY-----\n"

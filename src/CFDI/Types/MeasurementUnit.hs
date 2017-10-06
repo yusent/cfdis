@@ -1,7 +1,9 @@
 module CFDI.Types.MeasurementUnit where
 
+import CFDI.Chainable
 import CFDI.Types.Type
 import Control.Error.Safe (justErr)
+import Data.Text          (pack)
 import Text.Read          (readMaybe)
 
 data MeasurementUnit
@@ -2421,6 +2423,9 @@ data MeasurementUnit
   | MU_ZP
   | MU_ZZ
   deriving (Eq, Read, Show)
+
+instance Chainable MeasurementUnit where
+  chain = pack . render
 
 instance Type MeasurementUnit where
   parseExpr = justErr NotInCatalog . readMaybe . ("MU_" ++)
