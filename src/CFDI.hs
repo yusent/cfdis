@@ -1,17 +1,19 @@
 module CFDI
-  ( module CFDI.CSD
-  , module CFDI.Types
+  ( module CFDI.Types
+  , module CSD
   , module XN
   , addCsdCerData
   , originalChain
   , parseCfdiFile
   , parseCfdiXml
   , ppXmlParseError
+  , signWith
   , toXML
   ) where
 
 import CFDI.Chainable       (chain)
-import CFDI.CSD             (CsdCerData(..))
+import CFDI.CSD             (signWithCSD)
+import CFDI.CSD as CSD      (CsdCerData(..))
 import CFDI.Types
 import CFDI.XmlNode         (parseNode, renderNode)
 import CFDI.XmlNode as XN   (XmlParseError(..))
@@ -63,6 +65,12 @@ ppXmlParseError indentationStr = concat
       ["XML malformado o inválido."]
     errMsgLines (ParseErrorInChild e xpe) =
       ("Se encontró un error en el elemento \"" ++ e ++ "\":") : errMsgLines xpe
+
+signWith :: FilePath -> CFDI -> IO (Either Text CFDI)
+signWith csdPemPath cfdi =
+  fmap (fmap addSignatureToCFDI) . signWithCSD csdPemPath $ originalChain cfdi
+  where
+    addSignatureToCFDI sig = cfdi { signature = Just sig }
 
 toXML :: CFDI -> String
 toXML = ppTopElement . renderNode
