@@ -9,12 +9,7 @@ import Extra               (replace)
 import System.Directory    (removeFile)
 import System.IO.Temp      (writeSystemTempFile)
 import Test.Hspec
-import Text.XML.Light
-  ( Element(..)
-  , QName(..)
-  , onlyElems
-  , parseXMLDoc
-  )
+import Text.XML.Light      (Element(..), QName(..), onlyElems, parseXMLDoc)
 
 cfdi :: CFDI
 cfdi = CFDI
