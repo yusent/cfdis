@@ -1,7 +1,6 @@
 module CFDISpec (spec) where
 
 import CFDI
-import CFDI.Types
 import Data.Either         (isRight)
 import Data.Maybe          (fromJust, isJust)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
