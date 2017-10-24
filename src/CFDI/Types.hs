@@ -119,7 +119,7 @@ import CFDI.Types.TaxRate
 import CFDI.Types.TaxRegime
 import CFDI.Types.TransferedTax
 import CFDI.Types.TransferedTaxes
-import CFDI.Types.Type                   (ParseError(..))
+import CFDI.Types.Type                   (ParseError(..), parse, render)
 import CFDI.Types.Use
 import CFDI.Types.UUID
 import CFDI.Types.Version
