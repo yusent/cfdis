@@ -79,7 +79,7 @@ cfdi = CFDI
         MU_ACT
         (Just (ProductId "PROD12"))
         (ProductOrService 91111700)
-        (Quantity "1")
+        (Quantity 1)
         (Just (ConceptTaxes
                 (Just (ConceptRetainedTaxes
                         [ ConceptRetainedTax
