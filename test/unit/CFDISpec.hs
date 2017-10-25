@@ -84,17 +84,17 @@ cfdi = CFDI
                 (Just (ConceptRetainedTaxes
                         [ ConceptRetainedTax
                             (Amount 0)
-                            (TaxBase "0.000001")
+                            (TaxBase 0.000001)
                             Rate
-                            (TaxRate "0.100000")
+                            (TaxRate 0.1)
                             ISR
                         ]))
                 (Just (ConceptTransferedTaxes
                         [ ConceptTransferedTax
                             (Amount 174.48)
-                            (TaxBase "1090.52")
+                            (TaxBase 1090.52)
                             Rate
-                            (TaxRate "0.160000")
+                            (TaxRate 0.16)
                             IVA
                         ]))))
         (Just (ProductUnit "N/A"))
@@ -143,10 +143,10 @@ cfdi = CFDI
                   [ TransferedTax 
                       (Amount 174.48)
                       Rate
-                      (TaxRate "0.160000")
+                      (TaxRate 0.16)
                       IVA
                   ]))))
-  (Amount 1265.00)
+  (Amount 1265)
   (Version 3.3)
   (Just Cash)
 
@@ -170,9 +170,9 @@ spec = do
         \E PAGO DE PRUEBA|1090.52|0|MXN|12.121212|1265|I|PUE|22115|AbcD5|04|121\
         \21212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA|612|X\
         \EXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD12|1|A\
-        \CT|N/A|COMIDA MEXICANA|1090.52|1090.52|0|1090.52|002|Tasa|0.160000|174\
-        \.48|0.000001|001|Tasa|0.100000|0|12 12 1212 1212121|001|0|0|002|Tasa|0\
-        \.160000|174.48|174.48||"
+        \CT|N/A|COMIDA MEXICANA|1090.52|1090.52|0|1090.52|002|Tasa|0.16|174.48|\
+        \0.000001|001|Tasa|0.1|0|12 12 1212 1212121|001|0|0|002|Tasa|0.16|174.4\
+        \8|174.48||"
 
   describe "CFDI.parseCfdiFile" $ do
     eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
@@ -251,11 +251,11 @@ spec = do
       eitherErrOrCfdi `shouldSatisfy` isRight
       let Right cfdi' = eitherErrOrCfdi
       signature cfdi' `shouldBe` Just
-        "KqN2Refrv27+X7lsEwIu1QRdOLC4Sjd7OPZUIwt8zg/4qMox9xLQZIk8DL1b5lff7qkqus\
-        \qdJ5lCkq4uSHHQ4CJen3BlbeXk+Nn5T2PExjf1X9iWaN1qLrg5Xlrd6lmIbBzifNx5Fjsd\
-        \WSz3oL0KAb5EfJ6f7Osc7c2VyDc5sAJr/ZNVG+7onJLMmtD7PrESw/hUF3vA78Aoevnkht\
-        \edw3ayPGI6n64SwW8sG3foA/g8lTBxdUzdxryvTR02y7nuB0oCoelAVh8ue5ua9YPpcAQ3\
-        \PeFXnUVNyxOwwK3e60ow1oAzjolNMzfZ+F3hM9LfoOPg4E0lC8Q6V6wAmNK99Q=="
+        "loaHwgu7lhud8dxIcagmCcX/K00kYBv4S2b7YBLCTdhw8MYaKRdRGP/AoAuLGs7i4/YPy7\
+        \bPNx1nqvLAXoxuApTNHICmbFrkvJ50OHv+yBh9kc/oNivkd8p6GolQ+Mr2AJxdTQvLghrQ\
+        \mPcN+g0DmFnu6/nDH5tUPnOmkgk87Fj1DabFRgslQgWRczpZ04CT2LFiU895hkMUoxrfxZ\
+        \ZqLYRgHYDXCqBJSh5oQgHhC/t95hY7vGHGNiWD7Djw8uKC+mDiupHrfKUTNAZ0PHv2wwoH\
+        \sIGt6UwUs+qRuYcvjsoM+uJ7ZeJoVCrpaQ0msGb/+RUZzZ9/Ndr3twKLFVxSkA=="
       removeFile pemFilePath
 
   describe "CFDI.toXML" $ do
