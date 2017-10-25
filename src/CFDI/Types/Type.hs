@@ -1,9 +1,15 @@
+{-# LANGUAGE FlexibleInstances #-}
+
 module CFDI.Types.Type where
 
 import Control.Error.Safe  (justErr)
+import Data.Bifunctor      (first)
+import Data.Ratio          (denominator, numerator)
 import Data.Text           (Text, pack, unpack)
+import Data.Text.Read      (rational)
 import Data.Time.LocalTime (LocalTime)
 import Data.Time.Format    (defaultTimeLocale, formatTime, parseTimeM)
+import Numeric             (fromRat, showFFloat)
 
 data ParseError
   = InvalidValue String
@@ -27,6 +33,13 @@ instance Type LocalTime where
              \[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9])"
 
   render = formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
+
+instance Type Rational where
+  parseExpr e = first (const $ InvalidValue e) . fmap fst . rational $ pack e
+
+  render r
+    | denominator r == 1 = show $ numerator r
+    | otherwise = (showFFloat Nothing (fromRat r :: Float)) ""
 
 instance Type Text where
   parseExpr = Right . pack

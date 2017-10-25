@@ -72,10 +72,10 @@ cfdi = CFDI
   ]
   (Concepts
     [ Concept
-        (Amount "1090.52")
+        (Amount 1090.52)
         [CustomInfo (ImportNumber "12  12  1212  1212121")]
         (ProductDescription "COMIDA MEXICANA")
-        (Just (Amount "0"))
+        (Just (Amount 0))
         MU_ACT
         (Just (ProductId "PROD12"))
         (ProductOrService 91111700)
@@ -83,7 +83,7 @@ cfdi = CFDI
         (Just (ConceptTaxes
                 (Just (ConceptRetainedTaxes
                         [ ConceptRetainedTax
-                            (Amount "0")
+                            (Amount 0)
                             (TaxBase "0.000001")
                             Rate
                             (TaxRate "0.100000")
@@ -91,18 +91,18 @@ cfdi = CFDI
                         ]))
                 (Just (ConceptTransferedTaxes
                         [ ConceptTransferedTax
-                            (Amount "174.48")
+                            (Amount 174.48)
                             (TaxBase "1090.52")
                             Rate
                             (TaxRate "0.160000")
                             IVA
                         ]))))
         (Just (ProductUnit "N/A"))
-        (Amount "1090.52")
+        (Amount 1090.52)
     ])
   (Just (Confirmation "AbcD5"))
   CUR_MXN
-  (Just (Amount "0"))
+  (Just (Amount 0))
   (Just (ExchangeRate "12.121212"))
   (Just (Folio "12"))
   (LocalTime
@@ -130,23 +130,23 @@ cfdi = CFDI
         \O4CAsfyVNtlTJ+Z+cquDZw5Yun25xfOqObFtv/m7g2+c9dWbBAgf2vEGUemy1hg9i8nEBC\
         \Fkx6TIH3SyojLsXwnIoNWQ3CIZzpydfBnVawddcCZcoUiANUQBM5rfgYf1CzUoopEIo1l6\
         \+UdbyefKNpvYpejcrBUSPY6Q8uQFvf+rm6jtTrsIc2LNlhiV5fL9mb8MGMWiKw==")
-  (Amount "1090.52")
+  (Amount 1090.52)
   (Just (Taxes 
           (Just (RetainedTaxes
                   [ RetainedTax
-                      (Amount "0")
+                      (Amount 0)
                       ISR
                   ]))
-          (Just (Amount "174.48"))
-          (Just (Amount "0"))
+          (Just (Amount 174.48))
+          (Just (Amount 0))
           (Just (TransferedTaxes
                   [ TransferedTax 
-                      (Amount "174.48")
+                      (Amount 174.48)
                       Rate
                       (TaxRate "0.160000")
                       IVA
                   ]))))
-  (Amount "1265.00")
+  (Amount 1265.00)
   (Version 3.3)
   (Just Cash)
 
@@ -167,12 +167,12 @@ spec = do
     it "calculates the CFDI original chain" $ do
       originalChain cfdi `shouldBe`
         "||3.3|ABC|12|2017-07-19T14:27:03|01|00001000001212121212|CONDICIONES D\
-        \E PAGO DE PRUEBA|1090.52|0|MXN|12.121212|1265.00|I|PUE|22115|AbcD5|04|\
-        \12121212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA|61\
-        \2|XEXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD12|\
-        \1|ACT|N/A|COMIDA MEXICANA|1090.52|1090.52|0|1090.52|002|Tasa|0.160000|\
-        \174.48|0.000001|001|Tasa|0.100000|0|12 12 1212 1212121|001|0|0|002|Tas\
-        \a|0.160000|174.48|174.48||"
+        \E PAGO DE PRUEBA|1090.52|0|MXN|12.121212|1265|I|PUE|22115|AbcD5|04|121\
+        \21212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA|612|X\
+        \EXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD12|1|A\
+        \CT|N/A|COMIDA MEXICANA|1090.52|1090.52|0|1090.52|002|Tasa|0.160000|174\
+        \.48|0.000001|001|Tasa|0.100000|0|12 12 1212 1212121|001|0|0|002|Tasa|0\
+        \.160000|174.48|174.48||"
 
   describe "CFDI.parseCfdiFile" $ do
     eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
@@ -251,11 +251,11 @@ spec = do
       eitherErrOrCfdi `shouldSatisfy` isRight
       let Right cfdi' = eitherErrOrCfdi
       signature cfdi' `shouldBe` Just
-        "NHoOPTUCQZEOAT1dXvLJR9ULvaPoVwXAD9/Pzrf9EblP/IrpCCGwZB8erSWg0z4zoKtMPq\
-        \jb+u89Wpzu4vAILyhYXOj9+8GIOJTWMVVtm5KwUUE2pAB/tTMCHsqyWjgSj2fCHPaR1IX0\
-        \sTnvZGhMkIcgVEH+ucSY7LZgxDtUyHvJbCnqeYOBn1arV7aEkt9bIZVOLXMd0jJreKK5uf\
-        \aVkej1VjF33gh/DSNJxd7iH+eU7Y56d5W2/DWCxTXskCvFDO00LL2zNugjfFBjG24q0chy\
-        \4m7kMYxY1IgkJF0g1K8E6BbF9PON/U0fQt3btY/c62mZaJyzmVlOBm6WvkLYxg=="
+        "KqN2Refrv27+X7lsEwIu1QRdOLC4Sjd7OPZUIwt8zg/4qMox9xLQZIk8DL1b5lff7qkqus\
+        \qdJ5lCkq4uSHHQ4CJen3BlbeXk+Nn5T2PExjf1X9iWaN1qLrg5Xlrd6lmIbBzifNx5Fjsd\
+        \WSz3oL0KAb5EfJ6f7Osc7c2VyDc5sAJr/ZNVG+7onJLMmtD7PrESw/hUF3vA78Aoevnkht\
+        \edw3ayPGI6n64SwW8sG3foA/g8lTBxdUzdxryvTR02y7nuB0oCoelAVh8ue5ua9YPpcAQ3\
+        \PeFXnUVNyxOwwK3e60ow1oAzjolNMzfZ+F3hM9LfoOPg4E0lC8Q6V6wAmNK99Q=="
       removeFile pemFilePath
 
   describe "CFDI.toXML" $ do

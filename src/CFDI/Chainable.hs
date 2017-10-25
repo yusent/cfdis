@@ -1,11 +1,15 @@
+{-# LANGUAGE FlexibleInstances #-}
+
 module CFDI.Chainable
   ( Chainable(..)
   ) where
 
+import Data.Ratio          (denominator, numerator)
 import Data.Text           (Text, append, cons, length, tail, pack)
 import Data.Time.Calendar  (Day, showGregorian)
 import Data.Time.Format    (defaultTimeLocale, formatTime)
 import Data.Time.LocalTime (LocalTime)
+import Numeric             (fromRat, showFFloat)
 import Prelude      hiding (length, tail)
 
 class Chainable a where
@@ -46,6 +50,11 @@ instance Chainable LocalTime where
 
 instance Chainable a => Chainable (Maybe a) where
   chain = maybe "" chain
+
+instance Chainable Rational where
+  chain r
+    | denominator r == 1 = pack . show $ numerator r
+    | otherwise = pack $ (showFFloat Nothing (fromRat r :: Float)) ""
 
 instance Chainable Text where
   chain = id
