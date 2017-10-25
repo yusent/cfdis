@@ -103,7 +103,7 @@ cfdi = CFDI
   (Just (Confirmation "AbcD5"))
   CUR_MXN
   (Just (Amount 0))
-  (Just (ExchangeRate "12.121212"))
+  (Just (ExchangeRate 12.121212))
   (Just (Folio "12"))
   (LocalTime
     (ModifiedJulianDay 57953)
