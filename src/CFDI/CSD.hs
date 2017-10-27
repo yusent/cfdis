@@ -1,11 +1,12 @@
 module CFDI.CSD
   ( CsdCerData(..)
-  , getCsdCerData
   , csdKeyToPem
+  , getCsdCerData
   , signWithCSD
   ) where
 
 import Control.Exception         (ErrorCall, catch, evaluate)
+import Data.Bifunctor            (first)
 import Data.ByteString           (ByteString)
 import Data.ByteString.Base64    (encode)
 import Data.Text                 (Text, concat, empty, pack, split, unpack)
@@ -26,6 +27,12 @@ data CsdCerData = CsdCerData
 -- TODO: Rewrite these methods using OpenSSL module. At the time of writting
 -- this I couldn't figure out how to use it.
 
+csdKeyToPem :: FilePath -> String -> IO (Either Text Text)
+csdKeyToPem keyPath keyPass =
+  runOpenSSL cmd empty
+  where
+    cmd = "pkcs8 -inform DER -in " ++ keyPath ++ " -passin pass:" ++ keyPass
+
 getCsdCerData :: FilePath -> IO (Either Text CsdCerData)
 getCsdCerData cerPath =
   getPem cerPath >>= eitherErrOrContinue (\pem ->
@@ -36,16 +43,8 @@ getCsdCerData cerPath =
     eitherErrOrContinue = either (return . Left)
     sha1 = concat . init . init . tail . split (== '\n')
 
-csdKeyToPem :: FilePath -> String -> IO (Either Text Text)
-csdKeyToPem keyPath keyPass =
-  runOpenSSL ("pkcs8 -inform DER -in " ++ keyPath ++ " -passin " ++ pass) empty
-  where
-    pass = "pass:" ++ keyPass
-
 signWithCSD :: FilePath -> Text -> IO (Either Text Text)
-signWithCSD csdPemPath =
-  fmap (either (Left . decodeUtf8) (Right . decodeUtf8 . encode))
-    . runOpenSSL_ ("dgst -sha1 -sign " ++ csdPemPath)
+signWithCSD csdPemPath = runOpenSSLB64 ("dgst -sha1 -sign " ++ csdPemPath)
 
 -- Helpers
 
@@ -74,7 +73,11 @@ getEndDate pem = catch
 
 runOpenSSL :: String -> Text -> IO (Either Text Text)
 runOpenSSL command =
-  fmap (either (Left . decodeUtf8) (Right . decodeUtf8)) . runOpenSSL_ command
+  fmap (first decodeUtf8 . fmap decodeUtf8) . runOpenSSL_ command
+
+runOpenSSLB64 :: String -> Text -> IO (Either Text Text)
+runOpenSSLB64 command =
+  fmap (first decodeUtf8 . fmap (decodeUtf8 . encode)) . runOpenSSL_ command
 
 runOpenSSL_ :: String -> Text -> IO (Either ByteString ByteString)
 runOpenSSL_ command stdin = do
