@@ -1,6 +1,7 @@
 module CFDI.CSD
   ( CsdCerData(..)
   , csdKeyToPem
+  , exportCsdAsPfx
   , getCsdCerData
   , signWithCSD
   ) where
@@ -32,6 +33,12 @@ csdKeyToPem keyPath keyPass =
   runOpenSSL cmd empty
   where
     cmd = "pkcs8 -inform DER -in " ++ keyPath ++ " -passin pass:" ++ keyPass
+
+exportCsdAsPfx :: FilePath -> Text -> Text -> IO (Either Text Text)
+exportCsdAsPfx keyPath cerPem pwd =
+  runOpenSSLB64 cmd cerPem
+  where
+    cmd = "pkcs12 -export -inkey " ++ keyPath ++ " -passout pass:" ++ unpack pwd
 
 getCsdCerData :: FilePath -> IO (Either Text CsdCerData)
 getCsdCerData cerPath =
