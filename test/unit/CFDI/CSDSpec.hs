@@ -33,6 +33,7 @@ spec = do
       eitherErrOrCsdCerData `shouldBe` Right CsdCerData
         { cerExpiresAt = LocalTime (ModifiedJulianDay 59352) (TimeOfDay 3 54 56)
         , cerNumber    = "30001000000300023708"
+        , cerPem       = testCerPEM
         , cerToText    = testCerText
         }
 

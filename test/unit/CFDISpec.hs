@@ -157,6 +157,7 @@ spec = do
       let csdCerData = CsdCerData
             { cerExpiresAt = LocalTime (ModifiedJulianDay 0) (TimeOfDay 0 0 0)
             , cerNumber    = "30001000000300023708"
+            , cerPem       = "CERTPEM"
             , cerToText    = "CERTTEXT"
             }
           cfdi' = addCsdCerData csdCerData cfdi

@@ -22,6 +22,7 @@ import qualified Util as U       (split)
 data CsdCerData = CsdCerData
   { cerExpiresAt :: LocalTime
   , cerNumber    :: Text
+  , cerPem       :: Text
   , cerToText    :: Text
   } deriving (Eq, Show)
 
@@ -35,8 +36,8 @@ csdKeyToPem keyPath keyPass =
     cmd = "pkcs8 -inform DER -in " ++ keyPath ++ " -passin pass:" ++ keyPass
 
 exportCsdAsPfx :: FilePath -> Text -> Text -> IO (Either Text Text)
-exportCsdAsPfx keyPath cerPem pwd =
-  runOpenSSLB64 cmd cerPem
+exportCsdAsPfx keyPath cerPem' pwd =
+  runOpenSSLB64 cmd cerPem'
   where
     cmd = "pkcs12 -export -inkey " ++ keyPath ++ " -passout pass:" ++ unpack pwd
 
@@ -45,7 +46,7 @@ getCsdCerData cerPath =
   getPem cerPath >>= eitherErrOrContinue (\pem ->
     getSerial pem >>= eitherErrOrContinue (\serial ->
       getEndDate pem >>= eitherErrOrContinue (\endDate ->
-        return . Right . CsdCerData endDate serial $ sha1 pem)))
+        return . Right . CsdCerData endDate serial pem $ sha1 pem)))
   where
     eitherErrOrContinue = either (return . Left)
     sha1 = concat . init . init . tail . split (== '\n')
