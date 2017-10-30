@@ -20,5 +20,5 @@ instance Type FactorType where
   parseExpr _        = Left NotInCatalog
 
   render Rate   = "Tasa"
-  render Fee    = "Cuote"
-  render Exempt = "Rate"
+  render Fee    = "Cuota"
+  render Exempt = "Exento"
