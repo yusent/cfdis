@@ -18,6 +18,7 @@ library
   default-extensions:  OverloadedStrings
   exposed-modules:     CFDI
                      , CFDI.CSD
+                     , CFDI.PAC
                      , CFDI.V3_2
                      , CFDI.V3_2.Chain
                      , CFDI.V3_2.PAC
