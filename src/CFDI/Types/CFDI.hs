@@ -80,7 +80,7 @@ instance XmlNode CFDI where
   attributes n =
     [ attrWithPrefix "xsi" "schemaLocation"
         ("http://www.sat.gob.mx/cfd/3 \
-         \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd" :: Text)
+         \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" :: Text)
     , attrWithPrefix "xmlns" "cfdi"
         ("http://www.sat.gob.mx/cfd/3" :: Text)
     , attrWithPrefix "xmlns" "xsi"
