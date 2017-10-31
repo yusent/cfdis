@@ -26,6 +26,7 @@ data StampError
   | ParsePacResponseXMLError
     { parseError :: XmlParseError
     }
+  | UnsignedCFDIError
   deriving (Eq, Show)
 
 stamp :: PAC p => CFDI -> p -> IO (Either StampError CFDI)
