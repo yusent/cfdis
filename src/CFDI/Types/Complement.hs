@@ -7,6 +7,7 @@ data Complement
   = StampComplement
       { pacStamp :: PacStamp
       }
+  | PaymentComplement
   deriving (Eq, Show)
 
 instance XmlNode Complement where
