@@ -127,6 +127,8 @@ handleHttpException (HttpExceptionRequest _ (StatusCodeException res body)) =
   return . Left . PacHTTPError status $ decodeUtf8 body
   where
     status = statusCode $ responseStatus res
+handleHttpException (HttpExceptionRequest _ e) =
+  return . Left $ PacConnectionError e
 handleHttpException e = throw e
 
 handleITimbreResponse :: Response Value -> Either StampError PacStamp

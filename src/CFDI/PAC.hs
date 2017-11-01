@@ -1,6 +1,6 @@
 module CFDI.PAC where
 
-import CFDI         (ppXmlParseError)
+import CFDI                (ppXmlParseError)
 import CFDI.Types
   ( CFDI(..)
   , Complement(..)
@@ -9,9 +9,10 @@ import CFDI.Types
   , PacStamp
   , complement
   )
-import CFDI.XmlNode (XmlParseError)
-import Data.Maybe   (isJust, isNothing)
-import Data.Text    (Text, unpack)
+import CFDI.XmlNode        (XmlParseError)
+import Data.Maybe          (isJust, isNothing)
+import Data.Text           (Text, unpack)
+import Network.HTTP.Client (HttpExceptionContent)
 
 class PAC p where
   getPacStamp :: CFDI -> p -> IO (Either StampError PacStamp)
@@ -20,7 +21,7 @@ class PAC p where
 
 data StampError
   = PacConnectionError
-    { connErrMsg :: Text
+    { pacErrExceptionContent :: HttpExceptionContent
     }
   | PacError
     { pacErrMsg  :: Text
@@ -41,7 +42,7 @@ data StampError
     { stampValidationErr :: ValidationError
     }
   | UncaughtValidationError
-  deriving (Eq, Show)
+  deriving (Show)
 
 data ValidationError
   = InvalidExchangeRate
@@ -51,8 +52,8 @@ data ValidationError
   deriving (Eq, Show)
 
 ppStampError :: StampError -> String
-ppStampError (PacConnectionError e) =
-  "No se pudo conectar a servicio de timbrado: " ++ unpack e
+ppStampError (PacConnectionError _) =
+  "No se pudo conectar a servicio de timbrado."
 ppStampError (PacError m c) = maybe "" unpack c ++ ": " ++ unpack m
 ppStampError (PacHTTPError c b) =
   "Error HTTP código " ++ show c ++ ": " ++ unpack b
