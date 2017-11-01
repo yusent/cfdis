@@ -16,6 +16,8 @@ import Data.Text    (Text, unpack)
 class PAC p where
   getPacStamp :: CFDI -> p -> IO (Either StampError PacStamp)
 
+  stampLookup :: CFDI -> p -> IO (Either StampError PacStamp)
+
 data StampError
   = PacConnectionError
     { connErrMsg :: Text
@@ -75,6 +77,21 @@ stamp cfdi@CFDI { complement = comps } p =
     Just vErr -> return . Left $ PreStampValidationError vErr
 
     Nothing -> fmap (fmap addStampToCFDI) $ getPacStamp cfdi p
+  where
+    addStampToCFDI stamp' = cfdi { complement = StampComplement stamp' : comps }
+
+stampWithRetry :: PAC p => CFDI -> p -> IO (Either StampError CFDI)
+stampWithRetry cfdi@CFDI { complement = comps } p =
+  case validate cfdi of
+    Just vErr -> return . Left $ PreStampValidationError vErr
+
+    Nothing -> do
+      eStamp <- getPacStamp cfdi p
+
+      fmap addStampToCFDI <$> case eStamp of
+        Left (PacError _ (Just "307")) -> stampLookup cfdi p
+
+        x -> return x
   where
     addStampToCFDI stamp' = cfdi { complement = StampComplement stamp' : comps }
 

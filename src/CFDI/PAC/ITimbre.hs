@@ -18,7 +18,7 @@ import Control.Exception         (catch, throw)
 import Data.Aeson
   ( FromJSON
   , Result(Success, Error)
-  , Value(Number, String)
+  , Value(Array, Number, Object, String)
   , (.=)
   , (.:)
   , (.:?)
@@ -29,8 +29,10 @@ import Data.Aeson
   , withObject
   )
 import Data.ByteString.Lazy      (toStrict)
+import Data.HashMap.Lazy         (lookup)
 import Data.Text                 (Text, pack, take, unpack)
 import Data.Text.Encoding        (decodeUtf8)
+import Data.Vector               (head)
 import Network.HTTP.Conduit
   ( HttpException(HttpExceptionRequest)
   , HttpExceptionContent(StatusCodeException)
@@ -44,7 +46,7 @@ import Network.HTTP.Simple
   , setRequestBodyURLEncoded
   )
 import Network.HTTP.Types.Status (statusCode)
-import Prelude            hiding (take)
+import Prelude            hiding (head, lookup, take)
 
 data ITimbre = ITimbre
   { user :: Text
@@ -76,30 +78,49 @@ instance FromJSON ITimbreResponse where
 
     case maybeError of
       Just err -> return . ITimbreResponse retCode_ $ Left err
-      Nothing  -> ITimbreResponse retCode_ . justErr "No se obtuvo XML"
-        <$> ((v .: "result") >>= (.:? "data"))
+
+      Nothing  -> do
+        mData <- (v .: "result") >>= (.:? "data")
+
+        return . ITimbreResponse retCode_ . justErr "No se obtuvo XML"
+          $ case mData of
+              Just (String data_) -> Just data_
+
+              Just (Array vec) -> case head vec of
+                Object o -> case lookup "xml_data" o of
+                  Just (String xml) -> Just xml
+
+                  _ -> Nothing
+
+                _ -> Nothing
+
+              _ -> Nothing
 
 instance PAC ITimbre where
-  getPacStamp cfdi@CFDI{ signature = Just sig } p = do
-    fmap handleITimbreResponse (httpJSON request) `catch` handleHttpException
-    where
-      req
-        | env p == Production = "POST https://portalws.itimbre.com/itimbre.php"
-        | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
-      request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)]
-              $ req
-      requestBody = object
-        [ "id"     .= take 12 sig
-        , "method" .= ("cfd2cfdi" :: Text)
-        , "params" .= object
-            [ "user"    .= user p
-            , "pass"    .= pass p
-            , "RFC"     .= rfc p
-            , "xmldata" .= toXML cfdi
-            ]
-        ]
-
+  getPacStamp cfdi@CFDI{ signature = Just sig } p =
+    stampRequest (env p) $ object
+      [ "id"     .= take 12 sig
+      , "method" .= ("cfd2cfdi" :: Text)
+      , "params" .= object
+          [ "user"    .= user p
+          , "pass"    .= pass p
+          , "RFC"     .= rfc p
+          , "xmldata" .= toXML cfdi
+          ]
+      ]
   getPacStamp _ _ = return $ Left UncaughtValidationError
+
+  stampLookup CFDI{ signature = Just sig } p = do
+    stampRequest (env p) $ object
+      [ "id"     .= take 12 sig
+      , "method" .= ("buscarCFDI" :: Text)
+      , "params" .= object
+          [ "user"    .= user p
+          , "pass"    .= pass p
+          , "RFC"     .= rfc p
+          ]
+      ]
+  stampLookup _ _ = return $ Left UncaughtValidationError
 
 handleHttpException :: HttpException -> IO (Either StampError PacStamp)
 handleHttpException (HttpExceptionRequest _ (StatusCodeException res body)) =
@@ -131,3 +152,13 @@ handleITimbreResponse response
   where
     responseStatusCode = getResponseStatusCode response
     responseBody = getResponseBody response
+
+stampRequest :: ITimbreEnv -> Value -> IO (Either StampError PacStamp)
+stampRequest e requestBody =
+  fmap handleITimbreResponse (httpJSON request) `catch` handleHttpException
+  where
+    req
+      | e == Production = "POST https://portalws.itimbre.com/itimbre.php"
+      | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
+    request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)]
+            $ req

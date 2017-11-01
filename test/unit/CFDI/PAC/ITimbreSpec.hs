@@ -5,9 +5,9 @@ module CFDI.PAC.ITimbreSpec
   ) where
 
 import CFDI
-import CFDI.PAC            (stamp)
+import CFDI.PAC            (StampError(PacError), getPacStamp, stampLookup)
 import CFDI.PAC.ITimbre
-import Data.Either         (isRight)
+import Data.Either         (isLeft, isRight)
 import Data.Text           (Text, unpack)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..), localDay)
@@ -111,22 +111,46 @@ spec = do
 
   if credsFileExist
     then do
+      (itimbre, pem, crt) <- runIO $ do
+        Just (ITimbreCreds usr pass_ rfc_ crt pem) <- decodeFile credsFilePath
+        return (ITimbre usr pass_ rfc_ Testing, pem, crt)
+
       describe "CFDI.PAC.ITimbre.ITimbre instance of PAC" $ do
         it "implements getPacStamp function" $ do
-          Just (ITimbreCreds usr pass_ rfc_ crt pem) <-
-            decodeFile credsFilePath
-
-          pemFilePath <- writeSystemTempFile "csd.pem" pem
           currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
           now <- parseTimeM True defaultTimeLocale f currentTimeStr
+          pemFilePath <- writeSystemTempFile "csd.pem" pem
           let cfdi' = cfdi
                 { certText = Just crt
                 , issuedAt = time
                 }
               time = now { localDay = addDays (-1) (localDay now) }
           Right signedCfdi <- signWith pemFilePath cfdi'
-          eitherErrOrStamp <- stamp signedCfdi $ ITimbre usr pass_ rfc_ Testing
+          eitherErrOrStamp <- getPacStamp signedCfdi itimbre
           eitherErrOrStamp `shouldSatisfy` isRight
+          removeFile pemFilePath
+
+        it "implements stampLookup function" $ do
+          -- We need to stamp a CFDI first to test this.
+          currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
+          now <- parseTimeM True defaultTimeLocale f currentTimeStr
+          pemFilePath <- writeSystemTempFile "csd.pem" pem
+          let cfdi' = cfdi
+                { certText = Just crt
+                , issuedAt = time
+                }
+              time = now { localDay = addDays (-1) (localDay now) }
+          Right signedCfdi <- signWith pemFilePath cfdi'
+          eitherErrOrStamp <- getPacStamp signedCfdi itimbre
+          eitherErrOrStamp `shouldSatisfy` isRight
+
+          eitherErrOrStamp' <- getPacStamp signedCfdi itimbre
+          eitherErrOrStamp' `shouldSatisfy` isLeft
+          let Left (PacError _ code) = eitherErrOrStamp'
+          code `shouldBe` Just "307"
+
+          eitherErrOrStamp'' <- stampLookup signedCfdi itimbre
+          eitherErrOrStamp'' `shouldSatisfy` isRight
           removeFile pemFilePath
     else
       return ()
