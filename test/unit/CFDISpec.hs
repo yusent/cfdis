@@ -252,11 +252,11 @@ spec = do
       eitherErrOrCfdi `shouldSatisfy` isRight
       let Right cfdi' = eitherErrOrCfdi
       signature cfdi' `shouldBe` Just
-        "loaHwgu7lhud8dxIcagmCcX/K00kYBv4S2b7YBLCTdhw8MYaKRdRGP/AoAuLGs7i4/YPy7\
-        \bPNx1nqvLAXoxuApTNHICmbFrkvJ50OHv+yBh9kc/oNivkd8p6GolQ+Mr2AJxdTQvLghrQ\
-        \mPcN+g0DmFnu6/nDH5tUPnOmkgk87Fj1DabFRgslQgWRczpZ04CT2LFiU895hkMUoxrfxZ\
-        \ZqLYRgHYDXCqBJSh5oQgHhC/t95hY7vGHGNiWD7Djw8uKC+mDiupHrfKUTNAZ0PHv2wwoH\
-        \sIGt6UwUs+qRuYcvjsoM+uJ7ZeJoVCrpaQ0msGb/+RUZzZ9/Ndr3twKLFVxSkA=="
+        "XlZz6HaMO7MJ/W9NE7sjmRtjyLh8F+8p5ZagLmYFncH32uW4GKqku6ZsO7KEkBhvOHqb1J\
+        \xDn2sIfGa4+k9Gc7qerYgQlEXZMlo86zvto+gF4cFuC5W752cAPkfLA3iW+ypOiKa9NMnW\
+        \spvofnuEo50Ztkwbo1dAD/kIcwrEkiTVOIRugeTStvPRqA//LUDYGJ7ho3P4IqnyeOAxcy\
+        \COBduRzTJEZWkbd8s+AJX9PWL8CyRZpYo7UQairb1ziH4wN0I3fO3PYKO/sLIdw08ENzYC\
+        \L9vzdEC1A9QC+HmbwjUlmf6D3IHWOmNsLwtMN43nyg4g3Tbll4r5Bo1kBfZDSg=="
       removeFile pemFilePath
 
   describe "CFDI.toXML" $ do

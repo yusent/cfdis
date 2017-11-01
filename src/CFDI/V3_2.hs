@@ -1,7 +1,6 @@
 module CFDI.V3_2
   ( signCFDIWith
   , module CFDI.V3_2.Chain
-  , module CFDI.V3_2.PAC
   , module CFDI.V3_2.Parser
   , module CFDI.V3_2.Renderer
   , module CFDI.V3_2.Types
@@ -9,7 +8,6 @@ module CFDI.V3_2
 
 import CFDI.CSD           (signWithCSD)
 import CFDI.V3_2.Chain
-import CFDI.V3_2.PAC
 import CFDI.V3_2.Parser
 import CFDI.V3_2.Renderer
 import CFDI.V3_2.Types

@@ -259,11 +259,11 @@ spec = do
 
 testCFDISignature :: Text
 testCFDISignature =
-  "SreR9muwTWUELA5YH78zICbtsmRBusbseyrQz0rNNy53KsE6lq3hwTSwOb3n3ySzx6hHYQ5VZGeC\
-  \H20Fe+O8s2ThZayiwr457L7aElEy5SK8qYLuxqa9mRl3Y6IOc8CWNR19WNVfSYWjy3RP9ekTEI+j\
-  \1Pg+qTqgMz/UaZbd1EOZstL6laeoCgPbZ5UxXoML+DtcZFcWABQqTbIoAh0fGC//l5h7X+umYh+B\
-  \0/euVp+GzBX5gTU6ak9uBkmROT6laK6bHrDIGxeILHdHOMd3YX6VmnhgKJCvAKEtuogtJIN61AAM\
-  \JPa/NpYmMYjtmWMeCNpYGQ5UE4ckOFNte7R3lA=="
+  "Br4AgcbWSCSLB+pxdrSynfO+EsNV4c1/N496oV7voYyt1SyhYPMXl32UUU9lPbK0Zk5t/pWqMmRr\
+  \JRvO7iIZveijkdch84gHaH+KOree9egGidHk+M/u161Be02agrUr3194sdGQEoamoRo23BslGrwl\
+  \H67T2Gr5Ckq9n00Y0qpAgNisQmvn6mLYkMbDd7B5qIa8G7BkavXEMMnOt87vNIrUmlH58/59RAKl\
+  \E75ylJ7k/uH1VG+cm69GTM47PI5PBUdi77g1z5ohbvkGeQxKcx8BfFvK9WTqtNFsvzSSeoMzqmpZ\
+  \BbiZChxaZHa88dW/F6xV9E/8B8ePpzp463zyyg=="
 
 testPEM :: String
 testPEM =

@@ -118,8 +118,8 @@ testPEM =
 
 testSignedText :: Text
 testSignedText =
-  "kopDKx5K63tyd/ZEQVWR9AJs9wi7qfK6veN3IYCRjeXHusfyMDKQizvUmQhsuuj3QkY/NvU3PpqP\
-  \apJSNsbHQJxsTNTtsvxaCZxjV0HkuUp39ppHYeKM36Ed76UtN/0hMqOqYL29CIS8QOD+NCSjSDxm\
-  \lk5CcJNgW9sQC/Kfe/w1E//tx9nWYenBVAI8gPfH3eA/wFm2glZAR0RHmWKQizq+HlugV7HeZnLk\
-  \xnlMewgp8Ayr7D4D0skrbhwhPkkFwXoEHmux5/oUAHCX2LlTh0eLt9fCWjFJ2yOxY+S7bt9apIyA\
-  \AO0nvzz1n7b042174OUICjtibQsoVkQLK8zjPw=="
+  "ciOt59pd3dVpmcZDYduCS2naZ1oTUf8KMtG3MpW/goAcsfGWS1r8vLMaVFkA32RM3znT/qP1+3eI\
+  \liS1X5V/f7yCoLn0i3eOYaeBMXQw1xVCdU5s7DUcdMhuohUUcFRWysyyjn2L5As5CKottGpP/uWG\
+  \lpu7KpUOYXwUThJjfg1ekeIJJslwTbaZtQL24Vly1ptS13NF4p4D3F0lTVkhEa5di6+iOhps53sQ\
+  \rXs0OZJ1vdx6Bpxj/bY3ttVFAU+1fxYb/s0DyBZf0JMZJSmLsbttbGFA9HxPPP9k/NwBbik5wIhV\
+  \V8KmZUn6ObRzsJPDNS2Ge1jv9sKlrWiQ/GbeNQ=="

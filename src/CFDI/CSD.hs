@@ -52,7 +52,7 @@ getCsdCerData cerPath =
     sha1 = concat . init . init . tail . split (== '\n')
 
 signWithCSD :: FilePath -> Text -> IO (Either Text Text)
-signWithCSD csdPemPath = runOpenSSLB64 ("dgst -sha1 -sign " ++ csdPemPath)
+signWithCSD csdPemPath = runOpenSSLB64 ("dgst -sha256 -sign " ++ csdPemPath)
 
 -- Helpers
 

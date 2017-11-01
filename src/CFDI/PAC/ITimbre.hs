@@ -19,7 +19,7 @@ import Control.Exception         (catch, throw)
 import Data.Aeson
   ( FromJSON
   , Result(Success, Error)
-  , Value
+  , Value(Number, String)
   , (.=)
   , (.:)
   , (.:?)
@@ -71,7 +71,9 @@ instance FromJSON ITimbreResponse where
     retCode    <- (v .: "result") >>= (.: "retcode")
     maybeError <- (v .: "result") >>= (.:? "error")
 
-    let retCode_ = pack . show $ (retCode :: Int)
+    let retCode_ = case retCode of
+                     Number n -> pack . takeWhile (/= '.') $ show n
+                     String t -> t
 
     case maybeError of
       Just err -> return . ITimbreResponse retCode_ $ Left err
@@ -79,9 +81,6 @@ instance FromJSON ITimbreResponse where
         <$> ((v .: "result") >>= (.:? "data"))
 
 instance PAC ITimbre where
-  getPacStamp CFDI{ signature = Nothing } _ =
-    return $ Left UnsignedCFDIError
-
   getPacStamp cfdi@CFDI{ signature = Just sig } p = do
     fmap handleITimbreResponse (httpJSON request) `catch` handleHttpException
     where
@@ -100,6 +99,8 @@ instance PAC ITimbre where
             , "xmldata" .= toXML cfdi
             ]
         ]
+
+  getPacStamp _ _ = return $ Left UncaughtValidationError
 
 handleHttpException :: HttpException -> IO (Either StampError PacStamp)
 handleHttpException (HttpExceptionRequest _ (StatusCodeException res body)) =
