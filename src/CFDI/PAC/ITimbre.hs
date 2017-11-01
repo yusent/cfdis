@@ -74,6 +74,7 @@ instance FromJSON ITimbreResponse where
     let retCode_ = case retCode of
                      Number n -> pack . takeWhile (/= '.') $ show n
                      String t -> t
+                     _ -> ""
 
     case maybeError of
       Just err -> return . ITimbreResponse retCode_ $ Left err
