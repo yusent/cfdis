@@ -5,9 +5,8 @@ module CFDI.PAC.ITimbre
 
 import CFDI
   ( CFDI(..)
-  , Complement(StampComplement)
   , PacStamp
-  , complement
+  , getStampComplement
   , pacStamp
   , parseCfdiXml
   , signature
@@ -30,7 +29,6 @@ import Data.Aeson
   , withObject
   )
 import Data.ByteString.Lazy      (toStrict)
-import Data.List                 (find)
 import Data.Text                 (Text, pack, take, unpack)
 import Data.Text.Encoding        (decodeUtf8)
 import Network.HTTP.Conduit
@@ -123,15 +121,13 @@ handleITimbreResponse response
             Right xml -> case parseCfdiXml (unpack xml) of
               Left pe -> Left $ ParsePacResponseXMLError pe
 
-              Right CFDI { complement = comps } ->
-                case find isStampComplement comps of
+              Right cfdi ->
+                case getStampComplement cfdi of
                   Nothing -> Left PacStampNotPresent
 
                   Just stampComp -> Right $ pacStamp stampComp
 
   | otherwise = Left . PacHTTPError responseStatusCode . pack $ show responseBody
   where
-    isStampComplement (StampComplement _) = True
-    isStampComplement _ = False
     responseStatusCode = getResponseStatusCode response
     responseBody = getResponseBody response

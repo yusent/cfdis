@@ -3,6 +3,7 @@ module CFDI
   , module CSD
   , module XN
   , addCsdCerData
+  , getStampComplement
   , originalChain
   , parseCfdiFile
   , parseCfdiXml
@@ -18,7 +19,7 @@ import CFDI.Types
 import CFDI.XmlNode         (parseNode, renderNode)
 import CFDI.XmlNode as XN   (XmlParseError(..))
 import Control.Error.Safe   (justErr)
-import Data.List            (intersperse)
+import Data.List            (find, intersperse)
 import Data.Text            (Text, append)
 import Text.XML.Light       (parseXMLDoc, ppTopElement)
 import Text.XML.Light.Lexer (XmlSource)
@@ -26,6 +27,12 @@ import Text.XML.Light.Lexer (XmlSource)
 addCsdCerData :: CsdCerData -> CFDI -> CFDI
 addCsdCerData CsdCerData { cerNumber = cn, cerToText = ct } cfdi =
   cfdi { certNum = Just (CertificateNumber cn), certText = Just ct }
+
+getStampComplement :: CFDI -> Maybe Complement
+getStampComplement CFDI { complement = comps } = find isStampComplement comps
+  where
+    isStampComplement (StampComplement _) = True
+    isStampComplement _ = False
 
 originalChain :: CFDI -> Text
 originalChain cfdi = "||" `append` chain cfdi `append` "||"
