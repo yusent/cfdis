@@ -1,4 +1,14 @@
-module CFDI.PAC where
+module CFDI.PAC
+  ( PAC
+  , StampError(..)
+  , ValidationError(..)
+  , getPacStamp
+  , ppStampError
+  , ppValidationError
+  , stampLookup
+  , stamp
+  , stampWithRetry
+  ) where
 
 import CFDI                (ppXmlParseError)
 import CFDI.Types
@@ -17,7 +27,27 @@ import Network.HTTP.Client (HttpExceptionContent)
 class PAC p where
   getPacStamp :: CFDI -> p -> IO (Either StampError PacStamp)
 
+  stamp :: CFDI -> p -> IO (Either StampError CFDI)
+  stamp cfdi p =
+    case validate cfdi of
+      Just vErr -> return . Left $ PreStampValidationError vErr
+
+      Nothing -> fmap (fmap (addStampToCFDI cfdi)) $ getPacStamp cfdi p
+
   stampLookup :: CFDI -> p -> IO (Either StampError PacStamp)
+
+  stampWithRetry :: CFDI -> p -> IO (Either StampError CFDI)
+  stampWithRetry cfdi p =
+    case validate cfdi of
+      Just vErr -> return . Left $ PreStampValidationError vErr
+
+      Nothing -> do
+        eStamp <- getPacStamp cfdi p
+
+        fmap (addStampToCFDI cfdi) <$> case eStamp of
+          Left (PacError _ (Just "307")) -> stampLookup cfdi p
+
+          x -> return x
 
 data StampError
   = PacConnectionError
@@ -51,6 +81,10 @@ data ValidationError
   | MissingSignature
   deriving (Eq, Show)
 
+addStampToCFDI :: CFDI -> PacStamp -> CFDI
+addStampToCFDI cfdi@CFDI{ complement = comps } stamp' =
+  cfdi { complement = StampComplement stamp' : comps }
+
 ppStampError :: StampError -> String
 ppStampError (PacConnectionError _) =
   "No se pudo conectar a servicio de timbrado."
@@ -71,30 +105,6 @@ ppValidationError MissingCerNum =
   "Se requiere especificar un número de certificado."
 ppValidationError MissingCerText = "Se requiere especificar un certificado."
 ppValidationError MissingSignature = "Se requiere sellar el CFDI."
-
-stamp :: PAC p => CFDI -> p -> IO (Either StampError CFDI)
-stamp cfdi@CFDI { complement = comps } p =
-  case validate cfdi of
-    Just vErr -> return . Left $ PreStampValidationError vErr
-
-    Nothing -> fmap (fmap addStampToCFDI) $ getPacStamp cfdi p
-  where
-    addStampToCFDI stamp' = cfdi { complement = StampComplement stamp' : comps }
-
-stampWithRetry :: PAC p => CFDI -> p -> IO (Either StampError CFDI)
-stampWithRetry cfdi@CFDI { complement = comps } p =
-  case validate cfdi of
-    Just vErr -> return . Left $ PreStampValidationError vErr
-
-    Nothing -> do
-      eStamp <- getPacStamp cfdi p
-
-      fmap addStampToCFDI <$> case eStamp of
-        Left (PacError _ (Just "307")) -> stampLookup cfdi p
-
-        x -> return x
-  where
-    addStampToCFDI stamp' = cfdi { complement = StampComplement stamp' : comps }
 
 validate :: CFDI -> Maybe ValidationError
 validate cfdi
