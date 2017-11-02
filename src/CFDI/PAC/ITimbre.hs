@@ -5,6 +5,7 @@ module CFDI.PAC.ITimbre
 
 import CFDI
   ( PacStamp
+  , UUID(..)
   , getStampComplement
   , pacStamp
   , parseCfdiXml
@@ -26,6 +27,7 @@ import Data.Aeson
   , parseJSON
   , withObject
   )
+import Data.Bifunctor            (first)
 import Data.ByteString.Lazy      (toStrict)
 import Data.HashMap.Lazy         (lookup)
 import Data.Text                 (Text, pack, unpack)
@@ -47,22 +49,40 @@ import Network.HTTP.Types.Status (statusCode)
 import Prelude            hiding (head, lookup)
 
 data ITimbre = ITimbre
-  { user :: Text
-  , pass :: Text
-  , rfc  :: Text
-  , env  :: ITimbreEnv
+  { user   :: Text
+  , pass   :: Text
+  , rfc    :: Text
+  , env    :: ITimbreEnv
+  , pfxPwd :: Text
+  , pfxPem :: Text
   }
+
+data ITimbreCancelResponse = ITimbreCancelResponse Text (Either Text Text)
+  deriving (Show)
 
 data ITimbreEnv
   = Production
   | Testing
   deriving (Eq, Show)
 
-data ITimbreResponse = ITimbreResponse
-  { irRetCode :: Text
-  , irContent :: Either Text Text
-  }
+data ITimbreResponse = ITimbreResponse Text (Either Text Text)
   deriving (Show)
+
+instance FromJSON ITimbreCancelResponse where
+  parseJSON = withObject "ITimbreCancelResponse" $ \v -> do
+    retCode    <- (v .: "result") >>= (.: "retcode")
+    maybeError <- (v .: "result") >>= (.:? "error")
+
+    let retCode_ = case retCode of
+                     Number n -> pack . takeWhile (/= '.') $ show n
+                     String t -> t
+                     _ -> ""
+
+    case maybeError of
+      Just err -> return . ITimbreCancelResponse retCode_ $ Left err
+
+      Nothing  -> ITimbreCancelResponse retCode_ . justErr "No se obtuvo acuse"
+                    <$> ((v .: "result") >>= (.:? "acuse"))
 
 instance FromJSON ITimbreResponse where
   parseJSON = withObject "ITimbreResponse" $ \v -> do
@@ -95,6 +115,28 @@ instance FromJSON ITimbreResponse where
               _ -> Nothing
 
 instance PAC ITimbre where
+  cancelCFDI p (UUID uuid) =
+    fmap handleITimbreCancelResponse (httpJSON request) `catch` handleErr
+    where
+      handleErr :: HttpException -> IO (Either CancelError Text)
+      handleErr _ = return $ Left CancelConnectionError
+      req
+        | env p == Production = "POST https://portalws.itimbre.com/itimbre.php"
+        | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
+      request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)]
+              $ req
+      requestBody = object
+        [ "method" .= ("cancelarCFDI" :: Text)
+        , "params" .= object
+            [ "user"     .= user p
+            , "pass"     .= pass p
+            , "RFC"      .= rfc p
+            , "pfx_pass" .= pfxPwd p
+            , "pfx_pem"  .= pfxPem p
+            , "folios"   .= [uuid]
+            ]
+        ]
+
   getPacStamp cfdi p cfdiId =
     stampRequest (env p) $ object
       [ "id"     .= cfdiId
@@ -127,13 +169,27 @@ handleHttpException (HttpExceptionRequest _ e) =
   return . Left $ PacConnectionError e
 handleHttpException e = throw e
 
+handleITimbreCancelResponse :: Response Value -> Either CancelError Text
+handleITimbreCancelResponse response
+  | responseStatusCode `div` 100 == 2 =
+      case fromJSON responseBody of
+        Error err -> Left . ParseCancelResponseError $ pack err
+
+        Success (ITimbreCancelResponse icrRc icrEack) ->
+          first (PacCancelError (Just icrRc)) icrEack
+  | otherwise = Left . CancelHTTPError responseStatusCode . pack
+              $ show responseBody
+  where
+    responseStatusCode = getResponseStatusCode response
+    responseBody = getResponseBody response
+
 handleITimbreResponse :: Response Value -> Either StampError PacStamp
 handleITimbreResponse response
   | responseStatusCode `div` 100 == 2 =
       case fromJSON responseBody of
-        Error err -> Left $ ParsePacResponseError $ pack err
+        Error err -> Left . ParsePacResponseError $ pack err
 
-        Success (ITimbreResponse { irRetCode = irrc, irContent = irc }) ->
+        Success (ITimbreResponse irrc irc) ->
           case irc of
             Left em -> Left . PacError em $ Just irrc
 

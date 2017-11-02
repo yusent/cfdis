@@ -1,7 +1,9 @@
 module CFDI.PAC
   ( PAC
+  , CancelError(..)
   , StampError(..)
   , ValidationError(..)
+  , cancelCFDI
   , getPacStamp
   , ppStampError
   , ppValidationError
@@ -17,6 +19,7 @@ import CFDI.Types
   , Currency(CUR_MXN)
   , ExchangeRate(..)
   , PacStamp
+  , UUID
   , complement
   )
 import CFDI.XmlNode        (XmlParseError)
@@ -26,6 +29,8 @@ import Network.HTTP.Client (HttpExceptionContent)
 import Prelude      hiding (take)
 
 class PAC p where
+  cancelCFDI :: p -> UUID -> IO (Either CancelError Text)
+
   getPacStamp :: CFDI -> p -> Text -> IO (Either StampError PacStamp)
 
   stamp :: CFDI -> p -> IO (Either StampError CFDI)
@@ -50,6 +55,21 @@ class PAC p where
           Left (PacError _ (Just "307")) -> stampLookup p cfdiId
 
           x -> return x
+
+data CancelError
+  = PacCancelError
+    { pacCancelErrCode :: Maybe Text
+    , pacCancelErrMsg :: Text
+    }
+  | ParseCancelResponseError
+    { parseCancelErrMsg :: Text
+    }
+  | CancelConnectionError
+  | CancelHTTPError
+    { cancelHTTPCode :: Int
+    , cancelHTTPBody :: Text
+    }
+  deriving (Eq, Show)
 
 data StampError
   = PacConnectionError

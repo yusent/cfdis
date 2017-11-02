@@ -5,9 +5,16 @@ module CFDI.PAC.ITimbreSpec
   ) where
 
 import CFDI
-import CFDI.PAC            (StampError(PacError), getPacStamp, stampLookup)
+import CFDI.PAC
+  ( StampError(PacError)
+  , cancelCFDI
+  , getPacStamp
+  , stamp
+  , stampLookup
+  )
 import CFDI.PAC.ITimbre
 import Data.Either         (isLeft, isRight)
+import Data.Maybe          (isNothing)
 import Data.Text           (Text, take, unpack)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..), localDay)
@@ -26,7 +33,7 @@ import System.Directory    (doesFileExist, removeFile)
 import System.IO.Temp      (writeSystemTempFile)
 import Test.Hspec
 
-data ITimbreCreds = ITimbreCreds Text Text Text Text String
+data ITimbreCreds = ITimbreCreds Text Text Text Text String Text Text
 
 instance FromJSON ITimbreCreds where
   parseJSON (Object v) = ITimbreCreds
@@ -35,6 +42,8 @@ instance FromJSON ITimbreCreds where
     <*> v .: "rfc"
     <*> v .: "csdCert"
     <*> v .: "csdPem"
+    <*> v .: "csdPfxPass"
+    <*> v .: "csdPfxPem"
 
 cfdi :: CFDI
 cfdi = CFDI
@@ -113,8 +122,9 @@ spec = do
   if credsFileExist
     then do
       (itimbre, pem, crt) <- runIO $ do
-        Just (ITimbreCreds usr pass_ rfc_ crt pem) <- decodeFile credsFilePath
-        return (ITimbre usr pass_ rfc_ Testing, pem, crt)
+        Just (ITimbreCreds usr pass_ rfc_ crt pem pfxPwd pfxPem) <-
+          decodeFile credsFilePath
+        return (ITimbre usr pass_ rfc_ Testing pfxPwd pfxPem, pem, crt)
 
       describe "CFDI.PAC.ITimbre.ITimbre instance of PAC" $ do
         it "implements getPacStamp function" $ do
@@ -156,6 +166,29 @@ spec = do
 
           eitherErrOrStamp'' <- stampLookup itimbre cfdiId
           eitherErrOrStamp'' `shouldSatisfy` isRight
+          removeFile pemFilePath
+
+        it "implements cancelCFDI function" $ do
+          -- We need to stamp a CFDI first to test this.
+          currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
+          now <- parseTimeM True defaultTimeLocale f currentTimeStr
+          pemFilePath <- writeSystemTempFile "csd.pem" pem
+          let cfdi' = cfdi
+                { certText = Just crt
+                , issuedAt = time
+                }
+              time = now { localDay = addDays (-1) (localDay now) }
+          Right signedCfdi@CFDI{signature = Just sig} <-
+            signWith pemFilePath cfdi'
+          eitherErrOrCFDI <- stamp signedCfdi itimbre
+          eitherErrOrCFDI `shouldSatisfy` isRight
+
+          let Right sCFDI = eitherErrOrCFDI
+              Just (StampComplement PacStamp{ psUuid = uuid}) =
+                getStampComplement sCFDI
+
+          eAck <- cancelCFDI itimbre uuid
+          eAck `shouldSatisfy` isRight
           removeFile pemFilePath
     else
       return ()
