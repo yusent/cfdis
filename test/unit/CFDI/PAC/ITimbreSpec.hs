@@ -124,7 +124,7 @@ spec = do
       (itimbre, pem, crt) <- runIO $ do
         Just (ITimbreCreds usr pass_ rfc_ crt pem pfxPwd pfxPem) <-
           decodeFile credsFilePath
-        return (ITimbre usr pass_ rfc_ Testing pfxPwd pfxPem, pem, crt)
+        return (ITimbre usr pass_ rfc_ pfxPwd pfxPem Testing, pem, crt)
 
       describe "CFDI.PAC.ITimbre.ITimbre instance of PAC" $ do
         it "implements getPacStamp function" $ do

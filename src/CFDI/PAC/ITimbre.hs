@@ -52,9 +52,9 @@ data ITimbre = ITimbre
   { user   :: Text
   , pass   :: Text
   , rfc    :: Text
-  , env    :: ITimbreEnv
   , pfxPwd :: Text
   , pfxPem :: Text
+  , env    :: ITimbreEnv
   }
 
 data ITimbreCancelResponse = ITimbreCancelResponse Text (Either Text Text)
