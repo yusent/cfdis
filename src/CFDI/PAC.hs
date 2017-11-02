@@ -21,31 +21,33 @@ import CFDI.Types
   )
 import CFDI.XmlNode        (XmlParseError)
 import Data.Maybe          (isJust, isNothing)
-import Data.Text           (Text, unpack)
+import Data.Text           (Text, take, unpack)
 import Network.HTTP.Client (HttpExceptionContent)
+import Prelude      hiding (take)
 
 class PAC p where
-  getPacStamp :: CFDI -> p -> IO (Either StampError PacStamp)
+  getPacStamp :: CFDI -> p -> Text -> IO (Either StampError PacStamp)
 
   stamp :: CFDI -> p -> IO (Either StampError CFDI)
   stamp cfdi p =
-    case validate cfdi of
-      Just vErr -> return . Left $ PreStampValidationError vErr
+    case validateForStamp cfdi of
+      Left vErr -> return . Left $ PreStampValidationError vErr
 
-      Nothing -> fmap (fmap (addStampToCFDI cfdi)) $ getPacStamp cfdi p
+      Right cfdiId ->
+        fmap (fmap (addStampToCFDI cfdi)) $ getPacStamp cfdi p cfdiId
 
-  stampLookup :: CFDI -> p -> IO (Either StampError PacStamp)
+  stampLookup :: p -> Text -> IO (Either StampError PacStamp)
 
   stampWithRetry :: CFDI -> p -> IO (Either StampError CFDI)
   stampWithRetry cfdi p =
-    case validate cfdi of
-      Just vErr -> return . Left $ PreStampValidationError vErr
+    case validateForStamp cfdi of
+      Left vErr -> return . Left $ PreStampValidationError vErr
 
-      Nothing -> do
-        eStamp <- getPacStamp cfdi p
+      Right cfdiId -> do
+        eStamp <- getPacStamp cfdi p cfdiId
 
         fmap (addStampToCFDI cfdi) <$> case eStamp of
-          Left (PacError _ (Just "307")) -> stampLookup cfdi p
+          Left (PacError _ (Just "307")) -> stampLookup p cfdiId
 
           x -> return x
 
@@ -71,7 +73,6 @@ data StampError
   | PreStampValidationError
     { stampValidationErr :: ValidationError
     }
-  | UncaughtValidationError
   deriving (Show)
 
 data ValidationError
@@ -97,7 +98,6 @@ ppStampError (ParsePacResponseError e) =
 ppStampError (ParsePacResponseXMLError e) =
   "No se pudo interpretar XML recibido del PAC:\n" ++ ppXmlParseError "  " e
 ppStampError (PreStampValidationError e) = ppValidationError e
-ppStampError UncaughtValidationError = "Error de validación inesperado."
 
 ppValidationError :: ValidationError -> String
 ppValidationError InvalidExchangeRate = "Tipo de cambio inválido."
@@ -106,13 +106,14 @@ ppValidationError MissingCerNum =
 ppValidationError MissingCerText = "Se requiere especificar un certificado."
 ppValidationError MissingSignature = "Se requiere sellar el CFDI."
 
-validate :: CFDI -> Maybe ValidationError
-validate cfdi
-  | isNothing $ certText cfdi = Just MissingCerText
-  | isNothing $ certNum cfdi = Just MissingCerNum
-  | isNothing $ signature cfdi = Just MissingSignature
+validateForStamp :: CFDI -> Either ValidationError Text
+validateForStamp cfdi
+  | isNothing $ certText cfdi = Left MissingCerText
+  | isNothing $ certNum cfdi = Left MissingCerNum
   | isJust xRate && currency cfdi == CUR_MXN && xRate /= Just (ExchangeRate 1) =
-      Just InvalidExchangeRate
-  | otherwise = Nothing
+      Left InvalidExchangeRate
+  | otherwise = case signature cfdi of
+                     Nothing -> Left MissingSignature
+                     Just sg -> Right $ take 12 sg
   where
     xRate = exchangeRate cfdi

@@ -8,7 +8,7 @@ import CFDI
 import CFDI.PAC            (StampError(PacError), getPacStamp, stampLookup)
 import CFDI.PAC.ITimbre
 import Data.Either         (isLeft, isRight)
-import Data.Text           (Text, unpack)
+import Data.Text           (Text, take, unpack)
 import Data.Time.Calendar  (Day(ModifiedJulianDay))
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..), localDay)
 import Data.Time.Calendar  (addDays)
@@ -21,6 +21,7 @@ import Data.Yaml
   , decodeFile
   , parseJSON
   )
+import Prelude      hiding (take)
 import System.Directory    (doesFileExist, removeFile)
 import System.IO.Temp      (writeSystemTempFile)
 import Test.Hspec
@@ -125,8 +126,10 @@ spec = do
                 , issuedAt = time
                 }
               time = now { localDay = addDays (-1) (localDay now) }
-          Right signedCfdi <- signWith pemFilePath cfdi'
-          eitherErrOrStamp <- getPacStamp signedCfdi itimbre
+          Right signedCfdi@CFDI{signature = Just sig} <-
+            signWith pemFilePath cfdi'
+          let cfdiId = take 12 sig
+          eitherErrOrStamp <- getPacStamp signedCfdi itimbre cfdiId
           eitherErrOrStamp `shouldSatisfy` isRight
           removeFile pemFilePath
 
@@ -140,16 +143,18 @@ spec = do
                 , issuedAt = time
                 }
               time = now { localDay = addDays (-1) (localDay now) }
-          Right signedCfdi <- signWith pemFilePath cfdi'
-          eitherErrOrStamp <- getPacStamp signedCfdi itimbre
+          Right signedCfdi@CFDI{signature = Just sig} <-
+            signWith pemFilePath cfdi'
+          let cfdiId = take 12 sig
+          eitherErrOrStamp <- getPacStamp signedCfdi itimbre cfdiId
           eitherErrOrStamp `shouldSatisfy` isRight
 
-          eitherErrOrStamp' <- getPacStamp signedCfdi itimbre
+          eitherErrOrStamp' <- getPacStamp signedCfdi itimbre cfdiId
           eitherErrOrStamp' `shouldSatisfy` isLeft
           let Left (PacError _ code) = eitherErrOrStamp'
           code `shouldBe` Just "307"
 
-          eitherErrOrStamp'' <- stampLookup signedCfdi itimbre
+          eitherErrOrStamp'' <- stampLookup itimbre cfdiId
           eitherErrOrStamp'' `shouldSatisfy` isRight
           removeFile pemFilePath
     else

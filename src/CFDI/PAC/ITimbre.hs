@@ -4,12 +4,10 @@ module CFDI.PAC.ITimbre
   ) where
 
 import CFDI
-  ( CFDI(..)
-  , PacStamp
+  ( PacStamp
   , getStampComplement
   , pacStamp
   , parseCfdiXml
-  , signature
   , toXML
   )
 import CFDI.PAC
@@ -30,7 +28,7 @@ import Data.Aeson
   )
 import Data.ByteString.Lazy      (toStrict)
 import Data.HashMap.Lazy         (lookup)
-import Data.Text                 (Text, pack, take, unpack)
+import Data.Text                 (Text, pack, unpack)
 import Data.Text.Encoding        (decodeUtf8)
 import Data.Vector               (head)
 import Network.HTTP.Conduit
@@ -46,7 +44,7 @@ import Network.HTTP.Simple
   , setRequestBodyURLEncoded
   )
 import Network.HTTP.Types.Status (statusCode)
-import Prelude            hiding (head, lookup, take)
+import Prelude            hiding (head, lookup)
 
 data ITimbre = ITimbre
   { user :: Text
@@ -97,9 +95,9 @@ instance FromJSON ITimbreResponse where
               _ -> Nothing
 
 instance PAC ITimbre where
-  getPacStamp cfdi@CFDI{ signature = Just sig } p =
+  getPacStamp cfdi p cfdiId =
     stampRequest (env p) $ object
-      [ "id"     .= take 12 sig
+      [ "id"     .= cfdiId
       , "method" .= ("cfd2cfdi" :: Text)
       , "params" .= object
           [ "user"    .= user p
@@ -108,11 +106,10 @@ instance PAC ITimbre where
           , "xmldata" .= toXML cfdi
           ]
       ]
-  getPacStamp _ _ = return $ Left UncaughtValidationError
 
-  stampLookup CFDI{ signature = Just sig } p = do
+  stampLookup p cfdiId = do
     stampRequest (env p) $ object
-      [ "id"     .= take 12 sig
+      [ "id"     .= cfdiId
       , "method" .= ("buscarCFDI" :: Text)
       , "params" .= object
           [ "user"    .= user p
@@ -120,7 +117,6 @@ instance PAC ITimbre where
           , "RFC"     .= rfc p
           ]
       ]
-  stampLookup _ _ = return $ Left UncaughtValidationError
 
 handleHttpException :: HttpException -> IO (Either StampError PacStamp)
 handleHttpException (HttpExceptionRequest _ (StatusCodeException res body)) =
