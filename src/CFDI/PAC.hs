@@ -5,6 +5,7 @@ module CFDI.PAC
   , ValidationError(..)
   , cancelCFDI
   , getPacStamp
+  , ppCancelError
   , ppStampError
   , ppValidationError
   , stampLookup
@@ -105,6 +106,15 @@ data ValidationError
 addStampToCFDI :: CFDI -> PacStamp -> CFDI
 addStampToCFDI cfdi@CFDI{ complement = comps } stamp' =
   cfdi { complement = StampComplement stamp' : comps }
+
+ppCancelError :: CancelError -> String
+ppCancelError (PacCancelError c m) = maybe "" unpack c ++ ": " ++ unpack m
+ppCancelError (ParseCancelResponseError m) =
+  "No se pudo leer respuesta: " ++ unpack m
+ppCancelError CancelConnectionError =
+  "No se pudo conectar a servicio de cancelación."
+ppCancelError (CancelHTTPError c b) =
+  "Error HTTP código " ++ show c ++ ": " ++ unpack b
 
 ppStampError :: StampError -> String
 ppStampError (PacConnectionError _) =
