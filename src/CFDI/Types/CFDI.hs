@@ -1,6 +1,7 @@
 module CFDI.Types.CFDI where
 
 import CFDI.Chainable
+import CFDI.Types.Addenda
 import CFDI.Types.Amount
 import CFDI.Types.CertificateNumber
 import CFDI.Types.CfdiType
@@ -26,7 +27,8 @@ import Data.Text                    (Text)
 import Data.Time.LocalTime          (LocalTime)
 
 data CFDI = CFDI
-  { certNum       :: Maybe CertificateNumber
+  { addenda       :: Maybe Addenda
+  , certNum       :: Maybe CertificateNumber
   , certText      :: Maybe Text
   , cfdiType      :: CfdiType
   , complement    :: [Complement]
@@ -112,12 +114,15 @@ instance XmlNode CFDI where
     , Just . renderNode $ recipient r
     , Just . renderNode $ concepts r
     , renderNode <$> taxes r
-    ] ++ map renderNode (complement r)
+    ]
+    ++ map renderNode (complement r)
+    ++ catMaybes [renderNode <$> addenda r]
 
   nodeName = const "Comprobante"
 
   parseNode n = CFDI
-    <$> parseAttribute "NoCertificado" n
+    <$> parseChild "Addenda" n
+    <*> parseAttribute "NoCertificado" n
     <*> parseAttribute "Certificado" n
     <*> requireAttribute "TipoDeComprobante" n
     <*> parseChildren "Complemento" n

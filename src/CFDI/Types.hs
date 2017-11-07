@@ -1,5 +1,6 @@
 module CFDI.Types
-  ( module CFDI.Types.Amount
+  ( module CFDI.Types.Addenda
+  , module CFDI.Types.Amount
   , module CFDI.Types.CertificateNumber
   , module CFDI.Types.CFDI
   , module CFDI.Types.CfdiType
@@ -63,6 +64,7 @@ module CFDI.Types
   , module CFDI.Types.ZipCode
   ) where
 
+import CFDI.Types.Addenda
 import CFDI.Types.Amount
 import CFDI.Types.CertificateNumber
 import CFDI.Types.CFDI

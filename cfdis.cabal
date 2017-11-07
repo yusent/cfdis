@@ -27,6 +27,7 @@ library
                      , CFDI.V3_2.Types
   other-modules:       CFDI.Chainable
                      , CFDI.Types
+                     , CFDI.Types.Addenda
                      , CFDI.Types.Amount
                      , CFDI.Types.CertificateNumber
                      , CFDI.Types.CFDI

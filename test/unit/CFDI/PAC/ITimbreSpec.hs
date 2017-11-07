@@ -47,6 +47,7 @@ instance FromJSON ITimbreCreds where
 
 cfdi :: CFDI
 cfdi = CFDI
+  Nothing
   (Just (CertificateNumber "00001000000403544254"))
   Nothing
   Income

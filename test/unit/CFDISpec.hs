@@ -13,6 +13,7 @@ import Text.XML.Light      (Element(..), QName(..), onlyElems, parseXMLDoc)
 
 cfdi :: CFDI
 cfdi = CFDI
+  Nothing
   (Just (CertificateNumber "00001000001212121212"))
   (Just "MIIGejCCBGKgAwIBAgIUMDAwMDEwMDAwMDA0MDM1MDE3NDIwDQYJKoZIhvcNAQELBQAwgg\
         \GyMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJp\
