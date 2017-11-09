@@ -32,8 +32,8 @@ instance Chainable TaxRegime where
   chain = pack . render
 
 instance Type TaxRegime where
-  parseExpr "600" = Right GeneralForPeople
-  parseExpr "602" = Right NonProfitCompany
+  parseExpr "601" = Right GeneralForPeople
+  parseExpr "603" = Right NonProfitCompany
   parseExpr "605" = Right WagesAndSalaries
   parseExpr "606" = Right Leasing
   parseExpr "607" = Right GoodsAcquisition
@@ -55,8 +55,8 @@ instance Type TaxRegime where
   parseExpr "630" = Right SharesAlienation
   parseExpr _     = Left NotInCatalog
 
-  render GeneralForPeople             = "600"
-  render NonProfitCompany             = "602"
+  render GeneralForPeople             = "601"
+  render NonProfitCompany             = "603"
   render WagesAndSalaries             = "605"
   render Leasing                      = "606"
   render GoodsAcquisition             = "607"
