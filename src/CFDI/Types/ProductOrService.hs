@@ -9,6 +9,7 @@ import Text.Read          (readMaybe)
 newtype ProductOrService = ProductOrService Int deriving (Eq, Show)
 
 instance Chainable ProductOrService where
+  chain (ProductOrService 1010101) = "01010101"
   chain (ProductOrService c) = chain c
 
 instance Type ProductOrService where
