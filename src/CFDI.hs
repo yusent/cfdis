@@ -3,6 +3,7 @@ module CFDI
   , module CSD
   , module XN
   , addCsdCerData
+  , findAddendumByName
   , getStampComplement
   , originalChain
   , parseCfdiFile
@@ -21,12 +22,18 @@ import CFDI.XmlNode as XN   (XmlParseError(..))
 import Control.Error.Safe   (justErr)
 import Data.List            (find, intersperse)
 import Data.Text            (Text, append)
-import Text.XML.Light       (parseXMLDoc, ppTopElement)
+import Text.XML.Light       (Element(..), QName(..), parseXMLDoc, ppTopElement)
 import Text.XML.Light.Lexer (XmlSource)
 
 addCsdCerData :: CsdCerData -> CFDI -> CFDI
 addCsdCerData CsdCerData { cerNumber = cn, cerToText = ct } cfdi =
   cfdi { certNum = Just (CertificateNumber cn), certText = Just ct }
+
+findAddendumByName :: String -> CFDI -> Maybe Element
+findAddendumByName _ CFDI { addenda = Nothing } = Nothing
+findAddendumByName name CFDI { addenda = Just (Addenda xs) } = find match xs
+  where
+    match Element { elName = QName n _ _ } = n == name
 
 getStampComplement :: CFDI -> Maybe Complement
 getStampComplement CFDI { complement = comps } = find isStampComplement comps
