@@ -169,12 +169,12 @@ spec = do
     it "calculates the CFDI original chain" $ do
       originalChain cfdi `shouldBe`
         "||3.3|ABC|12|2017-07-19T14:27:03|01|00001000001212121212|CONDICIONES D\
-        \E PAGO DE PRUEBA|1090.52|0|MXN|12.121212|1265|I|PUE|22115|AbcD5|04|121\
-        \21212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA|612|X\
-        \EXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD12|1|A\
-        \CT|N/A|COMIDA MEXICANA|1090.52|1090.52|0|1090.52|002|Tasa|0.16|174.48|\
-        \0.000001|001|Tasa|0.1|0|12 12 1212 1212121|001|0|0|002|Tasa|0.16|174.4\
-        \8|174.48||"
+        \E PAGO DE PRUEBA|1090.52|0.00|MXN|12.121212|1265.00|I|PUE|22115|AbcD5|\
+        \04|12121212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA\
+        \|612|XEXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD\
+        \12|1|ACT|N/A|COMIDA MEXICANA|1090.52|1090.52|0.00|1090.52|002|Tasa|0.1\
+        \6|174.48|0.000001|001|Tasa|0.1|0.00|12 12 1212 1212121|001|0.00|0.00|0\
+        \02|Tasa|0.16|174.48|174.48||"
 
   describe "CFDI.parseCfdiFile" $ do
     eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
@@ -253,11 +253,11 @@ spec = do
       eitherErrOrCfdi `shouldSatisfy` isRight
       let Right cfdi' = eitherErrOrCfdi
       signature cfdi' `shouldBe` Just
-        "XlZz6HaMO7MJ/W9NE7sjmRtjyLh8F+8p5ZagLmYFncH32uW4GKqku6ZsO7KEkBhvOHqb1J\
-        \xDn2sIfGa4+k9Gc7qerYgQlEXZMlo86zvto+gF4cFuC5W752cAPkfLA3iW+ypOiKa9NMnW\
-        \spvofnuEo50Ztkwbo1dAD/kIcwrEkiTVOIRugeTStvPRqA//LUDYGJ7ho3P4IqnyeOAxcy\
-        \COBduRzTJEZWkbd8s+AJX9PWL8CyRZpYo7UQairb1ziH4wN0I3fO3PYKO/sLIdw08ENzYC\
-        \L9vzdEC1A9QC+HmbwjUlmf6D3IHWOmNsLwtMN43nyg4g3Tbll4r5Bo1kBfZDSg=="
+        "LmZX5/cn6QM/LQAG2vCRAqgJRtOBf9PW1IZNs/qwE8AVNvdWdhSCTzqRjKmp3QUNVKEKWI\
+        \h+qWXOXAkymFdwR6zS42mtWW7kgC6uqrC1LFJSgwcjxL6PTF6S8f9GsUjzqcEa0KAbKN7x\
+        \FYhzbE2+BolFCZTcqCFQa2UzJ/uCriw18Nw6JeUZ3S0iYng2E1cWGzOChNae+zlhRro+sT\
+        \hDBq+by6GCR8IfTieetQEwZCmy6/Env5L1bUH+eElfYKzjKQJ9aiKKSQXX8x8lbdc0wtO6\
+        \JNPCIRNrd88wnJZEeccq71uhaIX9HFFShlEL2Fna0iDqZxIuM57lMGF2AjxgSg=="
       removeFile pemFilePath
 
   describe "CFDI.toXML" $ do
