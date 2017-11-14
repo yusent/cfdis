@@ -89,8 +89,34 @@ cfdi = CFDI
             (Just (AccountNumber "0987654321"))
             (Just (CompanyRfc "BAN010101000"))
             [ PaymentRelatedDocument
+                CUR_MXN
+                (Just (ExchangeRate 12.121212))
+                (RelatedDocumentId "BA87BCD8-411B-41CB-BA9B-81B1A8327099")
+                (Just (Folio "144"))
+                (Just (Amount 2400.12))
+                (Just (Partiality 123))
+                OneTimePayment
+                (Just (Amount 1200.36))
+                (Just (Amount 0.36))
+                (Just (Series "VUE"))
             ]
             (Just "PAYMENTSIGNATURE")
+            [ PaymentTaxes
+                (Just (PaymentRetainedTaxes
+                        [ PaymentRetainedTax
+                            (Amount 0)
+                            ISR
+                        ]))
+                (Just (Amount 174.48))
+                (Just (Amount 0))
+                (Just (PaymentTransferedTaxes
+                        [ PaymentTransferedTax
+                            (Amount 174.48)
+                            Rate
+                            (TaxRate 0.16)
+                            IVA
+                        ]))
+            ]
             Cash
         ]
         (PaymentsVersion 1.0))
@@ -156,7 +182,7 @@ cfdi = CFDI
         \Fkx6TIH3SyojLsXwnIoNWQ3CIZzpydfBnVawddcCZcoUiANUQBM5rfgYf1CzUoopEIo1l6\
         \+UdbyefKNpvYpejcrBUSPY6Q8uQFvf+rm6jtTrsIc2LNlhiV5fL9mb8MGMWiKw==")
   (Amount 1090.52)
-  (Just (Taxes 
+  (Just (Taxes
           (Just (RetainedTaxes
                   [ RetainedTax
                       (Amount 0)
@@ -165,7 +191,7 @@ cfdi = CFDI
           (Just (Amount 174.48))
           (Just (Amount 0))
           (Just (TransferedTaxes
-                  [ TransferedTax 
+                  [ TransferedTax
                       (Amount 174.48)
                       Rate
                       (TaxRate 0.16)

@@ -63,14 +63,20 @@ library
                      , CFDI.Types.OperationId
                      , CFDI.Types.PacStamp
                      , CFDI.Types.PacStampVersion
+                     , CFDI.Types.Partiality
                      , CFDI.Types.Payment
                      , CFDI.Types.PaymentChain
                      , CFDI.Types.PaymentChainType
                      , CFDI.Types.PaymentConditions
                      , CFDI.Types.PaymentMethod
                      , CFDI.Types.PaymentRelatedDocument
+                     , CFDI.Types.PaymentRetainedTax
+                     , CFDI.Types.PaymentRetainedTaxes
                      , CFDI.Types.Payments
                      , CFDI.Types.PaymentsVersion
+                     , CFDI.Types.PaymentTaxes
+                     , CFDI.Types.PaymentTransferedTax
+                     , CFDI.Types.PaymentTransferedTaxes
                      , CFDI.Types.ProductDescription
                      , CFDI.Types.ProductId
                      , CFDI.Types.ProductOrService
@@ -79,6 +85,7 @@ library
                      , CFDI.Types.Recipient
                      , CFDI.Types.RelatedCfdi
                      , CFDI.Types.RelatedCfdis
+                     , CFDI.Types.RelatedDocumentId
                      , CFDI.Types.RelationshipType
                      , CFDI.Types.RetainedTax
                      , CFDI.Types.RetainedTaxes

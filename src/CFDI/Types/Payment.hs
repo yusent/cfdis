@@ -11,6 +11,7 @@ import CFDI.Types.OperationId
 import CFDI.Types.PaymentChain
 import CFDI.Types.PaymentChainType
 import CFDI.Types.PaymentRelatedDocument
+import CFDI.Types.PaymentTaxes
 import CFDI.Types.WayToPay
 import CFDI.XmlNode
 import Data.Maybe                        (catMaybes)
@@ -33,6 +34,7 @@ data Payment = Payment
   , pmRecBankRfc   :: Maybe CompanyRfc
   , pmRelatedDocs  :: [PaymentRelatedDocument]
   , pmSignature    :: Maybe Text
+  , pmTaxes        :: [PaymentTaxes]
   , pmWayToPay     :: WayToPay
   } deriving (Eq, Show)
 
@@ -56,7 +58,8 @@ instance XmlNode Payment where
     , attr "SelloPago" <$> pmSignature n
     ]
 
-  children n = renderNode <$> pmRelatedDocs n
+  children n =
+    (renderNode <$> pmRelatedDocs n) ++ (renderNode <$> pmTaxes n)
 
   nodeName = const "Pago"
 
@@ -78,4 +81,5 @@ instance XmlNode Payment where
     <*> parseAttribute "RfcEmisorCtaBen" n
     <*> parseChildren "DoctoRelacionado" n
     <*> parseAttribute "SelloPago" n
+    <*> parseChildren "Impuestos" n
     <*> requireAttribute "FormaDePagoP" n
