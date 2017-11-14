@@ -42,6 +42,7 @@ import CFDI.Types.PaymentChain           as Types
 import CFDI.Types.PaymentChainType       as Types
 import CFDI.Types.PaymentConditions      as Types
 import CFDI.Types.PaymentMethod          as Types
+import CFDI.Types.PaymentRelatedDocument as Types
 import CFDI.Types.Payments               as Types
 import CFDI.Types.PaymentsVersion        as Types
 import CFDI.Types.ProductDescription     as Types

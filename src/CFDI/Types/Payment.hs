@@ -10,11 +10,12 @@ import CFDI.Types.ExchangeRate
 import CFDI.Types.OperationId
 import CFDI.Types.PaymentChain
 import CFDI.Types.PaymentChainType
+import CFDI.Types.PaymentRelatedDocument
 import CFDI.Types.WayToPay
 import CFDI.XmlNode
-import Data.Maybe                  (catMaybes)
-import Data.Text                   (Text)
-import Data.Time.LocalTime         (LocalTime)
+import Data.Maybe                        (catMaybes)
+import Data.Text                         (Text)
+import Data.Time.LocalTime               (LocalTime)
 
 data Payment = Payment
   { pmAmount       :: Amount
@@ -30,6 +31,7 @@ data Payment = Payment
   , pmOperationId  :: Maybe OperationId
   , pmRecAccount   :: Maybe AccountNumber
   , pmRecBankRfc   :: Maybe CompanyRfc
+  , pmRelatedDocs  :: [PaymentRelatedDocument]
   , pmSignature    :: Maybe Text
   , pmWayToPay     :: WayToPay
   } deriving (Eq, Show)
@@ -54,6 +56,8 @@ instance XmlNode Payment where
     , attr "SelloPago" <$> pmSignature n
     ]
 
+  children n = renderNode <$> pmRelatedDocs n
+
   nodeName = const "Pago"
 
   nodePrefix = const "pago10"
@@ -72,5 +76,6 @@ instance XmlNode Payment where
     <*> parseAttribute "NumOperacion" n
     <*> parseAttribute "CtaBeneficiario" n
     <*> parseAttribute "RfcEmisorCtaBen" n
+    <*> parseChildren "DoctoRelacionado" n
     <*> parseAttribute "SelloPago" n
     <*> requireAttribute "FormaDePagoP" n

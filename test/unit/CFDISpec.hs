@@ -88,6 +88,8 @@ cfdi = CFDI
             (Just (OperationId "O12"))
             (Just (AccountNumber "0987654321"))
             (Just (CompanyRfc "BAN010101000"))
+            [ PaymentRelatedDocument
+            ]
             (Just "PAYMENTSIGNATURE")
             Cash
         ]

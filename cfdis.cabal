@@ -68,6 +68,7 @@ library
                      , CFDI.Types.PaymentChainType
                      , CFDI.Types.PaymentConditions
                      , CFDI.Types.PaymentMethod
+                     , CFDI.Types.PaymentRelatedDocument
                      , CFDI.Types.Payments
                      , CFDI.Types.PaymentsVersion
                      , CFDI.Types.ProductDescription
