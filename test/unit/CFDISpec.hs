@@ -70,6 +70,28 @@ cfdi = CFDI
           (TimeOfDay 14 31 15))
         (UUID "BA87BCD8-411B-41CB-BA9B-81B1A8327099")
         (PacStampVersion 1.1))
+  , PaymentComplement
+      (Payments
+        [ Payment
+            (Amount 24000.12)
+            (Just (BankRfc "XEXX010101000"))
+            (Just "PAYMENTCERTIFICATE")
+            (Just (PaymentChain "PAYMENTCHAIN"))
+            (Just (PaymentChainType "01"))
+            CUR_MXN
+            (Just (ExchangeRate 12.121212))
+            (Just (AccountNumber "1234567890"))
+            (Just (BankName "Generic Bank Name"))
+            (LocalTime
+              (ModifiedJulianDay 57953)
+              (TimeOfDay 14 31 15))
+            (Just (OperationId "O12"))
+            (Just (AccountNumber "0987654321"))
+            (Just (CompanyRfc "BAN010101000"))
+            (Just "PAYMENTSIGNATURE")
+            Cash
+        ]
+        (PaymentsVersion 1.0))
   ]
   (Concepts
     [ Concept
@@ -200,8 +222,8 @@ spec = do
                                  \-9]|3[01])T(([01][0-9]|2[0-3]):[0-5][0-9]:[0-\
                                  \5][0-9])"))
 
-      parseCfdiXml (replace "MXN" "_" xmlSource) `shouldBe`
-        Left (AttrParseError "Moneda" NotInCatalog)
+      parseCfdiXml (replace "Moneda=\"MXN\"" "Moneda=\"_\"" xmlSource)
+        `shouldBe` Left (AttrParseError "Moneda" NotInCatalog)
 
       parseCfdiXml (replace "Emisor" "_" xmlSource) `shouldBe`
         Left (ElemNotFound "Emisor")
@@ -280,6 +302,7 @@ spec = do
         , "Receptor"
         , "Conceptos"
         , "Impuestos"
+        , "Complemento"
         , "Complemento"
         ]
 

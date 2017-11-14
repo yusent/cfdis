@@ -17,6 +17,7 @@ data XmlParseError
   | ExpectedAtLeastOne String
   | MalformedXML
   | ParseErrorInChild String XmlParseError
+  | UnknownComplement
   deriving (Eq, Show)
 
 class XmlNode n where

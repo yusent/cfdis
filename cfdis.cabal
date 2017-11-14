@@ -28,8 +28,11 @@ library
                      , CFDI.XmlNode
   other-modules:       CFDI.Chainable
                      , CFDI.Types
+                     , CFDI.Types.AccountNumber
                      , CFDI.Types.Addenda
                      , CFDI.Types.Amount
+                     , CFDI.Types.BankName
+                     , CFDI.Types.BankRfc
                      , CFDI.Types.CertificateNumber
                      , CFDI.Types.CFDI
                      , CFDI.Types.CfdiType
@@ -57,10 +60,16 @@ library
                      , CFDI.Types.MeasurementUnit
                      , CFDI.Types.Municipality
                      , CFDI.Types.Name
+                     , CFDI.Types.OperationId
                      , CFDI.Types.PacStamp
                      , CFDI.Types.PacStampVersion
+                     , CFDI.Types.Payment
+                     , CFDI.Types.PaymentChain
+                     , CFDI.Types.PaymentChainType
                      , CFDI.Types.PaymentConditions
                      , CFDI.Types.PaymentMethod
+                     , CFDI.Types.Payments
+                     , CFDI.Types.PaymentsVersion
                      , CFDI.Types.ProductDescription
                      , CFDI.Types.ProductId
                      , CFDI.Types.ProductOrService

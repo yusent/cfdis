@@ -9,7 +9,7 @@ data CfdiType
   | Outcome
   | Transfer
   | Paysheet
-  | Payment
+  | Payment_
   deriving (Eq, Show)
 
 instance Chainable CfdiType where
@@ -20,11 +20,11 @@ instance Type CfdiType where
   parseExpr "E" = Right Outcome
   parseExpr "T" = Right Transfer
   parseExpr "N" = Right Paysheet
-  parseExpr "P" = Right Payment
+  parseExpr "P" = Right Payment_
   parseExpr _   = Left NotInCatalog
 
   render Income   = "I"
   render Outcome  = "E"
   render Transfer = "T"
   render Paysheet = "N"
-  render Payment  = "P"
+  render Payment_ = "P"

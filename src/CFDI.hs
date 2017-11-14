@@ -79,6 +79,8 @@ ppXmlParseError indentationStr = concat
       ["XML malformado o inválido."]
     errMsgLines (ParseErrorInChild e xpe) =
       ("Se encontró un error en el elemento \"" ++ e ++ "\":") : errMsgLines xpe
+    errMsgLines UnknownComplement =
+      ["Complemento desconocido."]
 
 signWith :: FilePath -> CFDI -> IO (Either Text CFDI)
 signWith csdPemPath cfdi =
