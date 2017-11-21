@@ -66,10 +66,10 @@ cfdi = CFDI
                 Nothing
                 (Just (ConceptTransferedTaxes
                         [ ConceptTransferedTax
-                            (Amount 174.48)
+                            (Just (Amount 174.48))
                             (TaxBase 1090.52)
                             Rate
-                            (TaxRate 0.16)
+                            (Just (TaxRate 0.16))
                             IVA
                         ]))))
         (Just (ProductUnit "NA"))
