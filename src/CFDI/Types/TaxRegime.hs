@@ -26,7 +26,7 @@ data TaxRegime
   | Hydrocarbons
   | MultinationalCompanies
   | SharesAlienation
-  deriving (Eq, Show)
+  deriving (Bounded, Enum, Eq, Show)
 
 instance Chainable TaxRegime where
   chain = pack . render
