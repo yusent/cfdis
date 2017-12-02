@@ -2,7 +2,9 @@ module CFDI.Types.Amount where
 
 import CFDI.Chainable
 import CFDI.Types.Type
+import Data.Ratio       (denominator, numerator)
 import Data.Text        (pack)
+import Numeric          (fromRat, showFFloat)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
@@ -24,12 +26,12 @@ instance Type Amount where
   render (Amount a) = intPart ++ newDecimalPart
     where
       newDecimalPart
-        | currentDecimalPlaces > 2 = reverse
-                                   . drop (currentDecimalPlaces - 2)
-                                   $ reverse currentDecimalPart
         | currentDecimalPlaces < 0 = ".00"
         | currentDecimalPlaces < 2 = currentDecimalPart
                                   ++ replicate (2 - currentDecimalPlaces) '0'
         | otherwise = currentDecimalPart
-      (intPart, currentDecimalPart) = break (== '.') $ render a
+      (intPart, currentDecimalPart) = break (== '.') $ render' a
       currentDecimalPlaces = length currentDecimalPart - 1
+      render' r
+        | denominator r == 1 = show $ numerator r
+        | otherwise = (showFFloat (Just 2) (fromRat r :: Float)) ""
