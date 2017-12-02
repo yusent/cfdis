@@ -2,9 +2,9 @@ module CFDI.Types.Amount where
 
 import CFDI.Chainable
 import CFDI.Types.Type
-import Data.Ratio       (denominator, numerator)
-import Data.Text        (pack)
-import Numeric          (fromRat, showFFloat)
+import Data.List        (intercalate)
+import Data.Text        (Text, pack)
+import Numeric          (fromRat, showFFloatAlt)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
@@ -23,15 +23,16 @@ instance Type Amount where
   -- FIXME: This will only work when using a currency with two decimal places.
   -- At the time of this writing this is not a big deal since Mexico only
   -- supports MXN and USD.
-  render (Amount a) = intPart ++ newDecimalPart
-    where
-      newDecimalPart
-        | currentDecimalPlaces < 0 = ".00"
-        | currentDecimalPlaces < 2 = currentDecimalPart
-                                  ++ replicate (2 - currentDecimalPlaces) '0'
-        | otherwise = currentDecimalPart
-      (intPart, currentDecimalPart) = break (== '.') $ render' a
-      currentDecimalPlaces = length currentDecimalPart - 1
-      render' r
-        | denominator r == 1 = show $ numerator r
-        | otherwise = (showFFloat (Just 2) (fromRat r :: Float)) ""
+  render (Amount r) = (showFFloatAlt (Just 2) (fromRat r :: Double)) ""
+
+formatAmount :: Amount -> Text
+formatAmount amount = pack $ commaSeparatedIntPart ++ decimalPart
+  where
+    commaSeparatedIntPart = reverse
+                          . intercalate ","
+                          . splitEvery3
+                          $ reverse intPart
+    (intPart, decimalPart) = break (== '.') $ render amount
+    splitEvery3 (a : b : c : rest) = [a, b, c] : splitEvery3 rest
+    splitEvery3 [] = []
+    splitEvery3 x = [x]

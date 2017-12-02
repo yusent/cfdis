@@ -39,7 +39,7 @@ instance Type Rational where
 
   render r
     | denominator r == 1 = show $ numerator r
-    | otherwise = (showFFloat Nothing (fromRat r :: Float)) ""
+    | otherwise = (showFFloat Nothing (fromRat r :: Double)) ""
 
 instance Type Text where
   parseExpr = Right . pack
