@@ -55,6 +55,8 @@ import CFDI.Types.ProductDescription     as Types
 import CFDI.Types.ProductId              as Types
 import CFDI.Types.ProductOrService       as Types
 import CFDI.Types.ProductUnit            as Types
+import CFDI.Types.PropertyAccount        as Types
+import CFDI.Types.PropertyAccountNumber  as Types
 import CFDI.Types.Quantity               as Types
 import CFDI.Types.Recipient              as Types
 import CFDI.Types.RelatedCfdi            as Types

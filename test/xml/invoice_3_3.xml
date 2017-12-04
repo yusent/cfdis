@@ -16,6 +16,7 @@
         </cfdi:Retenciones>
       </cfdi:Impuestos>
       <cfdi:InformacionAduanera NumeroPedimento="12  12  1212  1212121" />
+      <cfdi:CuentaPredial Numero="0123456789" />
     </cfdi:Concepto>
   </cfdi:Conceptos>
   <cfdi:Impuestos TotalImpuestosRetenidos="0" TotalImpuestosTrasladados="174.48">

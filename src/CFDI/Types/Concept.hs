@@ -9,9 +9,10 @@ import CFDI.Types.ProductDescription
 import CFDI.Types.ProductId
 import CFDI.Types.ProductOrService
 import CFDI.Types.ProductUnit
+import CFDI.Types.PropertyAccount
 import CFDI.Types.Quantity
 import CFDI.XmlNode
-import Data.Maybe                    (catMaybes)
+import Data.Maybe                    (catMaybes, maybeToList)
 
 data Concept = Concept
   { conAmount     :: Amount
@@ -21,6 +22,7 @@ data Concept = Concept
   , conMeasUnit   :: MeasurementUnit
   , conProdId     :: Maybe ProductId
   , conProdServ   :: ProductOrService
+  , conPropAcc    :: Maybe PropertyAccount
   , conQuantity   :: Quantity
   , conTaxes      :: Maybe ConceptTaxes
   , conUnit       :: Maybe ProductUnit
@@ -39,7 +41,8 @@ instance Chainable Concept where
         <~> conDiscount
         <~> conTaxes
         <~> conCustomInfo
-       <~~> (c, "")
+       <~~> conPropAcc
+        <~> (c, "")
 
 instance XmlNode Concept where
   attributes n =
@@ -55,8 +58,9 @@ instance XmlNode Concept where
     , attr "Unidad"           <$> conUnit n
     ]
 
-  children n = catMaybes [renderNode <$> conTaxes n]
+  children n = maybeToList (renderNode <$> conTaxes n)
             ++ map renderNode (conCustomInfo n)
+            ++ maybeToList (renderNode <$> conPropAcc n)
 
   nodeName = const "Concepto"
 
@@ -68,6 +72,7 @@ instance XmlNode Concept where
     <*> requireAttribute "ClaveUnidad" n
     <*> parseAttribute "NoIdentificacion" n
     <*> requireAttribute "ClaveProdServ" n
+    <*> parseChild "CuentaPredial" n
     <*> requireAttribute "Cantidad" n
     <*> parseChild "Impuestos" n
     <*> parseAttribute "Unidad" n

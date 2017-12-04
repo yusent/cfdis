@@ -81,6 +81,8 @@ library
                      , CFDI.Types.ProductId
                      , CFDI.Types.ProductOrService
                      , CFDI.Types.ProductUnit
+                     , CFDI.Types.PropertyAccount
+                     , CFDI.Types.PropertyAccountNumber
                      , CFDI.Types.Quantity
                      , CFDI.Types.Recipient
                      , CFDI.Types.RelatedCfdi
