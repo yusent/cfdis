@@ -224,8 +224,8 @@ spec = do
         \04|12121212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA\
         \|612|XEXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD\
         \12|1|ACT|N/A|COMIDA MEXICANA|1090.52|1090.52|0.00|1090.52|002|Tasa|0.1\
-        \6|174.48|0.000001|001|Tasa|0.1|0.00|12 12 1212 1212121|0123456789|001|\
-        \0.00|0.00|002|Tasa|0.16|174.48|174.48||"
+        \60000|174.48|0.000001|001|Tasa|0.100000|0.00|12 12 1212 1212121|012345\
+        \6789|001|0.00|0.00|002|Tasa|0.160000|174.48|174.48||"
 
   describe "CFDI.parseCfdiFile" $ do
     eitherErrOrCfdi <- runIO $ parseCfdiFile "test/xml/invoice_3_3.xml"
@@ -304,11 +304,11 @@ spec = do
       eitherErrOrCfdi `shouldSatisfy` isRight
       let Right cfdi' = eitherErrOrCfdi
       signature cfdi' `shouldBe` Just
-        "HEyUQLcBaEKqe6QIdh7rwX9zSVfSk+2hU5Bq1qyyht+voxxK8ktQv8JZZ9wL+5GE8ijRqG\
-        \Q+E3hxz7Vp15HRaH6XKJmuT+sL0i3ckOJKVA7Ubdq2lpeXev22iEQUrzJEAysPvnmZ3Rat\
-        \yBUhNT8uF7EwLOfPluUs8d+grraiJh5zFyUJ6HZfy/e36AG7i4qgyYfCA/zcz8ZHWj/03T\
-        \Ms5tT28m1wZqfZZMdCvyLwjBeOv7ubYj+ltiTfQIowyUItoO4GSjBcdo600g7mG6yPuM8c\
-        \TtKqabgkia5Y7tO1IT27m5ILUEX9W4oljJf6stf6qVhWZyu/Q83aVY7Ob7FsnA=="
+        "edbR3ZfcERtJOkj6nfT2ZBTPYKYCd+9Vcj62qsa7k0ZRXKrUg+eAboaoVeVjKSz1GW7jH0\
+        \pDSvCiL+Ii9RU+nyeAry7esmYj5yIymSzeBVMYd5Xg0pQUmJnX+Vg5y0tChQDNs2Al20n/\
+        \2N/tcaVd+sp/J9jZ0EAzzRzV2WOk4dWGWefmuqyJTDCxwKgcl6lj/aRgNNUkeBXDpVCxRh\
+        \0OsV67phJwinzubbccp4KgRz6E9YNyQzY3EimD8RBSTZP8XaS6ltwSRsq1Ec9NRZ5/qwDQ\
+        \vccksx+ykHc4/+Hdw7vzlgNorDUMgH4ypRru07cQ0+GZ6vRs+Jq3x3GsrT/I9Q=="
       removeFile pemFilePath
 
   describe "CFDI.toXML" $ do

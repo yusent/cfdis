@@ -33,7 +33,7 @@ import System.Directory    (doesFileExist, removeFile)
 import System.IO.Temp      (writeSystemTempFile)
 import Test.Hspec
 
-data ITimbreCreds = ITimbreCreds Text Text Text Text String Text Text
+data ITimbreCreds = ITimbreCreds Text Text Text Text String Text Text Text
 
 instance FromJSON ITimbreCreds where
   parseJSON (Object v) = ITimbreCreds
@@ -44,11 +44,12 @@ instance FromJSON ITimbreCreds where
     <*> v .: "csdPem"
     <*> v .: "csdPfxPass"
     <*> v .: "csdPfxPem"
+    <*> v .: "csdSerial"
 
 cfdi :: CFDI
 cfdi = CFDI
   Nothing
-  (Just (CertificateNumber "00001000000403544254"))
+  Nothing
   Nothing
   Income
   []
@@ -123,10 +124,10 @@ spec = do
 
   if credsFileExist
     then do
-      (itimbre, pem, crt) <- runIO $ do
-        Just (ITimbreCreds usr pass_ rfc_ crt pem pfxPwd pfxPem) <-
+      (itimbre, pem, crt, crtNum) <- runIO $ do
+        Just (ITimbreCreds usr pass_ rfc_ crt pem pfxPwd pfxPem crtNum) <-
           decodeFile credsFilePath
-        return (ITimbre usr pass_ rfc_ pfxPwd pfxPem Testing, pem, crt)
+        return (ITimbre usr pass_ rfc_ pfxPwd pfxPem Testing, pem, crt, crtNum)
 
       describe "CFDI.PAC.ITimbre.ITimbre instance of PAC" $ do
         it "implements getPacStamp function" $ do
@@ -134,7 +135,8 @@ spec = do
           now <- parseTimeM True defaultTimeLocale f currentTimeStr
           pemFilePath <- writeSystemTempFile "csd.pem" pem
           let cfdi' = cfdi
-                { certText = Just crt
+                { certNum  = Just (CertificateNumber crtNum)
+                , certText = Just crt
                 , issuedAt = time
                 }
               time = now { localDay = addDays (-1) (localDay now) }
@@ -151,7 +153,8 @@ spec = do
           now <- parseTimeM True defaultTimeLocale f currentTimeStr
           pemFilePath <- writeSystemTempFile "csd.pem" pem
           let cfdi' = cfdi
-                { certText = Just crt
+                { certNum  = Just (CertificateNumber crtNum)
+                , certText = Just crt
                 , issuedAt = time
                 }
               time = now { localDay = addDays (-1) (localDay now) }
@@ -176,7 +179,8 @@ spec = do
           now <- parseTimeM True defaultTimeLocale f currentTimeStr
           pemFilePath <- writeSystemTempFile "csd.pem" pem
           let cfdi' = cfdi
-                { certText = Just crt
+                { certNum  = Just (CertificateNumber crtNum)
+                , certText = Just crt
                 , issuedAt = time
                 }
               time = now { localDay = addDays (-1) (localDay now) }
