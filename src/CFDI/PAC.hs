@@ -65,6 +65,7 @@ data CancelError
   | ParseCancelResponseError
     { parseCancelErrMsg :: Text
     }
+  | MissingCancelationAckError
   | CancelConnectionError
   | CancelHTTPError
     { cancelHTTPCode :: Int
@@ -111,6 +112,8 @@ ppCancelError :: CancelError -> String
 ppCancelError (PacCancelError c m) = maybe "" unpack c ++ ": " ++ unpack m
 ppCancelError (ParseCancelResponseError m) =
   "No se pudo leer respuesta: " ++ unpack m
+ppCancelError MissingCancelationAckError =
+  "No se encontró un acuse de cancelación."
 ppCancelError CancelConnectionError =
   "No se pudo conectar a servicio de cancelación."
 ppCancelError (CancelHTTPError c b) =
