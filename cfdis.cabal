@@ -142,6 +142,7 @@ test-suite unit-tests
   default-extensions: OverloadedStrings
   other-modules:      CFDISpec
                     , CFDI.CSDSpec
+                    , CFDI.PAC.FelSpec
                     , CFDI.PAC.ITimbreSpec
                     , CFDI.V3_2Spec
   build-depends:      base

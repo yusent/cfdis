@@ -81,17 +81,16 @@ felResponseParser xml = do
             return $ pacStamp stampComp
 
       else do
-        errMsg <- justErr (ParsePacResponseError "Se obtuvo un error sin mensaje.")
-                $ findChildByName "MensajeError" resElem
-        Left $ PacError (pack $ getElemText errMsg) Nothing
+        errMsg <-
+          justErr (ParsePacResponseError "Se obtuvo un error sin mensaje.")
+            $ findChildByName "MensajeError" resElem
+        Left $ PacError
+          (pack $ getElemText errMsg)
+          (pack . getElemText <$> findChildByName "CodigoRespuesta" resElem)
 
 genFelWsFunc :: Fel -> Text -> XML -> IO ((ByteString -> a) -> IO a)
 genFelWsFunc Fel{..} methodName nodes = do
-  transport <- initTransportWithM
-    defaultManagerSettings
-    wsUrl
-    printRequest
-    printBody
+  transport <- initTransportWithM defaultManagerSettings wsUrl pure pure
   return $ invokeWS transport soapAction () body . RawParser
   where
     body = element' methodName $ do
