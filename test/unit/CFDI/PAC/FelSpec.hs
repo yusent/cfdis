@@ -147,31 +147,31 @@ spec = do
           eitherErrOrStamp `shouldSatisfy` isRight
           removeFile pemFilePath
 
-        --it "implements stampLookup function" $ do
-        --  -- We need to stamp a CFDI first to test this.
-        --  currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
-        --  now <- parseTimeM True defaultTimeLocale f currentTimeStr
-        --  pemFilePath <- writeSystemTempFile "csd.pem" pem
-        --  let cfdi' = cfdi
-        --        { certNum  = Just (CertificateNumber crtNum)
-        --        , certText = Just crt
-        --        , issuedAt = time
-        --        }
-        --      time = now { localDay = addDays (-1) (localDay now) }
-        --  Right signedCfdi@CFDI{signature = Just sig} <-
-        --    signWith pemFilePath cfdi'
-        --  let cfdiId = take 12 sig
-        --  eitherErrOrStamp <- getPacStamp signedCfdi fel cfdiId
-        --  eitherErrOrStamp `shouldSatisfy` isRight
+        it "implements stampLookup function" $ do
+          -- We need to stamp a CFDI first to test this.
+          currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
+          now <- parseTimeM True defaultTimeLocale f currentTimeStr
+          pemFilePath <- writeSystemTempFile "csd.pem" pem
+          let cfdi' = cfdi
+                { certNum  = Just (CertificateNumber crtNum)
+                , certText = Just crt
+                , issuedAt = time
+                }
+              time = now { localDay = addDays (-1) (localDay now) }
+          Right signedCfdi@CFDI{signature = Just sig} <-
+            signWith pemFilePath cfdi'
+          let cfdiId = take 12 sig
+          eitherErrOrStamp <- getPacStamp signedCfdi fel cfdiId
+          eitherErrOrStamp `shouldSatisfy` isRight
 
-        --  eitherErrOrStamp' <- getPacStamp signedCfdi fel cfdiId
-        --  eitherErrOrStamp' `shouldSatisfy` isLeft
-        --  let Left (PacError _ code) = eitherErrOrStamp'
-        --  code `shouldBe` Just "307"
+          eitherErrOrStamp' <- getPacStamp signedCfdi fel cfdiId
+          eitherErrOrStamp' `shouldSatisfy` isLeft
+          let Left (PacError _ code) = eitherErrOrStamp'
+          code `shouldBe` Just "801"
 
-        --  eitherErrOrStamp'' <- stampLookup fel cfdiId
-        --  eitherErrOrStamp'' `shouldSatisfy` isRight
-        --  removeFile pemFilePath
+          eitherErrOrStamp'' <- stampLookup fel cfdiId
+          eitherErrOrStamp'' `shouldSatisfy` isRight
+          removeFile pemFilePath
     else
       return ()
   where

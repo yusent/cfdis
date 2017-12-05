@@ -55,6 +55,8 @@ class PAC p where
         fmap (addStampToCFDI cfdi) <$> case eStamp of
           Left (PacError _ (Just "307")) -> stampLookup p cfdiId
 
+          Left (PacError _ (Just "801")) -> stampLookup p cfdiId
+
           x -> return x
 
 data CancelError

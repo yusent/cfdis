@@ -58,9 +58,12 @@ instance PAC Fel where
     f <- genFelWsFunc fel "TimbrarCFDI" $ do
       element' "cadenaXML" . pack $ toXML cfdi
       element' "referencia" cfdiId
-    f felStampResponseParser
+    f (felStampResponseParser "TimbrarCFDI")
 
-  stampLookup Fel{..} _cfdiId = return . Left $ PacError "NO IMPLEMENTADO" Nothing
+  stampLookup fel cfdiId = do
+    f <- genFelWsFunc fel "ConsultarTimbrePorReferencia" $ do
+      element' "referencia" cfdiId
+    f (felStampResponseParser "ConsultarTimbrePorReferencia")
 
 element' :: ToXML a => Text -> a -> XML
 element' n = element (Name n (Just "http://tempuri.org/") (Just "tem"))
@@ -107,8 +110,8 @@ felCancelResponseParser xml = do
            >>= findChildByName "CancelarCFDIResponse"
            >>= findChildByName "CancelarCFDIResult"
 
-felStampResponseParser :: ByteString -> Either StampError PacStamp
-felStampResponseParser xml = do
+felStampResponseParser :: String -> ByteString -> Either StampError PacStamp
+felStampResponseParser methodName xml = do
   resElem <- justErr (ParsePacResponseError "Respuesta en formato desconocido.")
            $ mResElem
 
@@ -139,8 +142,8 @@ felStampResponseParser xml = do
   where
     mResElem = parseXMLDoc xml
            >>= findChildByName "Body"
-           >>= findChildByName "TimbrarCFDIResponse"
-           >>= findChildByName "TimbrarCFDIResult"
+           >>= findChildByName (methodName ++ "Response")
+           >>= findChildByName (methodName ++ "Result")
 
 genFelWsFunc :: Fel -> Text -> XML -> IO ((ByteString -> a) -> IO a)
 genFelWsFunc Fel{..} methodName nodes = do
