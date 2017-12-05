@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module CFDI.PAC.ITimbreSpec
+module CFDI.PAC.FelSpec
   ( spec
   ) where
 
@@ -12,7 +12,7 @@ import CFDI.PAC
   , stamp
   , stampLookup
   )
-import CFDI.PAC.ITimbre
+import CFDI.PAC.Fel
 import Data.Either         (isLeft, isRight)
 import Data.Maybe          (isNothing)
 import Data.Text           (Text, take, unpack)
@@ -33,10 +33,10 @@ import System.Directory    (doesFileExist, removeFile)
 import System.IO.Temp      (writeSystemTempFile)
 import Test.Hspec
 
-data ITimbreCreds = ITimbreCreds Text Text Text Text String Text Text Text
+data FelCreds = FelCreds Text Text Text Text String Text Text Text
 
-instance FromJSON ITimbreCreds where
-  parseJSON (Object v) = ITimbreCreds
+instance FromJSON FelCreds where
+  parseJSON (Object v) = FelCreds
     <$> v .: "user"
     <*> v .: "pass"
     <*> v .: "rfc"
@@ -88,14 +88,14 @@ cfdi = CFDI
   (ZipCode 22115)
   (Issuer
     (Just (Name "EMISOR DE PRUEBA"))
-    (RFC "LEVM590117199")
+    (RFC "TEST010203001")
     (PeopleWithBusinessActivities))
   (Just (PaymentConditions "CONDICIONES DE PAGO DE PRUEBA"))
   (Just OneTimePayment)
   (Recipient
     (Just GeneralExpenses)
     (Just (Name "RECEPTOR DE PRUEBA"))
-    (RFC "XAXX010101000")
+    (RFC "TES030201001")
     Nothing
     Nothing)
   Nothing
@@ -119,17 +119,17 @@ cfdi = CFDI
 
 spec :: Spec
 spec = do
-  let credsFilePath = "test/yaml/pac-credentials/itimbre.yml"
+  let credsFilePath = "test/yaml/pac-credentials/fel.yml"
   credsFileExist <- runIO $ doesFileExist credsFilePath
 
   if credsFileExist
     then do
-      (itimbre, pem, crt, crtNum) <- runIO $ do
-        Just (ITimbreCreds usr pass_ rfc_ crt pem pfxPwd pfxPem crtNum) <-
+      (fel, pem, crt, crtNum) <- runIO $ do
+        Just (FelCreds usr pass_ rfc_ crt pem pfxPwd pfxPem crtNum) <-
           decodeFile credsFilePath
-        return (ITimbre usr pass_ rfc_ pfxPwd pfxPem Testing, pem, crt, crtNum)
+        return (Fel usr pass_ rfc_ pfxPwd pfxPem FelTestingEnv, pem, crt, crtNum)
 
-      describe "CFDI.PAC.ITimbre.ITimbre instance of PAC" $ do
+      describe "CFDI.PAC.Fel.Fel instance of PAC" $ do
         it "implements getPacStamp function" $ do
           currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
           now <- parseTimeM True defaultTimeLocale f currentTimeStr
@@ -143,7 +143,7 @@ spec = do
           Right signedCfdi@CFDI{signature = Just sig} <-
             signWith pemFilePath cfdi'
           let cfdiId = take 12 sig
-          eitherErrOrStamp <- getPacStamp signedCfdi itimbre cfdiId
+          eitherErrOrStamp <- getPacStamp signedCfdi fel cfdiId
           eitherErrOrStamp `shouldSatisfy` isRight
           removeFile pemFilePath
 
@@ -161,40 +161,16 @@ spec = do
           Right signedCfdi@CFDI{signature = Just sig} <-
             signWith pemFilePath cfdi'
           let cfdiId = take 12 sig
-          eitherErrOrStamp <- getPacStamp signedCfdi itimbre cfdiId
+          eitherErrOrStamp <- getPacStamp signedCfdi fel cfdiId
           eitherErrOrStamp `shouldSatisfy` isRight
 
-          eitherErrOrStamp' <- getPacStamp signedCfdi itimbre cfdiId
+          eitherErrOrStamp' <- getPacStamp signedCfdi fel cfdiId
           eitherErrOrStamp' `shouldSatisfy` isLeft
           let Left (PacError _ code) = eitherErrOrStamp'
-          code `shouldBe` Just "307"
+          code `shouldBe` Just "801"
 
-          eitherErrOrStamp'' <- stampLookup itimbre cfdiId
+          eitherErrOrStamp'' <- stampLookup fel cfdiId
           eitherErrOrStamp'' `shouldSatisfy` isRight
-          removeFile pemFilePath
-
-        it "implements cancelCFDI function" $ do
-          -- We need to stamp a CFDI first to test this.
-          currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
-          now <- parseTimeM True defaultTimeLocale f currentTimeStr
-          pemFilePath <- writeSystemTempFile "csd.pem" pem
-          let cfdi' = cfdi
-                { certNum  = Just (CertificateNumber crtNum)
-                , certText = Just crt
-                , issuedAt = time
-                }
-              time = now { localDay = addDays (-1) (localDay now) }
-          Right signedCfdi@CFDI{signature = Just sig} <-
-            signWith pemFilePath cfdi'
-          eitherErrOrCFDI <- stamp signedCfdi itimbre
-          eitherErrOrCFDI `shouldSatisfy` isRight
-
-          let Right sCFDI = eitherErrOrCFDI
-              Just (StampComplement PacStamp{ psUuid = uuid}) =
-                getStampComplement sCFDI
-
-          eAck <- cancelCFDI itimbre uuid
-          eAck `shouldSatisfy` isRight
           removeFile pemFilePath
     else
       return ()

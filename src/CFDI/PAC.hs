@@ -55,6 +55,8 @@ class PAC p where
         fmap (addStampToCFDI cfdi) <$> case eStamp of
           Left (PacError _ (Just "307")) -> stampLookup p cfdiId
 
+          Left (PacError _ (Just "801")) -> stampLookup p cfdiId
+
           x -> return x
 
 data CancelError
@@ -65,6 +67,7 @@ data CancelError
   | ParseCancelResponseError
     { parseCancelErrMsg :: Text
     }
+  | MissingCancelationAckError
   | CancelConnectionError
   | CancelHTTPError
     { cancelHTTPCode :: Int
@@ -111,6 +114,8 @@ ppCancelError :: CancelError -> String
 ppCancelError (PacCancelError c m) = maybe "" unpack c ++ ": " ++ unpack m
 ppCancelError (ParseCancelResponseError m) =
   "No se pudo leer respuesta: " ++ unpack m
+ppCancelError MissingCancelationAckError =
+  "No se encontró un acuse de cancelación."
 ppCancelError CancelConnectionError =
   "No se pudo conectar a servicio de cancelación."
 ppCancelError (CancelHTTPError c b) =
