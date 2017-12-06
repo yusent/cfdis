@@ -27,10 +27,45 @@ data Use
   | DepositsInSavingsAccounts
   | TuitionFees
   | ToBeDefined_
-  deriving (Eq, Show)
+  deriving (Bounded, Enum, Eq)
 
 instance Chainable Use where
   chain = pack . render
+
+instance Show Use where
+  show GoodsAcquisition_         = "G01 - Adquisición de mercancias"
+  show ReturnsDiscountsOrBonuses = "G02 - Devoluciones, descuentos o \
+                                   \bonificaciones"
+  show GeneralExpenses           = "G03 - Gastos en general"
+  show Constructions             = "I01 - Construcciones"
+  show Furniture                 = "I02 - Mobilario y equipo de oficina por \
+                                   \inversiones"
+  show TransportEquipment        = "I03 - Equipo de transporte"
+  show ComputerEquipment         = "I04 - Equipo de computo y accesorios"
+  show Tooling                   = "I05 - Dados, troqueles, moldes, matrices y \
+                                   \herramental"
+  show PhoneComunications        = "I06 - Comunicaciones telefónicas"
+  show SatelliteComunications    = "I07 - Comunicaciones satelitales"
+  show OtherMachinery            = "I08 - Otra maquinaria y equipo"
+  show MedicalFees               = "D01 - Honorarios médicos, dentales y \
+                                   \gastos hospitalarios."
+  show MedicalExpenses           = "D02 - Gastos médicos por incapacidad o \
+                                   \discapacidad"
+  show FuneralExpenses           = "D03 - Gastos funerales."
+  show Donations                 = "D04 - Donativos."
+  show PaidInterests             = "D05 - Intereses reales efectivamente \
+                                   \pagados por créditos hipotecarios (casa \
+                                   \habitación)."
+  show VoluntaryContributions    = "D06 - Aportaciones voluntarias al SAR."
+  show InsurancePremiums         = "D07 - Primas por seguros de gastos médicos."
+  show SchoolTransportation      = "D08 - Gastos de transportación escolar \
+                                   \obligatoria."
+  show DepositsInSavingsAccounts = "D09 - Depósitos en cuentas para el ahorro, \
+                                   \primas que tengan como base planes de \
+                                   \pensiones."
+  show TuitionFees               = "D10 - Pagos por servicios educativos \
+                                   \(colegiaturas)"
+  show ToBeDefined_              = "P01 - Por definir"
 
 instance Type Use where
   parseExpr "G01" = Right GoodsAcquisition_

@@ -31,6 +31,39 @@ data TaxRegime
 instance Chainable TaxRegime where
   chain = pack . render
 
+instance Show TaxRegime where
+  show GeneralForPeople             = "General de Ley Personas Morales"
+  show NonProfitCompany             = "Personas Morales con Fines no Lucrativos"
+  show WagesAndSalaries             = "Sueldos y Salarios e Ingresos \
+                                      \Asimilados a Salarios"
+  show Leasing                      = "Arrendamiento"
+  show GoodsAcquisition             = "Régimen de Enajenación o Adquisición de \
+                                      \Bienes"
+  show OtherIncomes                 = "Demás ingresos"
+  show Consolidation                = "Consolidación"
+  show ForeignResidents             = "Residentes en el Extranjero sin \
+                                      \Establecimiento Permanente en México"
+  show DividendIncomes              = "Ingresos por Dividendos \
+                                      \(socios y accionistas)"
+  show PeopleWithBusinessActivities = "Personas Físicas con Actividades \
+                                      \Empresariales y Profesionales"
+  show InterestsIncomes             = "Ingresos por intereses"
+  show RevenueForPrizes             = "Régimen de los ingresos por obtención \
+                                      \de premios"
+  show NoTaxObligations             = "Sin obligaciones fiscales"
+  show CooperativeSocieties         = "Sociedades Cooperativas de Producción \
+                                      \que optan por diferir sus ingresos"
+  show FiscalIncorporation          = "Incorporación Fiscal"
+  show AgriculturalActivities       = "Actividades Agrícolas, Ganaderas, \
+                                      \Silvícolas y Pesqueras"
+  show OptionalForSocialGroups      = "Opcional para Grupos de Sociedades"
+  show Coordinated                  = "Coordinados"
+  show Hydrocarbons                 = "Hidrocarburos"
+  show MultinationalCompanies       = "De los Regímenes Fiscales Preferentes y \
+                                      \de las Empresas Multinacionales"
+  show SharesAlienation             = "Enajenación de acciones en bolsa de \
+                                      \valores"
+
 instance Type TaxRegime where
   parseExpr "601" = Right GeneralForPeople
   parseExpr "603" = Right NonProfitCompany
@@ -76,36 +109,3 @@ instance Type TaxRegime where
   render Hydrocarbons                 = "628"
   render MultinationalCompanies       = "629"
   render SharesAlienation             = "630"
-
-instance Show TaxRegime where
-  show GeneralForPeople             = "General de Ley Personas Morales"
-  show NonProfitCompany             = "Personas Morales con Fines no Lucrativos"
-  show WagesAndSalaries             = "Sueldos y Salarios e Ingresos \
-                                      \Asimilados a Salarios"
-  show Leasing                      = "Arrendamiento"
-  show GoodsAcquisition             = "Régimen de Enajenación o Adquisición de \
-                                      \Bienes"
-  show OtherIncomes                 = "Demás ingresos"
-  show Consolidation                = "Consolidación"
-  show ForeignResidents             = "Residentes en el Extranjero sin \
-                                      \Establecimiento Permanente en México"
-  show DividendIncomes              = "Ingresos por Dividendos \
-                                      \(socios y accionistas)"
-  show PeopleWithBusinessActivities = "Personas Físicas con Actividades \
-                                      \Empresariales y Profesionales"
-  show InterestsIncomes             = "Ingresos por intereses"
-  show RevenueForPrizes             = "Régimen de los ingresos por obtención \
-                                      \de premios"
-  show NoTaxObligations             = "Sin obligaciones fiscales"
-  show CooperativeSocieties         = "Sociedades Cooperativas de Producción \
-                                      \que optan por diferir sus ingresos"
-  show FiscalIncorporation          = "Incorporación Fiscal"
-  show AgriculturalActivities       = "Actividades Agrícolas, Ganaderas, \
-                                      \Silvícolas y Pesqueras"
-  show OptionalForSocialGroups      = "Opcional para Grupos de Sociedades"
-  show Coordinated                  = "Coordinados"
-  show Hydrocarbons                 = "Hidrocarburos"
-  show MultinationalCompanies       = "De los Regímenes Fiscales Preferentes y \
-                                      \de las Empresas Multinacionales"
-  show SharesAlienation             = "Enajenación de acciones en bolsa de \
-                                      \valores"
