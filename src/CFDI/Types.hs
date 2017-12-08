@@ -79,7 +79,8 @@ import CFDI.Types.TaxRegime              as Types
 import CFDI.Types.TransferedTax          as Types
 import CFDI.Types.TransferedTaxes        as Types
 import CFDI.Types.Type                   as Types
-  ( ParseError(..)
+  ( Type
+  , ParseError(..)
   , parse
   , render
   )
