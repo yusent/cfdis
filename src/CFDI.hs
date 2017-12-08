@@ -8,6 +8,7 @@ module CFDI
   , originalChain
   , parseCfdiFile
   , parseCfdiXml
+  , ppParseError
   , ppXmlParseError
   , signWith
   , toXML
