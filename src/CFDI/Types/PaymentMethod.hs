@@ -7,10 +7,14 @@ import Data.Text       (pack)
 data PaymentMethod
   = OneTimePayment
   | PartialPayment
-  deriving (Eq, Show)
+  deriving (Bounded, Enum, Eq)
 
 instance Chainable PaymentMethod where
   chain = pack . render
+
+instance Show PaymentMethod where
+  show OneTimePayment = "PUE - Pago en una sola exhibición"
+  show PartialPayment = "PPD - Pago en parcialidades o diferido"
 
 instance Type PaymentMethod where
   parseExpr "PUE" = Right OneTimePayment
