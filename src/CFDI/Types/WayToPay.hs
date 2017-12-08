@@ -26,10 +26,34 @@ data WayToPay
   | ServiceCard
   | AdvancesApplication
   | ToBeDefined
-  deriving (Eq, Show)
+  deriving (Bounded, Enum, Eq)
 
 instance Chainable WayToPay where
   chain = pack . render
+
+instance Show WayToPay where
+  show Cash                           = "01 - Efectivo"
+  show NominalCheck                   = "02 - Cheque nominativo"
+  show ElectronicTransfer             = "03 - Transferencia electrónica de \
+                                        \fondos"
+  show CreditCard                     = "04 - Tarjeta de crédito"
+  show ElectronicPurse                = "05 - Monedero electrónico"
+  show ElectronicCash                 = "06 - Dinero electrónico"
+  show PantryCoupons                  = "08 - Vales de despensa"
+  show PaymentIn                      = "12 - Dación en pago"
+  show Subrogation                    = "13 - Pago por subrogación"
+  show Consignment                    = "14 - Pago por consignación"
+  show Condonation                    = "15 - Condonación"
+  show Compensation                   = "17 - Compensación"
+  show Novation                       = "23 - Novación"
+  show Confusion                      = "24 - Confusión"
+  show DebtReferral                   = "25 - Remisión de deuda"
+  show PrescriptionOrExpiration       = "26 - Prescripción o caducidad"
+  show ToTheSatisfactionOfTheCreditor = "27 - A satisfacción del acreedor"
+  show DebitCard                      = "28 - Tarjeta de débito"
+  show ServiceCard                    = "29 - Tarjeta de servicios"
+  show AdvancesApplication            = "30 - Aplicación de anticipos"
+  show ToBeDefined                    = "99 - Por definir"
 
 instance Type WayToPay where
   parseExpr "01" = Right Cash
