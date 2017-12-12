@@ -12,6 +12,8 @@ data RelationshipType
   | PrevInvoicedTransfer
   | PrevTransferedInvoice
   | AdvanceApplication
+  | PartialPaymentInvoice
+  | DeferredPaymentInvoice
   deriving (Eq, Show)
 
 instance Chainable RelationshipType where
@@ -25,12 +27,16 @@ instance Type RelationshipType where
   parseExpr "05" = Right PrevInvoicedTransfer
   parseExpr "06" = Right PrevTransferedInvoice
   parseExpr "07" = Right AdvanceApplication
+  parseExpr "08" = Right PartialPaymentInvoice
+  parseExpr "09" = Right DeferredPaymentInvoice
   parseExpr _    = Left NotInCatalog
 
-  render CreditNote            = "01"
-  render DebitNote             = "02"
-  render ReturnedGoods         = "03"
-  render Substitution          = "04"
-  render PrevInvoicedTransfer  = "05"
-  render PrevTransferedInvoice = "06"
-  render AdvanceApplication    = "07"
+  render CreditNote             = "01"
+  render DebitNote              = "02"
+  render ReturnedGoods          = "03"
+  render Substitution           = "04"
+  render PrevInvoicedTransfer   = "05"
+  render PrevTransferedInvoice  = "06"
+  render AdvanceApplication     = "07"
+  render PartialPaymentInvoice  = "08"
+  render DeferredPaymentInvoice = "09"
