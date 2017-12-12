@@ -25,6 +25,7 @@ data WayToPay
   | DebitCard
   | ServiceCard
   | AdvancesApplication
+  | PaymentIntermediary
   | ToBeDefined
   deriving (Bounded, Enum, Eq)
 
@@ -53,6 +54,7 @@ instance Show WayToPay where
   show DebitCard                      = "28 - Tarjeta de débito"
   show ServiceCard                    = "29 - Tarjeta de servicios"
   show AdvancesApplication            = "30 - Aplicación de anticipos"
+  show PaymentIntermediary            = "31 - Intermediario pagos"
   show ToBeDefined                    = "99 - Por definir"
 
 instance Type WayToPay where
@@ -76,6 +78,7 @@ instance Type WayToPay where
   parseExpr "28" = Right DebitCard
   parseExpr "29" = Right ServiceCard
   parseExpr "30" = Right AdvancesApplication
+  parseExpr "31" = Right PaymentIntermediary
   parseExpr "99" = Right ToBeDefined
   parseExpr _    = Left NotInCatalog
 
@@ -99,4 +102,5 @@ instance Type WayToPay where
   render DebitCard                      = "28"
   render ServiceCard                    = "29"
   render AdvancesApplication            = "30"
+  render PaymentIntermediary            = "31"
   render ToBeDefined                    = "99"
