@@ -14,10 +14,22 @@ data RelationshipType
   | AdvanceApplication
   | PartialPaymentInvoice
   | DeferredPaymentInvoice
-  deriving (Eq, Show)
+  deriving (Bounded, Enum, Eq)
 
 instance Chainable RelationshipType where
   chain = pack . render
+
+instance Show RelationshipType where
+  show CreditNote             = "Nota de crédito de los documentos relacionados"
+  show DebitNote              = "Nota de débito de los documentos relacionados"
+  show ReturnedGoods          = "Devolución de mercancía sobre facturas o \
+                                \traslados previos"
+  show Substitution           = "Sustitución de los CFDI previos"
+  show PrevInvoicedTransfer   = "Traslados de mercancias facturados previamente"
+  show PrevTransferedInvoice  = "Factura generada por los traslados previos"
+  show AdvanceApplication     = "CFDI por aplicación de anticipo"
+  show PartialPaymentInvoice  = "Factura generada por pagos en parcialidades"
+  show DeferredPaymentInvoice = "Factura generada por pagos diferidos"
 
 instance Type RelationshipType where
   parseExpr "01" = Right CreditNote
