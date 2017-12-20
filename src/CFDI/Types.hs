@@ -71,7 +71,6 @@ import CFDI.Types.Series                 as Types
 import CFDI.Types.State                  as Types
 import CFDI.Types.Suburb                 as Types
 import CFDI.Types.Tax                    as Types
-import CFDI.Types.TaxBase                as Types
 import CFDI.Types.Taxes                  as Types
 import CFDI.Types.TaxId                  as Types
 import CFDI.Types.TaxRate                as Types

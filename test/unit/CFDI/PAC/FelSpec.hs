@@ -69,7 +69,7 @@ cfdi = CFDI
                 (Just (ConceptTransferedTaxes
                         [ ConceptTransferedTax
                             (Just (Amount 174.48))
-                            (TaxBase 1090.52)
+                            (Amount 1090.52)
                             Rate
                             (Just (TaxRate 0.16))
                             IVA

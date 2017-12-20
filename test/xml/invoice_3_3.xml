@@ -12,7 +12,7 @@
           <cfdi:Traslado Base="1090.52" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="174.48" />
         </cfdi:Traslados>
         <cfdi:Retenciones>
-          <cfdi:Retencion Base="0.000001" Impuesto="001" Importe="0" TipoFactor="Tasa" TasaOCuota="0.100000" />
+          <cfdi:Retencion Base="0.01" Impuesto="001" Importe="0" TipoFactor="Tasa" TasaOCuota="0.100000" />
         </cfdi:Retenciones>
       </cfdi:Impuestos>
       <cfdi:InformacionAduanera NumeroPedimento="12  12  1212  1212121" />

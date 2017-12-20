@@ -4,14 +4,13 @@ import CFDI.Chainable
 import CFDI.Types.Amount
 import CFDI.Types.FactorType
 import CFDI.Types.Tax
-import CFDI.Types.TaxBase
 import CFDI.Types.TaxRate
 import CFDI.XmlNode
 import Data.Maybe            (catMaybes)
 
 data ConceptTransferedTax = ConceptTransferedTax
   { conTransAmount     :: Maybe Amount
-  , conTransBase       :: TaxBase
+  , conTransBase       :: Amount
   , conTransFactorType :: FactorType
   , conTransRate       :: Maybe TaxRate
   , conTransTax        :: Tax

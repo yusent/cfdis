@@ -4,13 +4,12 @@ import CFDI.Chainable
 import CFDI.Types.Amount
 import CFDI.Types.FactorType
 import CFDI.Types.Tax
-import CFDI.Types.TaxBase
 import CFDI.Types.TaxRate
 import CFDI.XmlNode
 
 data ConceptRetainedTax = ConceptRetainedTax
   { conRetAmount     :: Amount
-  , conRetBase       :: TaxBase
+  , conRetBase       :: Amount
   , conRetFactorType :: FactorType
   , conRetRate       :: TaxRate
   , conRetTax        :: Tax

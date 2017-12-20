@@ -98,7 +98,6 @@ library
                      , CFDI.Types.State
                      , CFDI.Types.Suburb
                      , CFDI.Types.Tax
-                     , CFDI.Types.TaxBase
                      , CFDI.Types.Taxes
                      , CFDI.Types.TaxId
                      , CFDI.Types.TaxRate
