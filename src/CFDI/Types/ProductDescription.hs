@@ -16,6 +16,6 @@ instance Type ProductDescription where
     | matchTest regExp str = Right . ProductDescription $ pack str
     | otherwise = Left $ DoesNotMatchExpr "[^|]{1,1000}"
     where
-      regExp = mkRegex "^.{1,1000}$"
+      regExp = mkRegex "^(.|Ñ|ñ){1,1000}$"
 
   render (ProductDescription d) = unpack d

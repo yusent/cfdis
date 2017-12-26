@@ -57,7 +57,7 @@ cfdi = CFDI
     [ Concept
         (Amount 1090.52)
         []
-        (ProductDescription "COMIDA MEXICANA")
+        (ProductDescription "COMIDA MEXICANA O ESPAÑOLA")
         Nothing
         MU_ACT
         (Just (ProductId "PROD12"))

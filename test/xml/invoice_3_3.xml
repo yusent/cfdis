@@ -6,7 +6,7 @@
   <cfdi:Emisor Rfc="XAXX010101000" Nombre="EMISOR DE PRUEBA" RegimenFiscal="612" />
   <cfdi:Receptor Rfc="XEXX010101000" Nombre="RECEPTOR DE PRUEBA" UsoCFDI="G03" NumRegIdTrib="1234567890" ResidenciaFiscal="MEX" />
   <cfdi:Conceptos>
-    <cfdi:Concepto ClaveProdServ="91111700" Cantidad="1" ClaveUnidad="ACT" Unidad="N/A" Descripcion="COMIDA MEXICANA" ValorUnitario="1090.52" Importe="1090.52" Descuento="0" NoIdentificacion="PROD12">
+    <cfdi:Concepto ClaveProdServ="91111700" Cantidad="1" ClaveUnidad="ACT" Unidad="N/A" Descripcion="COMIDA MEXICANA (NO ESPAÑOLA) &amp; con ñ" ValorUnitario="1090.52" Importe="1090.52" Descuento="0" NoIdentificacion="PROD12">
       <cfdi:Impuestos>
         <cfdi:Traslados>
           <cfdi:Traslado Base="1090.52" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="174.48" />
