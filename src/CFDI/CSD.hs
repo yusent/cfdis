@@ -77,7 +77,7 @@ getEndDate pem = catch
     handleErr :: ErrorCall -> IO (Either Text LocalTime)
     handleErr _ = return $ Left "Formato de fecha de expiración inválido"
     parseEndDate = (>>= parseTimeM True defaultTimeLocale format . unpack)
-    format = "notAfter=%b %d %H:%M:%S %Y %Z"
+    format = "notAfter=%b %e %H:%M:%S %Y %Z"
 
 runOpenSSL :: String -> Text -> IO (Either Text Text)
 runOpenSSL command =
