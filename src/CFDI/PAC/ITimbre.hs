@@ -29,6 +29,7 @@ import Data.Aeson
   )
 import Data.Bifunctor            (first)
 import Data.ByteString.Lazy      (toStrict)
+import Data.Conduit.Attoparsec   (errorMessage)
 import Data.HashMap.Lazy         (lookup)
 import Data.Text                 (Text, pack, unpack)
 import Data.Text.Encoding        (decodeUtf8)
@@ -39,8 +40,9 @@ import Network.HTTP.Conduit
   , responseStatus
   )
 import Network.HTTP.Simple
-  ( Response
-  , httpJSON
+  ( JSONException(..)
+  , Response
+  , httpJSONEither
   , getResponseBody
   , getResponseStatusCode
   , setRequestBodyURLEncoded
@@ -116,7 +118,7 @@ instance FromJSON ITimbreResponse where
 
 instance PAC ITimbre where
   cancelCFDI p (UUID uuid) =
-    fmap handleITimbreCancelResponse (httpJSON request) `catch` handleErr
+    fmap handleITimbreCancelResponse (httpJSONEither request) `catch` handleErr
     where
       handleErr :: HttpException -> IO (Either CancelError Text)
       handleErr _ = return $ Left CancelConnectionError
@@ -169,38 +171,54 @@ handleHttpException (HttpExceptionRequest _ e) =
   return . Left $ PacConnectionError e
 handleHttpException e = throw e
 
-handleITimbreCancelResponse :: Response Value -> Either CancelError Text
+handleITimbreCancelResponse :: Response (Either JSONException Value)
+                            -> Either CancelError Text
 handleITimbreCancelResponse response
   | responseStatusCode `div` 100 == 2 =
-      case fromJSON responseBody of
-        Error err -> Left . ParseCancelResponseError $ pack err
+      case responseBody of
+        Left (JSONParseException _ _ pe) ->
+          Left . ParseCancelResponseError . pack $ errorMessage pe
 
-        Success (ITimbreCancelResponse icrRc icrEack) ->
-          first (PacCancelError (Just icrRc)) icrEack
+        Left (JSONConversionException _ _ err) ->
+          Left . ParseCancelResponseError $ pack err
+
+        Right body -> case fromJSON body of
+          Error err -> Left . ParseCancelResponseError $ pack err
+
+          Success (ITimbreCancelResponse icrRc icrEack) ->
+            first (PacCancelError (Just icrRc)) icrEack
   | otherwise = Left . CancelHTTPError responseStatusCode . pack
               $ show responseBody
   where
     responseStatusCode = getResponseStatusCode response
     responseBody = getResponseBody response
 
-handleITimbreResponse :: Response Value -> Either StampError PacStamp
+handleITimbreResponse :: Response (Either JSONException Value)
+                      -> Either StampError PacStamp
 handleITimbreResponse response
   | responseStatusCode `div` 100 == 2 =
-      case fromJSON responseBody of
-        Error err -> Left . ParsePacResponseError $ pack err
+      case responseBody of
+        Left (JSONParseException _ _ pe) ->
+          Left . ParsePacResponseError . pack $ errorMessage pe
 
-        Success (ITimbreResponse irrc irc) ->
-          case irc of
-            Left em -> Left . PacError em $ Just irrc
+        Left (JSONConversionException _ _ err) ->
+          Left . ParsePacResponseError $ pack err
 
-            Right xml -> case parseCfdiXml (unpack xml) of
-              Left pe -> Left $ ParsePacResponseXMLError pe
+        Right body -> case fromJSON body of
+          Error err -> Left . ParsePacResponseError $ pack err
 
-              Right cfdi ->
-                case getStampComplement cfdi of
-                  Nothing -> Left PacStampNotPresent
+          Success (ITimbreResponse irrc irc) ->
+            case irc of
+              Left em -> Left . PacError em $ Just irrc
 
-                  Just stampComp -> Right $ pacStamp stampComp
+              Right xml -> case parseCfdiXml (unpack xml) of
+                Left pe -> Left $ ParsePacResponseXMLError pe
+
+                Right cfdi ->
+                  case getStampComplement cfdi of
+                    Nothing -> Left PacStampNotPresent
+
+                    Just stampComp -> Right $ pacStamp stampComp
 
   | otherwise = Left . PacHTTPError responseStatusCode . pack $ show responseBody
   where
@@ -209,7 +227,7 @@ handleITimbreResponse response
 
 stampRequest :: ITimbreEnv -> Value -> IO (Either StampError PacStamp)
 stampRequest e requestBody =
-  fmap handleITimbreResponse (httpJSON request) `catch` handleHttpException
+  fmap handleITimbreResponse (httpJSONEither request) `catch` handleHttpException
   where
     req
       | e == Production = "POST https://portalws.itimbre.com/itimbre.php"
