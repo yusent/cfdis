@@ -17,7 +17,7 @@ import Control.Error.Safe          (justErr)
 import Data.ByteString.Lazy        (ByteString)
 import Data.Maybe                  (listToMaybe)
 import Data.Text                   (Text, pack, unpack)
-import Network.HTTP.Client
+import Network.HTTP.Client.TLS
 import Network.SOAP
 import Network.SOAP.Transport.HTTP
 import Text.XML                    (Name(..))
@@ -147,7 +147,7 @@ felStampResponseParser methodName xml = do
 
 genFelWsFunc :: Fel -> Text -> XML -> IO ((ByteString -> a) -> IO a)
 genFelWsFunc Fel{..} methodName nodes = do
-  transport <- initTransportWithM defaultManagerSettings wsUrl pure pure
+  transport <- initTransportWithM tlsManagerSettings wsUrl pure pure
   return $ invokeWS transport soapAction () body . RawParser
   where
     body = element' methodName $ do
@@ -158,7 +158,7 @@ genFelWsFunc Fel{..} methodName nodes = do
     wsUrl
       | felEnv == FelProductionEnv =
           "https://www.fel.mx/WSTimbrado33/WSCFDI33.svc?WSDL"
-      | otherwise = "http://www.fel.mx/WSTimbrado33Test/WSCFDI33.svc?WSDL"
+      | otherwise = "https://www.fel.mx/WSTimbrado33Test/WSCFDI33.svc?WSDL"
 
 getElemText :: Element -> String
 getElemText = maybe "" cdData . listToMaybe . onlyText . elContent
