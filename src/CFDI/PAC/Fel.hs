@@ -14,6 +14,7 @@ import CFDI
 import CFDI.PAC
 import CFDI.XmlNode
 import Control.Error.Safe          (justErr)
+import Control.Exception           (catch)
 import Data.ByteString.Lazy        (ByteString)
 import Data.Maybe                  (listToMaybe)
 import Data.Text                   (Text, pack, unpack)
@@ -52,18 +53,19 @@ instance PAC Fel where
           uuid
       element' "clavePrivada_Base64" felPfxPem
       element' "passwordClavePrivada" felPfxPwd
-    f felCancelResponseParser
+    f felCancelResponseParser `catch` handleCancelHttpException
 
   getPacStamp cfdi fel cfdiId = do
     f <- genFelWsFunc fel "TimbrarCFDI" $ do
       element' "cadenaXML" . pack $ toXML cfdi
       element' "referencia" cfdiId
-    f (felStampResponseParser "TimbrarCFDI")
+    f (felStampResponseParser "TimbrarCFDI") `catch` handleStampHttpException
 
   stampLookup fel cfdiId = do
     f <- genFelWsFunc fel "ConsultarTimbrePorReferencia" $ do
       element' "referencia" cfdiId
     f (felStampResponseParser "ConsultarTimbrePorReferencia")
+      `catch` handleStampHttpException
 
 element' :: ToXML a => Text -> a -> XML
 element' n = element (Name n (Just "http://tempuri.org/") (Just "tem"))

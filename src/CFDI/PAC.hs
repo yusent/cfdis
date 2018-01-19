@@ -5,6 +5,8 @@ module CFDI.PAC
   , ValidationError(..)
   , cancelCFDI
   , getPacStamp
+  , handleCancelHttpException
+  , handleStampHttpException
   , ppCancelError
   , ppStampError
   , ppValidationError
@@ -13,7 +15,7 @@ module CFDI.PAC
   , stampWithRetry
   ) where
 
-import CFDI                (ppXmlParseError)
+import CFDI                      (ppXmlParseError)
 import CFDI.Types
   ( CFDI(..)
   , Complement(..)
@@ -23,11 +25,19 @@ import CFDI.Types
   , UUID
   , complement
   )
-import CFDI.XmlNode        (XmlParseError)
-import Data.Maybe          (isJust, isNothing)
-import Data.Text           (Text, take, unpack)
-import Network.HTTP.Client (HttpExceptionContent)
-import Prelude      hiding (take)
+import CFDI.XmlNode              (XmlParseError)
+import Control.Exception         (throw)
+import Data.Maybe                (isJust, isNothing)
+import Data.Text                 (Text, take, unpack)
+import Data.Text.Encoding        (decodeUtf8)
+import Network.HTTP.Client       (HttpExceptionContent)
+import Network.HTTP.Conduit
+  ( HttpException(HttpExceptionRequest)
+  , HttpExceptionContent(StatusCodeException)
+  , responseStatus
+  )
+import Network.HTTP.Types.Status (statusCode)
+import Prelude            hiding (take)
 
 class PAC p where
   cancelCFDI :: p -> UUID -> IO (Either CancelError Text)
@@ -109,6 +119,18 @@ data ValidationError
 addStampToCFDI :: CFDI -> PacStamp -> CFDI
 addStampToCFDI cfdi@CFDI{ complement = comps } stamp' =
   cfdi { complement = StampComplement stamp' : comps }
+
+handleCancelHttpException :: HttpException -> IO (Either CancelError Text)
+handleCancelHttpException _ = return $ Left CancelConnectionError
+
+handleStampHttpException :: HttpException -> IO (Either StampError PacStamp)
+handleStampHttpException (HttpExceptionRequest _ (StatusCodeException res body)) =
+  return . Left . PacHTTPError status $ decodeUtf8 body
+  where
+    status = statusCode $ responseStatus res
+handleStampHttpException (HttpExceptionRequest _ e) =
+  return . Left $ PacConnectionError e
+handleStampHttpException e = throw e
 
 ppCancelError :: CancelError -> String
 ppCancelError (PacCancelError c m) = maybe "" unpack c ++ ": " ++ unpack m

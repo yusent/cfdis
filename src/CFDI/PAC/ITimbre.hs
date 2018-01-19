@@ -12,8 +12,8 @@ import CFDI
   , toXML
   )
 import CFDI.PAC
-import Control.Error.Safe        (justErr)
-import Control.Exception         (catch, throw)
+import Control.Error.Safe      (justErr)
+import Control.Exception       (catch)
 import Data.Aeson
   ( FromJSON
   , Result(Success, Error)
@@ -27,18 +27,12 @@ import Data.Aeson
   , parseJSON
   , withObject
   )
-import Data.Bifunctor            (first)
-import Data.ByteString.Lazy      (toStrict)
-import Data.Conduit.Attoparsec   (errorMessage)
-import Data.HashMap.Lazy         (lookup)
-import Data.Text                 (Text, pack, unpack)
-import Data.Text.Encoding        (decodeUtf8)
-import Data.Vector               (head)
-import Network.HTTP.Conduit
-  ( HttpException(HttpExceptionRequest)
-  , HttpExceptionContent(StatusCodeException)
-  , responseStatus
-  )
+import Data.Bifunctor          (first)
+import Data.ByteString.Lazy    (toStrict)
+import Data.Conduit.Attoparsec (errorMessage)
+import Data.HashMap.Lazy       (lookup)
+import Data.Text               (Text, pack, unpack)
+import Data.Vector             (head)
 import Network.HTTP.Simple
   ( JSONException(..)
   , Response
@@ -47,8 +41,7 @@ import Network.HTTP.Simple
   , getResponseStatusCode
   , setRequestBodyURLEncoded
   )
-import Network.HTTP.Types.Status (statusCode)
-import Prelude            hiding (head, lookup)
+import Prelude          hiding (head, lookup)
 
 data ITimbre = ITimbre
   { user   :: Text
@@ -118,10 +111,9 @@ instance FromJSON ITimbreResponse where
 
 instance PAC ITimbre where
   cancelCFDI p (UUID uuid) =
-    fmap handleITimbreCancelResponse (httpJSONEither request) `catch` handleErr
+    fmap handleITimbreCancelResponse (httpJSONEither request)
+      `catch` handleCancelHttpException
     where
-      handleErr :: HttpException -> IO (Either CancelError Text)
-      handleErr _ = return $ Left CancelConnectionError
       req
         | env p == Production = "POST https://portalws.itimbre.com/itimbre.php"
         | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
@@ -161,15 +153,6 @@ instance PAC ITimbre where
           , "RFC"     .= rfc p
           ]
       ]
-
-handleHttpException :: HttpException -> IO (Either StampError PacStamp)
-handleHttpException (HttpExceptionRequest _ (StatusCodeException res body)) =
-  return . Left . PacHTTPError status $ decodeUtf8 body
-  where
-    status = statusCode $ responseStatus res
-handleHttpException (HttpExceptionRequest _ e) =
-  return . Left $ PacConnectionError e
-handleHttpException e = throw e
 
 handleITimbreCancelResponse :: Response (Either JSONException Value)
                             -> Either CancelError Text
@@ -227,7 +210,8 @@ handleITimbreResponse response
 
 stampRequest :: ITimbreEnv -> Value -> IO (Either StampError PacStamp)
 stampRequest e requestBody =
-  fmap handleITimbreResponse (httpJSONEither request) `catch` handleHttpException
+  fmap handleITimbreResponse (httpJSONEither request)
+    `catch` handleStampHttpException
   where
     req
       | e == Production = "POST https://portalws.itimbre.com/itimbre.php"
