@@ -24,8 +24,8 @@ data PacStamp = PacStamp
 instance XmlNode PacStamp where
   attributes n =
     [ attrWithPrefix "xsi" "schemaLocation"
-        ("http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/\
-         \sitio_internet/TimbreFiscalDigital/TimbreFiscalDigital.xsd" :: Text)
+        ("http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio\
+         \_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigital.xsd" :: Text)
     , attrWithPrefix "xmlns" "tfd"
         ("http://www.sat.gob.mx/TimbreFiscalDigital" :: Text)
     , attr "RfcProvCertif"    $ psPacRfc n
