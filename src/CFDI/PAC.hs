@@ -144,8 +144,8 @@ ppCancelError (CancelHTTPError c b) =
   "Error HTTP código " ++ show c ++ ": " ++ unpack b
 
 ppStampError :: StampError -> String
-ppStampError (PacConnectionError _) =
-  "No se pudo conectar a servicio de timbrado."
+ppStampError (PacConnectionError e) =
+  "Error de conexión: " ++ show e
 ppStampError (PacError m c) = maybe "" unpack c ++ ": " ++ unpack m
 ppStampError (PacHTTPError c b) =
   "Error HTTP código " ++ show c ++ ": " ++ unpack b
