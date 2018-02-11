@@ -15,9 +15,10 @@ import CFDI.PAC
 import CFDI.XmlNode
 import Control.Error.Safe          (justErr)
 import Control.Exception           (catch)
-import Data.ByteString.Lazy        (ByteString)
+import Data.ByteString.Lazy        (ByteString, toStrict)
 import Data.Maybe                  (listToMaybe)
 import Data.Text                   (Text, pack, unpack)
+import Data.Text.Encoding          (decodeUtf8)
 import Network.HTTP.Client.TLS
 import Network.SOAP
 import Network.SOAP.Transport.HTTP
@@ -142,7 +143,7 @@ felStampResponseParser methodName xml = do
           (pack . getElemText <$> findChildByName "CodigoRespuesta" resElem)
 
   where
-    mResElem = parseXMLDoc xml
+    mResElem = parseXMLDoc (decodeUtf8 $ toStrict xml)
            >>= findChildByName "Body"
            >>= findChildByName (methodName ++ "Response")
            >>= findChildByName (methodName ++ "Result")
