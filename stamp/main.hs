@@ -4,11 +4,10 @@ import CFDI (parseCfdiFile, ppXmlParseError, signWith, toXML)
 import CFDI.PAC (ppStampError, stampWithRetry)
 import CFDI.PAC.Fel (Fel(Fel), FelEnv(FelProductionEnv))
 import CFDI.PAC.ITimbre (ITimbre(ITimbre), ITimbreEnv(Production))
-import Data.Bifunctor (first)
 import Data.Char (toLower)
 import Data.Text (pack, unpack)
 import System.Environment (getArgs, getEnv)
-import System.Exit (exitFailure)
+import System.Exit (ExitCode(ExitFailure), exitWith)
 import System.IO (hPutStrLn, stderr)
 
 main :: IO ()
@@ -19,7 +18,7 @@ main = do
   case eitherErrOrParsedCfdi of
     Left parseErr -> do
       hPutStrLn stderr $ ppXmlParseError "  " parseErr
-      exitFailure
+      exitWith $ ExitFailure 2
 
     Right parsedCfdi -> do
       eitherErrorOrSignedCfdi <- signWith csdPemPath parsedCfdi
@@ -27,12 +26,12 @@ main = do
       case eitherErrorOrSignedCfdi of
         Left signErr -> do
           hPutStrLn stderr $ unpack signErr
-          exitFailure
+          exitWith $ ExitFailure 3
 
         Right signedCfdi -> do
           pacName <- map toLower <$> getEnv "STAMP_PAC"
 
-          eitherErrOrStampedCfdi <- case pacName of
+          case pacName of
             "itimbre" -> do
               user <- getEnv "STAMP_ITIMBRE_USER"
               pass <- getEnv "STAMP_ITIMBRE_PASS"
@@ -41,7 +40,15 @@ main = do
               let pac =
                     ITimbre (pack user) (pack pass) (pack rfc) "" "" Production
 
-              first ppStampError <$> stampWithRetry signedCfdi pac
+              eitherErrOrStampedCfdi <- stampWithRetry signedCfdi pac
+
+              case eitherErrOrStampedCfdi of
+                Left stampErr -> do
+                  hPutStrLn stderr $ ppStampError stampErr
+                  exitWith $ ExitFailure 5
+
+                Right stampedCfdi -> do
+                  putStrLn $ toXML stampedCfdi
 
             "fel" -> do
               user <- getEnv "STAMP_FEL_USER"
@@ -51,15 +58,16 @@ main = do
               let pac =
                     Fel (pack user) (pack pass) (pack rfc) "" "" FelProductionEnv
 
-              first ppStampError <$> stampWithRetry signedCfdi pac
+              eitherErrOrStampedCfdi <- stampWithRetry signedCfdi pac
+
+              case eitherErrOrStampedCfdi of
+                Left stampErr -> do
+                  hPutStrLn stderr $ ppStampError stampErr
+                  exitWith $ ExitFailure 5
+
+                Right stampedCfdi -> do
+                  putStrLn $ toXML stampedCfdi
 
             unknownPac -> do
-              return . Left $ "Unknown PAC " ++ unknownPac
-
-          case eitherErrOrStampedCfdi of
-            Left stampErr -> do
-              hPutStrLn stderr stampErr
-              exitFailure
-
-            Right stampedCfdi -> do
-              putStrLn $ toXML stampedCfdi
+              hPutStrLn stderr $  "Unknown PAC " ++ unknownPac
+              exitWith $ ExitFailure 4
