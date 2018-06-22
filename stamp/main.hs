@@ -2,7 +2,9 @@
 
 import CFDI (parseCfdiFile, ppXmlParseError, signWith, toXML)
 import CFDI.PAC (ppStampError, stampWithRetry)
+import CFDI.PAC.Fel (Fel(Fel), FelEnv(FelProductionEnv))
 import CFDI.PAC.ITimbre (ITimbre(ITimbre), ITimbreEnv(Production))
+import Data.Bifunctor (first)
 import Data.Char (toLower)
 import Data.Text (pack, unpack)
 import System.Environment (getArgs, getEnv)
@@ -30,7 +32,7 @@ main = do
         Right signedCfdi -> do
           pacName <- map toLower <$> getEnv "STAMP_PAC"
 
-          case pacName of
+          eitherErrOrStampedCfdi <- case pacName of
             "itimbre" -> do
               user <- getEnv "STAMP_ITIMBRE_USER"
               pass <- getEnv "STAMP_ITIMBRE_PASS"
@@ -39,16 +41,25 @@ main = do
               let pac =
                     ITimbre (pack user) (pack pass) (pack rfc) "" "" Production
 
-              eitherErrOrStampedCfdi <- stampWithRetry signedCfdi pac
+              first ppStampError <$> stampWithRetry signedCfdi pac
 
-              case eitherErrOrStampedCfdi of
-                Left stampErr -> do
-                  hPutStrLn stderr $ ppStampError stampErr
-                  exitFailure
+            "fel" -> do
+              user <- getEnv "STAMP_FEL_USER"
+              pass <- getEnv "STAMP_FEL_PASS"
+              rfc <- getEnv "STAMP_FEL_RFC"
 
-                Right stampedCfdi -> do
-                  putStrLn $ toXML stampedCfdi
+              let pac =
+                    Fel (pack user) (pack pass) (pack rfc) "" "" FelProductionEnv
+
+              first ppStampError <$> stampWithRetry signedCfdi pac
 
             unknownPac -> do
-              hPutStrLn stderr $ "Unknown PAC " ++ unknownPac
+              return . Left $ "Unknown PAC " ++ unknownPac
+
+          case eitherErrOrStampedCfdi of
+            Left stampErr -> do
+              hPutStrLn stderr stampErr
               exitFailure
+
+            Right stampedCfdi -> do
+              putStrLn $ toXML stampedCfdi
