@@ -2,6 +2,7 @@
 
 import CFDI (parseCfdiXml, ppXmlParseError, signWith, toXML)
 import CFDI.PAC (ppStampError, stampWithRetry)
+import CFDI.PAC.Dummy (Dummy(..))
 import CFDI.PAC.Fel (Fel(Fel), FelEnv(FelProductionEnv))
 import CFDI.PAC.ITimbre (ITimbre(ITimbre), ITimbreEnv(Production))
 import Data.ByteString (hGetContents)
@@ -61,6 +62,17 @@ main = do
                         Fel (pack user) (pack pass) (pack rfc) "" "" FelProductionEnv
 
                   eitherErrOrStampedCfdi <- stampWithRetry signedCfdi pac
+
+                  case eitherErrOrStampedCfdi of
+                    Left stampErr -> do
+                      hPutStrLn stderr $ ppStampError stampErr
+                      exitWith $ ExitFailure 6
+
+                    Right stampedCfdi -> do
+                      putStrLn $ toXML stampedCfdi
+
+                "dummy" -> do
+                  eitherErrOrStampedCfdi <- stampWithRetry signedCfdi Dummy
 
                   case eitherErrOrStampedCfdi of
                     Left stampErr -> do
