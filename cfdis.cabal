@@ -19,6 +19,7 @@ library
   exposed-modules:     CFDI
                      , CFDI.CSD
                      , CFDI.PAC
+                     , CFDI.PAC.Dummy
                      , CFDI.PAC.Fel
                      , CFDI.PAC.ITimbre
                      , CFDI.V3_2
