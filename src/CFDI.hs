@@ -23,7 +23,13 @@ import CFDI.XmlNode as XN   (XmlParseError(..))
 import Control.Error.Safe   (justErr)
 import Data.List            (find, intersperse)
 import Data.Text            (Text, append)
-import Text.XML.Light       (Element(..), QName(..), parseXMLDoc, ppTopElement)
+import Text.XML.Light
+  ( Element(..)
+  , QName(..)
+  , parseXMLDoc
+  , ppcElement
+  , prettyConfigPP
+  )
 import Text.XML.Light.Lexer (XmlSource)
 
 addCsdCerData :: CsdCerData -> CFDI -> CFDI
@@ -90,4 +96,7 @@ signWith csdPemPath cfdi =
     addSignatureToCFDI sig = cfdi { signature = Just sig }
 
 toXML :: CFDI -> String
-toXML = ppTopElement . renderNode
+toXML cfdi = unlines
+  [ "<?xml version='1.0' encoding='UTF-8' ?>"
+  , ppcElement prettyConfigPP (renderNode cfdi)
+  ]
