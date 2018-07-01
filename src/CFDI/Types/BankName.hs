@@ -16,6 +16,6 @@ instance Type BankName where
     | matchTest regExp str = Right . BankName $ pack str
     | otherwise = Left $ DoesNotMatchExpr "[^|]{1,300}"
     where
-      regExp = mkRegex "^.{1,300}$"
+      regExp = mkRegex "^(.|á|é|í|ó|ú|ñ|Á|É|Í|Ó|Ú|Ñ){1,300}$"
 
   render (BankName r) = unpack r

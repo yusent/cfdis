@@ -16,6 +16,6 @@ instance Type Name where
     | matchTest regExp str = Right . Name $ pack str
     | otherwise = Left $ DoesNotMatchExpr "[^|]{1,254}"
     where
-      regExp = mkRegex "^.{1,254}$"
+      regExp = mkRegex "^(.|á|é|í|ó|ú|ñ|Á|É|Í|Ó|Ú|Ñ){1,254}$"
 
   render (Name n) = unpack n

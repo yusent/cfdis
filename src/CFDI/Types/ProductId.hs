@@ -16,6 +16,6 @@ instance Type ProductId where
     | matchTest regExp str = Right . ProductId $ pack str
     | otherwise = Left $ DoesNotMatchExpr "[^|]{1,100}"
     where
-      regExp = mkRegex "^.{1,100}$"
+      regExp = mkRegex "^(.|á|é|í|ó|ú|ñ|Á|É|Í|Ó|Ú|Ñ){1,100}$"
 
   render (ProductId i) = unpack i
