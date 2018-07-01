@@ -5,12 +5,14 @@ import CFDI.PAC (ppStampError, stampWithRetry)
 import CFDI.PAC.Dummy (Dummy(..))
 import CFDI.PAC.Fel (Fel(Fel), FelEnv(FelProductionEnv))
 import CFDI.PAC.ITimbre (ITimbre(ITimbre), ITimbreEnv(Production))
-import Data.ByteString (hGetContents)
+import qualified Data.ByteString as BS (getContents)
+import qualified Data.ByteString.Char8 as C8 (putStrLn)
 import Data.Char (toLower)
 import Data.Text (pack, unpack)
+import Data.Text.Encoding (decodeUtf8, encodeUtf8)
 import System.Environment (getArgs, getEnv)
 import System.Exit (ExitCode(ExitFailure), exitWith)
-import System.IO (hPutStrLn, stderr, stdin)
+import System.IO (hPutStrLn, stderr)
 
 main :: IO ()
 main = do
@@ -18,7 +20,7 @@ main = do
 
   case args of
     (csdPemPath : pacName : _) -> do
-      eitherErrOrParsedCfdi <- parseCfdiXml <$> hGetContents stdin
+      eitherErrOrParsedCfdi <- parseCfdiXml . decodeUtf8 <$> BS.getContents
 
       case eitherErrOrParsedCfdi of
         Left parseErr -> do
@@ -69,7 +71,7 @@ main = do
                       exitWith $ ExitFailure 6
 
                     Right stampedCfdi -> do
-                      putStrLn $ toXML stampedCfdi
+                      C8.putStrLn . encodeUtf8 . pack $ toXML stampedCfdi
 
                 "dummy" -> do
                   eitherErrOrStampedCfdi <- stampWithRetry signedCfdi Dummy
@@ -80,7 +82,7 @@ main = do
                       exitWith $ ExitFailure 6
 
                     Right stampedCfdi -> do
-                      putStrLn $ toXML stampedCfdi
+                      C8.putStrLn . encodeUtf8 . pack $ toXML stampedCfdi
 
                 unknownPac -> do
                   hPutStrLn stderr $  "Unknown PAC " ++ unknownPac
