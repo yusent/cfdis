@@ -58,7 +58,7 @@ instance PAC Dummy where
     currentTime <- utcToLocalTime <$> getCurrentTimeZone <*> getCurrentTime
 
     return . Right $ PacStamp
-      { psLegend = Just $ SatLegend "No olvide pagar sus impuestos para mantener el Status Quo."
+      { psLegend = Just $ SatLegend "No olvide pagar sus impuestos para mantener el Status Quo"
       , psPacRfc = CompanyRfc "XXX010107357"
       , psSatCerNum = CertificateNumber "00001007357473577357"
       , psSatSig = "PnMHIiszK38aZQTHXI4veuddGQMEGyMq5aaVuqXSv0kS/pc1DWHN+Wwm8KQgk/xRE03qMs1NrEAR3JDy42He1P8gX+cD1GT6qPXPHxleLCzT0s/DrUoEr8+losxKsz8FuPJRA5/OWJTcOoRHi/CC2Z/GmIxUqSdDAmKnvMyocNtWZ8ShA+eK+QJIpw4H/H72PXNWBYmdPnsStfzTbVW6MCWTUoeRxLNofHDMNHpnK3sE6EzI0lPPKYqy1zDe8A5RwjayzqxkCYSzO7gteBz1XlKGrCoKXwqyl/dMlUMelY122vFZydE1RV/z3uqL4OWfj6FbQCJIdxNK+2xKXFng3Q=="
