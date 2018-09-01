@@ -56,7 +56,6 @@ instance Chainable Payment where
         <~> pmChain
         <~> pmSignature
         <~> pmRelatedDocs
-       <~~> pmTaxes
        <~~> (c, "")
 
 instance XmlNode Payment where

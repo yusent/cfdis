@@ -23,6 +23,9 @@ instance Type Amount where
   -- FIXME: This will only work when using a currency with two decimal places.
   -- At the time of this writing this is not a big deal since Mexico only
   -- supports MXN and USD.
+  -- Note: Payment CFDIs required to have amounts of exactly "0", "0.0" is
+  -- considered to be invalid :(.
+  render (Amount 0) = "0"
   render (Amount r) = (showFFloatAlt (Just 2) (fromRat r :: Double)) ""
 
 formatAmount :: Amount -> Text
