@@ -1,14 +1,21 @@
 module CFDI.Types.Payments where
 
+import CFDI.Chainable
 import CFDI.Types.Payment
 import CFDI.Types.PaymentsVersion
 import CFDI.XmlNode
-import Data.Text                  (Text)
+import Data.Text                  (Text, append, intercalate)
 
 data Payments = Payments
   { pmsPayments :: [Payment]
   , pmsVersion  :: PaymentsVersion
   } deriving (Eq, Show)
+
+instance Chainable Payments where
+  chain c = append (chain $ pmsVersion c)
+          . append "|"
+          . intercalate "|"
+          $ chain <$> pmsPayments c
 
 instance XmlNode Payments where
   attributes n =

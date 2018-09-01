@@ -1,5 +1,6 @@
 module CFDI.Types.Payment where
 
+import CFDI.Chainable
 import CFDI.Types.AccountNumber
 import CFDI.Types.Amount
 import CFDI.Types.BankName
@@ -37,6 +38,26 @@ data Payment = Payment
   , pmTaxes        :: [PaymentTaxes]
   , pmWayToPay     :: WayToPay
   } deriving (Eq, Show)
+
+instance Chainable Payment where
+  chain c = pmIssuedAt
+        <@> pmWayToPay
+        <~> pmCurrency
+        <~> pmExchangeRate
+        <~> pmAmount
+        <~> pmOperationId
+        <~> pmBankRfc
+        <~> pmIssBankName
+        <~> pmIssAccount
+        <~> pmRecBankRfc
+        <~> pmRecAccount
+        <~> pmChainType
+        <~> pmCertificate
+        <~> pmChain
+        <~> pmSignature
+        <~> pmRelatedDocs
+       <~~> pmTaxes
+       <~~> (c, "")
 
 instance XmlNode Payment where
   attributes n =

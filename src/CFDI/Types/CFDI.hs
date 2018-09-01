@@ -14,6 +14,7 @@ import CFDI.Types.Folio
 import CFDI.Types.Issuer
 import CFDI.Types.PaymentConditions
 import CFDI.Types.PaymentMethod
+import CFDI.Types.Payments
 import CFDI.Types.Recipient
 import CFDI.Types.RelatedCfdis
 import CFDI.Types.Series
@@ -22,6 +23,7 @@ import CFDI.Types.Version
 import CFDI.Types.WayToPay
 import CFDI.Types.ZipCode
 import CFDI.XmlNode
+import Data.List                    (find)
 import Data.Maybe                   (catMaybes)
 import Data.Text                    (Text)
 import Data.Time.LocalTime          (LocalTime)
@@ -76,6 +78,7 @@ instance Chainable CFDI where
         <~> recipient
         <~> concepts
         <~> taxes
+        <~> getPaymentComplement
         <~> (c, "")
 
 instance XmlNode CFDI where
@@ -146,3 +149,12 @@ instance XmlNode CFDI where
     <*> requireAttribute "Total" n
     <*> requireAttribute "Version" n
     <*> parseAttribute "FormaPago" n
+
+getPaymentComplement :: CFDI -> Maybe Payments
+getPaymentComplement CFDI { complement = comps } =
+  getPayments =<< find isPaymentComplement comps
+  where
+    getPayments (PaymentComplement ps) = Just ps
+    getPayments _ = Nothing
+    isPaymentComplement (PaymentComplement _) = True
+    isPaymentComplement _ = False

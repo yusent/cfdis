@@ -26,7 +26,17 @@ data PaymentRelatedDocument = PaymentRelatedDocument
   } deriving (Eq, Show)
 
 instance Chainable PaymentRelatedDocument where
-  chain _ = ""
+  chain c = prdId
+        <@> prdSeries
+        <~> prdFolio
+        <~> prdCurrency
+        <~> prdExRate
+        <~> prdPayMet
+        <~> prdPart
+        <~> prdPrevBal
+        <~> prdPaid
+        <~> prdRemain
+        <~> (c, "")
 
 instance XmlNode PaymentRelatedDocument where
   attributes n =
