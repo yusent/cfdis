@@ -2,13 +2,14 @@ module CFDI.Types.ExchangeRate where
 
 import CFDI.Chainable
 import CFDI.Types.Type
+import Data.Text        (pack, unpack)
 import Text.Regex       (mkRegex)
 import Text.Regex.Posix (matchTest)
 
 newtype ExchangeRate = ExchangeRate Rational deriving (Eq, Show)
 
 instance Chainable ExchangeRate where
-  chain (ExchangeRate r) = chain r
+  chain (ExchangeRate r) = pack . addZeros . unpack $ chain r
 
 instance Type ExchangeRate where
   parseExpr str
@@ -17,4 +18,11 @@ instance Type ExchangeRate where
     where
       regExp = mkRegex "^[0-9]+(\\.[0-9]{1,6})?$"
 
-  render (ExchangeRate a) = render a
+  render (ExchangeRate a) = addZeros $ render a
+
+addZeros :: String -> String
+addZeros s
+  | dec == "" = int ++ ".000000"
+  | otherwise = int ++ dec ++ replicate (7 - length dec) '0'
+  where
+    (int, dec) = span (/= '.') s

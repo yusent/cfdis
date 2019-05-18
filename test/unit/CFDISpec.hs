@@ -155,7 +155,7 @@ cfdi = CFDI
   (Just (Confirmation "AbcD5"))
   CUR_MXN
   (Just (Amount 0))
-  (Just (ExchangeRate 12.121212))
+  (Just (ExchangeRate 12.1212))
   (Just (Folio "12"))
   (LocalTime
     (ModifiedJulianDay 57953)
@@ -220,7 +220,7 @@ spec = do
     it "calculates the CFDI original chain" $ do
       originalChain cfdi `shouldBe`
         "||3.3|ABC|12|2017-07-19T14:27:03|01|00001000001212121212|CONDICIONES D\
-        \E PAGO DE PRUEBA|1090.52|0|MXN|12.121212|1265.00|I|PUE|22115|AbcD5|04|\
+        \E PAGO DE PRUEBA|1090.52|0|MXN|12.121200|1265.00|I|PUE|22115|AbcD5|04|\
         \12121212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA|61\
         \2|XEXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD12|\
         \1|ACT|N/A|COMIDA MEXICANA (NO ESPAÑOLA) & con ñ|1090.52|1090.52|0|1090\
@@ -308,11 +308,11 @@ spec = do
       eitherErrOrCfdi `shouldSatisfy` isRight
       let Right cfdi' = eitherErrOrCfdi
       signature cfdi' `shouldBe` Just
-        "FLFuvaGxb+4FMtJCWfgSNt3tI/IBFpT3IuB0ZGaXQC+ZHX6k1V7nmjMw8YoMO/D1EYFhzL\
-        \0jPn2BXf8x8l5Jk97e65bnHmwZJ9h+oLcffltGUt1UniroTw33w+jl/63CWwFVjlod+BcO\
-        \329+eeXUV0o6H/MIoUgSNRXeoKVMowMIvvGNi6DE9+qCi4lClvoID9xcivhrRuk0EYzWt9\
-        \OdhyHKI1msRhkc0TNJROmOXvnuRe45yra+71mlARkCZ7pQ00V5OC1EtvUDkuXVQr4+brRU\
-        \+h6q5ufYn70Hyb01mjHOtt3vbxY6KXnQerTnf+oUoOWCL1UhwpdkjQGFwstL7Q=="
+        "kSszOHpPlikl56cIR5ky+WKGqISJSQX2w6zcxmeJmRT1CRupjaFv4t5TI6BaoHnI3KPxHT\
+        \OyM/rKBLqUp2mz+Up17nBn/K8TN1ugYKrJ68RG0hto24WY4FsMGmjsBWjnAmcCA9d7xcjA\
+        \d8cNAe84hjRVGQ1aDxm9YuljHTUXbN/FHkQRbdYPImXuWlDcSwjfts/Ek0ewmNDjec4aZO\
+        \kBGGlz5DcQW6ysThlFKxBAAmzQIK93RJmDnzfItsxIjymHhUlCEgzbo46uoh9Kn6mOBJcA\
+        \RmqW8kvqEl/RL3+Vz10Ny+6gaZUTB/2kffKqEAB0XOZ76hQqnLK1mW746u66eA=="
       removeFile pemFilePath
 
   describe "CFDI.toXML" $ do
