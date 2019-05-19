@@ -220,7 +220,7 @@ spec = do
     it "calculates the CFDI original chain" $ do
       originalChain cfdi `shouldBe`
         "||3.3|ABC|12|2017-07-19T14:27:03|01|00001000001212121212|CONDICIONES D\
-        \E PAGO DE PRUEBA|1090.52|0|MXN|12.121200|1265.00|I|PUE|22115|AbcD5|04|\
+        \E PAGO DE PRUEBA|1090.52|0|MXN|12.1212|1265.00|I|PUE|22115|AbcD5|04|\
         \12121212-1212-1212-1212-121212121212|XAXX010101000|EMISOR DE PRUEBA|61\
         \2|XEXX010101000|RECEPTOR DE PRUEBA|MEX|1234567890|G03|91111700|PROD12|\
         \1|ACT|N/A|COMIDA MEXICANA (NO ESPAÑOLA) & con ñ|1090.52|1090.52|0|1090\
@@ -308,11 +308,11 @@ spec = do
       eitherErrOrCfdi `shouldSatisfy` isRight
       let Right cfdi' = eitherErrOrCfdi
       signature cfdi' `shouldBe` Just
-        "kSszOHpPlikl56cIR5ky+WKGqISJSQX2w6zcxmeJmRT1CRupjaFv4t5TI6BaoHnI3KPxHT\
-        \OyM/rKBLqUp2mz+Up17nBn/K8TN1ugYKrJ68RG0hto24WY4FsMGmjsBWjnAmcCA9d7xcjA\
-        \d8cNAe84hjRVGQ1aDxm9YuljHTUXbN/FHkQRbdYPImXuWlDcSwjfts/Ek0ewmNDjec4aZO\
-        \kBGGlz5DcQW6ysThlFKxBAAmzQIK93RJmDnzfItsxIjymHhUlCEgzbo46uoh9Kn6mOBJcA\
-        \RmqW8kvqEl/RL3+Vz10Ny+6gaZUTB/2kffKqEAB0XOZ76hQqnLK1mW746u66eA=="
+        "bjsCbJrLzgKnFkDskTougVQvcFoK7+oucm1iq31NblPHxduGNlt+nrmGT09S3lZfwNQOVy\
+        \mWLnPJfG5C9fz0qjCL/EN23C4LN28cTPsArkKbL+/vj6v7Oy2aDPGssuE36daPoGq6yooZ\
+        \y+AnL3kY5i7FC5HbXnBbaHQCwqb1N2ptRSSvK/Xpom61gUqvRccv6K7v+TQ8uWPv/XiXun\
+        \+4IVfXlXUa4SKYpv+gkhrhgo46zKpH30yPYXJ8D44Os0dg+Lbo0C8BHwVVQgoTElB98D4T\
+        \vZH+HHbpbt22dS621UEhRRaTMhNnrl4pf5aTrUpsThXcO2SXK6qBz91z3pJP5A=="
       removeFile pemFilePath
 
   describe "CFDI.toXML" $ do

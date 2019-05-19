@@ -23,6 +23,6 @@ instance Type ExchangeRate where
 addZeros :: String -> String
 addZeros s
   | dec == "" = int ++ ".000000"
-  | otherwise = int ++ dec ++ replicate (7 - length dec) '0'
+  | otherwise = int ++ dec ++ replicate (5 - length dec) '0'
   where
     (int, dec) = span (/= '.') s
