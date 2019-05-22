@@ -5,12 +5,12 @@ module CFDI.Chainable
   ) where
 
 import Data.Ratio          (denominator, numerator)
-import Data.Text           (Text, append, cons, length, tail, pack)
+import Data.Text           (Text, append, cons, drop, length, pack)
 import Data.Time.Calendar  (Day, showGregorian)
 import Data.Time.Format    (defaultTimeLocale, formatTime)
 import Data.Time.LocalTime (LocalTime)
 import Numeric             (fromRat, showFFloat)
-import Prelude      hiding (length, tail)
+import Prelude      hiding (drop, length)
 
 class Chainable a where
   chain :: a -> Text
@@ -19,10 +19,10 @@ class Chainable a where
 
   -- Chain starters
   (<@>) :: Chainable b => (a -> b) -> (a, Text) -> Text
-  (<@>) f = tail . snd . (f <~>)
+  (<@>) f = drop 1 . snd . (f <~>)
 
   (<@@>) :: Chainable b => (a -> [b]) -> (a, Text) -> Text
-  (<@@>) f = tail . snd . (f <~~>)
+  (<@@>) f = drop 1 . snd . (f <~~>)
 
   -- Chain connectors
   (<~>) :: Chainable b => (a -> b) -> (a, Text) -> (a, Text)
