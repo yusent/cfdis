@@ -16,6 +16,6 @@ instance Type PaymentConditions where
     | matchTest regExp str = Right . PaymentConditions $ pack str
     | otherwise = Left $ DoesNotMatchExpr "[^|]{1,1000}"
     where
-      regExp = mkRegex "^.{1,1000}$"
+      regExp = mkRegex "^(.|á|é|í|ó|ú|ñ|Á|É|Í|Ó|Ú|Ñ){1,1000}$"
 
   render (PaymentConditions pc) = unpack pc
