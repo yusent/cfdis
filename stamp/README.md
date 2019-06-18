@@ -12,6 +12,8 @@ The following variables are read then stamping:
 
 **For ITimbre:** `STAMP_ITIMBRE_USER`, `STAMP_ITIMBRE_PASS` and `STAMP_ITIMBRE_RFC`.
 
+**For any:** `STAMP_ENVIRONMENT` (Use "test" for a testing environment, any other value or the omission of this variable means production).
+
 ## Exit codes
 **0:** Success.
 
