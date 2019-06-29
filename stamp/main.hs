@@ -36,14 +36,14 @@ main = do
               exitWith $ ExitFailure 4
 
             Right signedCfdi -> do
-              environment <- lookupEnv "STAMP_ENVIRONMENT"
+              environment <- lookupEnv "CFDI_ENVIRONMENT"
               let isTest = (map toLower <$> environment) == Just "test"
 
               case map toLower pacName of
                 "itimbre" -> do
-                  user <- getEnv "STAMP_ITIMBRE_USER"
-                  pass <- getEnv "STAMP_ITIMBRE_PASS"
-                  rfc <- getEnv "STAMP_ITIMBRE_RFC"
+                  user <- getEnv "CFDI_ITIMBRE_USER"
+                  pass <- getEnv "CFDI_ITIMBRE_PASS"
+                  rfc <- getEnv "CFDI_ITIMBRE_RFC"
 
                   let pac = ITimbre
                         (pack user)
@@ -64,9 +64,9 @@ main = do
                       putStrLn $ toXML stampedCfdi
 
                 "fel" -> do
-                  user <- getEnv "STAMP_FEL_USER"
-                  pass <- getEnv "STAMP_FEL_PASS"
-                  rfc <- getEnv "STAMP_FEL_RFC"
+                  user <- getEnv "CFDI_FEL_USER"
+                  pass <- getEnv "CFDI_FEL_PASS"
+                  rfc <- getEnv "CFDI_FEL_RFC"
 
                   let pac = Fel
                         (pack user)

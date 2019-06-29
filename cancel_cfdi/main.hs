@@ -3,13 +3,13 @@
 import CFDI (UUID(..))
 import CFDI.PAC (ppCancelError, cancelCFDI)
 import CFDI.PAC.Dummy (Dummy(..))
-import CFDI.PAC.Fel (Fel(Fel), FelEnv(FelProductionEnv))
-import CFDI.PAC.ITimbre (ITimbre(ITimbre), ITimbreEnv(Production))
+import CFDI.PAC.Fel (Fel(Fel), FelEnv(..))
+import CFDI.PAC.ITimbre (ITimbre(ITimbre), ITimbreEnv(..))
 import qualified Data.ByteString.Char8 as C8 (putStrLn)
 import Data.Char (toLower)
 import Data.Text (pack)
 import Data.Text.Encoding (encodeUtf8)
-import System.Environment (getArgs, getEnv)
+import System.Environment (getArgs, getEnv, lookupEnv)
 import System.Exit (ExitCode(ExitFailure), exitWith)
 import System.IO (hPutStrLn, stderr)
 
@@ -19,7 +19,10 @@ main = do
 
   case args of
     (pacName : pfxPem : pfxPass : uuidStr : _) -> do
+      environment <- lookupEnv "CFDI_ENVIRONMENT"
+
       let uuid = UUID $ pack uuidStr
+          isTest = (map toLower <$> environment) == Just "test"
 
       case map toLower pacName of
         "itimbre" -> do
@@ -33,7 +36,7 @@ main = do
                       (pack rfc)
                       (pack pfxPem)
                       (pack pfxPass)
-                      Production
+                      (if isTest then Testing else Production)
 
           eitherErrOrAck <- cancelCFDI pac uuid
 
@@ -56,7 +59,7 @@ main = do
                       (pack rfc)
                       (pack pfxPem)
                       (pack pfxPass)
-                      FelProductionEnv
+                      (if isTest then FelTestingEnv else FelProductionEnv)
 
           eitherErrOrAck <- cancelCFDI pac uuid
 
