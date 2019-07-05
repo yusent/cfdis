@@ -42,11 +42,8 @@ findAddendumByName name CFDI { addenda = Just (Addenda xs) } = find match xs
   where
     match Element { elName = QName n _ _ } = n == name
 
-getStampComplement :: CFDI -> Maybe Complement
-getStampComplement CFDI { complement = comps } = find isStampComplement comps
-  where
-    isStampComplement (StampComplement _) = True
-    isStampComplement _ = False
+getStampComplement :: CFDI -> Maybe PacStamp
+getStampComplement cfdi = stampComplement =<< complement cfdi
 
 originalChain :: CFDI -> Text
 originalChain cfdi = "||" `append` chain cfdi `append` "||"

@@ -7,7 +7,6 @@ import CFDI
   ( PacStamp
   , UUID(..)
   , getStampComplement
-  , pacStamp
   , parseCfdiXml
   , toXML
   )
@@ -200,8 +199,7 @@ handleITimbreResponse response
                 Right cfdi ->
                   case getStampComplement cfdi of
                     Nothing -> Left PacStampNotPresent
-
-                    Just stampComp -> Right $ pacStamp stampComp
+                    Just stampComp -> Right stampComp
 
   | otherwise = Left . PacHTTPError responseStatusCode . pack $ show responseBody
   where

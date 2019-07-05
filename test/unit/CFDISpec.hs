@@ -48,79 +48,84 @@ cfdi = CFDI
         \4FTlC9sWLcSsoO8+ZQjzKIRe2XyzfoXXj4Ax2ZNoQdItK7GOS10AD/KsoHvlj0O4leN1pG\
         \Pg5SYmI1ppvP5IIQKqqL6rLdW1iCenyhLhWdgMZq82t2Xf")
   Income
-  [ StampComplement
-      (PacStamp
-        (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))
-        (CompanyRfc "SAT970701NN3")
-        (CertificateNumber "00001000000403258748")
-        "VxwwW+2KLIFNppKkfSUMdMTxP/hOzxcLjG1TGSjMrYEZ3goBp18d/LO37jfE7blA\
-        \xJH0nnWWYQEH4JPCpyvXSjA1HRooYlsvV81dSDQF9W0ojPpqgKt5E46+dwNNL3yn\
-        \wkcQIg0GhLMzZgEhH3Yw/PGHm0dby02Z6gzm6GyFyA50d1fpco/+fQpiBdlxneH+\
-        \n+3uO8OnN8V4shM/vFKIbW6HkhjDgOeJLb2mRM7rSAT9jdbFDkfQri/df3laVUs/\
-        \gpEoyXEpK7E5C53yfgqWyTASSEPFlgoSSlEVRL7jC7Pb6eY2EynFgQXt6uemzqQV\
-        \oCHha+aDHxiaOlrUI+Xu1g=="
-        "AXvgW3lSloJK7iSUJsHiBmLAcdCnQZi0yA8XwODvucH6kgdJTTHr256z9XBjIRFG\
-        \Q+eUlmSs4USAS3rz2+DMfLS27EkEeReEFF/Mhcf0bM7U91Gm9p7OvAFs9WPbFzhx\
-        \P+gvnzr4KdJ9O4CAsfyVNtlTJ+Z+cquDZw5Yun25xfOqObFtv/m7g2+c9dWbBAgf\
-        \2vEGUemy1hg9i8nEBCFkx6TIH3SyojLsXwnIoNWQ3CIZzpydfBnVawddcCZcoUiA\
-        \NUQBM5rfgYf1CzUoopEIo1l6+UdbyefKNpvYpejcrBUSPY6Q8uQFvf+rm6jtTrsI\
-        \c2LNlhiV5fL9mb8MGMWiKw=="
-        (LocalTime
-          (ModifiedJulianDay 57953)
-          (TimeOfDay 14 31 15))
-        (UUID "BA87BCD8-411B-41CB-BA9B-81B1A8327099")
-        (PacStampVersion 1.1))
-  , PaymentComplement
-      (Payments
-        [ Payment
-            (Amount 24000.12)
-            (Just (BankRfc "XEXX010101000"))
-            (Just "PAYMENTCERTIFICATE")
-            (Just (PaymentChain "PAYMENTCHAIN"))
-            (Just (PaymentChainType "01"))
-            CUR_MXN
-            (Just (ExchangeRate 12.121212))
-            (Just (AccountNumber "1234567890"))
-            (Just (BankName "Generic Bank Name"))
-            (LocalTime
-              (ModifiedJulianDay 57953)
-              (TimeOfDay 14 31 15))
-            (Just (OperationId "O12"))
-            (Just (AccountNumber "0987654321"))
-            (Just (CompanyRfc "BAN010101000"))
-            [ PaymentRelatedDocument
-                CUR_MXN
-                (Just (ExchangeRate 12.121212))
-                (RelatedDocumentId "BA87BCD8-411B-41CB-BA9B-81B1A8327099")
-                (Just (Folio "144"))
-                (Just (Amount 2400.12))
-                (Just (Partiality 123))
-                OneTimePayment
-                (Just (Amount 1200.36))
-                (Just (Amount 0.36))
-                (Just (Series "VUE"))
-            ]
-            (Just "PAYMENTSIGNATURE")
-            [ PaymentTaxes
-                (Just (PaymentRetainedTaxes
-                        [ PaymentRetainedTax
-                            (Amount 0)
-                            ISR
-                        ]))
-                (Just (Amount 174.48))
-                (Just (Amount 0))
-                (Just (PaymentTransferedTaxes
-                        [ PaymentTransferedTax
-                            (Amount 174.48)
-                            Rate
-                            (TaxRate 0.16)
-                            IVA
-                        ]))
-            ]
-            Cash
-        ]
-        (PaymentsVersion 1.0))
-  ]
+  (Just
+    (Complement
+      (Just
+        (Payments
+          [ Payment
+              (Amount 24000.12)
+              (Just (BankRfc "XEXX010101000"))
+              (Just "PAYMENTCERTIFICATE")
+              (Just (PaymentChain "PAYMENTCHAIN"))
+              (Just (PaymentChainType "01"))
+              CUR_MXN
+              (Just (ExchangeRate 12.121212))
+              (Just (AccountNumber "1234567890"))
+              (Just (BankName "Generic Bank Name"))
+              (LocalTime
+                (ModifiedJulianDay 57953)
+                (TimeOfDay 14 31 15))
+              (Just (OperationId "O12"))
+              (Just (AccountNumber "0987654321"))
+              (Just (CompanyRfc "BAN010101000"))
+              [ PaymentRelatedDocument
+                  CUR_MXN
+                  (Just (ExchangeRate 12.121212))
+                  (RelatedDocumentId "BA87BCD8-411B-41CB-BA9B-81B1A8327099")
+                  (Just (Folio "144"))
+                  (Just (Amount 2400.12))
+                  (Just (Partiality 123))
+                  OneTimePayment
+                  (Just (Amount 1200.36))
+                  (Just (Amount 0.36))
+                  (Just (Series "VUE"))
+              ]
+              (Just "PAYMENTSIGNATURE")
+              [ PaymentTaxes
+                  (Just (PaymentRetainedTaxes
+                          [ PaymentRetainedTax
+                              (Amount 0)
+                              ISR
+                          ]))
+                  (Just (Amount 174.48))
+                  (Just (Amount 0))
+                  (Just (PaymentTransferedTaxes
+                          [ PaymentTransferedTax
+                              (Amount 174.48)
+                              Rate
+                              (TaxRate 0.16)
+                              IVA
+                          ]))
+              ]
+              Cash
+          ]
+          (PaymentsVersion 1.0)
+        )
+      )
+      (Just
+        (PacStamp
+          (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))
+          (CompanyRfc "SAT970701NN3")
+          (CertificateNumber "00001000000403258748")
+          "VxwwW+2KLIFNppKkfSUMdMTxP/hOzxcLjG1TGSjMrYEZ3goBp18d/LO37jfE7blA\
+          \xJH0nnWWYQEH4JPCpyvXSjA1HRooYlsvV81dSDQF9W0ojPpqgKt5E46+dwNNL3yn\
+          \wkcQIg0GhLMzZgEhH3Yw/PGHm0dby02Z6gzm6GyFyA50d1fpco/+fQpiBdlxneH+\
+          \n+3uO8OnN8V4shM/vFKIbW6HkhjDgOeJLb2mRM7rSAT9jdbFDkfQri/df3laVUs/\
+          \gpEoyXEpK7E5C53yfgqWyTASSEPFlgoSSlEVRL7jC7Pb6eY2EynFgQXt6uemzqQV\
+          \oCHha+aDHxiaOlrUI+Xu1g=="
+          "AXvgW3lSloJK7iSUJsHiBmLAcdCnQZi0yA8XwODvucH6kgdJTTHr256z9XBjIRFG\
+          \Q+eUlmSs4USAS3rz2+DMfLS27EkEeReEFF/Mhcf0bM7U91Gm9p7OvAFs9WPbFzhx\
+          \P+gvnzr4KdJ9O4CAsfyVNtlTJ+Z+cquDZw5Yun25xfOqObFtv/m7g2+c9dWbBAgf\
+          \2vEGUemy1hg9i8nEBCFkx6TIH3SyojLsXwnIoNWQ3CIZzpydfBnVawddcCZcoUiA\
+          \NUQBM5rfgYf1CzUoopEIo1l6+UdbyefKNpvYpejcrBUSPY6Q8uQFvf+rm6jtTrsI\
+          \c2LNlhiV5fL9mb8MGMWiKw=="
+          (LocalTime
+            (ModifiedJulianDay 57953)
+            (TimeOfDay 14 31 15))
+          (UUID "BA87BCD8-411B-41CB-BA9B-81B1A8327099")
+          (PacStampVersion 1.1)))
+    )
+  )
   (Concepts
     [ Concept
         (Amount 1090.52)
@@ -335,7 +340,6 @@ spec = do
         , "Receptor"
         , "Conceptos"
         , "Impuestos"
-        , "Complemento"
         , "Complemento"
         ]
 

@@ -117,8 +117,11 @@ data ValidationError
   deriving (Eq, Show)
 
 addStampToCFDI :: CFDI -> PacStamp -> CFDI
-addStampToCFDI cfdi@CFDI{ complement = comps } stamp' =
-  cfdi { complement = StampComplement stamp' : comps }
+addStampToCFDI cfdi stamp' = cfdi { complement = comp }
+  where
+    comp = case complement cfdi of
+      Nothing -> Just . Complement Nothing $ Just stamp'
+      Just (Complement pc _) -> Just . Complement pc $ Just stamp'
 
 handleCancelHttpException :: HttpException -> IO (Either CancelError Text)
 handleCancelHttpException _ = return $ Left CancelConnectionError

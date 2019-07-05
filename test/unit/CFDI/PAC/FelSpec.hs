@@ -52,7 +52,7 @@ cfdi = CFDI
   Nothing
   Nothing
   Income
-  []
+  Nothing
   (Concepts
     [ Concept
         (Amount 1090.52)

@@ -7,7 +7,6 @@ import CFDI
   ( PacStamp
   , UUID(..)
   , getStampComplement
-  , pacStamp
   , parseCfdiXml
   , toXML
   )
@@ -130,9 +129,7 @@ felStampResponseParser methodName xml = do
         case parseCfdiXml (getElemText xmlRes) of
           Left pe -> Left $ ParsePacResponseXMLError pe
 
-          Right cfdi -> do
-            stampComp <- justErr PacStampNotPresent $ getStampComplement cfdi
-            return $ pacStamp stampComp
+          Right cfdi -> justErr PacStampNotPresent $ getStampComplement cfdi
 
       else do
         errMsg <-

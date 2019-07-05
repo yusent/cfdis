@@ -52,7 +52,7 @@ cfdi = CFDI
   Nothing
   Nothing
   Income
-  []
+  Nothing
   (Concepts
     [ Concept
         (Amount 1090.52)
@@ -190,8 +190,7 @@ spec = do
           eitherErrOrCFDI `shouldSatisfy` isRight
 
           let Right sCFDI = eitherErrOrCFDI
-              Just (StampComplement PacStamp{ psUuid = uuid}) =
-                getStampComplement sCFDI
+              Just (PacStamp{ psUuid = uuid}) = getStampComplement sCFDI
 
           eAck <- cancelCFDI itimbre uuid
           eAck `shouldSatisfy` isRight

@@ -23,7 +23,6 @@ import CFDI.Types.Version
 import CFDI.Types.WayToPay
 import CFDI.Types.ZipCode
 import CFDI.XmlNode
-import Data.List                    (find)
 import Data.Maybe                   (catMaybes)
 import Data.Text                    (Text)
 import Data.Time.LocalTime          (LocalTime)
@@ -33,7 +32,7 @@ data CFDI = CFDI
   , certNum       :: Maybe CertificateNumber
   , certText      :: Maybe Text
   , cfdiType      :: CfdiType
-  , complement    :: [Complement]
+  , complement    :: Maybe Complement
   , concepts      :: Concepts
   , confirmation  :: Maybe Confirmation
   , currency      :: Currency
@@ -117,9 +116,9 @@ instance XmlNode CFDI where
     , Just . renderNode $ recipient r
     , Just . renderNode $ concepts r
     , renderNode <$> taxes r
+    , renderNode <$> complement r
+    , renderNode <$> addenda r
     ]
-    ++ map renderNode (complement r)
-    ++ catMaybes [renderNode <$> addenda r]
 
   nodeName = const "Comprobante"
 
@@ -128,7 +127,7 @@ instance XmlNode CFDI where
     <*> parseAttribute "NoCertificado" n
     <*> parseAttribute "Certificado" n
     <*> requireAttribute "TipoDeComprobante" n
-    <*> parseChildren "Complemento" n
+    <*> parseChild "Complemento" n
     <*> requireChild "Conceptos" n
     <*> parseAttribute "Confirmacion" n
     <*> requireAttribute "Moneda" n
@@ -151,10 +150,4 @@ instance XmlNode CFDI where
     <*> parseAttribute "FormaPago" n
 
 getPaymentComplement :: CFDI -> Maybe Payments
-getPaymentComplement CFDI { complement = comps } =
-  getPayments =<< find isPaymentComplement comps
-  where
-    getPayments (PaymentComplement ps) = Just ps
-    getPayments _ = Nothing
-    isPaymentComplement (PaymentComplement _) = True
-    isPaymentComplement _ = False
+getPaymentComplement cfdi = paymentsComplement =<< complement cfdi

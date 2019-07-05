@@ -28,9 +28,6 @@
     </cfdi:Traslados>
   </cfdi:Impuestos>
   <cfdi:Complemento>
-    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="BA87BCD8-411B-41CB-BA9B-81B1A8327099" FechaTimbrado="2017-07-19T14:31:15" RfcProvCertif="SAT970701NN3" SelloCFD="AXvgW3lSloJK7iSUJsHiBmLAcdCnQZi0yA8XwODvucH6kgdJTTHr256z9XBjIRFGQ+eUlmSs4USAS3rz2+DMfLS27EkEeReEFF/Mhcf0bM7U91Gm9p7OvAFs9WPbFzhxP+gvnzr4KdJ9O4CAsfyVNtlTJ+Z+cquDZw5Yun25xfOqObFtv/m7g2+c9dWbBAgf2vEGUemy1hg9i8nEBCFkx6TIH3SyojLsXwnIoNWQ3CIZzpydfBnVawddcCZcoUiANUQBM5rfgYf1CzUoopEIo1l6+UdbyefKNpvYpejcrBUSPY6Q8uQFvf+rm6jtTrsIc2LNlhiV5fL9mb8MGMWiKw==" NoCertificadoSAT="00001000000403258748" SelloSAT="VxwwW+2KLIFNppKkfSUMdMTxP/hOzxcLjG1TGSjMrYEZ3goBp18d/LO37jfE7blAxJH0nnWWYQEH4JPCpyvXSjA1HRooYlsvV81dSDQF9W0ojPpqgKt5E46+dwNNL3ynwkcQIg0GhLMzZgEhH3Yw/PGHm0dby02Z6gzm6GyFyA50d1fpco/+fQpiBdlxneH+n+3uO8OnN8V4shM/vFKIbW6HkhjDgOeJLb2mRM7rSAT9jdbFDkfQri/df3laVUs/gpEoyXEpK7E5C53yfgqWyTASSEPFlgoSSlEVRL7jC7Pb6eY2EynFgQXt6uemzqQVoCHha+aDHxiaOlrUI+Xu1g==" Leyenda="AVISO PARA EL CONTRIBUYENTE" />
-  </cfdi:Complemento>
-  <cfdi:Complemento>
     <pago10:Pagos Version="1.0">
       <pago10:Pago FechaPago="2017-07-19T14:31:15" FormaDePagoP="01" MonedaP="MXN" TipoCambioP="12.121212" Monto="24000.12" NumOperacion="O12" RfcEmisorCtaOrd="XEXX010101000" NomBancoOrdExt="Generic Bank Name" CtaOrdenante="1234567890" RfcEmisorCtaBen="BAN010101000" CtaBeneficiario="0987654321" TipoCadPago="01" CertPago="PAYMENTCERTIFICATE" CadPago="PAYMENTCHAIN" SelloPago="PAYMENTSIGNATURE">
         <pago10:DoctoRelacionado IdDocumento="BA87BCD8-411B-41CB-BA9B-81B1A8327099" Serie="VUE" Folio="144" MonedaDR="MXN" TipoCambioDR="12.121212" MetodoDePagoDR="PUE" NumParcialidad="123" ImpSaldoAnt="1200.36" ImpPagado="2400.12" ImpSaldoInsoluto="0.36" />
@@ -44,5 +41,6 @@
         </pago10:Impuestos>
       </pago10:Pago>
     </pago10:Pagos>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="BA87BCD8-411B-41CB-BA9B-81B1A8327099" FechaTimbrado="2017-07-19T14:31:15" RfcProvCertif="SAT970701NN3" SelloCFD="AXvgW3lSloJK7iSUJsHiBmLAcdCnQZi0yA8XwODvucH6kgdJTTHr256z9XBjIRFGQ+eUlmSs4USAS3rz2+DMfLS27EkEeReEFF/Mhcf0bM7U91Gm9p7OvAFs9WPbFzhxP+gvnzr4KdJ9O4CAsfyVNtlTJ+Z+cquDZw5Yun25xfOqObFtv/m7g2+c9dWbBAgf2vEGUemy1hg9i8nEBCFkx6TIH3SyojLsXwnIoNWQ3CIZzpydfBnVawddcCZcoUiANUQBM5rfgYf1CzUoopEIo1l6+UdbyefKNpvYpejcrBUSPY6Q8uQFvf+rm6jtTrsIc2LNlhiV5fL9mb8MGMWiKw==" NoCertificadoSAT="00001000000403258748" SelloSAT="VxwwW+2KLIFNppKkfSUMdMTxP/hOzxcLjG1TGSjMrYEZ3goBp18d/LO37jfE7blAxJH0nnWWYQEH4JPCpyvXSjA1HRooYlsvV81dSDQF9W0ojPpqgKt5E46+dwNNL3ynwkcQIg0GhLMzZgEhH3Yw/PGHm0dby02Z6gzm6GyFyA50d1fpco/+fQpiBdlxneH+n+3uO8OnN8V4shM/vFKIbW6HkhjDgOeJLb2mRM7rSAT9jdbFDkfQri/df3laVUs/gpEoyXEpK7E5C53yfgqWyTASSEPFlgoSSlEVRL7jC7Pb6eY2EynFgQXt6uemzqQVoCHha+aDHxiaOlrUI+Xu1g==" Leyenda="AVISO PARA EL CONTRIBUYENTE" />
   </cfdi:Complemento>
 </cfdi:Comprobante>
