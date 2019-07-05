@@ -11,7 +11,7 @@ data Complement = Complement
   } deriving (Eq, Show)
 
 instance XmlNode Complement where
-  children (Complement stamp payments) = catMaybes
+  children (Complement payments stamp) = catMaybes
     [ renderNode <$> payments
     , renderNode <$> stamp
     ]
