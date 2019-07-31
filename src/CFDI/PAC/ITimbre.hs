@@ -99,7 +99,7 @@ instance FromJSON ITimbreResponse where
               Just (String data_) -> Just data_
 
               Just (Array vec) -> case head vec of
-                Object o -> case lookup "xml_data" o of
+                Object o -> case lookup "cfdi_xml" o of
                   Just (String xml) -> Just xml
 
                   _ -> Nothing
