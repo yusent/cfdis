@@ -36,7 +36,10 @@ main = do
                       (pack rfc)
                       (pack pfxPem)
                       (pack pfxPass)
-                      (if isTest then Testing else Production)
+                      (if isTest
+                        then ItimbreTestingEnv
+                        else ItimbreProductionEnv
+                      )
 
           eitherErrOrAck <- cancelCFDI pac uuid
 

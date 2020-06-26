@@ -51,7 +51,10 @@ main = do
                         (pack rfc)
                         ""
                         ""
-                        (if isTest then Testing else Production)
+                        (if isTest
+                          then ItimbreTestingEnv
+                          else ItimbreProductionEnv
+                        )
 
                   eitherErrOrStampedCfdi <- stampWithRetry signedCfdi pac
 

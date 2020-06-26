@@ -55,8 +55,8 @@ data ITimbreCancelResponse = ITimbreCancelResponse Text (Either Text Text)
   deriving (Show)
 
 data ITimbreEnv
-  = Production
-  | Testing
+  = ItimbreProductionEnv
+  | ItimbreTestingEnv
   deriving (Eq, Show)
 
 data ITimbreResponse = ITimbreResponse Text (Either Text Text)
@@ -114,7 +114,7 @@ instance PAC ITimbre where
       `catch` handleCancelHttpException
     where
       req
-        | env p == Production = "POST https://portalws.itimbre.com/itimbre.php"
+        | env p == ItimbreProductionEnv = "POST https://portalws.itimbre.com/itimbre.php"
         | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
       request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)]
               $ req
@@ -212,7 +212,7 @@ stampRequest e requestBody =
     `catch` handleStampHttpException
   where
     req
-      | e == Production = "POST https://portalws.itimbre.com/itimbre.php"
+      | e == ItimbreProductionEnv = "POST https://portalws.itimbre.com/itimbre.php"
       | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
     request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)]
             $ req
