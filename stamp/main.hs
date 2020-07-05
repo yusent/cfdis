@@ -63,8 +63,7 @@ main = do
                       hPutStrLn stderr $ ppStampError stampErr
                       exitWith $ ExitFailure 6
 
-                    Right stampedCfdi -> do
-                      putStrLn $ toXML stampedCfdi
+                    Right stampedCfdi -> putStrLn $ toXML stampedCfdi
 
                 "fel" -> do
                   user <- getEnv "CFDI_FEL_USER"
@@ -86,7 +85,7 @@ main = do
                       hPutStrLn stderr $ ppStampError stampErr
                       exitWith $ ExitFailure 6
 
-                    Right stampedCfdi -> do
+                    Right stampedCfdi ->
                       C8.putStrLn . encodeUtf8 . pack $ toXML stampedCfdi
 
                 "dummy" -> do
@@ -97,7 +96,7 @@ main = do
                       hPutStrLn stderr $ ppStampError stampErr
                       exitWith $ ExitFailure 6
 
-                    Right stampedCfdi -> do
+                    Right stampedCfdi ->
                       C8.putStrLn . encodeUtf8 . pack $ toXML stampedCfdi
 
                 unknownPac -> do
@@ -105,5 +104,5 @@ main = do
                   exitWith $ ExitFailure 5
 
     _ -> do
-      hPutStrLn stderr $ "Usage: stamp [Path to CSD PEM file] [PAC name]"
+      hPutStrLn stderr "Usage: stamp [Path to CSD PEM file] [PAC name]"
       exitWith $ ExitFailure 2
