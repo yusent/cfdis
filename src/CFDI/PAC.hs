@@ -49,8 +49,7 @@ class PAC p where
     case validateForStamp cfdi of
       Left vErr -> return . Left $ PreStampValidationError vErr
 
-      Right cfdiId ->
-        fmap (fmap (addStampToCFDI cfdi)) $ getPacStamp cfdi p cfdiId
+      Right cfdiId -> fmap (addStampToCFDI cfdi) <$> getPacStamp cfdi p cfdiId
 
   stampLookup :: p -> Text -> IO (Either StampError PacStamp)
 
