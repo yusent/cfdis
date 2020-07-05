@@ -21,7 +21,7 @@ import CFDI.Types
 import CFDI.XmlNode         (parseNode, renderNode)
 import CFDI.XmlNode as XN   (XmlParseError(..))
 import Control.Error.Safe   (justErr)
-import Data.List            (find, intersperse)
+import Data.List            (find, intercalate)
 import Data.Text            (Text, append)
 import Text.XML.Light
   ( Element(..)
@@ -64,8 +64,7 @@ ppParseError NotInCatalog =
   "No se encuentra en el catálogo de valores permitidos publicado por el SAT."
 
 ppXmlParseError :: String -> XmlParseError -> String
-ppXmlParseError indentationStr = concat
-  . intersperse "\n"
+ppXmlParseError indentationStr = intercalate "\n"
   . fst
   . foldl addIndentation ([], "")
   . errMsgLines
