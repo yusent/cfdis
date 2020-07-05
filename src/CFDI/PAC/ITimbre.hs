@@ -15,6 +15,7 @@ import Control.Error.Safe      (justErr)
 import Control.Exception       (catch)
 import Data.Aeson
   ( FromJSON
+  , Object
   , Result(Success, Error)
   , Value(Array, Number, Object, String)
   , (.=)
@@ -26,6 +27,7 @@ import Data.Aeson
   , parseJSON
   , withObject
   )
+import Data.Aeson.Types        (Parser)
 import Data.Bifunctor          (first)
 import Data.ByteString.Lazy    (toStrict)
 import Data.Conduit.Attoparsec (errorMessage)
@@ -63,50 +65,26 @@ data ITimbreResponse = ITimbreResponse Text (Either Text Text)
   deriving (Show)
 
 instance FromJSON ITimbreCancelResponse where
-  parseJSON = withObject "ITimbreCancelResponse" $ \v -> do
-    retCode    <- (v .: "result") >>= (.: "retcode")
-    maybeError <- (v .: "result") >>= (.:? "error")
-
-    let retCode_ = case retCode of
-                     Number n -> pack . takeWhile (/= '.') $ show n
-                     String t -> t
-                     _ -> ""
-
-    case maybeError of
-      Just err -> return . ITimbreCancelResponse retCode_ $ Left err
-
-      Nothing  -> ITimbreCancelResponse retCode_ . justErr "No se obtuvo acuse"
-                    <$> ((v .: "result") >>= (.:? "acuse"))
+  parseJSON = withObj "ITimbreCancelResponse" ITimbreCancelResponse $ \v retCode_ ->
+    ITimbreCancelResponse retCode_ . justErr "No se obtuvo acuse" <$> ((v .: "result") >>= (.:? "acuse"))
 
 instance FromJSON ITimbreResponse where
-  parseJSON = withObject "ITimbreResponse" $ \v -> do
-    retCode    <- (v .: "result") >>= (.: "retcode")
-    maybeError <- (v .: "result") >>= (.:? "error")
+  parseJSON = withObj "ITimbreResponse" ITimbreResponse $ \v retCode_ -> do
+    mData <- (v .: "result") >>= (.:? "data")
 
-    let retCode_ = case retCode of
-                     Number n -> pack . takeWhile (/= '.') $ show n
-                     String t -> t
-                     _ -> ""
+    return . ITimbreResponse retCode_ . justErr "No se obtuvo XML"
+      $ case mData of
+          Just (String data_) -> Just data_
 
-    case maybeError of
-      Just err -> return . ITimbreResponse retCode_ $ Left err
-
-      Nothing  -> do
-        mData <- (v .: "result") >>= (.:? "data")
-
-        return . ITimbreResponse retCode_ . justErr "No se obtuvo XML"
-          $ case mData of
-              Just (String data_) -> Just data_
-
-              Just (Array vec) -> case head vec of
-                Object o -> case lookup "cfdi_xml" o of
-                  Just (String xml) -> Just xml
-
-                  _ -> Nothing
-
-                _ -> Nothing
+          Just (Array vec) -> case head vec of
+            Object o -> case lookup "cfdi_xml" o of
+              Just (String xml) -> Just xml
 
               _ -> Nothing
+
+            _ -> Nothing
+
+          _ -> Nothing
 
 instance PAC ITimbre where
   cancelCFDI p (UUID uuid) =
@@ -116,8 +94,7 @@ instance PAC ITimbre where
       req
         | env p == ItimbreProductionEnv = "POST https://portalws.itimbre.com/itimbre.php"
         | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
-      request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)]
-              $ req
+      request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)] req
       requestBody = object
         [ "method" .= ("cancelarCFDI" :: Text)
         , "params" .= object
@@ -142,7 +119,7 @@ instance PAC ITimbre where
           ]
       ]
 
-  stampLookup p cfdiId = do
+  stampLookup p cfdiId =
     stampRequest (env p) $ object
       [ "id"     .= cfdiId
       , "method" .= ("buscarCFDI" :: Text)
@@ -152,6 +129,25 @@ instance PAC ITimbre where
           , "RFC"     .= rfc p
           ]
       ]
+
+withObj
+  :: FromJSON a
+  => String
+  -> (Text -> Either Text Text -> a)
+  -> (Object -> Text -> Parser a)
+  -> Value
+  -> Parser a
+withObj objectName responseConstructor actionsOnSuccess = withObject objectName
+  $ \v -> do
+    retCode    <- (v .: "result") >>= (.: "retcode")
+    maybeError <- (v .: "result") >>= (.:? "error")
+    let retCode_ = case retCode of
+                     Number n -> pack . takeWhile (/= '.') $ show n
+                     String t -> t
+                     _ -> ""
+    case maybeError of
+      Just err -> return . responseConstructor retCode_ $ Left err
+      Nothing  -> actionsOnSuccess v retCode_
 
 handleITimbreCancelResponse :: Response (Either JSONException Value)
                             -> Either CancelError Text
@@ -214,5 +210,4 @@ stampRequest e requestBody =
     req
       | e == ItimbreProductionEnv = "POST https://portalws.itimbre.com/itimbre.php"
       | otherwise = "POST https://portalws.itimbre.com/itimbreprueba.php"
-    request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)]
-            $ req
+    request = setRequestBodyURLEncoded [("q", toStrict $ encode requestBody)] req
