@@ -48,8 +48,7 @@ main = do
               hPutStrLn stderr $ ppCancelError cancelError
               exitWith $ ExitFailure 4
 
-            Right ack -> do
-              C8.putStrLn $ encodeUtf8 ack
+            Right ack -> C8.putStrLn $ encodeUtf8 ack
 
         "fel" -> do
           user <- getEnv "CFDI_FEL_USER"
@@ -71,8 +70,7 @@ main = do
               hPutStrLn stderr $ ppCancelError cancelError
               exitWith $ ExitFailure 4
 
-            Right ack -> do
-              C8.putStrLn $ encodeUtf8 ack
+            Right ack -> C8.putStrLn $ encodeUtf8 ack
 
         "dummy" -> do
           eitherErrOrAck <- cancelCFDI Dummy uuid
@@ -82,13 +80,12 @@ main = do
               hPutStrLn stderr $ ppCancelError cancelError
               exitWith $ ExitFailure 4
 
-            Right ack -> do
-              C8.putStrLn $ encodeUtf8 ack
+            Right ack -> C8.putStrLn $ encodeUtf8 ack
 
         unknownPac -> do
           hPutStrLn stderr $  "Unknown PAC " ++ unknownPac
           exitWith $ ExitFailure 3
 
     _ -> do
-      hPutStrLn stderr $ "Usage: cfdi_cancel [PAC name] [CFDI UUID]"
+      hPutStrLn stderr "Usage: cfdi_cancel [PAC name] [CFDI UUID]"
       exitWith $ ExitFailure 2
