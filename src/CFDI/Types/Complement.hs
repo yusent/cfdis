@@ -6,8 +6,8 @@ import CFDI.XmlNode
 import Data.Maybe          (catMaybes)
 
 data Complement = Complement
-  { paymentsComplement :: (Maybe Payments)
-  , stampComplement :: (Maybe PacStamp)
+  { paymentsComplement :: Maybe Payments
+  , stampComplement :: Maybe PacStamp
   } deriving (Eq, Show)
 
 instance XmlNode Complement where

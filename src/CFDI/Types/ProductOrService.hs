@@ -16,7 +16,7 @@ instance Type ProductOrService where
   parseExpr c = justErr NotInCatalog maybeProductPorService
     where
       maybeProductPorService =
-        readMaybe c >>= isValid >>= return . ProductOrService
+        ProductOrService <$> (readMaybe c >>= isValid)
       isValid x
         | x `member` validCodes = Just x
         | otherwise = Nothing

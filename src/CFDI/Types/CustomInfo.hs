@@ -10,7 +10,7 @@ instance Chainable CustomInfo where
   chain (CustomInfo i) = chain i
 
 instance XmlNode CustomInfo where
-  attributes (CustomInfo n) = [attr "NumeroPedimento" $ n]
+  attributes (CustomInfo n) = [attr "NumeroPedimento" n]
 
   nodeName = const "InformacionAduanera"
 

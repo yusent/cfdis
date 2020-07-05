@@ -10,7 +10,7 @@ newtype Custom = Custom Int deriving (Eq, Show)
 instance Type Custom where
   parseExpr c = justErr NotInCatalog maybeCustom
     where
-      maybeCustom = readMaybe c >>= isValid >>= return . Custom
+      maybeCustom = Custom <$> (readMaybe c >>= isValid)
       isValid x
         | x `member` validCodes = Just x
         | otherwise = Nothing

@@ -639,7 +639,7 @@ data MeasurementUnit
   | MU_DTN
   | MU_DU
   | MU_DWT
-  | MU_Dx
+  | MU_DX
   | MU_DY
   | MU_DZN
   | MU_DZP
@@ -960,7 +960,7 @@ data MeasurementUnit
   | MU_GB
   | MU_GBQ
   | MU_GC
-  | MU_Gd
+  | MU_GD
   | MU_GDW
   | MU_GE
   | MU_GF
@@ -1222,7 +1222,7 @@ data MeasurementUnit
   | MU_JK
   | MU_JM
   | MU_JNT
-  | MU_Jo
+  | MU_JO
   | MU_JOU
   | MU_JPS
   | MU_JWL
@@ -1741,7 +1741,7 @@ data MeasurementUnit
   | MU_NX
   | MU_OA
   | MU_ODE
-  | MU_Ohm
+  | MU_OHM
   | MU_ON
   | MU_ONZ
   | MU_OP
@@ -1996,13 +1996,13 @@ data MeasurementUnit
   | MU_TQD
   | MU_TR
   | MU_TRL
-  | MU_Ts
+  | MU_TS
   | MU_TSD
   | MU_TSH
   | MU_TST
   | MU_TT
   | MU_TTS
-  | MU_Tu
+  | MU_TU
   | MU_TV
   | MU_TW
   | MU_U1
@@ -2043,7 +2043,7 @@ data MeasurementUnit
   | MU_X1D
   | MU_X1F
   | MU_X1G
-  | MU_X1w
+  | MU_X1W
   | MU_X2C
   | MU_X3A
   | MU_X3H
@@ -2383,7 +2383,7 @@ data MeasurementUnit
   | MU_XYR
   | MU_XYS
   | MU_XYT
-  | MU_Xyv
+  | MU_XYV
   | MU_XYW
   | MU_XYX
   | MU_XYY

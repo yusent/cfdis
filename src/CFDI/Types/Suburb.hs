@@ -9,7 +9,7 @@ newtype Suburb = Suburb Int deriving (Eq, Read, Show)
 instance Type Suburb where
   parseExpr c = justErr NotInCatalog maybeSuburb
     where
-      maybeSuburb = readMaybe c >>= isValid >>= return . Suburb
+      maybeSuburb = Suburb <$> (readMaybe c >>= isValid)
       isValid x
         | x > 0 && x < 10000 = Just x
         | otherwise = Nothing

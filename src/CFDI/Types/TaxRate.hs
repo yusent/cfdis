@@ -19,4 +19,4 @@ instance Type TaxRate where
     where
       regExp = mkRegex "^[0-9]+(\\.[0-9]{1,6})?$"
 
-  render (TaxRate r) = (showFFloatAlt (Just 6) (fromRat r :: Double)) ""
+  render (TaxRate r) = showFFloatAlt (Just 6) (fromRat r :: Double) ""

@@ -26,7 +26,7 @@ instance Type Amount where
   -- Note: Payment CFDIs required to have amounts of exactly "0", "0.0" is
   -- considered to be invalid :(.
   render (Amount 0) = "0"
-  render (Amount r) = (showFFloatAlt (Just 2) (fromRat r :: Double)) ""
+  render (Amount r) = showFFloatAlt (Just 2) (fromRat r :: Double) ""
 
 formatAmount :: Amount -> Text
 formatAmount amount = pack $ commaSeparatedIntPart ++ decimalPart

@@ -13,7 +13,7 @@ instance Chainable ZipCode where
 instance Type ZipCode where
   parseExpr c = justErr NotInCatalog maybeZipCode
     where
-      maybeZipCode = readMaybe c >>= isValid >>= return . ZipCode
+      maybeZipCode = ZipCode <$> (readMaybe c >>= isValid)
       isValid x
         | x > 0     && x <  1000 = Nothing
         | x > 16999 && x < 20000 = Nothing

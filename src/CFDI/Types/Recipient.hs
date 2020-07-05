@@ -26,14 +26,13 @@ instance Chainable Recipient where
         <~> (c, "")
 
 instance XmlNode Recipient where
-  attributes n =
-    [ attr "Rfc" $ recRfc n
-    ] ++ catMaybes
-    [ attr "UsoCFDI"          <$> recCfdiUse n
-    , attr "Nombre"           <$> recName n
-    , attr "ResidenciaFiscal" <$> taxResidence n
-    , attr "NumRegIdTrib"     <$> recTaxId n
-    ]
+  attributes n = attr "Rfc" (recRfc n)
+    : catMaybes
+      [ attr "UsoCFDI"          <$> recCfdiUse n
+      , attr "Nombre"           <$> recName n
+      , attr "ResidenciaFiscal" <$> taxResidence n
+      , attr "NumRegIdTrib"     <$> recTaxId n
+      ]
 
   nodeName = const "Receptor"
 

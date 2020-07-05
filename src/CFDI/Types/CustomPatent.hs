@@ -10,7 +10,7 @@ newtype CustomPatent = CustomPatent Int deriving (Eq, Show)
 instance Type CustomPatent where
   parseExpr c = justErr NotInCatalog maybeCustomPatent
     where
-      maybeCustomPatent = readMaybe c >>= isValid >>= return . CustomPatent
+      maybeCustomPatent = CustomPatent <$> (readMaybe c >>= isValid)
       isValid x
         | x `member` validCodes = Just x
         | otherwise = Nothing

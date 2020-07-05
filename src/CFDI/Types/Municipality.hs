@@ -9,7 +9,7 @@ newtype Municipality = Municipality Int deriving (Eq, Read, Show)
 instance Type Municipality where
   parseExpr c = justErr NotInCatalog maybeMunicipality
     where
-      maybeMunicipality = readMaybe c >>= isValid >>= return . Municipality
+      maybeMunicipality = Municipality <$> (readMaybe c >>= isValid)
       isValid x
         | x > 0 && x < 571 = Just x
         | otherwise = Nothing

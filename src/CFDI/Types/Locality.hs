@@ -9,7 +9,7 @@ newtype Locality = Locality Int deriving (Eq, Read, Show)
 instance Type Locality where
   parseExpr c = justErr NotInCatalog maybeLocality
     where
-      maybeLocality = readMaybe c >>= isValid >>= return . Locality
+      maybeLocality = Locality <$> (readMaybe c >>= isValid)
       isValid x
         | x >  0 && x < 63 = Just x
         | x > 65 && x < 70 = Just x

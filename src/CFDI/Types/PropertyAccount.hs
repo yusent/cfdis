@@ -4,7 +4,7 @@ import CFDI.Chainable
 import CFDI.Types.PropertyAccountNumber
 import CFDI.XmlNode
 
-data PropertyAccount = PropertyAccount
+newtype PropertyAccount = PropertyAccount
   { propAccNumber :: PropertyAccountNumber
   } deriving (Eq, Show)
 
