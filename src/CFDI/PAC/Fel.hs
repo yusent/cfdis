@@ -43,14 +43,13 @@ instance PAC Fel where
   cancelCFDI fel@Fel{..} (UUID uuid) = do
     f <- genFelWsFunc fel "CancelarCFDI" $ do
       element' "rFCEmisor" felRfc
-      element' "listaCFDI" $ do
-        element
-          (Name
-            "string"
-            (Just "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
-            (Just "arr")
-          )
-          uuid
+      element' "listaCFDI" $ element
+        (Name
+          "string"
+          (Just "http://schemas.microsoft.com/2003/10/Serialization/Arrays")
+          (Just "arr")
+        )
+        uuid
       element' "clavePrivada_Base64" felPfxPem
       element' "passwordClavePrivada" felPfxPwd
     f felCancelResponseParser `catch` handleCancelHttpException
@@ -62,8 +61,7 @@ instance PAC Fel where
     f (felStampResponseParser "TimbrarCFDI") `catch` handleStampHttpException
 
   stampLookup fel cfdiId = do
-    f <- genFelWsFunc fel "ConsultarTimbrePorReferencia" $ do
-      element' "referencia" cfdiId
+    f <- genFelWsFunc fel "ConsultarTimbrePorReferencia" $ element' "referencia" cfdiId
     f (felStampResponseParser "ConsultarTimbrePorReferencia")
       `catch` handleStampHttpException
 
@@ -73,8 +71,7 @@ element' n = element (Name n (Just "http://tempuri.org/") (Just "tem"))
 felCancelResponseParser :: ByteString -> Either CancelError Text
 felCancelResponseParser xml = do
   resElem <-
-    justErr (ParseCancelResponseError "Respuesta en formato desconocido.")
-      $ mResElem
+    justErr (ParseCancelResponseError "Respuesta en formato desconocido.") mResElem
 
   let mDetailElem = findChildByName "DetallesCancelacion" resElem
                 >>= findChildByName "DetalleCancelacion"
@@ -88,7 +85,7 @@ felCancelResponseParser xml = do
                $ ParseCancelResponseError "Se obtuvo una respuesta sin estatus."
 
       Just opStatus -> if getElemText opStatus == "true"
-        then do
+        then
           case findChildByName "XMLAcuse" resElem of
             Nothing -> Left MissingCancelationAckError
 
@@ -114,8 +111,7 @@ felCancelResponseParser xml = do
 
 felStampResponseParser :: String -> ByteString -> Either StampError PacStamp
 felStampResponseParser methodName xml = do
-  resElem <- justErr (ParsePacResponseError "Respuesta en formato desconocido.")
-           $ mResElem
+  resElem <- justErr (ParsePacResponseError "Respuesta en formato desconocido.") mResElem
 
   case findChildByName "OperacionExitosa" resElem of
     Nothing -> Left
