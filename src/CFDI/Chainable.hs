@@ -34,7 +34,7 @@ class Chainable a where
   (<~~>) :: Chainable b => (a -> [b]) -> (a, Text) -> (a, Text)
   f <~~> (x, s) = (x, s' `append` s)
     where
-      s' = foldl append "" . map ((cons '|') . chain) $ f x
+      s' = foldl append "" . map (cons '|' . chain) $ f x
 
 instance Chainable Day where
   chain = pack . showGregorian
@@ -54,7 +54,7 @@ instance Chainable a => Chainable (Maybe a) where
 instance Chainable Rational where
   chain r
     | denominator r == 1 = pack . show $ numerator r
-    | otherwise = pack $ (showFFloat Nothing (fromRat r :: Float)) ""
+    | otherwise = pack $ showFFloat Nothing (fromRat r :: Float) ""
 
 instance Chainable Text where
   chain = id
