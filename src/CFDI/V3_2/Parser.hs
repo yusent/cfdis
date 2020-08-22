@@ -174,11 +174,9 @@ parseTaxes element = Taxes
   <*> parseAttribute "totalImpuestosRetenidos" element
   <*> parseAttribute "totalImpuestosTrasladados" element
   where
-    rt = maybe [] (map parseRetainedTax)
-       . fmap (findChildrenByName "Retencion")
+    rt = maybe [] (map parseRetainedTax . findChildrenByName "Retencion")
        $ findChildByName "Retenciones" element
-    tt = maybe [] (map parseTransferedTax)
-       . fmap (findChildrenByName "Traslado")
+    tt = maybe [] (map parseTransferedTax . findChildrenByName "Traslado")
        $ findChildByName "Traslados" element
 
 parseTaxRegime :: Element -> Parsed TaxRegime
