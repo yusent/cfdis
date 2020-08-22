@@ -48,7 +48,7 @@ data CFDI = CFDI
   , wayToPay          :: Text
   } deriving (Eq, Show)
 
-data Complement = Complement
+newtype Complement = Complement
   { pacStamp :: Maybe PacStamp
   } deriving (Eq, Show)
 
@@ -110,7 +110,7 @@ data PacStamp = PacStamp
   , uuid                 :: Text
   } deriving (Eq, Show)
 
-data PropertyAccount = PropertyAccount
+newtype PropertyAccount = PropertyAccount
   { propertyAccountNumber :: Text
   } deriving (Eq, Show)
 
@@ -138,7 +138,7 @@ data Taxes = Taxes
   , totalTransfered :: Maybe Text
   } deriving (Eq, Show)
 
-data TaxRegime = TaxRegime
+newtype TaxRegime = TaxRegime
   { regime :: Text
   } deriving (Eq, Show)
 
