@@ -37,18 +37,17 @@ class Renderable r where
 
 instance Renderable Address where
   attributes r =
-    [ attr "pais" $ country r
-    ] ++ catMaybes
-    [ attr "noExterior"   <$> externalNumber r
-    , attr "noInterior"   <$> internalNumber r
-    , attr "localidad"    <$> locality r
-    , attr "referencia"   <$> reference r
-    , attr "colonia"      <$> suburb r
-    , attr "municipio"    <$> municipality r
-    , attr "estado"       <$> state r
-    , attr "calle"        <$> street r
-    , attr "codigoPostal" <$> zipCode r
-    ]
+    attr "pais" (country r) : catMaybes
+      [ attr "noExterior"   <$> externalNumber r
+      , attr "noInterior"   <$> internalNumber r
+      , attr "localidad"    <$> locality r
+      , attr "referencia"   <$> reference r
+      , attr "colonia"      <$> suburb r
+      , attr "municipio"    <$> municipality r
+      , attr "estado"       <$> state r
+      , attr "calle"        <$> street r
+      , attr "codigoPostal" <$> zipCode r
+      ]
 
   nodeName =
     const "Domicilio"
@@ -175,10 +174,7 @@ instance Renderable ImportInfo where
 
 instance Renderable Issuer where
   attributes r =
-    [ attr "rfc" $ rfc r
-    ] ++ catMaybes
-    [ attr "nombre" <$> name r
-    ]
+    attr "rfc" (rfc r) : catMaybes [attr "nombre" <$> name r]
 
   children r =
     catMaybes
@@ -224,10 +220,7 @@ instance Renderable PropertyAccount where
 
 instance Renderable Recipient where
   attributes r =
-    [ attr "rfc" $ recipientRfc r
-    ] ++ catMaybes
-    [ attr "nombre" <$> recipientName r
-    ]
+    attr "rfc" (recipientRfc r) : catMaybes [attr "nombre" <$> recipientName r]
 
   children r =
     maybeToList $ render <$> recipientAddress r
@@ -252,7 +245,7 @@ instance Renderable Taxes where
       ]
 
   children r =
-    filter ((> 0) . length . elContent)
+    filter (not . null . elContent)
       [ elem (nodePrefix r) "Retenciones" [] $ render <$> retainedTaxes r
       , elem (nodePrefix r) "Traslados" [] $ render <$> transferedTaxes r
       ]
