@@ -169,7 +169,7 @@ cfdi = CFDI
   (Issuer
     (Just (Name "EMISOR DE PRUEBA"))
     (RFC "XAXX010101000")
-    (PeopleWithBusinessActivities))
+    PeopleWithBusinessActivities)
   (Just (PaymentConditions "CONDICIONES DE PAGO DE PRUEBA"))
   (Just OneTimePayment)
   (Recipient
