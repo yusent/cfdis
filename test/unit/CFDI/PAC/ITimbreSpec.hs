@@ -13,6 +13,7 @@ import CFDI.PAC
   , stampLookup
   )
 import CFDI.PAC.ITimbre
+import Control.Monad       (when)
 import Data.Either         (isLeft, isRight)
 import Data.Maybe          (isNothing)
 import Data.Text           (Text, take, unpack)
