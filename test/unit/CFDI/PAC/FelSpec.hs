@@ -16,9 +16,8 @@ import CFDI.PAC.Fel
 import Data.Either         (isLeft, isRight)
 import Data.Maybe          (isNothing)
 import Data.Text           (Text, take, unpack)
-import Data.Time.Calendar  (Day(ModifiedJulianDay))
+import Data.Time.Calendar  (Day(ModifiedJulianDay), addDays)
 import Data.Time.LocalTime (LocalTime(..), TimeOfDay(..), localDay)
-import Data.Time.Calendar  (addDays)
 import Data.Time.Clock     (getCurrentTime)
 import Data.Time.Format    (defaultTimeLocale, formatTime, parseTimeM)
 import Data.Yaml
@@ -89,7 +88,7 @@ cfdi = CFDI
   (Issuer
     (Just (Name "EMISOR DE PRUEBA"))
     (RFC "TEST010203001")
-    (PeopleWithBusinessActivities))
+    PeopleWithBusinessActivities)
   (Just (PaymentConditions "CONDICIONES DE PAGO DE PRUEBA"))
   (Just OneTimePayment)
   (Recipient
@@ -122,57 +121,54 @@ spec = do
   let credsFilePath = "test/yaml/pac-credentials/fel.yml"
   credsFileExist <- runIO $ doesFileExist credsFilePath
 
-  if credsFileExist
-    then do
-      (fel, pem, crt, crtNum) <- runIO $ do
-        Just (FelCreds usr pass_ rfc_ crt pem pfxPwd pfxPem crtNum) <-
-          decodeFile credsFilePath
-        return (Fel usr pass_ rfc_ pfxPwd pfxPem FelTestingEnv, pem, crt, crtNum)
+  when credsFileExist $ do
+    (fel, pem, crt, crtNum) <- runIO $ do
+      Just (FelCreds usr pass_ rfc_ crt pem pfxPwd pfxPem crtNum) <-
+        decodeFile credsFilePath
+      return (Fel usr pass_ rfc_ pfxPwd pfxPem FelTestingEnv, pem, crt, crtNum)
 
-      describe "CFDI.PAC.Fel.Fel instance of PAC" $ do
-        it "implements getPacStamp function" $ do
-          currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
-          now <- parseTimeM True defaultTimeLocale f currentTimeStr
-          pemFilePath <- writeSystemTempFile "csd.pem" pem
-          let cfdi' = cfdi
-                { certNum  = Just (CertificateNumber crtNum)
-                , certText = Just crt
-                , issuedAt = time
-                }
-              time = now { localDay = addDays (-1) (localDay now) }
-          Right signedCfdi@CFDI{signature = Just sig} <-
-            signWith pemFilePath cfdi'
-          let cfdiId = take 12 sig
-          eitherErrOrStamp <- getPacStamp signedCfdi fel cfdiId
-          eitherErrOrStamp `shouldSatisfy` isRight
-          removeFile pemFilePath
+    describe "CFDI.PAC.Fel.Fel instance of PAC" $ do
+      it "implements getPacStamp function" $ do
+        currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
+        now <- parseTimeM True defaultTimeLocale f currentTimeStr
+        pemFilePath <- writeSystemTempFile "csd.pem" pem
+        let cfdi' = cfdi
+              { certNum  = Just (CertificateNumber crtNum)
+              , certText = Just crt
+              , issuedAt = time
+              }
+            time = now { localDay = addDays (-1) (localDay now) }
+        Right signedCfdi@CFDI{signature = Just sig} <-
+          signWith pemFilePath cfdi'
+        let cfdiId = take 12 sig
+        eitherErrOrStamp <- getPacStamp signedCfdi fel cfdiId
+        eitherErrOrStamp `shouldSatisfy` isRight
+        removeFile pemFilePath
 
-        it "implements stampLookup function" $ do
-          -- We need to stamp a CFDI first to test this.
-          currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
-          now <- parseTimeM True defaultTimeLocale f currentTimeStr
-          pemFilePath <- writeSystemTempFile "csd.pem" pem
-          let cfdi' = cfdi
-                { certNum  = Just (CertificateNumber crtNum)
-                , certText = Just crt
-                , issuedAt = time
-                }
-              time = now { localDay = addDays (-1) (localDay now) }
-          Right signedCfdi@CFDI{signature = Just sig} <-
-            signWith pemFilePath cfdi'
-          let cfdiId = take 12 sig
-          eitherErrOrStamp <- getPacStamp signedCfdi fel cfdiId
-          eitherErrOrStamp `shouldSatisfy` isRight
+      it "implements stampLookup function" $ do
+        -- We need to stamp a CFDI first to test this.
+        currentTimeStr <- formatTime defaultTimeLocale f <$> getCurrentTime
+        now <- parseTimeM True defaultTimeLocale f currentTimeStr
+        pemFilePath <- writeSystemTempFile "csd.pem" pem
+        let cfdi' = cfdi
+              { certNum  = Just (CertificateNumber crtNum)
+              , certText = Just crt
+              , issuedAt = time
+              }
+            time = now { localDay = addDays (-1) (localDay now) }
+        Right signedCfdi@CFDI{signature = Just sig} <-
+          signWith pemFilePath cfdi'
+        let cfdiId = take 12 sig
+        eitherErrOrStamp <- getPacStamp signedCfdi fel cfdiId
+        eitherErrOrStamp `shouldSatisfy` isRight
 
-          eitherErrOrStamp' <- getPacStamp signedCfdi fel cfdiId
-          eitherErrOrStamp' `shouldSatisfy` isLeft
-          let Left (PacError _ code) = eitherErrOrStamp'
-          code `shouldBe` Just "801"
+        eitherErrOrStamp' <- getPacStamp signedCfdi fel cfdiId
+        eitherErrOrStamp' `shouldSatisfy` isLeft
+        let Left (PacError _ code) = eitherErrOrStamp'
+        code `shouldBe` Just "801"
 
-          eitherErrOrStamp'' <- stampLookup fel cfdiId
-          eitherErrOrStamp'' `shouldSatisfy` isRight
-          removeFile pemFilePath
-    else
-      return ()
+        eitherErrOrStamp'' <- stampLookup fel cfdiId
+        eitherErrOrStamp'' `shouldSatisfy` isRight
+        removeFile pemFilePath
   where
     f = "%Y-%m-%d-%H-%M-%S-%Z"
