@@ -34,8 +34,8 @@ main = do
                       (pack user)
                       (pack pass)
                       (pack rfc)
-                      (pack pfxPem)
                       (pack pfxPass)
+                      (pack pfxPem)
                       (if isTest
                         then ItimbreTestingEnv
                         else ItimbreProductionEnv
