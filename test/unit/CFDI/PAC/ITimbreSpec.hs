@@ -88,7 +88,7 @@ cfdi = CFDI
   (ZipCode 22115)
   (Issuer
     (Just (Name "EMISOR DE PRUEBA"))
-    (RFC "LEVM590117199")
+    (RFC "XOJI740919U48")
     PeopleWithBusinessActivities)
   (Just (PaymentConditions "CONDICIONES DE PAGO DE PRUEBA"))
   (Just OneTimePayment)
