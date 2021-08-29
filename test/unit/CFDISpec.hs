@@ -102,6 +102,7 @@ cfdi = CFDI
           (PaymentsVersion 1.0)
         )
       )
+      Nothing
       (Just
         (PacStamp
           (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))

@@ -110,6 +110,8 @@ library
                      , CFDI.Types.UUID
                      , CFDI.Types.Version
                      , CFDI.Types.WayToPay
+                     , CFDI.Types.WaybillComplement
+                     , CFDI.Types.WaybillComplementVersion
                      , CFDI.Types.YesNo
                      , CFDI.Types.ZipCode
   build-depends:       aeson >= 1.1 && < 1.2
