@@ -110,6 +110,7 @@ library
                      , CFDI.Types.UUID
                      , CFDI.Types.Version
                      , CFDI.Types.WayToPay
+                     , CFDI.Types.YesNo
                      , CFDI.Types.ZipCode
   build-depends:       aeson >= 1.1 && < 1.2
                      , base >= 4.7 && < 5
