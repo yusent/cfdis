@@ -41,6 +41,41 @@
         </pago10:Impuestos>
       </pago10:Pago>
     </pago10:Pagos>
+    <cartaporte:CartaPorte Version="1.0" TranspInternac="Sí" EntradaSalidaMerc="Salida" ViaEntradaSalida="01" TotalDistRec="16.69">
+      <cartaporte:Ubicaciones>
+        <cartaporte:Ubicacion TipoEstacion="01">
+          <cartaporte:Origen IDOrigen="OR000001" RFCRemitente="IIA040805DZ4" NombreRemitente="INDISTRIA ILUMINADORA" FechaHoraSalida="2021-07-30T17:58:02"/>
+          <cartaporte:Domicilio Calle="CARTAGENA" NumeroExterior="18960" NumeroInterior="1" Colonia="0923" Localidad="04" Referencia="32.5673,-116.974" Municipio="004" Estado="BCN" Pais="MEX" CodigoPostal="22224"/>
+        </cartaporte:Ubicacion>
+        <cartaporte:Ubicacion DistanciaRecorrida="12.01">
+          <cartaporte:Destino IDDestino="DE000002" NombreDestinatario="INDISTRIA ILUMINADORA" NumRegIdTrib="364753504" ResidenciaFiscal="USA" FechaHoraProgLlegada="2021-07-30T17:58:02"/>
+          <cartaporte:Domicilio Calle="1659 GAILES BLVD 101" Localidad="SAN DIEGO" Referencia="32.4714,-116.915" Municipio="SAN DIEGO" Estado="CA" Pais="USA" CodigoPostal="92154"/>
+        </cartaporte:Ubicacion>
+        <cartaporte:Ubicacion TipoEstacion="03" DistanciaRecorrida="4.68">
+          <cartaporte:Destino IDDestino="DE000003" RFCDestinatario="IIA040805DZ4" NombreDestinatario="INDISTRIA ILUMINADORA" FechaHoraProgLlegada="2021-07-30T17:58:02"/>
+          <cartaporte:Domicilio Calle="6-A, Parque TIP B.C., México, Avenida Universidad" Colonia="0923" Localidad="04" Referencia="32.5257,-116.967" Municipio="004" Estado="BCN" Pais="MEX" CodigoPostal="22224"/>
+        </cartaporte:Ubicacion>
+      </cartaporte:Ubicaciones>
+      <cartaporte:Mercancias NumTotalMercancias="1">
+        <cartaporte:Mercancia BienesTransp="50112004" Descripcion="Rib Eye" Cantidad="10.000000" ClaveUnidad="KIP" Unidad="KIP" PesoEnKg="10.000" FraccionArancelaria="0210200100" UUIDComercioExt="E8C30D50-19D3-4B38-9007-BCB3C841BC53">
+          <cartaporte:CantidadTransporta Cantidad="5.000000" IDOrigen="OR000001" IDDestino="DE000002"/>
+          <cartaporte:CantidadTransporta Cantidad="5.000000" IDOrigen="OR000001" IDDestino="DE000003"/>
+        </cartaporte:Mercancia>
+        <cartaporte:AutotransporteFederal PermSCT="TPAF01" NumPermisoSCT="0X2XTXZ0X5X0X3X2X1X0" NombreAseg="SURA" NumPolizaSeguro="210520213621">
+          <cartaporte:IdentificacionVehicular ConfigVehicular="C2" PlacaVM="501800" AnioModeloVM="2021"/>
+          <cartaporte:Remolques>
+            <cartaporte:Remolque SubTipoRem="CTR006" Placa="501801"/>
+          </cartaporte:Remolques>
+        </cartaporte:AutotransporteFederal>
+      </cartaporte:Mercancias>
+      <cartaporte:FiguraTransporte CveTransporte="01">
+        <cartaporte:Operadores>
+          <cartaporte:Operador RFCOperador="FOAR8506012P5" NumLicencia="210210" NombreOperador="JOSE MONTIEL CARDENAS">
+            <cartaporte:Domicilio Calle="CARRETERA INTERNACIONAL" NumeroExterior="8" NumeroInterior="G" Colonia="0681" Localidad="04" Municipio="004" Estado="BCN" Pais="MEX" CodigoPostal="22404"/>
+          </cartaporte:Operador>
+        </cartaporte:Operadores>
+      </cartaporte:FiguraTransporte>
+    </cartaporte:CartaPorte>
     <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="BA87BCD8-411B-41CB-BA9B-81B1A8327099" FechaTimbrado="2017-07-19T14:31:15" RfcProvCertif="SAT970701NN3" SelloCFD="AXvgW3lSloJK7iSUJsHiBmLAcdCnQZi0yA8XwODvucH6kgdJTTHr256z9XBjIRFGQ+eUlmSs4USAS3rz2+DMfLS27EkEeReEFF/Mhcf0bM7U91Gm9p7OvAFs9WPbFzhxP+gvnzr4KdJ9O4CAsfyVNtlTJ+Z+cquDZw5Yun25xfOqObFtv/m7g2+c9dWbBAgf2vEGUemy1hg9i8nEBCFkx6TIH3SyojLsXwnIoNWQ3CIZzpydfBnVawddcCZcoUiANUQBM5rfgYf1CzUoopEIo1l6+UdbyefKNpvYpejcrBUSPY6Q8uQFvf+rm6jtTrsIc2LNlhiV5fL9mb8MGMWiKw==" NoCertificadoSAT="00001000000403258748" SelloSAT="VxwwW+2KLIFNppKkfSUMdMTxP/hOzxcLjG1TGSjMrYEZ3goBp18d/LO37jfE7blAxJH0nnWWYQEH4JPCpyvXSjA1HRooYlsvV81dSDQF9W0ojPpqgKt5E46+dwNNL3ynwkcQIg0GhLMzZgEhH3Yw/PGHm0dby02Z6gzm6GyFyA50d1fpco/+fQpiBdlxneH+n+3uO8OnN8V4shM/vFKIbW6HkhjDgOeJLb2mRM7rSAT9jdbFDkfQri/df3laVUs/gpEoyXEpK7E5C53yfgqWyTASSEPFlgoSSlEVRL7jC7Pb6eY2EynFgQXt6uemzqQVoCHha+aDHxiaOlrUI+Xu1g==" Leyenda="AVISO PARA EL CONTRIBUYENTE" />
   </cfdi:Complemento>
 </cfdi:Comprobante>
