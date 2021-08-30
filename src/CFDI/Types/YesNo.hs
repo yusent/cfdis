@@ -3,14 +3,16 @@ module CFDI.Types.YesNo where
 import CFDI.Chainable
 import CFDI.Types.Type
 
-newtype YesNo = YesNo Bool deriving (Eq, Show)
+data YesNo = Yes | No deriving (Eq, Show)
 
 instance Chainable YesNo where
-  chain (YesNo v) = if v then "Sí" else "No"
+  chain Yes = "Sí"
+  chain No = "No"
 
 instance Type YesNo where
-  parseExpr "Sí" = Right $ YesNo True
-  parseExpr "No" = Right $ YesNo False
+  parseExpr "Sí" = Right Yes
+  parseExpr "No" = Right No
   parseExpr e    = Left  $ InvalidValue e
 
-  render (YesNo v) = if v then "Sí" else "No"
+  render Yes = "Sí"
+  render No = "No"
