@@ -2,6 +2,7 @@ module CFDI.Types.WaybillComplement where
 
 import CFDI.Chainable
 import CFDI.Types.InOut
+import CFDI.Types.InOutWay
 import CFDI.Types.WaybillComplementVersion
 import CFDI.Types.YesNo
 import CFDI.XmlNode
@@ -12,6 +13,7 @@ data WaybillComplement = WaybillComplement
   { waybillComplementVersion :: WaybillComplementVersion
   , internationalTransportation :: YesNo
   , inventoryInOrOut :: Maybe InOut
+  , inventoryInOrOutWay :: Maybe InOutWay
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplement where
@@ -27,9 +29,10 @@ instance XmlNode WaybillComplement where
     , attr "TranspInternac" $ internationalTransportation n
     ] ++ catMaybes
     [ attr "EntradaSalidaMerc" <$> inventoryInOrOut n
+    , attr "ViaEntradaSalida" <$> inventoryInOrOutWay n
     ]
 
-  children (WaybillComplement _ _ _) = []
+  children (WaybillComplement _ _ _ _) = []
 
   nodeName = const "CartaPorte"
 
@@ -39,3 +42,4 @@ instance XmlNode WaybillComplement where
     <$> requireAttribute "Version" n
     <*> requireAttribute "TranspInternac" n
     <*> parseAttribute "EntradaSalidaMerc" n
+    <*> parseAttribute "ViaEntradaSalida" n

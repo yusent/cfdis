@@ -58,6 +58,7 @@ library
                      , CFDI.Types.Folio
                      , CFDI.Types.ImportNumber
                      , CFDI.Types.InOut
+                     , CFDI.Types.InOutWay
                      , CFDI.Types.Issuer
                      , CFDI.Types.Locality
                      , CFDI.Types.MeasurementUnit

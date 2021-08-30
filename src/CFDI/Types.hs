@@ -30,6 +30,7 @@ import CFDI.Types.FactorType               as Types
 import CFDI.Types.Folio                    as Types
 import CFDI.Types.ImportNumber             as Types
 import CFDI.Types.InOut                    as Types
+import CFDI.Types.InOutWay                 as Types
 import CFDI.Types.Issuer                   as Types
 import CFDI.Types.Locality                 as Types
 import CFDI.Types.MeasurementUnit          as Types
