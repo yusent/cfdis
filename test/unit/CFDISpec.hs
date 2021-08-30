@@ -107,7 +107,8 @@ cfdi = CFDI
           (WaybillComplementVersion 1.0)
           Yes
           (Just Out)
-          (Just FederalTrucking)))
+          (Just FederalTrucking)
+          (Just 16.69)))
       (Just
         (PacStamp
           (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))

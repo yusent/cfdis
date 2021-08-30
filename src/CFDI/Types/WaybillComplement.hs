@@ -14,6 +14,7 @@ data WaybillComplement = WaybillComplement
   , internationalTransportation :: YesNo
   , inventoryInOrOut :: Maybe InOut
   , inventoryInOrOutWay :: Maybe InOutWay
+  , distanceTraveled :: Maybe Rational
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplement where
@@ -30,9 +31,10 @@ instance XmlNode WaybillComplement where
     ] ++ catMaybes
     [ attr "EntradaSalidaMerc" <$> inventoryInOrOut n
     , attr "ViaEntradaSalida" <$> inventoryInOrOutWay n
+    , attr "TotalDistRec" <$> distanceTraveled n
     ]
 
-  children (WaybillComplement _ _ _ _) = []
+  children (WaybillComplement _ _ _ _ _) = []
 
   nodeName = const "CartaPorte"
 
@@ -43,3 +45,4 @@ instance XmlNode WaybillComplement where
     <*> requireAttribute "TranspInternac" n
     <*> parseAttribute "EntradaSalidaMerc" n
     <*> parseAttribute "ViaEntradaSalida" n
+    <*> parseAttribute "TotalDistRec" n
