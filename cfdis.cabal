@@ -113,6 +113,7 @@ library
                      , CFDI.Types.Version
                      , CFDI.Types.WayToPay
                      , CFDI.Types.WaybillComplement
+                     , CFDI.Types.WaybillComplementLocations
                      , CFDI.Types.WaybillComplementVersion
                      , CFDI.Types.YesNo
                      , CFDI.Types.ZipCode

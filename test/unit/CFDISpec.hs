@@ -108,7 +108,8 @@ cfdi = CFDI
           Yes
           (Just Out)
           (Just FederalTrucking)
-          (Just 16.69)))
+          (Just 16.69)
+          WaybillComplementLocations))
       (Just
         (PacStamp
           (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))

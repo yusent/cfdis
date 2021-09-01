@@ -3,6 +3,7 @@ module CFDI.Types.WaybillComplement where
 import CFDI.Chainable
 import CFDI.Types.InOut
 import CFDI.Types.InOutWay
+import CFDI.Types.WaybillComplementLocations
 import CFDI.Types.WaybillComplementVersion
 import CFDI.Types.YesNo
 import CFDI.XmlNode
@@ -15,6 +16,7 @@ data WaybillComplement = WaybillComplement
   , inventoryInOrOut :: Maybe InOut
   , inventoryInOrOutWay :: Maybe InOutWay
   , distanceTraveled :: Maybe Rational
+  , waybillComplementLocations :: WaybillComplementLocations
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplement where
@@ -34,7 +36,9 @@ instance XmlNode WaybillComplement where
     , attr "TotalDistRec" <$> distanceTraveled n
     ]
 
-  children (WaybillComplement _ _ _ _ _) = []
+  children complement =
+    [ renderNode $ waybillComplementLocations complement
+    ]
 
   nodeName = const "CartaPorte"
 
@@ -46,3 +50,4 @@ instance XmlNode WaybillComplement where
     <*> parseAttribute "EntradaSalidaMerc" n
     <*> parseAttribute "ViaEntradaSalida" n
     <*> parseAttribute "TotalDistRec" n
+    <*> requireChild "Ubicaciones" n
