@@ -7,6 +7,7 @@ import Data.Maybe (catMaybes)
 
 data WaybillComplementLocation = WaybillComplementLocation
   { locStationType :: Maybe StationType
+  , locDistanceTraveled :: Maybe Rational
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplementLocation where
@@ -15,6 +16,7 @@ instance Chainable WaybillComplementLocation where
 instance XmlNode WaybillComplementLocation where
   attributes loc = catMaybes
     [ attr "TipoEstacion" <$> locStationType loc
+    , attr "DistanciaRecorrida" <$> locDistanceTraveled loc
     ]
 
   children n = []
@@ -23,3 +25,4 @@ instance XmlNode WaybillComplementLocation where
 
   parseNode n = WaybillComplementLocation
     <$> parseAttribute "TipoEstacion" n
+    <*> parseAttribute "DistanciaRecorrida" n

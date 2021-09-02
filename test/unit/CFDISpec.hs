@@ -112,10 +112,13 @@ cfdi = CFDI
           (WaybillComplementLocations
             [ WaybillComplementLocation
                 (Just DomesticOrigin)
-            , WaybillComplementLocation
                 Nothing
             , WaybillComplementLocation
+                Nothing
+                (Just 12.01)
+            , WaybillComplementLocation
                 (Just DomesticFinalDestination)
+                (Just 4.68)
             ])))
       (Just
         (PacStamp
