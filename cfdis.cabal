@@ -99,6 +99,7 @@ library
                      , CFDI.Types.SatLegend
                      , CFDI.Types.Series
                      , CFDI.Types.State
+                     , CFDI.Types.StationType
                      , CFDI.Types.Suburb
                      , CFDI.Types.Tax
                      , CFDI.Types.Taxes
@@ -113,6 +114,7 @@ library
                      , CFDI.Types.Version
                      , CFDI.Types.WayToPay
                      , CFDI.Types.WaybillComplement
+                     , CFDI.Types.WaybillComplementLocation
                      , CFDI.Types.WaybillComplementLocations
                      , CFDI.Types.WaybillComplementVersion
                      , CFDI.Types.YesNo

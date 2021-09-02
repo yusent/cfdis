@@ -71,6 +71,7 @@ import CFDI.Types.RFC                        as Types
 import CFDI.Types.SatLegend                  as Types
 import CFDI.Types.Series                     as Types
 import CFDI.Types.State                      as Types
+import CFDI.Types.StationType                as Types
 import CFDI.Types.Suburb                     as Types
 import CFDI.Types.Tax                        as Types
 import CFDI.Types.Taxes                      as Types
@@ -90,6 +91,7 @@ import CFDI.Types.UUID                       as Types
 import CFDI.Types.Version                    as Types
 import CFDI.Types.WayToPay                   as Types
 import CFDI.Types.WaybillComplement          as Types
+import CFDI.Types.WaybillComplementLocation  as Types
 import CFDI.Types.WaybillComplementLocations as Types
 import CFDI.Types.WaybillComplementVersion   as Types
 import CFDI.Types.YesNo                      as Types

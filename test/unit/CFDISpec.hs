@@ -109,7 +109,14 @@ cfdi = CFDI
           (Just Out)
           (Just FederalTrucking)
           (Just 16.69)
-          WaybillComplementLocations))
+          (WaybillComplementLocations
+            [ WaybillComplementLocation
+                (Just DomesticOrigin)
+            , WaybillComplementLocation
+                Nothing
+            , WaybillComplementLocation
+                (Just DomesticFinalDestination)
+            ])))
       (Just
         (PacStamp
           (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))
