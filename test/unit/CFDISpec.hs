@@ -115,7 +115,8 @@ cfdi = CFDI
                 Nothing
                 (Just
                   (LocationOrigin
-                    (Just $ LocationOriginID "OR000001")))
+                    (Just $ LocationOriginID "OR000001")
+                    (Just $ RFC "IIA040805DZ4")))
             , WaybillComplementLocation
                 Nothing
                 (Just 12.01)
