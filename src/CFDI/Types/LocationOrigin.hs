@@ -5,6 +5,7 @@ import CFDI.Types.Country
 import CFDI.Types.LocationOriginID
 import CFDI.Types.Name
 import CFDI.Types.RFC
+import CFDI.Types.Station
 import CFDI.Types.TaxId
 import CFDI.XmlNode
 import Data.Maybe (catMaybes)
@@ -15,6 +16,7 @@ data LocationOrigin = LocationOrigin
   , locOrigIssuerName :: Maybe Name
   , locOrigIssuerTaxID :: Maybe TaxId
   , locOrigIssuerAddress :: Maybe Country
+  , locOrigExitStation :: Maybe Station
   } deriving (Eq, Show)
 
 instance Chainable LocationOrigin where
@@ -27,6 +29,7 @@ instance XmlNode LocationOrigin where
     , attr "NombreRemitente" <$> locOrigIssuerName n
     , attr "NumRegIdTrib" <$> locOrigIssuerTaxID n
     , attr "ResidenciaFiscal" <$> locOrigIssuerAddress n
+    , attr "NumEstacion" <$> locOrigExitStation n
     ]
 
   nodeName = const "Origen"
@@ -37,3 +40,4 @@ instance XmlNode LocationOrigin where
     <*> parseAttribute "NombreRemitente" n
     <*> parseAttribute "NumRegIdTrib" n
     <*> parseAttribute "ResidenciaFiscal" n
+    <*> parseAttribute "NumEstacion" n

@@ -119,7 +119,8 @@ cfdi = CFDI
                     (Just $ RFC "IIA040805DZ4")
                     (Just $ Name "INDISTRIA ILUMINADORA")
                     (Just $ TaxId "999955555")
-                    (Just CTY_ZZZ)))
+                    (Just CTY_ZZZ)
+                    (Just $ Station "PM112")))
             , WaybillComplementLocation
                 Nothing
                 (Just 12.01)

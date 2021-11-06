@@ -73,6 +73,7 @@ import CFDI.Types.RFC                        as Types
 import CFDI.Types.SatLegend                  as Types
 import CFDI.Types.Series                     as Types
 import CFDI.Types.State                      as Types
+import CFDI.Types.Station                    as Types
 import CFDI.Types.StationType                as Types
 import CFDI.Types.Suburb                     as Types
 import CFDI.Types.Tax                        as Types

@@ -101,6 +101,7 @@ library
                      , CFDI.Types.SatLegend
                      , CFDI.Types.Series
                      , CFDI.Types.State
+                     , CFDI.Types.Station
                      , CFDI.Types.StationType
                      , CFDI.Types.Suburb
                      , CFDI.Types.Tax
