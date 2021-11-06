@@ -26,10 +26,6 @@ instance XmlNode LocationOrigin where
     , attr "NumRegIdTrib" <$> locOrigIssuerTaxID n
     ]
 
-  children n =
-    [
-    ]
-
   nodeName = const "Origen"
 
   parseNode n = LocationOrigin
