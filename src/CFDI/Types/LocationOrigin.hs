@@ -11,6 +11,7 @@ import CFDI.Types.StationName
 import CFDI.Types.TaxId
 import CFDI.XmlNode
 import Data.Maybe (catMaybes)
+import Data.Time.LocalTime (LocalTime)
 
 data LocationOrigin = LocationOrigin
   { locOrigID :: Maybe LocationOriginID
@@ -21,6 +22,7 @@ data LocationOrigin = LocationOrigin
   , locOrigExitStation :: Maybe Station
   , locOrigExitStationName :: Maybe StationName
   , locOrigSeaTraffic :: Maybe HarborType
+  , locOrigDepartureTime :: LocalTime
   } deriving (Eq, Show)
 
 instance Chainable LocationOrigin where
@@ -36,6 +38,7 @@ instance XmlNode LocationOrigin where
     , attr "NumEstacion" <$> locOrigExitStation n
     , attr "NombreEstacion" <$> locOrigExitStationName n
     , attr "NavegacionTrafico" <$> locOrigSeaTraffic n
+    , Just . attr "FechaHoraSalida" $ locOrigDepartureTime n
     ]
 
   nodeName = const "Origen"
@@ -49,3 +52,4 @@ instance XmlNode LocationOrigin where
     <*> parseAttribute "NumEstacion" n
     <*> parseAttribute "NombreEstacion" n
     <*> parseAttribute "NavegacionTrafico" n
+    <*> requireAttribute "FechaHoraSalida" n

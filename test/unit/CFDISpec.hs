@@ -122,7 +122,10 @@ cfdi = CFDI
                     (Just CTY_ZZZ)
                     (Just $ Station "PM112")
                     (Just $ StationName "ESTACION ACME")
-                    (Just Coastal)))
+                    (Just Coastal)
+                    (LocalTime
+                      (ModifiedJulianDay 59425)
+                      (TimeOfDay 17 58 02))))
             , WaybillComplementLocation
                 Nothing
                 (Just 12.01)
