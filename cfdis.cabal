@@ -102,6 +102,7 @@ library
                      , CFDI.Types.Series
                      , CFDI.Types.State
                      , CFDI.Types.Station
+                     , CFDI.Types.StationName
                      , CFDI.Types.StationType
                      , CFDI.Types.Suburb
                      , CFDI.Types.Tax
