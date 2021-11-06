@@ -44,7 +44,7 @@
     <cartaporte:CartaPorte Version="1.0" TranspInternac="Sí" EntradaSalidaMerc="Salida" ViaEntradaSalida="01" TotalDistRec="16.69">
       <cartaporte:Ubicaciones>
         <cartaporte:Ubicacion TipoEstacion="01">
-          <cartaporte:Origen IDOrigen="OR000001" RFCRemitente="IIA040805DZ4" NombreRemitente="INDISTRIA ILUMINADORA" FechaHoraSalida="2021-07-30T17:58:02"/>
+          <cartaporte:Origen IDOrigen="OR000001" RFCRemitente="IIA040805DZ4" NombreRemitente="INDISTRIA ILUMINADORA" NumRegIdTrib="999955555" FechaHoraSalida="2021-07-30T17:58:02"/>
           <cartaporte:Domicilio Calle="CARTAGENA" NumeroExterior="18960" NumeroInterior="1" Colonia="0923" Localidad="04" Referencia="32.5673,-116.974" Municipio="004" Estado="BCN" Pais="MEX" CodigoPostal="22224"/>
         </cartaporte:Ubicacion>
         <cartaporte:Ubicacion DistanciaRecorrida="12.01">
