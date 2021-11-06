@@ -2,6 +2,7 @@ module CFDI.Types.LocationOrigin where
 
 import CFDI.Chainable
 import CFDI.Types.Country
+import CFDI.Types.HarborType
 import CFDI.Types.LocationOriginID
 import CFDI.Types.Name
 import CFDI.Types.RFC
@@ -19,6 +20,7 @@ data LocationOrigin = LocationOrigin
   , locOrigIssuerAddress :: Maybe Country
   , locOrigExitStation :: Maybe Station
   , locOrigExitStationName :: Maybe StationName
+  , locOrigSeaTraffic :: Maybe HarborType
   } deriving (Eq, Show)
 
 instance Chainable LocationOrigin where
@@ -33,6 +35,7 @@ instance XmlNode LocationOrigin where
     , attr "ResidenciaFiscal" <$> locOrigIssuerAddress n
     , attr "NumEstacion" <$> locOrigExitStation n
     , attr "NombreEstacion" <$> locOrigExitStationName n
+    , attr "NavegacionTrafico" <$> locOrigSeaTraffic n
     ]
 
   nodeName = const "Origen"
@@ -45,3 +48,4 @@ instance XmlNode LocationOrigin where
     <*> parseAttribute "ResidenciaFiscal" n
     <*> parseAttribute "NumEstacion" n
     <*> parseAttribute "NombreEstacion" n
+    <*> parseAttribute "NavegacionTrafico" n

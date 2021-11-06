@@ -121,7 +121,8 @@ cfdi = CFDI
                     (Just $ TaxId "999955555")
                     (Just CTY_ZZZ)
                     (Just $ Station "PM112")
-                    (Just $ StationName "ESTACION ACME")))
+                    (Just $ StationName "ESTACION ACME")
+                    (Just Coastal)))
             , WaybillComplementLocation
                 Nothing
                 (Just 12.01)
