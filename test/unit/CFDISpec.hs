@@ -127,6 +127,18 @@ cfdi = CFDI
                       (ModifiedJulianDay 59425)
                       (TimeOfDay 17 58 02))))
                 Nothing
+                (Just
+                  (LocationAddress
+                    (Description100 "CARTAGENA")
+                    (Just $ AddressNumber "18960")
+                    (Just $ AddressNumber "1")
+                    (Just $ Description120 "0923")
+                    (Just $ Description120 "04")
+                    (Just $ AddressReference "32.5673,-116.974")
+                    (Just $ Description120 "004")
+                    (AddressState "BCN")
+                    CTY_MEX
+                    (InternationalZipCode "22224")))
             , WaybillComplementLocation
                 Nothing
                 (Just 12.01)
@@ -144,6 +156,18 @@ cfdi = CFDI
                     (LocalTime
                       (ModifiedJulianDay 59425)
                       (TimeOfDay 17 58 02))))
+                (Just
+                  (LocationAddress
+                    (Description100 "1659 GAILES BLVD 101")
+                    Nothing
+                    Nothing
+                    Nothing
+                    (Just $ Description120 "SAN DIEGO")
+                    (Just $ AddressReference "32.4714,-116.915")
+                    (Just $ Description120 "SAN DIEGO")
+                    (AddressState "CA")
+                    CTY_USA
+                    (InternationalZipCode "92154")))
             , WaybillComplementLocation
                 (Just DomesticFinalDestination)
                 (Just 4.68)
@@ -161,6 +185,18 @@ cfdi = CFDI
                     (LocalTime
                       (ModifiedJulianDay 59425)
                       (TimeOfDay 17 58 02))))
+                (Just
+                  (LocationAddress
+                    (Description100 "6-A, Parque TIP B.C., México, Avenida Universidad")
+                    Nothing
+                    Nothing
+                    (Just $ Description120 "0923")
+                    (Just $ Description120 "04")
+                    (Just $ AddressReference "32.5257,-116.967")
+                    (Just $ Description120 "004")
+                    (AddressState "BCN")
+                    CTY_MEX
+                    (InternationalZipCode "22224")))
             ])))
       (Just
         (PacStamp

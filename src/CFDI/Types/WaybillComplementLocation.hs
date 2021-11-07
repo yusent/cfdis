@@ -1,6 +1,7 @@
 module CFDI.Types.WaybillComplementLocation where
 
 import CFDI.Chainable
+import CFDI.Types.LocationAddress
 import CFDI.Types.LocationDestination
 import CFDI.Types.LocationOrigin
 import CFDI.Types.StationType
@@ -12,6 +13,7 @@ data WaybillComplementLocation = WaybillComplementLocation
   , locDistanceTraveled :: Maybe Rational
   , locOrigin :: Maybe LocationOrigin
   , locDestination :: Maybe LocationDestination
+  , locAddress :: Maybe LocationAddress
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplementLocation where
@@ -26,6 +28,7 @@ instance XmlNode WaybillComplementLocation where
   children n = catMaybes
     [ renderNode <$> locOrigin n
     , renderNode <$> locDestination n
+    , renderNode <$> locAddress n
     ]
 
   nodeName = const "Ubicacion"
@@ -35,3 +38,4 @@ instance XmlNode WaybillComplementLocation where
     <*> parseAttribute "DistanciaRecorrida" n
     <*> parseChild "Origen" n
     <*> parseChild "Destino" n
+    <*> parseChild "Domicilio" n

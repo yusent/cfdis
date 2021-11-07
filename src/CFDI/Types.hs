@@ -4,6 +4,9 @@ module CFDI.Types
 
 import CFDI.Types.AccountNumber              as Types
 import CFDI.Types.Addenda                    as Types
+import CFDI.Types.AddressNumber              as Types
+import CFDI.Types.AddressReference           as Types
+import CFDI.Types.AddressState               as Types
 import CFDI.Types.Amount                     as Types
 import CFDI.Types.BankName                   as Types
 import CFDI.Types.BankRfc                    as Types
@@ -25,6 +28,8 @@ import CFDI.Types.Currency                   as Types
 import CFDI.Types.Custom                     as Types
 import CFDI.Types.CustomInfo                 as Types
 import CFDI.Types.CustomPatent               as Types
+import CFDI.Types.Description100             as Types
+import CFDI.Types.Description120             as Types
 import CFDI.Types.ExchangeRate               as Types
 import CFDI.Types.FactorType                 as Types
 import CFDI.Types.Folio                      as Types
@@ -32,8 +37,10 @@ import CFDI.Types.HarborType                 as Types
 import CFDI.Types.ImportNumber               as Types
 import CFDI.Types.InOut                      as Types
 import CFDI.Types.InOutWay                   as Types
+import CFDI.Types.InternationalZipCode       as Types
 import CFDI.Types.Issuer                     as Types
 import CFDI.Types.Locality                   as Types
+import CFDI.Types.LocationAddress            as Types
 import CFDI.Types.LocationDestination        as Types
 import CFDI.Types.LocationDestinationID      as Types
 import CFDI.Types.LocationOrigin             as Types

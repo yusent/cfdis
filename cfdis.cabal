@@ -32,6 +32,9 @@ library
                      , CFDI.Types
                      , CFDI.Types.AccountNumber
                      , CFDI.Types.Addenda
+                     , CFDI.Types.AddressNumber
+                     , CFDI.Types.AddressReference
+                     , CFDI.Types.AddressState
                      , CFDI.Types.Amount
                      , CFDI.Types.BankName
                      , CFDI.Types.BankRfc
@@ -53,6 +56,8 @@ library
                      , CFDI.Types.Custom
                      , CFDI.Types.CustomInfo
                      , CFDI.Types.CustomPatent
+                     , CFDI.Types.Description100
+                     , CFDI.Types.Description120
                      , CFDI.Types.ExchangeRate
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
@@ -60,8 +65,10 @@ library
                      , CFDI.Types.ImportNumber
                      , CFDI.Types.InOut
                      , CFDI.Types.InOutWay
+                     , CFDI.Types.InternationalZipCode
                      , CFDI.Types.Issuer
                      , CFDI.Types.Locality
+                     , CFDI.Types.LocationAddress
                      , CFDI.Types.LocationDestination
                      , CFDI.Types.LocationDestinationID
                      , CFDI.Types.LocationOrigin
