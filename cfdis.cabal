@@ -114,6 +114,7 @@ library
                      , CFDI.Types.Station
                      , CFDI.Types.StationName
                      , CFDI.Types.StationType
+                     , CFDI.Types.STCCID
                      , CFDI.Types.Suburb
                      , CFDI.Types.Tax
                      , CFDI.Types.Taxes

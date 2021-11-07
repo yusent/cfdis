@@ -86,6 +86,7 @@ import CFDI.Types.State                      as Types
 import CFDI.Types.Station                    as Types
 import CFDI.Types.StationName                as Types
 import CFDI.Types.StationType                as Types
+import CFDI.Types.STCCID                     as Types
 import CFDI.Types.Suburb                     as Types
 import CFDI.Types.Tax                        as Types
 import CFDI.Types.Taxes                      as Types

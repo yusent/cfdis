@@ -201,6 +201,7 @@ cfdi = CFDI
           (WaybillComplementGoods
             [ WaybillComplementGood
                 (Just $ ProductOrService 50112004)
+                (Just $ STCCID "262")
             ])))
       (Just
         (PacStamp
