@@ -197,6 +197,10 @@ cfdi = CFDI
                     (AddressState "BCN")
                     CTY_MEX
                     (InternationalZipCode "22224")))
+            ])
+          (WaybillComplementGoods
+            [ WaybillComplementGood
+                (Just $ ProductOrService 50112004)
             ])))
       (Just
         (PacStamp

@@ -128,6 +128,8 @@ library
                      , CFDI.Types.Version
                      , CFDI.Types.WayToPay
                      , CFDI.Types.WaybillComplement
+                     , CFDI.Types.WaybillComplementGood
+                     , CFDI.Types.WaybillComplementGoods
                      , CFDI.Types.WaybillComplementLocation
                      , CFDI.Types.WaybillComplementLocations
                      , CFDI.Types.WaybillComplementVersion

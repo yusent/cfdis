@@ -105,6 +105,8 @@ import CFDI.Types.UUID                       as Types
 import CFDI.Types.Version                    as Types
 import CFDI.Types.WayToPay                   as Types
 import CFDI.Types.WaybillComplement          as Types
+import CFDI.Types.WaybillComplementGood      as Types
+import CFDI.Types.WaybillComplementGoods     as Types
 import CFDI.Types.WaybillComplementLocation  as Types
 import CFDI.Types.WaybillComplementLocations as Types
 import CFDI.Types.WaybillComplementVersion   as Types
