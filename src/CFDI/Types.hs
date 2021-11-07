@@ -34,6 +34,8 @@ import CFDI.Types.InOut                      as Types
 import CFDI.Types.InOutWay                   as Types
 import CFDI.Types.Issuer                     as Types
 import CFDI.Types.Locality                   as Types
+import CFDI.Types.LocationDestination        as Types
+import CFDI.Types.LocationDestinationID      as Types
 import CFDI.Types.LocationOrigin             as Types
 import CFDI.Types.LocationOriginID           as Types
 import CFDI.Types.MeasurementUnit            as Types

@@ -62,6 +62,8 @@ library
                      , CFDI.Types.InOutWay
                      , CFDI.Types.Issuer
                      , CFDI.Types.Locality
+                     , CFDI.Types.LocationDestination
+                     , CFDI.Types.LocationDestinationID
                      , CFDI.Types.LocationOrigin
                      , CFDI.Types.LocationOriginID
                      , CFDI.Types.MeasurementUnit

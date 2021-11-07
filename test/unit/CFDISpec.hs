@@ -126,14 +126,41 @@ cfdi = CFDI
                     (LocalTime
                       (ModifiedJulianDay 59425)
                       (TimeOfDay 17 58 02))))
+                Nothing
             , WaybillComplementLocation
                 Nothing
                 (Just 12.01)
                 Nothing
+                (Just
+                  (LocationDestination
+                    (Just $ LocationDestinationID "DE000002")
+                    Nothing
+                    (Just $ Name "INDISTRIA ILUMINADORA")
+                    (Just $ TaxId "364753504")
+                    (Just CTY_USA)
+                    Nothing
+                    Nothing
+                    Nothing
+                    (LocalTime
+                      (ModifiedJulianDay 59425)
+                      (TimeOfDay 17 58 02))))
             , WaybillComplementLocation
                 (Just DomesticFinalDestination)
                 (Just 4.68)
                 Nothing
+                (Just
+                  (LocationDestination
+                    (Just $ LocationDestinationID "DE000003")
+                    (Just $ RFC "IIA040805DZ4")
+                    (Just $ Name "INDISTRIA ILUMINADORA")
+                    Nothing
+                    Nothing
+                    Nothing
+                    Nothing
+                    Nothing
+                    (LocalTime
+                      (ModifiedJulianDay 59425)
+                      (TimeOfDay 17 58 02))))
             ])))
       (Just
         (PacStamp
