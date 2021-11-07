@@ -19,8 +19,8 @@ data LocationOrigin = LocationOrigin
   , locOrigIssuerName :: Maybe Name
   , locOrigIssuerTaxID :: Maybe TaxId
   , locOrigIssuerAddress :: Maybe Country
-  , locOrigExitStation :: Maybe Station
-  , locOrigExitStationName :: Maybe StationName
+  , locOrigDepartureStation :: Maybe Station
+  , locOrigDepartureStationName :: Maybe StationName
   , locOrigSeaTraffic :: Maybe HarborType
   , locOrigDepartureTime :: LocalTime
   } deriving (Eq, Show)
@@ -35,8 +35,8 @@ instance XmlNode LocationOrigin where
     , attr "NombreRemitente" <$> locOrigIssuerName n
     , attr "NumRegIdTrib" <$> locOrigIssuerTaxID n
     , attr "ResidenciaFiscal" <$> locOrigIssuerAddress n
-    , attr "NumEstacion" <$> locOrigExitStation n
-    , attr "NombreEstacion" <$> locOrigExitStationName n
+    , attr "NumEstacion" <$> locOrigDepartureStation n
+    , attr "NombreEstacion" <$> locOrigDepartureStationName n
     , attr "NavegacionTrafico" <$> locOrigSeaTraffic n
     , Just . attr "FechaHoraSalida" $ locOrigDepartureTime n
     ]
