@@ -120,6 +120,7 @@ library
                      , CFDI.Types.StationType
                      , CFDI.Types.STCCID
                      , CFDI.Types.Suburb
+                     , CFDI.Types.TariffFraction
                      , CFDI.Types.Tax
                      , CFDI.Types.Taxes
                      , CFDI.Types.TaxId

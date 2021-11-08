@@ -214,6 +214,8 @@ cfdi = CFDI
                 (KGWeight 10)
                 (Just $ Amount 1200.12)
                 (Just $ CUR_USD)
+                (Just $ TariffFraction "0210200100")
+                (Just $ UUID "E8C30D50-19D3-4B38-9007-BCB3C841BC53")
             ])))
       (Just
         (PacStamp

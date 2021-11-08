@@ -15,6 +15,8 @@ import CFDI.Types.ProductOrService
 import CFDI.Types.ProductUnit
 import CFDI.Types.Quantity
 import CFDI.Types.STCCID
+import CFDI.Types.TariffFraction
+import CFDI.Types.UUID
 import CFDI.Types.YesNo
 import Data.Maybe (catMaybes)
 
@@ -33,6 +35,8 @@ data WaybillComplementGood = WaybillComplementGood
   , wcGoodWeight :: KGWeight
   , wcGoodValue :: Maybe Amount
   , wcGoodValueCurrency :: Maybe Currency
+  , wcGoodTariffFraction :: Maybe TariffFraction
+  , wcGoodForeignTradeUUID :: Maybe UUID
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplementGood where
@@ -54,6 +58,8 @@ instance XmlNode WaybillComplementGood where
     , Just . attr "PesoEnKg" $ wcGoodWeight n
     , attr "ValorMercancia" <$> wcGoodValue n
     , attr "Moneda" <$> wcGoodValueCurrency n
+    , attr "FraccionArancelaria" <$> wcGoodTariffFraction n
+    , attr "UUIDComercioExt" <$> wcGoodForeignTradeUUID n
     ]
 
   children n = catMaybes
@@ -77,3 +83,5 @@ instance XmlNode WaybillComplementGood where
     <*> requireAttribute "PesoEnKg" n
     <*> parseAttribute "ValorMercancia" n
     <*> parseAttribute "Moneda" n
+    <*> parseAttribute "FraccionArancelaria" n
+    <*> parseAttribute "UUIDComercioExt" n
