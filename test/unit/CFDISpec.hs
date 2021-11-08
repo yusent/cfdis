@@ -202,6 +202,10 @@ cfdi = CFDI
             [ WaybillComplementGood
                 (Just $ ProductOrService 50112004)
                 (Just $ STCCID "262")
+                (Just $ ProductDescription "Rib Eye")
+                (Just $ Quantity 10)
+                (Just MU_KIP)
+                (Just $ ProductUnit "KIP")
             ])))
       (Just
         (PacStamp
