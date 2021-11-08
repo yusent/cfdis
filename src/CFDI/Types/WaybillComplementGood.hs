@@ -2,9 +2,11 @@ module CFDI.Types.WaybillComplementGood where
 
 import CFDI.Chainable
 import CFDI.XmlNode
+import CFDI.Types.Description100
 import CFDI.Types.Dimensions
 import CFDI.Types.HazardousMaterialID
 import CFDI.Types.MeasurementUnit
+import CFDI.Types.Packaging
 import CFDI.Types.ProductDescription
 import CFDI.Types.ProductOrService
 import CFDI.Types.ProductUnit
@@ -23,6 +25,8 @@ data WaybillComplementGood = WaybillComplementGood
   , wcGoodDimensions :: Maybe Dimensions
   , wcGoodHazardous :: Maybe YesNo
   , wcGoodHazardousID :: Maybe HazardousMaterialID
+  , wcGoodPackaging :: Maybe Packaging
+  , wcGoodPackagingDesc :: Maybe Description100
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplementGood where
@@ -39,6 +43,8 @@ instance XmlNode WaybillComplementGood where
     , attr "Dimensiones" <$> wcGoodDimensions n
     , attr "MaterialPeligroso" <$> wcGoodHazardous n
     , attr "CveMaterialPeligroso" <$> wcGoodHazardousID n
+    , attr "Embalaje" <$> wcGoodPackaging n
+    , attr "DescripEmbalaje" <$> wcGoodPackagingDesc n
     ]
 
   children n = catMaybes
@@ -57,3 +63,5 @@ instance XmlNode WaybillComplementGood where
     <*> parseAttribute "Dimensiones" n
     <*> parseAttribute "MaterialPeligroso" n
     <*> parseAttribute "CveMaterialPeligroso" n
+    <*> parseAttribute "Embalaje" n
+    <*> parseAttribute "DescripEmbalaje" n

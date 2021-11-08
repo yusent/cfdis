@@ -51,6 +51,7 @@ import CFDI.Types.MeasurementUnit            as Types
 import CFDI.Types.Municipality               as Types
 import CFDI.Types.Name                       as Types
 import CFDI.Types.OperationId                as Types
+import CFDI.Types.Packaging                  as Types
 import CFDI.Types.PacStamp                   as Types
 import CFDI.Types.PacStampVersion            as Types
 import CFDI.Types.Partiality                 as Types

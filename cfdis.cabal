@@ -79,6 +79,7 @@ library
                      , CFDI.Types.Municipality
                      , CFDI.Types.Name
                      , CFDI.Types.OperationId
+                     , CFDI.Types.Packaging
                      , CFDI.Types.PacStamp
                      , CFDI.Types.PacStampVersion
                      , CFDI.Types.Partiality

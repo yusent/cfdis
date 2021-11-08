@@ -209,6 +209,8 @@ cfdi = CFDI
                 (Just $ Dimensions "30/40/30cm")
                 (Just Yes)
                 (Just $ HazardousMaterialID "M0144")
+                (Just $ Packaging "6HA2")
+                (Just $ Description100 "UNA CAJOTA")
             ])))
       (Just
         (PacStamp
