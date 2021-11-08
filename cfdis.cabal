@@ -58,6 +58,7 @@ library
                      , CFDI.Types.CustomPatent
                      , CFDI.Types.Description100
                      , CFDI.Types.Description120
+                     , CFDI.Types.Dimensions
                      , CFDI.Types.ExchangeRate
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio

@@ -57,7 +57,7 @@
         </cartaporte:Ubicacion>
       </cartaporte:Ubicaciones>
       <cartaporte:Mercancias NumTotalMercancias="1">
-        <cartaporte:Mercancia BienesTransp="50112004" Descripcion="Rib Eye" Cantidad="10.000000" ClaveUnidad="KIP" Unidad="KIP" PesoEnKg="10.000" FraccionArancelaria="0210200100" ClaveSTCC="262" UUIDComercioExt="E8C30D50-19D3-4B38-9007-BCB3C841BC53">
+        <cartaporte:Mercancia BienesTransp="50112004" Descripcion="Rib Eye" Cantidad="10.000000" ClaveUnidad="KIP" Unidad="KIP" PesoEnKg="10.000" FraccionArancelaria="0210200100" ClaveSTCC="262" UUIDComercioExt="E8C30D50-19D3-4B38-9007-BCB3C841BC53" Dimensiones="30/40/30cm">
           <cartaporte:CantidadTransporta Cantidad="5.000000" IDOrigen="OR000001" IDDestino="DE000002"/>
           <cartaporte:CantidadTransporta Cantidad="5.000000" IDOrigen="OR000001" IDDestino="DE000003"/>
         </cartaporte:Mercancia>
