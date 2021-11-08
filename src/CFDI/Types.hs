@@ -41,6 +41,7 @@ import CFDI.Types.InOut                      as Types
 import CFDI.Types.InOutWay                   as Types
 import CFDI.Types.InternationalZipCode       as Types
 import CFDI.Types.Issuer                     as Types
+import CFDI.Types.KGWeight                   as Types
 import CFDI.Types.Locality                   as Types
 import CFDI.Types.LocationAddress            as Types
 import CFDI.Types.LocationDestination        as Types

@@ -211,6 +211,9 @@ cfdi = CFDI
                 (Just $ HazardousMaterialID "M0144")
                 (Just $ Packaging "6HA2")
                 (Just $ Description100 "UNA CAJOTA")
+                (KGWeight 10)
+                (Just $ Amount 1200.12)
+                (Just $ CUR_USD)
             ])))
       (Just
         (PacStamp

@@ -68,6 +68,7 @@ library
                      , CFDI.Types.InOut
                      , CFDI.Types.InOutWay
                      , CFDI.Types.InternationalZipCode
+                     , CFDI.Types.KGWeight
                      , CFDI.Types.Issuer
                      , CFDI.Types.Locality
                      , CFDI.Types.LocationAddress
