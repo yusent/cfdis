@@ -63,6 +63,7 @@ library
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
                      , CFDI.Types.HarborType
+                     , CFDI.Types.HazardousMaterialID
                      , CFDI.Types.ImportNumber
                      , CFDI.Types.InOut
                      , CFDI.Types.InOutWay

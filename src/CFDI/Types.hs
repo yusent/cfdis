@@ -35,6 +35,7 @@ import CFDI.Types.ExchangeRate               as Types
 import CFDI.Types.FactorType                 as Types
 import CFDI.Types.Folio                      as Types
 import CFDI.Types.HarborType                 as Types
+import CFDI.Types.HazardousMaterialID        as Types
 import CFDI.Types.ImportNumber               as Types
 import CFDI.Types.InOut                      as Types
 import CFDI.Types.InOutWay                   as Types

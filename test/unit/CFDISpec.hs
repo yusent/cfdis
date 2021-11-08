@@ -207,6 +207,8 @@ cfdi = CFDI
                 (Just MU_KIP)
                 (Just $ ProductUnit "KIP")
                 (Just $ Dimensions "30/40/30cm")
+                (Just Yes)
+                (Just $ HazardousMaterialID "M0144")
             ])))
       (Just
         (PacStamp
