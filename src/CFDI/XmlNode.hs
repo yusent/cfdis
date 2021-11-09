@@ -2,6 +2,7 @@ module CFDI.XmlNode where
 
 import CFDI.Types.Type      (ParseError, Type, parse, render)
 import Control.Error.Safe   (justErr)
+import Data.Maybe           (catMaybes)
 import Text.XML.Light.Proc  (filterChildName, filterChildrenName, findAttrBy)
 import Text.XML.Light
   ( Attr(..)
@@ -24,6 +25,9 @@ class XmlNode n where
   attributes :: n -> [Attr]
   attributes = const []
 
+  optionalAttributes :: n -> [Maybe Attr]
+  optionalAttributes = const []
+
   children :: n -> [Element]
   children = const []
 
@@ -35,7 +39,9 @@ class XmlNode n where
   parseNode :: Element -> Either XmlParseError n
 
   renderNode :: n -> Element
-  renderNode n = mkElem (nodePrefix n) (nodeName n) (attributes n) (children n)
+  renderNode n = mkElem (nodePrefix n) (nodeName n) attrs (children n)
+    where
+      attrs = attributes n ++ catMaybes (optionalAttributes n)
 
 -- Helpers
 

@@ -49,6 +49,7 @@ import CFDI.Types.LocationDestinationID      as Types
 import CFDI.Types.LocationOrigin             as Types
 import CFDI.Types.LocationOriginID           as Types
 import CFDI.Types.MeasurementUnit            as Types
+import CFDI.Types.MovedGood                  as Types
 import CFDI.Types.Municipality               as Types
 import CFDI.Types.Name                       as Types
 import CFDI.Types.OperationId                as Types

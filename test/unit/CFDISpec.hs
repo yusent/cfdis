@@ -216,6 +216,17 @@ cfdi = CFDI
                 (Just $ CUR_USD)
                 (Just $ TariffFraction "0210200100")
                 (Just $ UUID "E8C30D50-19D3-4B38-9007-BCB3C841BC53")
+                [ MovedGood
+                    (Quantity 5)
+                    (LocationOriginID "OR000001")
+                    (LocationDestinationID "DE000002")
+                    Nothing
+                , MovedGood
+                    (Quantity 5)
+                    (LocationOriginID "OR000001")
+                    (LocationDestinationID "DE000003")
+                    (Just AirTransport)
+                ]
             ])))
       (Just
         (PacStamp

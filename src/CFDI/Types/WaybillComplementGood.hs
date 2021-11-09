@@ -7,6 +7,7 @@ import CFDI.Types.Currency
 import CFDI.Types.Description100
 import CFDI.Types.Dimensions
 import CFDI.Types.HazardousMaterialID
+import CFDI.Types.MovedGood
 import CFDI.Types.KGWeight
 import CFDI.Types.MeasurementUnit
 import CFDI.Types.Packaging
@@ -37,6 +38,7 @@ data WaybillComplementGood = WaybillComplementGood
   , wcGoodValueCurrency :: Maybe Currency
   , wcGoodTariffFraction :: Maybe TariffFraction
   , wcGoodForeignTradeUUID :: Maybe UUID
+  , wcGoodMovedGoods :: [MovedGood]
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplementGood where
@@ -62,9 +64,7 @@ instance XmlNode WaybillComplementGood where
     , attr "UUIDComercioExt" <$> wcGoodForeignTradeUUID n
     ]
 
-  children n = catMaybes
-    [
-    ]
+  children = map renderNode . wcGoodMovedGoods
 
   nodeName = const "Mercancia"
 
@@ -85,3 +85,4 @@ instance XmlNode WaybillComplementGood where
     <*> parseAttribute "Moneda" n
     <*> parseAttribute "FraccionArancelaria" n
     <*> parseAttribute "UUIDComercioExt" n
+    <*> parseChildren "CantidadTransporta" n
