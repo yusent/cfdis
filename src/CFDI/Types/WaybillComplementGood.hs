@@ -40,7 +40,7 @@ data WaybillComplementGood = WaybillComplementGood
   , wcGoodTariffFraction :: Maybe TariffFraction
   , wcGoodForeignTradeUUID :: Maybe UUID
   , wcGoodMovedGoods :: [MovedGood]
-  , wcGoodGoodsDetails :: [GoodDetail]
+  , wcGoodDetail :: Maybe GoodDetail
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplementGood where
@@ -66,8 +66,8 @@ instance XmlNode WaybillComplementGood where
     , attr "UUIDComercioExt" <$> wcGoodForeignTradeUUID n
     ]
 
-  children n = map renderNode (wcGoodMovedGoods n)
-            ++ map renderNode (wcGoodGoodsDetails n)
+  children n = catMaybes [renderNode <$> wcGoodDetail n]
+            ++ map renderNode (wcGoodMovedGoods n)
 
   nodeName = const "Mercancia"
 
@@ -89,4 +89,4 @@ instance XmlNode WaybillComplementGood where
     <*> parseAttribute "FraccionArancelaria" n
     <*> parseAttribute "UUIDComercioExt" n
     <*> parseChildren "CantidadTransporta" n
-    <*> parseChildren "DetalleMercancia" n
+    <*> parseChild "DetalleMercancia" n
