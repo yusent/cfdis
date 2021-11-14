@@ -62,6 +62,7 @@ library
                      , CFDI.Types.ExchangeRate
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
+                     , CFDI.Types.GoodDetail
                      , CFDI.Types.HarborType
                      , CFDI.Types.HazardousMaterialID
                      , CFDI.Types.ImportNumber
@@ -98,6 +99,7 @@ library
                      , CFDI.Types.PaymentTaxes
                      , CFDI.Types.PaymentTransferedTax
                      , CFDI.Types.PaymentTransferedTaxes
+                     , CFDI.Types.PositiveInt
                      , CFDI.Types.ProductDescription
                      , CFDI.Types.ProductId
                      , CFDI.Types.ProductOrService
@@ -140,6 +142,7 @@ library
                      , CFDI.Types.WaybillComplementLocation
                      , CFDI.Types.WaybillComplementLocations
                      , CFDI.Types.WaybillComplementVersion
+                     , CFDI.Types.WeightUnit
                      , CFDI.Types.YesNo
                      , CFDI.Types.ZipCode
   build-depends:       aeson >= 1.1 && < 1.2

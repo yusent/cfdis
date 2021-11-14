@@ -227,6 +227,13 @@ cfdi = CFDI
                     (LocationDestinationID "DE000003")
                     (Just AirTransport)
                 ]
+                [ GoodDetail
+                    WU_Tu
+                    (KGWeight 12.144)
+                    (KGWeight 0.2)
+                    (KGWeight 11.944)
+                    (Just $ PositiveInt 2)
+                ]
             ])))
       (Just
         (PacStamp

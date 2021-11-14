@@ -34,6 +34,7 @@ import CFDI.Types.Dimensions                 as Types
 import CFDI.Types.ExchangeRate               as Types
 import CFDI.Types.FactorType                 as Types
 import CFDI.Types.Folio                      as Types
+import CFDI.Types.GoodDetail                 as Types
 import CFDI.Types.HarborType                 as Types
 import CFDI.Types.HazardousMaterialID        as Types
 import CFDI.Types.ImportNumber               as Types
@@ -70,6 +71,7 @@ import CFDI.Types.PaymentsVersion            as Types
 import CFDI.Types.PaymentTaxes               as Types
 import CFDI.Types.PaymentTransferedTax       as Types
 import CFDI.Types.PaymentTransferedTaxes     as Types
+import CFDI.Types.PositiveInt                as Types
 import CFDI.Types.ProductDescription         as Types
 import CFDI.Types.ProductId                  as Types
 import CFDI.Types.ProductOrService           as Types
@@ -117,5 +119,6 @@ import CFDI.Types.WaybillComplementGoods     as Types
 import CFDI.Types.WaybillComplementLocation  as Types
 import CFDI.Types.WaybillComplementLocations as Types
 import CFDI.Types.WaybillComplementVersion   as Types
+import CFDI.Types.WeightUnit                 as Types
 import CFDI.Types.YesNo                      as Types
 import CFDI.Types.ZipCode                    as Types
