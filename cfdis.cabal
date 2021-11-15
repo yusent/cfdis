@@ -56,6 +56,9 @@ library
                      , CFDI.Types.Custom
                      , CFDI.Types.CustomInfo
                      , CFDI.Types.CustomPatent
+                     , CFDI.Types.Description3_30
+                     , CFDI.Types.Description3_50
+                     , CFDI.Types.Description50
                      , CFDI.Types.Description100
                      , CFDI.Types.Description120
                      , CFDI.Types.Dimensions
@@ -116,6 +119,7 @@ library
                      , CFDI.Types.RetainedTaxes
                      , CFDI.Types.RFC
                      , CFDI.Types.SatLegend
+                     , CFDI.Types.SCTPermissionType
                      , CFDI.Types.Series
                      , CFDI.Types.State
                      , CFDI.Types.Station
@@ -137,6 +141,7 @@ library
                      , CFDI.Types.Version
                      , CFDI.Types.WayToPay
                      , CFDI.Types.WaybillComplement
+                     , CFDI.Types.WaybillComplementFederalTrucking
                      , CFDI.Types.WaybillComplementGood
                      , CFDI.Types.WaybillComplementGoods
                      , CFDI.Types.WaybillComplementLocation

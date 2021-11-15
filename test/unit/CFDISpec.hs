@@ -234,7 +234,13 @@ cfdi = CFDI
                     (KGWeight 0.2)
                     (KGWeight 11.944)
                     (Just $ PositiveInt 2)))
-            ])))
+            ]
+            (Just
+              (WaybillComplementFederalTrucking
+                TPAF01
+                (Description50 "0X2XTXZ0X5X0X3X2X1X0")
+                (Description3_50 "SURA")
+                (Description3_30 "210520213621"))))))
       (Just
         (PacStamp
           (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))
