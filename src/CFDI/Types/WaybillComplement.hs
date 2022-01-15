@@ -9,7 +9,7 @@ import CFDI.Types.WaybillComplementVersion
 import CFDI.Types.YesNo
 import CFDI.XmlNode
 import Data.Maybe (catMaybes)
-import Data.Text (Text, append, intercalate)
+import Data.Text (Text)
 
 data WaybillComplement = WaybillComplement
   { waybillComplementVersion :: WaybillComplementVersion
