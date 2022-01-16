@@ -103,6 +103,149 @@ cfdi = CFDI
         )
       )
       (Just
+        (WaybillComplement
+          (WaybillComplementVersion 1.0)
+          Yes
+          (Just Out)
+          (Just FederalTrucking)
+          (Just 16.69)
+          (WaybillComplementLocations
+            [ WaybillComplementLocation
+                (Just DomesticOrigin)
+                Nothing
+                (Just
+                  (LocationOrigin
+                    (Just $ LocationOriginID "OR000001")
+                    (Just $ RFC "IIA040805DZ4")
+                    (Just $ Name "INDISTRIA ILUMINADORA")
+                    (Just $ TaxId "999955555")
+                    (Just CTY_ZZZ)
+                    (Just $ Station "PM112")
+                    (Just $ StationName "ESTACION ACME")
+                    (Just Coastal)
+                    (LocalTime
+                      (ModifiedJulianDay 59425)
+                      (TimeOfDay 17 58 02))))
+                Nothing
+                (Just
+                  (LocationAddress
+                    (Description100 "CARTAGENA")
+                    (Just $ AddressNumber "18960")
+                    (Just $ AddressNumber "1")
+                    (Just $ Description120 "0923")
+                    (Just $ Description120 "04")
+                    (Just $ AddressReference "32.5673,-116.974")
+                    (Just $ Description120 "004")
+                    (AddressState "BCN")
+                    CTY_MEX
+                    (InternationalZipCode "22224")))
+            , WaybillComplementLocation
+                Nothing
+                (Just 12.01)
+                Nothing
+                (Just
+                  (LocationDestination
+                    (Just $ LocationDestinationID "DE000002")
+                    Nothing
+                    (Just $ Name "INDISTRIA ILUMINADORA")
+                    (Just $ TaxId "364753504")
+                    (Just CTY_USA)
+                    Nothing
+                    Nothing
+                    Nothing
+                    (LocalTime
+                      (ModifiedJulianDay 59425)
+                      (TimeOfDay 17 58 02))))
+                (Just
+                  (LocationAddress
+                    (Description100 "1659 GAILES BLVD 101")
+                    Nothing
+                    Nothing
+                    Nothing
+                    (Just $ Description120 "SAN DIEGO")
+                    (Just $ AddressReference "32.4714,-116.915")
+                    (Just $ Description120 "SAN DIEGO")
+                    (AddressState "CA")
+                    CTY_USA
+                    (InternationalZipCode "92154")))
+            , WaybillComplementLocation
+                (Just DomesticFinalDestination)
+                (Just 4.68)
+                Nothing
+                (Just
+                  (LocationDestination
+                    (Just $ LocationDestinationID "DE000003")
+                    (Just $ RFC "IIA040805DZ4")
+                    (Just $ Name "INDISTRIA ILUMINADORA")
+                    Nothing
+                    Nothing
+                    Nothing
+                    Nothing
+                    Nothing
+                    (LocalTime
+                      (ModifiedJulianDay 59425)
+                      (TimeOfDay 17 58 02))))
+                (Just
+                  (LocationAddress
+                    (Description100 "6-A, Parque TIP B.C., México, Avenida Universidad")
+                    Nothing
+                    Nothing
+                    (Just $ Description120 "0923")
+                    (Just $ Description120 "04")
+                    (Just $ AddressReference "32.5257,-116.967")
+                    (Just $ Description120 "004")
+                    (AddressState "BCN")
+                    CTY_MEX
+                    (InternationalZipCode "22224")))
+            ])
+          (WaybillComplementGoods
+            [ WaybillComplementGood
+                (Just $ ProductOrService 50112004)
+                (Just $ STCCID "262")
+                (Just $ ProductDescription "Rib Eye")
+                (Just $ Quantity 10)
+                (Just MU_KIP)
+                (Just $ ProductUnit "KIP")
+                (Just $ Dimensions "30/40/30cm")
+                (Just Yes)
+                (Just $ HazardousMaterialID "M0144")
+                (Just $ Packaging "6HA2")
+                (Just $ Description100 "UNA CAJOTA")
+                (KGWeight 10)
+                (Just $ Amount 1200.12)
+                (Just $ CUR_USD)
+                (Just $ TariffFraction "0210200100")
+                (Just $ UUID "E8C30D50-19D3-4B38-9007-BCB3C841BC53")
+                [ MovedGood
+                    (Quantity 5)
+                    (LocationOriginID "OR000001")
+                    (LocationDestinationID "DE000002")
+                    Nothing
+                , MovedGood
+                    (Quantity 5)
+                    (LocationOriginID "OR000001")
+                    (LocationDestinationID "DE000003")
+                    (Just AirTransport)
+                ]
+                (Just
+                  (GoodDetail
+                    WU_Tu
+                    (KGWeight 12.144)
+                    (KGWeight 0.2)
+                    (KGWeight 11.944)
+                    (Just $ PositiveInt 2)))
+            ]
+            (Just
+              (WaybillComplementFederalTrucking
+                TPAF01
+                (Description50 "0X2XTXZ0X5X0X3X2X1X0")
+                (Description3_50 "SURA")
+                (Description3_30 "210520213621")
+                (VehicleID
+                  (VehicleConfig "C2")
+                  (VehiclePlate "501800")
+                  (VehicleModelYear 2021)))))))
+      (Just
         (PacStamp
           (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))
           (CompanyRfc "SAT970701NN3")

@@ -34,6 +34,13 @@ instance Type LocalTime where
 
   render = formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%S"
 
+instance Type Int where
+  parseExpr e = case reads e of
+    ((i, _) : _) -> Right i
+    _ -> Left (InvalidValue e)
+
+  render = show
+
 instance Type Rational where
   parseExpr e = first (const $ InvalidValue e) . fmap fst . rational $ pack e
 

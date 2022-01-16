@@ -32,6 +32,9 @@ library
                      , CFDI.Types
                      , CFDI.Types.AccountNumber
                      , CFDI.Types.Addenda
+                     , CFDI.Types.AddressNumber
+                     , CFDI.Types.AddressReference
+                     , CFDI.Types.AddressState
                      , CFDI.Types.Amount
                      , CFDI.Types.BankName
                      , CFDI.Types.BankRfc
@@ -53,16 +56,36 @@ library
                      , CFDI.Types.Custom
                      , CFDI.Types.CustomInfo
                      , CFDI.Types.CustomPatent
+                     , CFDI.Types.Description3_30
+                     , CFDI.Types.Description3_50
+                     , CFDI.Types.Description50
+                     , CFDI.Types.Description100
+                     , CFDI.Types.Description120
+                     , CFDI.Types.Dimensions
                      , CFDI.Types.ExchangeRate
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
+                     , CFDI.Types.GoodDetail
+                     , CFDI.Types.HarborType
+                     , CFDI.Types.HazardousMaterialID
                      , CFDI.Types.ImportNumber
+                     , CFDI.Types.InOut
+                     , CFDI.Types.InOutWay
+                     , CFDI.Types.InternationalZipCode
+                     , CFDI.Types.KGWeight
                      , CFDI.Types.Issuer
                      , CFDI.Types.Locality
+                     , CFDI.Types.LocationAddress
+                     , CFDI.Types.LocationDestination
+                     , CFDI.Types.LocationDestinationID
+                     , CFDI.Types.LocationOrigin
+                     , CFDI.Types.LocationOriginID
                      , CFDI.Types.MeasurementUnit
+                     , CFDI.Types.MovedGood
                      , CFDI.Types.Municipality
                      , CFDI.Types.Name
                      , CFDI.Types.OperationId
+                     , CFDI.Types.Packaging
                      , CFDI.Types.PacStamp
                      , CFDI.Types.PacStampVersion
                      , CFDI.Types.Partiality
@@ -79,6 +102,7 @@ library
                      , CFDI.Types.PaymentTaxes
                      , CFDI.Types.PaymentTransferedTax
                      , CFDI.Types.PaymentTransferedTaxes
+                     , CFDI.Types.PositiveInt
                      , CFDI.Types.ProductDescription
                      , CFDI.Types.ProductId
                      , CFDI.Types.ProductOrService
@@ -95,9 +119,15 @@ library
                      , CFDI.Types.RetainedTaxes
                      , CFDI.Types.RFC
                      , CFDI.Types.SatLegend
+                     , CFDI.Types.SCTPermissionType
                      , CFDI.Types.Series
                      , CFDI.Types.State
+                     , CFDI.Types.Station
+                     , CFDI.Types.StationName
+                     , CFDI.Types.StationType
+                     , CFDI.Types.STCCID
                      , CFDI.Types.Suburb
+                     , CFDI.Types.TariffFraction
                      , CFDI.Types.Tax
                      , CFDI.Types.Taxes
                      , CFDI.Types.TaxId
@@ -109,7 +139,20 @@ library
                      , CFDI.Types.Use
                      , CFDI.Types.UUID
                      , CFDI.Types.Version
+                     , CFDI.Types.VehicleConfig
+                     , CFDI.Types.VehicleID
+                     , CFDI.Types.VehicleModelYear
+                     , CFDI.Types.VehiclePlate
                      , CFDI.Types.WayToPay
+                     , CFDI.Types.WaybillComplement
+                     , CFDI.Types.WaybillComplementFederalTrucking
+                     , CFDI.Types.WaybillComplementGood
+                     , CFDI.Types.WaybillComplementGoods
+                     , CFDI.Types.WaybillComplementLocation
+                     , CFDI.Types.WaybillComplementLocations
+                     , CFDI.Types.WaybillComplementVersion
+                     , CFDI.Types.WeightUnit
+                     , CFDI.Types.YesNo
                      , CFDI.Types.ZipCode
   build-depends:       aeson >= 1.1 && < 1.2
                      , base >= 4.7 && < 5

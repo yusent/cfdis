@@ -119,8 +119,8 @@ addStampToCFDI :: CFDI -> PacStamp -> CFDI
 addStampToCFDI cfdi stamp' = cfdi { complement = comp }
   where
     comp = case complement cfdi of
-      Nothing -> Just . Complement Nothing $ Just stamp'
-      Just (Complement pc _) -> Just . Complement pc $ Just stamp'
+      Nothing -> Just . Complement Nothing Nothing $ Just stamp'
+      Just (Complement pc wb _) -> Just . Complement pc wb $ Just stamp'
 
 handleCancelHttpException :: HttpException -> IO (Either CancelError Text)
 handleCancelHttpException _ = return $ Left CancelConnectionError
