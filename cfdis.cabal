@@ -139,6 +139,10 @@ library
                      , CFDI.Types.Use
                      , CFDI.Types.UUID
                      , CFDI.Types.Version
+                     , CFDI.Types.VehicleConfig
+                     , CFDI.Types.VehicleID
+                     , CFDI.Types.VehicleModelYear
+                     , CFDI.Types.VehiclePlate
                      , CFDI.Types.WayToPay
                      , CFDI.Types.WaybillComplement
                      , CFDI.Types.WaybillComplementFederalTrucking

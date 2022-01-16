@@ -240,7 +240,11 @@ cfdi = CFDI
                 TPAF01
                 (Description50 "0X2XTXZ0X5X0X3X2X1X0")
                 (Description3_50 "SURA")
-                (Description3_30 "210520213621"))))))
+                (Description3_30 "210520213621")
+                (VehicleID
+                  (VehicleConfig "C2")
+                  (VehiclePlate "501800")
+                  (VehicleModelYear 2021)))))))
       (Just
         (PacStamp
           (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))

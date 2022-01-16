@@ -116,6 +116,10 @@ import CFDI.Types.Type                             as Types
 import CFDI.Types.Use                              as Types
 import CFDI.Types.UUID                             as Types
 import CFDI.Types.Version                          as Types
+import CFDI.Types.VehicleConfig                    as Types
+import CFDI.Types.VehicleID                        as Types
+import CFDI.Types.VehicleModelYear                 as Types
+import CFDI.Types.VehiclePlate                     as Types
 import CFDI.Types.WayToPay                         as Types
 import CFDI.Types.WaybillComplement                as Types
 import CFDI.Types.WaybillComplementFederalTrucking as Types
