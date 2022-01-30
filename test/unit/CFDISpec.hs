@@ -244,7 +244,13 @@ cfdi = CFDI
                 (VehicleID
                   (VehicleConfig "C2")
                   (VehiclePlate "501800")
-                  (VehicleModelYear 2021)))))))
+                  (VehicleModelYear 2021))
+                (Just
+                  (Trailers
+                    [ Trailer
+                        (TrailerSubType 6)
+                        (VehiclePlate "501801")
+                    ])))))))
       (Just
         (PacStamp
           (Just (SatLegend "AVISO PARA EL CONTRIBUYENTE"))

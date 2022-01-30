@@ -78,6 +78,8 @@ ppXmlParseError indentationStr = intercalate "\n"
       ["No se encontró el elemento \"" ++ e ++ "\"."]
     errMsgLines (ExpectedAtLeastOne e) =
       ["Se necesita al menos un \"" ++ e ++ "\"."]
+    errMsgLines (ExpectedNoMoreThan n e) =
+      ["No debe haber más de " ++ show n ++ " \"" ++ e ++ "\"."]
     errMsgLines MalformedXML =
       ["XML malformado o inválido."]
     errMsgLines (ParseErrorInChild e xpe) =

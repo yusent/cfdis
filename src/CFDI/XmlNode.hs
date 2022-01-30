@@ -16,6 +16,7 @@ data XmlParseError
   | AttrParseError String ParseError
   | ElemNotFound String
   | ExpectedAtLeastOne String
+  | ExpectedNoMoreThan Int String
   | MalformedXML
   | ParseErrorInChild String XmlParseError
   | UnknownComplement

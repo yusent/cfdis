@@ -133,6 +133,9 @@ library
                      , CFDI.Types.TaxId
                      , CFDI.Types.TaxRate
                      , CFDI.Types.TaxRegime
+                     , CFDI.Types.Trailer
+                     , CFDI.Types.Trailers
+                     , CFDI.Types.TrailerSubType
                      , CFDI.Types.TransferedTax
                      , CFDI.Types.TransferedTaxes
                      , CFDI.Types.Type

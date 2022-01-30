@@ -6,6 +6,7 @@ import CFDI.Types.Description3_30
 import CFDI.Types.Description3_50
 import CFDI.Types.Description50
 import CFDI.Types.SCTPermissionType
+import CFDI.Types.Trailers
 import CFDI.Types.VehicleID
 import Data.Maybe (catMaybes)
 
@@ -15,6 +16,7 @@ data WaybillComplementFederalTrucking = WaybillComplementFederalTrucking
   , wcftInsuranceName :: Description3_50
   , wcftInsurancePolicy :: Description3_30
   , wcftVehicleID :: VehicleID
+  , wcftTrailers :: Maybe Trailers
   } deriving (Eq, Show)
 
 instance Chainable WaybillComplementFederalTrucking where
@@ -30,6 +32,7 @@ instance XmlNode WaybillComplementFederalTrucking where
 
   children n = catMaybes
     [ Just . renderNode $ wcftVehicleID n
+    , renderNode <$> wcftTrailers n
     ]
 
   nodeName = const "AutotransporteFederal"
@@ -40,3 +43,4 @@ instance XmlNode WaybillComplementFederalTrucking where
     <*> requireAttribute "NombreAseg" n
     <*> requireAttribute "NumPolizaSeguro" n
     <*> requireChild "IdentificacionVehicular" n
+    <*> parseChild "Remolques" n

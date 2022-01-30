@@ -105,6 +105,9 @@ import CFDI.Types.Taxes                            as Types
 import CFDI.Types.TaxId                            as Types
 import CFDI.Types.TaxRate                          as Types
 import CFDI.Types.TaxRegime                        as Types
+import CFDI.Types.Trailer                          as Types
+import CFDI.Types.Trailers                         as Types
+import CFDI.Types.TrailerSubType                   as Types
 import CFDI.Types.TransferedTax                    as Types
 import CFDI.Types.TransferedTaxes                  as Types
 import CFDI.Types.Type                             as Types
