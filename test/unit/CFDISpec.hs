@@ -161,6 +161,7 @@ cfdi = CFDI
   CUR_MXN
   (Just (Amount 0))
   (Just (ExchangeRate 12.1212))
+  Nothing
   (Just (Folio "12"))
   (LocalTime
     (ModifiedJulianDay 57953)

@@ -26,6 +26,7 @@ import CFDI.Types.Custom                 as Types
 import CFDI.Types.CustomInfo             as Types
 import CFDI.Types.CustomPatent           as Types
 import CFDI.Types.ExchangeRate           as Types
+import CFDI.Types.Export                 as Types
 import CFDI.Types.FactorType             as Types
 import CFDI.Types.Folio                  as Types
 import CFDI.Types.ImportNumber           as Types

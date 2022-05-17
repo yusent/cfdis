@@ -10,6 +10,7 @@ import CFDI.Types.Concepts
 import CFDI.Types.Confirmation
 import CFDI.Types.Currency
 import CFDI.Types.ExchangeRate
+import CFDI.Types.Export
 import CFDI.Types.Folio
 import CFDI.Types.Issuer
 import CFDI.Types.PaymentConditions
@@ -38,6 +39,7 @@ data CFDI = CFDI
   , currency      :: Currency
   , discount      :: Maybe Amount
   , exchangeRate  :: Maybe ExchangeRate
+  , cfdiExport    :: Maybe Export
   , folio         :: Maybe Folio
   , issuedAt      :: LocalTime
   , issuedIn      :: ZipCode
@@ -108,6 +110,7 @@ instance XmlNode CFDI where
     , attr "Serie"             <$> series n
     , attr "Sello"             <$> signature n
     , attr "FormaPago"         <$> wayToPay n
+    , attr "Exportacion"       <$> cfdiExport n
     ]
 
   children r = catMaybes
@@ -133,6 +136,7 @@ instance XmlNode CFDI where
     <*> requireAttribute "Moneda" n
     <*> parseAttribute "Descuento" n
     <*> parseAttribute "TipoCambio" n
+    <*> parseAttribute "Exportacion" n
     <*> parseAttribute "Folio" n
     <*> requireAttribute "Fecha" n
     <*> requireAttribute "LugarExpedicion" n

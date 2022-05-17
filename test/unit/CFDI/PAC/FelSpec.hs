@@ -81,6 +81,7 @@ cfdi = CFDI
   CUR_MXN
   Nothing
   Nothing
+  Nothing
   (Just (Folio "12"))
   (LocalTime
     (ModifiedJulianDay 57953)

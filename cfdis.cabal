@@ -54,6 +54,7 @@ library
                      , CFDI.Types.CustomInfo
                      , CFDI.Types.CustomPatent
                      , CFDI.Types.ExchangeRate
+                     , CFDI.Types.Export
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
                      , CFDI.Types.ImportNumber
