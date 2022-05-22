@@ -8,10 +8,16 @@ data TaxObject
   = NotSubjectToTax
   | SubjectToTax
   | NoObligationToBreakDown
-  deriving (Eq, Read, Show)
+  deriving (Bounded, Enum, Eq)
 
 instance Chainable TaxObject where
   chain = pack . render
+
+instance Show TaxObject where
+  show NotSubjectToTax         = "01 - No objeto de impuesto"
+  show SubjectToTax            = "02 - Sí objeto de impuesto"
+  show NoObligationToBreakDown = "03 - Sí objeto de impuesto y no obligado al \
+                                 \desglose"
 
 instance Type TaxObject where
   parseExpr "01" = Right NotSubjectToTax
