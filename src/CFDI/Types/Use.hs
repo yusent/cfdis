@@ -27,6 +27,9 @@ data Use
   | DepositsInSavingsAccounts
   | TuitionFees
   | ToBeDefined_
+  | WithoutTaxEffect
+  | UsedForPayments
+  | UsedForPayroll
   deriving (Bounded, Enum, Eq)
 
 instance Chainable Use where
@@ -66,30 +69,36 @@ instance Show Use where
   show TuitionFees               = "D10 - Pagos por servicios educativos \
                                    \(colegiaturas)"
   show ToBeDefined_              = "P01 - Por definir"
+  show WithoutTaxEffect          = "S01 - Sin efectos fiscales"
+  show UsedForPayments           = "CP01 - Pagos"
+  show UsedForPayroll            = "CN01 - Nómina"
 
 instance Type Use where
-  parseExpr "G01" = Right GoodsAcquisition_
-  parseExpr "G02" = Right ReturnsDiscountsOrBonuses
-  parseExpr "G03" = Right GeneralExpenses
-  parseExpr "I01" = Right Constructions
-  parseExpr "I02" = Right Furniture
-  parseExpr "I03" = Right TransportEquipment
-  parseExpr "I04" = Right ComputerEquipment
-  parseExpr "I05" = Right Tooling
-  parseExpr "I06" = Right PhoneComunications
-  parseExpr "I07" = Right SatelliteComunications
-  parseExpr "I08" = Right OtherMachinery
-  parseExpr "D01" = Right MedicalFees
-  parseExpr "D02" = Right MedicalExpenses
-  parseExpr "D03" = Right FuneralExpenses
-  parseExpr "D04" = Right Donations
-  parseExpr "D05" = Right PaidInterests
-  parseExpr "D06" = Right VoluntaryContributions
-  parseExpr "D07" = Right InsurancePremiums
-  parseExpr "D08" = Right SchoolTransportation
-  parseExpr "D09" = Right DepositsInSavingsAccounts
-  parseExpr "D10" = Right TuitionFees
-  parseExpr "P01" = Right ToBeDefined_
+  parseExpr "G01"  = Right GoodsAcquisition_
+  parseExpr "G02"  = Right ReturnsDiscountsOrBonuses
+  parseExpr "G03"  = Right GeneralExpenses
+  parseExpr "I01"  = Right Constructions
+  parseExpr "I02"  = Right Furniture
+  parseExpr "I03"  = Right TransportEquipment
+  parseExpr "I04"  = Right ComputerEquipment
+  parseExpr "I05"  = Right Tooling
+  parseExpr "I06"  = Right PhoneComunications
+  parseExpr "I07"  = Right SatelliteComunications
+  parseExpr "I08"  = Right OtherMachinery
+  parseExpr "D01"  = Right MedicalFees
+  parseExpr "D02"  = Right MedicalExpenses
+  parseExpr "D03"  = Right FuneralExpenses
+  parseExpr "D04"  = Right Donations
+  parseExpr "D05"  = Right PaidInterests
+  parseExpr "D06"  = Right VoluntaryContributions
+  parseExpr "D07"  = Right InsurancePremiums
+  parseExpr "D08"  = Right SchoolTransportation
+  parseExpr "D09"  = Right DepositsInSavingsAccounts
+  parseExpr "D10"  = Right TuitionFees
+  parseExpr "P01"  = Right ToBeDefined_
+  parseExpr "S01"  = Right WithoutTaxEffect
+  parseExpr "CP01" = Right UsedForPayments
+  parseExpr "CN01" = Right UsedForPayroll
   parseExpr _     = Left NotInCatalog
 
   render GoodsAcquisition_         = "G01"
@@ -114,3 +123,6 @@ instance Type Use where
   render DepositsInSavingsAccounts = "D09"
   render TuitionFees               = "D10"
   render ToBeDefined_              = "P01"
+  render WithoutTaxEffect          = "S01"
+  render UsedForPayments           = "CP01"
+  render UsedForPayroll            = "CN01"
