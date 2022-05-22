@@ -178,7 +178,9 @@ cfdi = CFDI
     (Just (Name "RECEPTOR DE PRUEBA"))
     (RFC "XEXX010101000")
     (Just (TaxId "1234567890"))
-    (Just CTY_MEX))
+    (Just CTY_MEX)
+    Nothing
+    Nothing)
   (Just (RelatedCfdis
           [RelatedCfdi (UUID "12121212-1212-1212-1212-121212121212")]
           Substitution))

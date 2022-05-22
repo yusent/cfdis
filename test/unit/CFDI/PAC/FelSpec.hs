@@ -98,6 +98,8 @@ cfdi = CFDI
     (Just (Name "RECEPTOR DE PRUEBA"))
     (RFC "TES030201001")
     Nothing
+    Nothing
+    Nothing
     Nothing)
   Nothing
   (Just (Series "ABC"))
