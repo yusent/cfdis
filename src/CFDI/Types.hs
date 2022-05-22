@@ -29,6 +29,9 @@ import CFDI.Types.ExchangeRate           as Types
 import CFDI.Types.Export                 as Types
 import CFDI.Types.FactorType             as Types
 import CFDI.Types.Folio                  as Types
+import CFDI.Types.GlobalInvoiceInfo      as Types
+import CFDI.Types.GlobalInvoiceMonths    as Types
+import CFDI.Types.GlobalInvoiceYear      as Types
 import CFDI.Types.ImportNumber           as Types
 import CFDI.Types.Issuer                 as Types
 import CFDI.Types.Locality               as Types
@@ -52,6 +55,7 @@ import CFDI.Types.PaymentsVersion        as Types
 import CFDI.Types.PaymentTaxes           as Types
 import CFDI.Types.PaymentTransferedTax   as Types
 import CFDI.Types.PaymentTransferedTaxes as Types
+import CFDI.Types.Periodicity            as Types
 import CFDI.Types.ProductDescription     as Types
 import CFDI.Types.ProductId              as Types
 import CFDI.Types.ProductOrService       as Types

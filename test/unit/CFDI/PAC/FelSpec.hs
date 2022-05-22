@@ -84,6 +84,7 @@ cfdi = CFDI
   Nothing
   Nothing
   (Just (Folio "12"))
+  Nothing
   (LocalTime
     (ModifiedJulianDay 57953)
     (TimeOfDay 14 27 3))

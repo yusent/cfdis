@@ -164,6 +164,7 @@ cfdi = CFDI
   (Just (ExchangeRate 12.1212))
   Nothing
   (Just (Folio "12"))
+  Nothing
   (LocalTime
     (ModifiedJulianDay 57953)
     (TimeOfDay 14 27 3))

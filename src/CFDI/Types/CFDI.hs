@@ -12,6 +12,7 @@ import CFDI.Types.Currency
 import CFDI.Types.ExchangeRate
 import CFDI.Types.Export
 import CFDI.Types.Folio
+import CFDI.Types.GlobalInvoiceInfo
 import CFDI.Types.Issuer
 import CFDI.Types.PaymentConditions
 import CFDI.Types.PaymentMethod
@@ -41,6 +42,7 @@ data CFDI = CFDI
   , exchangeRate  :: Maybe ExchangeRate
   , cfdiExport    :: Maybe Export
   , folio         :: Maybe Folio
+  , globalInfo    :: Maybe GlobalInvoiceInfo
   , issuedAt      :: LocalTime
   , issuedIn      :: ZipCode
   , issuer        :: Issuer
@@ -121,6 +123,7 @@ instance XmlNode CFDI where
     , renderNode <$> taxes r
     , renderNode <$> complement r
     , renderNode <$> addenda r
+    , renderNode <$> globalInfo r
     ]
 
   nodeName = const "Comprobante"
@@ -138,6 +141,7 @@ instance XmlNode CFDI where
     <*> parseAttribute "TipoCambio" n
     <*> parseAttribute "Exportacion" n
     <*> parseAttribute "Folio" n
+    <*> parseChild "InformacionGlobal" n
     <*> requireAttribute "Fecha" n
     <*> requireAttribute "LugarExpedicion" n
     <*> requireChild "Emisor" n

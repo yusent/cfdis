@@ -57,6 +57,9 @@ library
                      , CFDI.Types.Export
                      , CFDI.Types.FactorType
                      , CFDI.Types.Folio
+                     , CFDI.Types.GlobalInvoiceInfo
+                     , CFDI.Types.GlobalInvoiceMonths
+                     , CFDI.Types.GlobalInvoiceYear
                      , CFDI.Types.ImportNumber
                      , CFDI.Types.Issuer
                      , CFDI.Types.Locality
@@ -80,6 +83,7 @@ library
                      , CFDI.Types.PaymentTaxes
                      , CFDI.Types.PaymentTransferedTax
                      , CFDI.Types.PaymentTransferedTaxes
+                     , CFDI.Types.Periodicity
                      , CFDI.Types.ProductDescription
                      , CFDI.Types.ProductId
                      , CFDI.Types.ProductOrService
