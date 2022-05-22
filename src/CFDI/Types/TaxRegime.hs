@@ -23,6 +23,8 @@ data TaxRegime
   | AgriculturalActivities
   | OptionalForSocialGroups
   | Coordinated
+  | TechnologicalPlatforms
+  | SimplifiedTrust
   | Hydrocarbons
   | MultinationalCompanies
   | SharesAlienation
@@ -60,6 +62,10 @@ instance Show TaxRegime where
                                       \Silvícolas y Pesqueras"
   show OptionalForSocialGroups      = "623 - Opcional para Grupos de Sociedades"
   show Coordinated                  = "624 - Coordinados"
+  show TechnologicalPlatforms       = "625 - Régimen de las Actividades \
+                                      \Empresariales con ingresos a través de \
+                                      \Plataformas Tecnológicas"
+  show SimplifiedTrust              = "626 - Régimen Simplificado de Confianza"
   show Hydrocarbons                 = "628 - Hidrocarburos"
   show MultinationalCompanies       = "629 - De los Regímenes Fiscales \
                                       \Preferentes y de las Empresas \
@@ -86,6 +92,8 @@ instance Type TaxRegime where
   parseExpr "622" = Right AgriculturalActivities
   parseExpr "623" = Right OptionalForSocialGroups
   parseExpr "624" = Right Coordinated
+  parseExpr "625" = Right TechnologicalPlatforms
+  parseExpr "626" = Right SimplifiedTrust
   parseExpr "628" = Right Hydrocarbons
   parseExpr "629" = Right MultinationalCompanies
   parseExpr "630" = Right SharesAlienation
@@ -109,6 +117,8 @@ instance Type TaxRegime where
   render AgriculturalActivities       = "622"
   render OptionalForSocialGroups      = "623"
   render Coordinated                  = "624"
+  render TechnologicalPlatforms       = "625"
+  render SimplifiedTrust              = "626"
   render Hydrocarbons                 = "628"
   render MultinationalCompanies       = "629"
   render SharesAlienation             = "630"
