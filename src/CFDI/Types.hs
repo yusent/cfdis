@@ -74,6 +74,7 @@ import CFDI.Types.Suburb                 as Types
 import CFDI.Types.Tax                    as Types
 import CFDI.Types.Taxes                  as Types
 import CFDI.Types.TaxId                  as Types
+import CFDI.Types.TaxObject              as Types
 import CFDI.Types.TaxRate                as Types
 import CFDI.Types.TaxRegime              as Types
 import CFDI.Types.TransferedTax          as Types

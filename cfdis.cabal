@@ -102,6 +102,7 @@ library
                      , CFDI.Types.Tax
                      , CFDI.Types.Taxes
                      , CFDI.Types.TaxId
+                     , CFDI.Types.TaxObject
                      , CFDI.Types.TaxRate
                      , CFDI.Types.TaxRegime
                      , CFDI.Types.TransferedTax

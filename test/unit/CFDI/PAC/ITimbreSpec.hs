@@ -74,6 +74,7 @@ cfdi = CFDI
                             (Just (TaxRate 0.16))
                             IVA
                         ]))))
+        Nothing
         (Just (ProductUnit "NA"))
         (Amount 1090.52)
     ])

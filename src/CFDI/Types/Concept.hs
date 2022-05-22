@@ -11,6 +11,7 @@ import CFDI.Types.ProductOrService
 import CFDI.Types.ProductUnit
 import CFDI.Types.PropertyAccount
 import CFDI.Types.Quantity
+import CFDI.Types.TaxObject
 import CFDI.XmlNode
 import Data.Maybe                    (catMaybes, maybeToList)
 
@@ -25,6 +26,7 @@ data Concept = Concept
   , conPropAcc    :: Maybe PropertyAccount
   , conQuantity   :: Quantity
   , conTaxes      :: Maybe ConceptTaxes
+  , conTaxObject  :: Maybe TaxObject
   , conUnit       :: Maybe ProductUnit
   , conUnitPrice  :: Amount
   } deriving (Eq, Show)
@@ -56,6 +58,7 @@ instance XmlNode Concept where
     [ attr "Descuento"        <$> conDiscount n
     , attr "NoIdentificacion" <$> conProdId n
     , attr "Unidad"           <$> conUnit n
+    , attr "ObjetoImp"        <$> conTaxObject n
     ]
 
   children n = maybeToList (renderNode <$> conTaxes n)
@@ -75,5 +78,6 @@ instance XmlNode Concept where
     <*> parseChild "CuentaPredial" n
     <*> requireAttribute "Cantidad" n
     <*> parseChild "Impuestos" n
+    <*> parseAttribute "ObjetoImp" n
     <*> parseAttribute "Unidad" n
     <*> requireAttribute "ValorUnitario" n
