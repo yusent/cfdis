@@ -1,5 +1,5 @@
 name:                cfdis
-version:             0.1.0.1
+version:             0.1.0.7
 synopsis:            A set of tools to work with CFDIs (mexican invoices)
 description:         A set of tools to work with CFDIs (mexican invoices)
 homepage:            https://github.com/yusent/cfdis

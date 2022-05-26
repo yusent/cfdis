@@ -19,11 +19,7 @@ instance Chainable Payments where
 
 instance XmlNode Payments where
   attributes n =
-    [ attrWithPrefix "xsi" "schemaLocation"
-        ("http://www.sat.gob.mx/Pagos \
-         \http://www.sat.gob.mx/sitio_internet/cfd/Pagos/Pagos10.xsd" :: Text)
-    , attrWithPrefix "xmlns" "pago10" ("http://www.sat.gob.mx/Pagos" :: Text)
-    , attr "Version" $ pmsVersion n
+    [ attr "Version" $ pmsVersion n
     ]
 
   children (Payments ps _) = renderNode <$> ps

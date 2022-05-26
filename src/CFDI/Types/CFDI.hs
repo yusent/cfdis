@@ -84,9 +84,17 @@ instance XmlNode CFDI where
   attributes n =
     [ attrWithPrefix "xsi" "schemaLocation"
         ("http://www.sat.gob.mx/cfd/3 \
-         \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd" :: Text)
+         \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd \
+         \http://www.sat.gob.mx/Pagos \
+         \http://www.sat.gob.mx/sitio_internet/cfd/Pagos/Pagos10.xs \
+         \http://www.sat.gob.mx/TimbreFiscalDigital \
+         \http://www.sat.gob.mx/sitio_internet/cfd/\
+         \TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" :: Text)
     , attrWithPrefix "xmlns" "cfdi"
         ("http://www.sat.gob.mx/cfd/3" :: Text)
+    , attrWithPrefix "xmlns" "pago10" ("http://www.sat.gob.mx/Pagos" :: Text)
+    , attrWithPrefix "xmlns" "tfd"
+        ("http://www.sat.gob.mx/TimbreFiscalDigital" :: Text)
     , attrWithPrefix "xmlns" "xsi"
         ("http://www.w3.org/2001/XMLSchema-instance" :: Text)
     , attr "TipoDeComprobante" $ cfdiType n
