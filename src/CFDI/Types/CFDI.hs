@@ -86,7 +86,7 @@ instance XmlNode CFDI where
         ("http://www.sat.gob.mx/cfd/3 \
          \http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd \
          \http://www.sat.gob.mx/Pagos \
-         \http://www.sat.gob.mx/sitio_internet/cfd/Pagos/Pagos10.xs \
+         \http://www.sat.gob.mx/sitio_internet/cfd/Pagos/Pagos10.xsd \
          \http://www.sat.gob.mx/TimbreFiscalDigital \
          \http://www.sat.gob.mx/sitio_internet/cfd/\
          \TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" :: Text)
